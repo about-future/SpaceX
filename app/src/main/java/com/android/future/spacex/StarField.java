@@ -25,6 +25,7 @@ public class StarField extends View {
 
     public StarField(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        //initStarField();
     }
 
     public StarField(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -40,6 +41,10 @@ public class StarField extends View {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(width, height);
         }
+//        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        paint.setColor(Color.WHITE);
+//        paint.setStyle(Paint.Style.FILL);
+//        paint.setShadowLayer(100, 0, 0, Color.RED);
     }
 
     @Override
@@ -47,65 +52,31 @@ public class StarField extends View {
         if (!isInit) {
             initStarField();
         }
-
-        canvas.drawColor(getResources().getColor(R.color.colorTransparent));
-        //drawStar(canvas);
-
-        paint.reset();
-        paint.setColor(getResources().getColor(R.color.colorStar));
-        paint.setStrokeWidth(0);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setAntiAlias(true);
-
-
-
-        for (int i = 0; i < 200; i++) {
-            stars[i].showUpLeft(width, height, canvas, paint);
-            stars[i].update(0.2, width, height);
-
-            stars[i + 200].showUpRight(width, height, canvas, paint);
-            stars[i + 200].update(0.2, width, height);
-
-            stars[i + 400].showDownRight(width, height, canvas, paint);
-            stars[i + 400].update(0.2, width, height);
-
-            stars[i + 600].showDownLeft(width, height, canvas, paint);
-            stars[i + 600].update(0.2, width, height);
-
-        }
-
-//        for (int i = 0; i < 200; i++) {
-//            stars[i + 200].showUpRight(width, height, canvas, paint);
-//            stars[i + 200].update(0.2, width, height);
-//        }
-//
-//        for (int i = 0; i < 200; i++) {
-//            stars[i + 400].showDownRight(width, height, canvas, paint);
-//            stars[i + 400].update(0.2, width, height);
-//        }
-//
-//        for (int i = 0; i < 200; i++) {
-//            stars[i + 600].showDownLeft(width, height, canvas, paint);
-//            stars[i + 600].update(0.2, width, height);
-//        }
-
-        postInvalidateDelayed(500);
+        drawStars(canvas);
         invalidate();
-
     }
 
-    private void drawStar(Canvas canvas) {
+    private void drawStars(Canvas canvas) {
         paint.reset();
         paint.setColor(getResources().getColor(android.R.color.white));
-        paint.setStrokeWidth(0);
+        //paint.setShadowLayer(100, 0, 0, getResources().getColor(R.color.colorAccent));
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
-        //canvas.drawCircle(width / 2, height / 2, 100, paint);
+        //canvas.drawColor(getResources().getColor(R.color.colorBackground));
+        //canvas.drawCircle(width/2, 3*height/4, 50, paint);
 
-        //canvas.drawCircle(width / 3, height / 3, 50, paint);
+        for (int i = 0; i < 100; i++) {
+            stars[i].showUpLeft(width, height, canvas, paint);
+            stars[i].update(0.3, width, height);
 
-        for (int i=1; i < 20; i++) {
-            canvas.drawCircle(width / i, height / i, 5, paint);
+            stars[i + 100].showUpRight(width, height, canvas, paint);
+            stars[i + 100].update(0.3, width, height);
+
+            stars[i + 200].showDownLeft(width, height, canvas, paint);
+            stars[i + 200].update(0.3, width, height);
+
+            stars[i + 300].showDownRight(width, height, canvas, paint);
+            stars[i + 300].update(0.3, width, height);
         }
     }
 }

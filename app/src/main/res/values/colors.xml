@@ -14,4 +14,5 @@
     <color name="colorBlack">#000000</color>
     <color name="colorSpaceXTranslucid">#95005288</color>
     <color name="colorBackgroundTransparent">#90303F9F</color>
+    <color name="colorBackground">#303F9F</color>
 </resources>
