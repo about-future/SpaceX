@@ -20,12 +20,7 @@
         </activity>
         <activity
             android:name=".SpaceXActivity"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

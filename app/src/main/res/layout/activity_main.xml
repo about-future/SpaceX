@@ -10,10 +10,10 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/milky2"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/milky2" />
 
     <View
         android:layout_width="match_parent"
@@ -30,13 +30,66 @@
     <ImageView
         android:id="@+id/logoSpaceX"
         android:layout_width="320dp"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
         android:layout_marginStart="50dp"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@string/spacex_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_spacex_logo" />
+
+    <ImageView
+        android:id="@+id/volumeIcon"
+        android:layout_width="@dimen/volume_size"
+        android:layout_height="@dimen/volume_size"
+        android:layout_marginBottom="@dimen/vertical_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:contentDescription="@string/sound_on"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_volume_on" />
+
+    <ImageView
+        android:id="@+id/muteIcon"
+        android:layout_width="@dimen/volume_size"
+        android:layout_height="@dimen/volume_size"
+        android:layout_marginBottom="@dimen/vertical_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:contentDescription="@string/sound_mute"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_volume_off" />
+
+    <TextView
+        android:id="@+id/artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/music_credits_margin"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textStyle="bold"
+        android:text="@string/artist"
+        android:textColor="@color/creditsColor"
+        android:textSize="@dimen/music_credits_font_size"
+        app:layout_constraintBottom_toTopOf="@id/song"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/music_credits_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textStyle="bold"
+        android:text="@string/song"
+        android:textColor="@color/creditsColor"
+        android:textSize="@dimen/music_credits_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/artist"
+        android:visibility="invisible"/>
 
 </android.support.constraint.ConstraintLayout>

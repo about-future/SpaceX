@@ -36,7 +36,7 @@ public class Star {
         float sx = map(this.x / this.z, 1, 0, 0, width / 2);
         float sy = map(this.y / this.z, 1, 0, 0, height / 2);
         float r = map(this.z, 0, width * 2, 6, -30);
-        paint.setShadowLayer(r*3, 0, 0, Color.BLUE);
+        paint.setShadowLayer(r*1.5f, 0, 0, Color.CYAN);
         canvas.drawCircle(sx, sy, r, paint);
     }
 
@@ -44,7 +44,7 @@ public class Star {
         float sx = map(this.x / this.z, 0, 1, width / 2, width);
         float sy = map(this.y / this.z, 1, 0, height / 4, height / 2);
         float r = map(this.z, 0, width * 2, 6, -30);
-        paint.setShadowLayer(r*3, 0, 0, Color.BLUE);
+        paint.setShadowLayer(r*1.5f, 0, 0, Color.CYAN);
         canvas.drawCircle(sx, sy, r, paint);
     }
 
@@ -52,7 +52,7 @@ public class Star {
         float sx = map(this.x / this.z, 1, 0, 0, width / 2);
         float sy = map(this.y / this.z, 0, 1, height / 2, height);
         float r = map(this.z, 0, width * 2, 6, -30);
-        paint.setShadowLayer(r*3, 0, 0, Color.BLUE);
+        paint.setShadowLayer(r*1.5f, 0, 0, Color.CYAN);
         canvas.drawCircle(sx, sy, r, paint);
     }
 
@@ -60,7 +60,8 @@ public class Star {
         float sx = map(this.x / this.z, 0, 1, width / 2, width);
         float sy = map(this.y / this.z, 0, 1, height / 2, height);
         float r = map(this.z, 0, width * 2, 6, -30);
-        paint.setShadowLayer(r*3, 0, 0, Color.BLUE);
+        //TODO: Change shadow with bigger circle
+        paint.setShadowLayer(r*1.5f, 0, 0, Color.CYAN);
         canvas.drawCircle(sx, sy, r, paint);
     }
 }
