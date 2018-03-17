@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/gradient" />
 
-    <com.android.future.spacex.StarField
+    <com.android.future.spacex.data.StarField
         android:id="@+id/starfield"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,7 +43,7 @@
         android:id="@+id/volumeIcon"
         android:layout_width="@dimen/volume_size"
         android:layout_height="@dimen/volume_size"
-        android:layout_marginBottom="@dimen/vertical_margin"
+        android:layout_marginBottom="@dimen/volume_margin"
         android:layout_marginEnd="@dimen/horizontal_margin"
         android:contentDescription="@string/sound_on"
         android:visibility="visible"
@@ -55,7 +55,7 @@
         android:id="@+id/muteIcon"
         android:layout_width="@dimen/volume_size"
         android:layout_height="@dimen/volume_size"
-        android:layout_marginBottom="@dimen/vertical_margin"
+        android:layout_marginBottom="@dimen/volume_margin"
         android:layout_marginEnd="@dimen/horizontal_margin"
         android:contentDescription="@string/sound_mute"
         android:visibility="gone"
@@ -67,7 +67,7 @@
         android:id="@+id/artist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/music_credits_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
         android:fontFamily="sans-serif-smallcaps"
         android:textStyle="bold"
         android:text="@string/artist"

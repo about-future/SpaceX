@@ -5,9 +5,9 @@
     <string name="spacex_logo">SpaceX logo</string>
 
     <!-- Toast Messages -->
-    <string name="sound_on">Sound On</string>
-    <string name="sound_mute">Mute</string>
-    <string name="welcome">Welcome!</string>
+    <string name="sound_on">SOUND ON</string>
+    <string name="sound_mute">MUTE</string>
+    <string name="welcome">WELCOME!</string>
 
     <!-- Credits -->
     <string name="artist">ARTIST: TEST SHOT STARFISH</string>

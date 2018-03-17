@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -13,11 +13,19 @@
         <item name="actionBarStyle">@style/ActionBar.Transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="ActionBar.Transparent" parent="@style/Widget.AppCompat.ActionBar">
         <item name="displayOptions">showHome</item>
+    </style>
+
+    <!-- NoActionBar Style -->
+    <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

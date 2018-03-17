@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.android.future.spacex.SpaceXActivity">
 
+    <ImageView
+        android:layout_width="108dp"
+        android:layout_height="41dp"
+        app:srcCompat="@drawable/ic_space_x"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"/>
+
 </android.support.constraint.ConstraintLayout>

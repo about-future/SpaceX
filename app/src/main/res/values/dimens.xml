@@ -4,6 +4,7 @@
     <dimen name="vertical_margin">16dp</dimen>
 
     <dimen name="volume_size">24sp</dimen>
+    <dimen name="volume_margin">24dp</dimen>
 
     <dimen name="music_credits_font_size">13sp</dimen>
     <dimen name="music_credits_margin">24dp</dimen>

@@ -1,4 +1,4 @@
-package com.android.future.spacex;
+package com.android.future.spacex.data;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,13 +7,14 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.android.future.spacex.R;
 import com.android.future.spacex.data.Star;
 
 
 public class StarField extends View {
     private int mWidth;
     private int mHeight;
-    private Paint paint;
+    private Paint paint, shadowPaint;
     private boolean isInit;
     private int mTotalStars;
     private int mQuarter, mHalf, mThreeQuarters;
@@ -36,6 +37,7 @@ public class StarField extends View {
         mWidth = getWidth();
         mHeight = getHeight();
         paint = new Paint();
+        shadowPaint = new Paint();
         isInit = true;
 
         mTotalStars = Math.min (mWidth, mHeight);
@@ -52,9 +54,14 @@ public class StarField extends View {
 
     private void drawStars(Canvas canvas) {
         paint.reset();
-        paint.setColor(getResources().getColor(android.R.color.white));
+        paint.setColor(getResources().getColor(R.color.starColor));
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
+
+//        shadowPaint.reset();
+//        shadowPaint.setColor(getResources().getColor(R.color.starShadow));
+//        shadowPaint.setStyle(Paint.Style.FILL);
+//        shadowPaint.setAntiAlias(true);
 
         for (int i = 0; i < mQuarter; i++) {
             stars[i].showUpLeft(mWidth, mHeight, canvas, paint);

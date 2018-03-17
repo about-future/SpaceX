@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <dimen name="horizontal_margin">24dp</dimen>
     <dimen name="vertical_margin">24dp</dimen>
 
+    <dimen name="volume_margin">64dp</dimen>
+
     <dimen name="music_credits_font_size">14sp</dimen>
-    <dimen name="music_credits_margin">36dp</dimen>
+    <dimen name="music_credits_margin">64dp</dimen>
 </resources>
