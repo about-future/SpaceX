@@ -58,11 +58,6 @@ public class StarField extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
 
-//        shadowPaint.reset();
-//        shadowPaint.setColor(getResources().getColor(R.color.starShadow));
-//        shadowPaint.setStyle(Paint.Style.FILL);
-//        shadowPaint.setAntiAlias(true);
-
         for (int i = 0; i < mQuarter; i++) {
             stars[i].showUpLeft(mWidth, mHeight, canvas, paint);
             stars[i].update(0.3, mWidth, mHeight);

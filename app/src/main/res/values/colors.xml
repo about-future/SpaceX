@@ -7,8 +7,10 @@
     <color name="colorBorder">#296CA9</color>
     <color name="colorX">#A7A9AC</color>
     <color name="colorSpaceX">#005288</color>
+
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorLightX">#AFC8CF</color>
+
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="background_box">#303030</color>
     <color name="colorBlack">#000000</color>
@@ -20,6 +22,6 @@
     <color name="starColor">#FFFFFF</color>
     <color name="starShadow">#22000066</color>
 
-    <color name="creditsColor">#AAFFFFFF</color>
-    <color name="volumeColor">#AAFFFFFF</color>
+    <color name="creditsColor">#50FFFFFF</color>
+    <color name="volumeColor">#FFFFFF</color>
 </resources>

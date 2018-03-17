@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.future.spacex.data.Star;
 import com.android.future.spacex.utils.ScreenUtils;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String SONG_POSITION = "seek_position";
+    private static final String SOUND_ON = "sound_on";
+
     // Handles playback of all the sound files
     private MediaPlayer mMediaPlayer;
     // Handles audio focus when playing a sound file
@@ -29,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     // Store the current Toast
     private Toast mToast;
 
-    Handler handler;
-    Runnable runnable;
+    private ImageView volumeOn;
+    private ImageView volumeOff;
 
     private TextView mArtist;
     private TextView mSong;
@@ -92,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
         logoSpaceX.setLayoutParams(params);
 
         // Volume on/off "buttons"
-        final ImageView volumeOn = findViewById(R.id.volumeIcon);
-        final ImageView volumeOff = findViewById(R.id.muteIcon);
+        volumeOn = findViewById(R.id.volumeIcon);
+        volumeOff = findViewById(R.id.muteIcon);
 
         // Volume on listener
         volumeOn.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
         // Set music credits
         mArtist = findViewById(R.id.artist);
         mSong = findViewById(R.id.song);
-        handler = new Handler();
 
         // Create and setup the Audio Manager to request audio focus.
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -146,11 +143,24 @@ public class MainActivity extends AppCompatActivity {
         if (requestResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             // If we have an instance saved and contains our song position, we use it to continue
             // playing from that position.
-            if (savedInstanceState != null && savedInstanceState.containsKey(SONG_POSITION)) {
-                mMediaPlayer.seekTo(savedInstanceState.getInt(SONG_POSITION));
+            if (savedInstanceState != null) {
+                if (savedInstanceState.containsKey(SONG_POSITION)) {
+                    mMediaPlayer.seekTo(savedInstanceState.getInt(SONG_POSITION));
+                }
+                // Start or continue playing
+                startMediaPlayer();
+
+                // Reset the sound on or sound off status
+                if (savedInstanceState.containsKey(SOUND_ON) && savedInstanceState.getInt(SOUND_ON) == View.GONE) {
+                    mMediaPlayer.setVolume(0, 0);
+                    volumeOn.setVisibility(View.GONE);
+                    volumeOff.setVisibility(View.VISIBLE);
+                } else {
+                    mMediaPlayer.setVolume(1, 1);
+                    volumeOn.setVisibility(View.VISIBLE);
+                    volumeOff.setVisibility(View.GONE);
+                }
             }
-            // Start or continue playing
-            startMediaPlayer();
         }
 
         starFieldView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -195,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
         // If the media player is not null, then it may be currently playing a sound.
         if (mMediaPlayer != null) {
             mMediaPlayer.start();
-            credits();
         }
     }
 
@@ -217,13 +226,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         pauseMediaPlayer();
-        handler.removeCallbacks(runnable);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if (mMediaPlayer != null) {
             outState.putInt(SONG_POSITION, mMediaPlayer.getCurrentPosition());
+            outState.putInt(SOUND_ON, volumeOn.getVisibility());
         }
         super.onSaveInstanceState(outState);
     }
@@ -241,42 +250,5 @@ public class MainActivity extends AppCompatActivity {
         }
         mToast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         mToast.show();
-    }
-
-    private void credits() {
-        if (mMediaPlayer.isPlaying()) {
-            int position = mMediaPlayer.getCurrentPosition();
-            int delay;
-
-            if (position <= 60000) {
-                delay = 60000;
-            } else if (position > 60000 && position <= 120000) {
-                delay = 30000;
-            } else if (position > 120000 && position < CREDITS_EXTRACTION) {
-                delay = 2000;
-                if (position >= CREDIT_ARTIST_INSERTION && position <= CREDITS_EXTRACTION) {
-                    mArtist.setVisibility(View.VISIBLE);
-                }
-                if (position > CREDIT_SONG_INSERTION && position <= CREDITS_EXTRACTION) {
-                    mSong.setVisibility(View.VISIBLE);
-                }
-            } else if (position >= CREDITS_EXTRACTION) {
-                mArtist.setVisibility(View.INVISIBLE);
-                mSong.setVisibility(View.INVISIBLE);
-                delay = 120000;
-            } else delay = 1000;
-
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        credits();
-                    } catch (NullPointerException e) {
-                        Log.v("Credits Exception", "" + e);
-                    }
-                }
-            };
-            handler.postDelayed(runnable, delay);
-        }
     }
 }
