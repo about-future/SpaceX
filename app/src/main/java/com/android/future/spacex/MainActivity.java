@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,11 +86,18 @@ public class MainActivity extends AppCompatActivity {
         View starFieldView = findViewById(R.id.starfield);
         starFieldView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-        // Set the SpaceX logo width to be 74% of screen width
+        // Prepare params for SpaceX logo
         ImageView logoSpaceX = findViewById(R.id.logoSpaceX);
-        ViewGroup.LayoutParams params = logoSpaceX.getLayoutParams();
-        params.width = (int) (ScreenUtils.getScreenWidhtInPixels(this) * 0.74);
-        logoSpaceX.setLayoutParams(params);
+        // Logo width is 74% of screen width and logo height is 12.5% of width logo.
+        int width = (int) (ScreenUtils.getScreenWidhtInPixels(this) * 0.74);
+        int height = (int) (width * 0.125);
+
+        // Prepare the margins of logo
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+        // Left margin is 18.75% of screen width, the rest are 0
+        layoutParams.setMargins((int) (ScreenUtils.getScreenWidhtInPixels(this) * 0.1875),0,0,0);
+        // Set params for SpaceX logo
+        logoSpaceX.setLayoutParams(layoutParams);
 
         // Volume on/off "buttons"
         volumeOn = findViewById(R.id.volumeIcon);
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         mMediaPlayer.setVolume(0, 0);
                         volumeOn.setVisibility(View.GONE);
                         volumeOff.setVisibility(View.VISIBLE);
-                        showToast(getString(R.string.sound_mute));
+                        showToast(getString(R.string.sound_off));
                     }
                 }
             }

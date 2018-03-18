@@ -27,17 +27,23 @@
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/logoSpaceX"
-        android:layout_width="320dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="50dp"
-        android:contentDescription="@string/spacex_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_spacex_logo" />
+    <LinearLayout
+        android:id="@+id/logoPlacer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/logoSpaceX"
+            android:layout_width="320dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="50dp"
+            android:contentDescription="@string/spacex_logo"
+            app:srcCompat="@drawable/ic_spacex_logo" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/volumeIcon"
@@ -57,7 +63,7 @@
         android:layout_height="@dimen/volume_size"
         android:layout_marginBottom="@dimen/volume_margin"
         android:layout_marginEnd="@dimen/volume_margin"
-        android:contentDescription="@string/sound_mute"
+        android:contentDescription="@string/sound_off"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

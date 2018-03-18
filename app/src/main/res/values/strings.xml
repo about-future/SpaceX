@@ -6,8 +6,8 @@
 
     <!-- Toast Messages -->
     <string name="sound_on">Sound on</string>
-    <string name="sound_mute">Sound off</string>
-    <string name="welcome">Welcome!</string>
+    <string name="sound_off">Sound off</string>
+    <string name="welcome">Welcome to SpaceX</string>
 
     <!-- Credits -->
     <string name="artist">ARTIST: TEST SHOT STARFISH</string>
