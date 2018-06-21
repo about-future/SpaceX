@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView mArtist;
     private TextView mSong;
 
-    private static final int CREDIT_ARTIST_INSERTION = 139800;
-    private static final int CREDIT_SONG_INSERTION = 142200;
-    private static final int CREDITS_EXTRACTION = 180000;
+    // TODO: SpaceX live feed on 2 Feb 2018 https://www.youtube.com/watch?v=BPQHG-LevZM
+
+//    private static final int CREDIT_ARTIST_INSERTION = 139800;
+//    private static final int CREDIT_SONG_INSERTION = 142200;
+//    private static final int CREDITS_EXTRACTION = 180000;
 
     // This listener gets triggered when the MediaPlayer has completed playing the song
     private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {

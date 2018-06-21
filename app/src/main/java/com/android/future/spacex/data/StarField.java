@@ -60,16 +60,16 @@ public class StarField extends View {
 
         for (int i = 0; i < mQuarter; i++) {
             stars[i].showUpLeft(mWidth, mHeight, canvas, paint);
-            stars[i].update(0.3, mWidth, mHeight);
+            stars[i].update(0.4, mWidth, mHeight);
 
             stars[i + mQuarter].showUpRight(mWidth, mHeight, canvas, paint);
-            stars[i + mQuarter].update(0.3, mWidth, mHeight);
+            stars[i + mQuarter].update(0.4, mWidth, mHeight);
 
             stars[i + mHalf].showDownLeft(mWidth, mHeight, canvas, paint);
-            stars[i + mHalf].update(0.3, mWidth, mHeight);
+            stars[i + mHalf].update(0.4, mWidth, mHeight);
 
             stars[i + mThreeQuarters].showDownRight(mWidth, mHeight, canvas, paint);
-            stars[i + mThreeQuarters].update(0.3, mWidth, mHeight);
+            stars[i + mThreeQuarters].update(0.4, mWidth, mHeight);
         }
     }
 }
