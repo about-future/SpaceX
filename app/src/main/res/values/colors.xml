@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#CCAC55</color>
+    <color name="colorMainBackground">#181C1F</color>
 
     <color name="colorBorder">#296CA9</color>
     <color name="colorX">#A7A9AC</color>
@@ -21,6 +22,8 @@
 
     <color name="starColor">#FFFFFF</color>
     <color name="starShadow">#22000066</color>
+
+    <color name="skipBackgroundColor">#11FFFFFF</color>
 
     <color name="creditsColor">#50FFFFFF</color>
     <color name="volumeColor">#FFFFFF</color>

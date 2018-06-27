@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlack"
-    tools:context="com.android.future.spacex.MainActivity">
+    tools:context="com.android.future.spacex.StarfieldActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -20,12 +20,24 @@
         android:layout_height="match_parent"
         android:background="@drawable/gradient" />
 
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:visibility="visible"
+        app:controller_layout_id="@layout/exo_playback_control_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:surface_type="none"
+        app:shutter_background_color="@color/colorTransparent" />
+
     <com.android.future.spacex.data.StarField
         android:id="@+id/starfield"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent" />
+
 
     <LinearLayout
         android:id="@+id/logoPlacer"
@@ -44,6 +56,19 @@
             app:srcCompat="@drawable/ic_spacex_logo" />
 
     </LinearLayout>
+
+    <!--<Button-->
+    <!--android:id="@+id/skip_intro_button"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginTop="@dimen/vertical_margin"-->
+    <!--android:background="@drawable/rounded_background"-->
+    <!--android:text="Skip Intro"-->
+    <!--android:textColor="@color/creditsColor"-->
+    <!--android:textSize="16sp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/logoPlacer" />-->
 
     <ImageView
         android:id="@+id/volumeIcon"
@@ -69,32 +94,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_volume_off" />
 
-    <TextView
-        android:id="@+id/artist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/music_credits_margin"
-        android:fontFamily="sans-serif-smallcaps"
-        android:textStyle="bold"
-        android:text="@string/artist"
-        android:textColor="@color/creditsColor"
-        android:textSize="@dimen/music_credits_font_size"
-        app:layout_constraintBottom_toTopOf="@id/song"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="visible"/>
-
-    <TextView
-        android:id="@+id/song"
+    <LinearLayout
+        android:id="@+id/transitions_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/music_credits_margin"
-        android:fontFamily="sans-serif-smallcaps"
-        android:textStyle="bold"
-        android:text="@string/song"
-        android:textColor="@color/creditsColor"
-        android:textSize="@dimen/music_credits_font_size"
+        android:layout_marginStart="@dimen/music_credits_margin"
+        android:gravity="end"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/artist"
-        android:visibility="visible"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/artist"
+            android:textAlignment="viewEnd"
+            android:textAllCaps="true"
+            android:textColor="@color/creditsColor"
+            android:textSize="@dimen/music_credits_font_size"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

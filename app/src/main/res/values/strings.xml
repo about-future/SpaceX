@@ -10,7 +10,8 @@
     <string name="welcome">Welcome to SpaceX</string>
 
     <!-- Credits -->
-    <string name="artist">ARTIST: TEST SHOT STARFISH</string>
+    <string name="artist">ARTIST: TEST SHOT STARFISH\nFLIGHT-PROVEN</string>
+    <string name="skip">Long click to skip intro</string>
     <string name="song">FLIGHT-PROVEN</string>
 
 </resources>
