@@ -1,11 +1,8 @@
 package com.android.future.spacex;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.media.session.MediaButtonReceiver;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,11 +15,17 @@ import android.widget.Toast;
 
 import com.android.future.spacex.utils.DetectSwipeGestureListener;
 import com.android.future.spacex.utils.ScreenUtils;
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -33,7 +36,7 @@ import com.google.android.exoplayer2.util.Util;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StarfieldActivity extends AppCompatActivity {
+public class StarfieldActivity extends AppCompatActivity implements Player.EventListener {
 
     private static final String SONG_POSITION = "seek_position";
     private static final String SOUND_ON = "sound_on";
@@ -47,8 +50,7 @@ public class StarfieldActivity extends AppCompatActivity {
 
     private SimpleExoPlayer mExoPlayer;
     private long mAudioPosition;
-    private boolean mPlayingState;
-    private static MediaSessionCompat mMediaSession;
+
     // Store the current Toast
     private Toast mToast;
 
@@ -60,16 +62,6 @@ public class StarfieldActivity extends AppCompatActivity {
 //    private static final int CREDIT_ARTIST_INSERTION = 139800;
 //    private static final int CREDIT_SONG_INSERTION = 142200;
 //    private static final int CREDITS_EXTRACTION = 180000;
-
-    // This listener gets triggered when the MediaPlayer has completed playing the song
-    // TODO: OnCompletionListener
-//    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
-//        @Override
-//        public void onCompletion(MediaPlayer mediaPlayer) {
-//            // Now that the song has finished playing, release the media player resources and start the SpaceX activity
-//            startSpaceXActivity();
-//        }
-//    };
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -92,45 +84,41 @@ public class StarfieldActivity extends AppCompatActivity {
         // Prepare the margins of logo
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
         // Left margin is 18.75% of screen width, the rest are 0
-        layoutParams.setMargins((int) (ScreenUtils.getScreenWidhtInPixels(this) * 0.1875),0,0,0);
+        layoutParams.setMargins((int) (ScreenUtils.getScreenWidhtInPixels(this) * 0.1875), 0, 0, 0);
         // Set params for SpaceX logo
         logoSpaceX.setLayoutParams(layoutParams);
 
         initializePlayer(this);
 
         // Volume on/off "buttons"
-        //volumeOn = findViewById(R.id.volumeIcon);
-        //volumeOff = findViewById(R.id.muteIcon);
+        volumeOn = findViewById(R.id.volumeIcon);
+        volumeOff = findViewById(R.id.muteIcon);
 
         // Volume on listener
-//        volumeOn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (mMediaPlayer != null) {
-//                    if (mMediaPlayer.isPlaying()) {
-//                        mMediaPlayer.setVolume(0, 0);
-//                        volumeOn.setVisibility(View.GONE);
-//                        volumeOff.setVisibility(View.VISIBLE);
-//                        showToast(getString(R.string.sound_off));
-//                    }
-//                }
-//            }
-//        });
-//
-//        // Volume off listener
-//        volumeOff.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (mMediaPlayer != null) {
-//                    if (mMediaPlayer.isPlaying()) {
-//                        mMediaPlayer.setVolume(1, 1);
-//                        volumeOn.setVisibility(View.VISIBLE);
-//                        volumeOff.setVisibility(View.GONE);
-//                        showToast(getString(R.string.sound_on));
-//                    }
-//                }
-//            }
-//        });
+        volumeOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mExoPlayer != null) {
+                    mExoPlayer.setVolume(0);
+                    volumeOn.setVisibility(View.GONE);
+                    volumeOff.setVisibility(View.VISIBLE);
+                    showToast(getString(R.string.sound_off));
+                }
+            }
+        });
+
+        // Volume off listener
+        volumeOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mExoPlayer != null) {
+                    mExoPlayer.setVolume(1);
+                    volumeOn.setVisibility(View.VISIBLE);
+                    volumeOff.setVisibility(View.GONE);
+                    showToast(getString(R.string.sound_on));
+                }
+            }
+        });
 
         // Set music credits
         mArtist = findViewById(R.id.artist);
@@ -146,7 +134,7 @@ public class StarfieldActivity extends AppCompatActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // Pass activity on touch event to the gesture detector
-        //gestureDetectorCompat.onTouchEvent(event);
+        gestureDetectorCompat.onTouchEvent(event);
         // Return true to tell android OS that event has been consumed, do not pass it to other event listeners
         return true;
     }
@@ -159,7 +147,7 @@ public class StarfieldActivity extends AppCompatActivity {
             mPlayerView.setPlayer(mExoPlayer);
 
             // Set the ExoPlayer.EventListener to this activity.
-            //mExoPlayer.addListener(this);
+            mExoPlayer.addListener(this);
         }
 
         Uri mediaUri = RawResourceDataSource.buildRawResourceUri(R.raw.flight_proven);
@@ -190,24 +178,21 @@ public class StarfieldActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //mMediaSession.setActive(false);
     }
 
-    // When the activity is resumed, start the media player, because we want to continue playing the song
+    // When the activity is resumed, initialize ExoPlayer, because we want to continue playing the song
     @Override
     protected void onResume() {
         super.onResume();
-        //startMediaPlayer();
         initializePlayer(this);
     }
 
-    // When the activity is paused, pause the media player too, so the song will not be playing
+    // When the activity is paused, release ExoPlayer too, so the song will not be playing
     @Override
     public void onPause() {
         super.onPause();
 
         if (mExoPlayer != null) {
-            mPlayingState = mExoPlayer.getPlayWhenReady();
             mAudioPosition = mExoPlayer.getCurrentPosition();
             releasePlayer();
         }
@@ -216,8 +201,7 @@ public class StarfieldActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putLong(SONG_POSITION, mAudioPosition);
-        // TODO: Mute or not
-        //outState.putInt(SOUND_ON, volumeOn.getVisibility());
+        outState.putInt(SOUND_ON, volumeOn.getVisibility());
 
         super.onSaveInstanceState(outState);
     }
@@ -226,8 +210,17 @@ public class StarfieldActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mAudioPosition = savedInstanceState.getLong(SONG_POSITION, 0);
-        // TODO: Restore if audio is mute or not
-        //mPlayingState = savedInstanceState.getBoolean(SONG_POSITION);
+
+        // Reset the sound on or sound off status
+        if (savedInstanceState.containsKey(SOUND_ON) && savedInstanceState.getInt(SOUND_ON) == View.GONE) {
+            mExoPlayer.setVolume(0);
+            volumeOn.setVisibility(View.GONE);
+            volumeOff.setVisibility(View.VISIBLE);
+        } else {
+            mExoPlayer.setVolume(1);
+            volumeOn.setVisibility(View.VISIBLE);
+            volumeOff.setVisibility(View.GONE);
+        }
     }
 
     private void showToast(String message) {
@@ -238,37 +231,57 @@ public class StarfieldActivity extends AppCompatActivity {
         mToast.show();
     }
 
-    // Media Session Callbacks, where all external clients control the player.
-    private class MySessionCallback extends MediaSessionCompat.Callback {
-        @Override
-        public void onPlay() {
-            mExoPlayer.setPlayWhenReady(true);
-        }
+    @Override
+    public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
 
-        @Override
-        public void onPause() {
-            mExoPlayer.setPlayWhenReady(false);
-        }
+    }
 
-        @Override
-        public void onSkipToPrevious() {
+    @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        // If the background song has ended, start SpaceX activity
+        if (playbackState == Player.STATE_ENDED) {
+            startActivity(new Intent(StarfieldActivity.this, SpaceXActivity.class));
             mExoPlayer.seekTo(0);
-        }
-
-        // TODO: Repeat mode should disable start activity when song is done
-        @Override
-        public void onSetRepeatMode(int repeatMode) {
-            super.onSetRepeatMode(repeatMode);
         }
     }
 
-    public static class MediaReceiver extends BroadcastReceiver {
-        public MediaReceiver() {
-        }
+    @Override
+    public void onRepeatModeChanged(int repeatMode) {
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            MediaButtonReceiver.handleIntent(mMediaSession, intent);
-        }
+    }
+
+    @Override
+    public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+
+    }
+
+    @Override
+    public void onPositionDiscontinuity(int reason) {
+
+    }
+
+    @Override
+    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+    }
+
+    @Override
+    public void onSeekProcessed() {
+
     }
 }

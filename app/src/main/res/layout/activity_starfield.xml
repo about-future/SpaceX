@@ -24,8 +24,7 @@
         android:id="@+id/playerView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:visibility="visible"
-        app:controller_layout_id="@layout/exo_playback_control_view"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:surface_type="none"
@@ -37,7 +36,6 @@
         android:layout_height="match_parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent" />
-
 
     <LinearLayout
         android:id="@+id/logoPlacer"
@@ -56,19 +54,6 @@
             app:srcCompat="@drawable/ic_spacex_logo" />
 
     </LinearLayout>
-
-    <!--<Button-->
-    <!--android:id="@+id/skip_intro_button"-->
-    <!--android:layout_width="150dp"-->
-    <!--android:layout_height="30dp"-->
-    <!--android:layout_marginTop="@dimen/vertical_margin"-->
-    <!--android:background="@drawable/rounded_background"-->
-    <!--android:text="Skip Intro"-->
-    <!--android:textColor="@color/creditsColor"-->
-    <!--android:textSize="16sp"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/logoPlacer" />-->
 
     <ImageView
         android:id="@+id/volumeIcon"
