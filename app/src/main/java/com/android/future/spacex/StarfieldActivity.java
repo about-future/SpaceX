@@ -2,10 +2,13 @@ package com.android.future.spacex;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,16 +43,33 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
     private static final String SONG_POSITION = "seek_position";
     private static final String SOUND_ON = "sound_on";
+    private static final int CREDIT_ARTIST_INSERTION = 139800;
+    private static final int CREDIT_SONG_INSERTION = 142200;
+    private static final int CREDITS_EXTRACTION = 180000;
 
     @BindView(R.id.playerView)
     PlayerView mPlayerView;
+    @BindView(R.id.starfield)
+    View starFieldView;
+    @BindView(R.id.logoSpaceX)
+    ImageView logoSpaceX;
 
-    private ImageView volumeOn;
-    private ImageView volumeOff;
-    private TextView mArtist;
+    // Set music credits
+    @BindView(R.id.credits)
+    TextView mCredits;
+
+    // Volume on/off "buttons"
+    @BindView(R.id.volumeOn)
+    ImageView volumeOn;
+    @BindView(R.id.volumeOff)
+    ImageView volumeOff;
 
     private SimpleExoPlayer mExoPlayer;
     private long mAudioPosition;
+    private int mVolumeState;
+
+    private Handler handler;
+    private Runnable runnable;
 
     // Store the current Toast
     private Toast mToast;
@@ -57,11 +77,9 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     // This is the gesture detector compat instance.
     private GestureDetectorCompat gestureDetectorCompat = null;
 
-    // TODO: SpaceX live feed on 2 Feb 2018 https://www.youtube.com/watch?v=BPQHG-LevZM
+    private Typeface brandonBlack;
 
-//    private static final int CREDIT_ARTIST_INSERTION = 139800;
-//    private static final int CREDIT_SONG_INSERTION = 142200;
-//    private static final int CREDITS_EXTRACTION = 180000;
+    // SpaceX live feed on 2 Feb 2018 https://www.youtube.com/watch?v=BPQHG-LevZM
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -72,11 +90,9 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         ButterKnife.bind(this);
 
         // Set the layer type of starfield, so that the shadows of the stars are visible
-        final View starFieldView = findViewById(R.id.starfield);
         starFieldView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         // Prepare params for SpaceX logo
-        ImageView logoSpaceX = findViewById(R.id.logoSpaceX);
         // Logo width is 74% of screen width and logo height is 12.5% of width logo.
         int width = (int) (ScreenUtils.getScreenWidhtInPixels(this) * 0.74);
         int height = (int) (width * 0.125);
@@ -88,11 +104,8 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         // Set params for SpaceX logo
         logoSpaceX.setLayoutParams(layoutParams);
 
+        //handler = new Handler();
         initializePlayer(this);
-
-        // Volume on/off "buttons"
-        volumeOn = findViewById(R.id.volumeIcon);
-        volumeOff = findViewById(R.id.muteIcon);
 
         // Volume on listener
         volumeOn.setOnClickListener(new View.OnClickListener() {
@@ -120,21 +133,24 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
             }
         });
 
-        // Set music credits
-        mArtist = findViewById(R.id.artist);
-
         // Create a common gesture listener object
         DetectSwipeGestureListener gestureListener = new DetectSwipeGestureListener();
         // Set activity in the listener
         gestureListener.setActivity(this);
         // Create the gesture detector with the gesture listener
         gestureDetectorCompat = new GestureDetectorCompat(this, gestureListener);
+
+        // Set typeface for credits
+        //brandonBlack = Typeface.createFromAsset(getAssets(), "Brandon_blk.otf");
+        //mCredits.setTypeface(brandonBlack);
+        //mCredits.setText(R.string.skip);
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // Pass activity on touch event to the gesture detector
-        gestureDetectorCompat.onTouchEvent(event);
+        //gestureDetectorCompat.onTouchEvent(event);
         // Return true to tell android OS that event has been consumed, do not pass it to other event listeners
         return true;
     }
@@ -150,7 +166,8 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
             mExoPlayer.addListener(this);
         }
 
-        Uri mediaUri = RawResourceDataSource.buildRawResourceUri(R.raw.flight_proven);
+        //Uri mediaUri = RawResourceDataSource.buildRawResourceUri(R.raw.flight_proven);
+        Uri mediaUri = Uri.parse("asset:///flight_proven.mp3");
 
         // Prepare the MediaSource.
         String userAgent = Util.getUserAgent(context, "SpaceX");
@@ -165,6 +182,9 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
         // Start playing
         mExoPlayer.setPlayWhenReady(true);
+
+        handler = new Handler();
+        credits();
     }
 
     private void releasePlayer() {
@@ -185,6 +205,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     protected void onResume() {
         super.onResume();
         initializePlayer(this);
+        resetVolume();
     }
 
     // When the activity is paused, release ExoPlayer too, so the song will not be playing
@@ -194,7 +215,9 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
         if (mExoPlayer != null) {
             mAudioPosition = mExoPlayer.getCurrentPosition();
+            mVolumeState = volumeOn.getVisibility();
             releasePlayer();
+            handler.removeCallbacks(runnable);
         }
     }
 
@@ -210,9 +233,13 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mAudioPosition = savedInstanceState.getLong(SONG_POSITION, 0);
+        mVolumeState = savedInstanceState.getInt(SOUND_ON);
+        resetVolume();
+    }
 
-        // Reset the sound on or sound off status
-        if (savedInstanceState.containsKey(SOUND_ON) && savedInstanceState.getInt(SOUND_ON) == View.GONE) {
+    private void resetVolume() {
+        // Restore volume status (on or off)
+        if (mVolumeState == View.GONE) {
             mExoPlayer.setVolume(0);
             volumeOn.setVisibility(View.GONE);
             volumeOff.setVisibility(View.VISIBLE);
@@ -229,6 +256,42 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         }
         mToast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         mToast.show();
+    }
+
+    private void credits() {
+        if (mExoPlayer != null) {
+            long position = mExoPlayer.getCurrentPosition();
+
+            if (position > 10000 && position <= 40000) {
+                mCredits.setVisibility(View.VISIBLE);
+            } else if (position > 40000 && position <= 100000) {
+                mCredits.setVisibility(View.INVISIBLE);
+            } else if (position > 100000 && position <= 120000 ) {
+                mCredits.setVisibility(View.VISIBLE);
+            } else if (position > 120000 && position <= 180000) {
+                mCredits.setVisibility(View.INVISIBLE);
+            } else if (position > 180000 && position <= 200000) {
+                mCredits.setVisibility(View.VISIBLE);
+            } else if (position > 200000 && position <= 260000){
+                mCredits.setVisibility(View.INVISIBLE);
+            } else if (position > 260000 && position <= 280000) {
+                mCredits.setVisibility(View.VISIBLE);
+            } else if (position > 280000) {
+                mCredits.setVisibility(View.INVISIBLE);
+            }
+
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        credits();
+                    } catch (NullPointerException e) {
+                        Log.v("Credits Exception", "" + e);
+                    }
+                }
+            };
+            handler.postDelayed(runnable, 5000);
+        }
     }
 
     @Override
@@ -252,6 +315,9 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         if (playbackState == Player.STATE_ENDED) {
             startActivity(new Intent(StarfieldActivity.this, SpaceXActivity.class));
             mExoPlayer.seekTo(0);
+        }
+        if (playbackState == Player.STATE_READY) {
+            Log.v("PLAYING POSITION:", "" + mExoPlayer.getCurrentPosition());
         }
     }
 
@@ -282,6 +348,6 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
     @Override
     public void onSeekProcessed() {
-
+        Log.v("POSITION:", "" + mExoPlayer.getCurrentPosition());
     }
 }

@@ -25,6 +25,6 @@
 
     <color name="skipBackgroundColor">#11FFFFFF</color>
 
-    <color name="creditsColor">#50FFFFFF</color>
+    <color name="creditsColor">#80FFFFFF</color>
     <color name="volumeColor">#FFFFFF</color>
 </resources>
