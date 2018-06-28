@@ -5,6 +5,8 @@
 
     <dimen name="corner_radius">24dp</dimen>
 
+    <dimen name="card_margin">8dp</dimen>
+
     <dimen name="volume_size">24sp</dimen>
     <dimen name="volume_margin">24dp</dimen>
 

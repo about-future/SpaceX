@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:name=".SpaceXActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme.Logo"/>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@
     <dimen name="vertical_margin">24dp</dimen>
 
     <dimen name="corner_radius">24dp</dimen>
+    <dimen name="card_margin">12dp</dimen>
 
     <dimen name="volume_margin">64dp</dimen>
 
