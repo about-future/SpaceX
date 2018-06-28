@@ -11,6 +11,6 @@
 
     <!-- Credits -->
     <string name="song_credits">ARTIST: TEST SHOT STARFISH\nFLIGHT-PROVEN</string>
-    <string name="skip">Swipe to skip intro</string>
+    <string name="skip">Swipe to skip intro\n</string>
 
 </resources>

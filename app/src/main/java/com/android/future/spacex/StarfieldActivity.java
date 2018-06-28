@@ -78,6 +78,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     private GestureDetectorCompat gestureDetectorCompat = null;
 
     private Typeface brandonBlack;
+    private Typeface conthraxTypeface;
 
     // SpaceX live feed on 2 Feb 2018 https://www.youtube.com/watch?v=BPQHG-LevZM
 
@@ -142,15 +143,14 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
         // Set typeface for credits
         //brandonBlack = Typeface.createFromAsset(getAssets(), "Brandon_blk.otf");
-        //mCredits.setTypeface(brandonBlack);
-        //mCredits.setText(R.string.skip);
-
+        conthraxTypeface = Typeface.createFromAsset(getAssets(), "conthrax_sb.ttf");
+        mCredits.setTypeface(conthraxTypeface);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // Pass activity on touch event to the gesture detector
-        //gestureDetectorCompat.onTouchEvent(event);
+        gestureDetectorCompat.onTouchEvent(event);
         // Return true to tell android OS that event has been consumed, do not pass it to other event listeners
         return true;
     }
@@ -167,7 +167,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         }
 
         //Uri mediaUri = RawResourceDataSource.buildRawResourceUri(R.raw.flight_proven);
-        Uri mediaUri = Uri.parse("asset:///flight_proven.mp3");
+        Uri mediaUri = Uri.parse("asset:///flight_proven_z_master.mp3");
 
         // Prepare the MediaSource.
         String userAgent = Util.getUserAgent(context, "SpaceX");
@@ -262,22 +262,26 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         if (mExoPlayer != null) {
             long position = mExoPlayer.getCurrentPosition();
 
-            if (position > 10000 && position <= 40000) {
+            if ((position > 35000 && position <= 45000)
+                    || (position > 115000 && position <= 145000)
+                    || (position > 205000 && position <= 235000)) {
                 mCredits.setVisibility(View.VISIBLE);
-            } else if (position > 40000 && position <= 100000) {
+                mCredits.setText(R.string.skip);
+            } else if ((position > 0 && position <= 5000)
+                    || (position > 25000 && position <= 35000)
+                    || (position > 45000 && position <= 65000)
+                    || (position > 95000 && position <= 115000)
+                    || (position > 145000 && position <= 165000)
+                    || (position > 195000 && position <= 205000)
+                    || (position > 235000 && position <= 255000)
+                    || (position > 285000)) {
                 mCredits.setVisibility(View.INVISIBLE);
-            } else if (position > 100000 && position <= 120000 ) {
+            } else if ((position > 5000 && position <= 25000)
+                    || (position > 65000 && position <= 95000)
+                    || (position > 165000 && position < 195000)
+                    || (position > 255000 && position < 285000)) {
                 mCredits.setVisibility(View.VISIBLE);
-            } else if (position > 120000 && position <= 180000) {
-                mCredits.setVisibility(View.INVISIBLE);
-            } else if (position > 180000 && position <= 200000) {
-                mCredits.setVisibility(View.VISIBLE);
-            } else if (position > 200000 && position <= 260000){
-                mCredits.setVisibility(View.INVISIBLE);
-            } else if (position > 260000 && position <= 280000) {
-                mCredits.setVisibility(View.VISIBLE);
-            } else if (position > 280000) {
-                mCredits.setVisibility(View.INVISIBLE);
+                mCredits.setText(R.string.song_credits);
             }
 
             runnable = new Runnable() {
