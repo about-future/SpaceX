@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="96dp"
+    android:layout_marginEnd="@dimen/horizontal_margin"
+    android:layout_marginStart="@dimen/horizontal_margin"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/mission_patch"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/mission_patch"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ses_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/vertical_margin"
+        android:layout_marginStart="@dimen/vertical_margin"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/mission_patch"
+        app:layout_constraintStart_toEndOf="@id/mission_patch"
+        app:layout_constraintTop_toBottomOf="@id/mission_patch">
+
+        <TextView
+            android:id="@+id/mission_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            tools:text="SES-12" />
+
+        <TextView
+            android:id="@+id/launch_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="13sp"
+            tools:text="4:45 AM, 4 June 2018" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#4E4E4E"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

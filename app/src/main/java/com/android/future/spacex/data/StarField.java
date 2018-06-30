@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.android.future.spacex.R;
-import com.android.future.spacex.data.Star;
 
 
 public class StarField extends View {

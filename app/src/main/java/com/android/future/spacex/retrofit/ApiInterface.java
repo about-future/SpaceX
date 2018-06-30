@@ -3,6 +3,7 @@ package com.android.future.spacex.retrofit;
 import com.android.future.spacex.data.Mission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -11,13 +12,13 @@ import retrofit2.http.Query;
 public interface ApiInterface {
     // Launches Endpoint
     @GET("launches/all")
-    Call<ArrayList<Mission>> getMissions();
+    Call<List<Mission>> getMissions();
 
-    @GET("launches")
+    @GET("launches/all")
     Call<Mission> getMissionDetails(@Query("flight_number") int number);
 
     @GET("launches/upcoming")
-    Call<ArrayList<Mission>> getUpcommingMissions();
+    Call<List<Mission>> getUpcomingMissions();
 
     @GET("launches/upcoming")
     Call<Mission> getUpcomingMissionDetails(@Query("flight_number") int number);

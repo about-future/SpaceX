@@ -195,11 +195,6 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     // When the activity is resumed, initialize ExoPlayer, because we want to continue playing the song
     @Override
     protected void onResume() {
@@ -216,6 +211,16 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         if (mExoPlayer != null) {
             mAudioPosition = mExoPlayer.getCurrentPosition();
             mVolumeState = volumeOn.getVisibility();
+            releasePlayer();
+            handler.removeCallbacks(runnable);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mExoPlayer != null) {
             releasePlayer();
             handler.removeCallbacks(runnable);
         }
