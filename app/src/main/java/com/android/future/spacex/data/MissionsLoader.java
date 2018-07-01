@@ -16,7 +16,7 @@ import java.util.List;
 import retrofit2.Call;
 
 public class MissionsLoader extends AsyncTaskLoader<List<Mission>> {
-    private List<Mission> cachedMissions;
+    private List<Mission> cachedMissions;// = new ArrayList<>();
 
     public MissionsLoader(@NonNull Context context) {
         super(context);

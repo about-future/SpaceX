@@ -1,26 +1,38 @@
 package com.android.future.spacex.data;
 
+import android.arch.persistence.room.ColumnInfo;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Links {
+    @ColumnInfo(name = "mission_patch")
     @SerializedName("mission_patch")
     private String missionPatch; //:"https://images2.imgbox.com/43/35/0QW7yRsB_o.png",
+    @ColumnInfo(name = "mission_patch_small")
     @SerializedName("mission_patch_small")
     private String missionPatchSmall;   //:"https://images2.imgbox.com/11/ec/xng5hAXN_o.png",
+    @ColumnInfo(name = "reddit_campaign")
     @SerializedName("reddit_campaign")
     private String redditCampaign;   //:"https://www.reddit.com/r/spacex/comments/8pua1m/crs15_launch_campaign_thread/",
+    @ColumnInfo(name = "reddit_launch")
     @SerializedName("reddit_launch")
     private String redditLaunch;     //:"https://www.reddit.com/r/spacex/comments/8ugo3l/rspacex_crs15_official_launch_discussion_updates",
+    @ColumnInfo(name = "reddit_recovery")
     @SerializedName("reddit_recovery")
     private String redditRecovery;   //:null,
+    @ColumnInfo(name = "reddit_media")
     @SerializedName("reddit_media")
     private String redditMedia;      //:"https://www.reddit.com/r/spacex/comments/8ujcwo/rspacex_crs15_media_thread_videos_images_gifs/",
+    //@ColumnInfo(name = "")
     @SerializedName("presskit")
     private String presskit;          //:"http://www.spacex.com/sites/spacex/files/crs15presskit.pdf",
+    @ColumnInfo(name = "article_link")
     @SerializedName("article_link")
     private String articleLink;      //:null,
+    //@ColumnInfo(name = "")
     @SerializedName("wikipedia")
     private String wikipedia;         //:null,
+    @ColumnInfo(name = "video_link")
     @SerializedName("video_link")
     private String videoLink;        //:"https://www.youtube.com/watch?v=ycMagB1s8XM"
 

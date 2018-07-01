@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "mission")
+@Entity(tableName = "missions")
 public class Mission {
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -37,14 +37,14 @@ public class Mission {
     @SerializedName("launch_success")
     private boolean launchSuccess;
 
-//    @SerializedName("links")
-//    @Embedded
-//    private Links links;
+    @SerializedName("links")
+    @Embedded
+    private Links links;
     @SerializedName("details")
     private String details;
 
     public Mission(int id, int flightNumber, String missionName, String launchYear, long launchDateUnix,
-                   String launchDateUtc, boolean launchSuccess, String details) { //Links links, String details) {
+                   String launchDateUtc, boolean launchSuccess, Links links, String details) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.missionName = missionName;
@@ -52,20 +52,20 @@ public class Mission {
         this.launchDateUnix = launchDateUnix;
         this.launchDateUtc = launchDateUtc;
         this.launchSuccess = launchSuccess;
-        //this.links = links;
+        this.links = links;
         this.details = details;
     }
 
     @Ignore
     public Mission(int flightNumber, String missionName, String launchYear, long launchDateUnix,
-                   String launchDateUtc, boolean launchSuccess, String details) { //}, Links links, String details) {
+                   String launchDateUtc, boolean launchSuccess, Links links, String details) {
         this.flightNumber = flightNumber;
         this.missionName = missionName;
         this.launchYear = launchYear;
         this.launchDateUnix = launchDateUnix;
         this.launchDateUtc = launchDateUtc;
         this.launchSuccess = launchSuccess;
-        //this.links = links;
+        this.links = links;
         this.details = details;
     }
 
@@ -93,8 +93,8 @@ public class Mission {
     public boolean isLaunchSuccess() { return launchSuccess; }
     public void setLaunchSuccess(boolean launchSuccess) { this.launchSuccess = launchSuccess; }
 
-//    public Links getLinks() { return links; }
-//    public void setLinks(Links links) { this.links = links; }
+    public Links getLinks() { return links; }
+    public void setLinks(Links links) { this.links = links; }
 
     public String getDetails() { return details; }
     public void setDetails(String details) { this.details = details; }

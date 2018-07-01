@@ -35,7 +35,6 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         mOnClickListener = listener;
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,35 +47,36 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         String missionPatchImagePath = "";
-//        if (mMissions.get(position).getLinks().getMissionPatchSmall() != null)
-//            missionPatchImagePath = mMissions.get(position).getLinks().getMissionPatchSmall();
-//
-//        // If we have a valid image path, try loading it from cache or from web with Picasso
-//        if (!TextUtils.isEmpty(missionPatchImagePath)) {
-//            final String missionPatchImageUrl = missionPatchImagePath;
-//            // Try loading image from device memory or cache
-//            Picasso.get()
-//                    .load(missionPatchImageUrl)
-//                    .networkPolicy(NetworkPolicy.OFFLINE)
-//                    .into(holder.missionPatchImageView, new Callback() {
-//                        @Override
-//                        public void onSuccess() {
-//                            // Yay!
-//                        }
-//
-//                        @Override
-//                        public void onError(Exception e) {
-//                            // Try again online, if cache loading failed
-//                            Picasso.get()
-//                                    .load(missionPatchImageUrl)
-//                                    .error(R.drawable.bangabandu)
-//                                    .into(holder.missionPatchImageView);
-//                        }
-//                    });
-//        } else {
-//            // Otherwise, don't bother using Picasso and set default_mission_patch image for missionPatchImageView
-//            holder.missionPatchImageView.setImageResource(R.drawable.bangabandu); // default_mission_patch
-//        }
+        // TODO
+        if (mMissions.get(position).getLinks() != null && mMissions.get(position).getLinks().getMissionPatchSmall() != null)
+            missionPatchImagePath = mMissions.get(position).getLinks().getMissionPatchSmall();
+
+        // If we have a valid image path, try loading it from cache or from web with Picasso
+        if (!TextUtils.isEmpty(missionPatchImagePath)) {
+            final String missionPatchImageUrl = missionPatchImagePath;
+            // Try loading image from device memory or cache
+            Picasso.get()
+                    .load(missionPatchImageUrl)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(holder.missionPatchImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            // Yay!
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            // Try again online, if cache loading failed
+                            Picasso.get()
+                                    .load(missionPatchImageUrl)
+                                    .error(R.drawable.bangabandu)
+                                    .into(holder.missionPatchImageView);
+                        }
+                    });
+        } else {
+            // Otherwise, don't bother using Picasso and set default_mission_patch image for missionPatchImageView
+            holder.missionPatchImageView.setImageResource(R.drawable.bangabandu); // default_mission_patch
+        }
 
         holder.missionNameTextView.setText(mMissions.get(position).getMissionName());
         holder.launchDateTextView.setText(mMissions.get(position).getLaunchDateUtc());

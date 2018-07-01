@@ -27,6 +27,7 @@ import com.android.future.spacex.data.Mission;
 import com.android.future.spacex.data.MissionLoader;
 import com.android.future.spacex.data.MissionsAdapter;
 import com.android.future.spacex.data.MissionsLoader;
+import com.android.future.spacex.utils.MissionsPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +67,15 @@ public class SpaceXActivity extends AppCompatActivity implements
         mMissionsAdapter = new MissionsAdapter(this, this);
         mMissionsRecyclerView.setAdapter(mMissionsAdapter);
 
-        //Init or restart loader
-        getSupportLoaderManager().restartLoader(MISSIONS_LOADER_ID, null, this);
-
         mDb = AppDatabase.getInstance(getApplicationContext());
-        //setupViewModel();
+
+        // If missions were already loaded once, just display query the DB, otherwise init the loader
+        if (MissionsPreferences.getLoadingStatus(this)) {
+            setupViewModel();
+        } else {
+            //Init missions loader
+            getSupportLoaderManager().restartLoader(MISSIONS_LOADER_ID, null, this);
+        }
     }
 
     private void setupViewModel() {
@@ -81,15 +86,6 @@ public class SpaceXActivity extends AppCompatActivity implements
                 mMissionsAdapter.setMissions(missions);
             }
         });
-
-
-//        LiveData<List<Mission>> missions = mDb.missionDao().loadAllMissions();
-//        missions.observe(this, new Observer<List<Mission>>() {
-//            @Override
-//            public void onChanged(@Nullable List<Mission> missionsList) {
-//                mMissionsAdapter.setMissions(missionsList);
-//            }
-//        });
     }
 
     @Override
@@ -129,8 +125,9 @@ public class SpaceXActivity extends AppCompatActivity implements
 //                            task.setId(mTaskId);
 //                            mDb.taskDao().updateTask(task);
 //                        }
-                        mDb.missionDao().insertMissions((List<Mission>) data);
+                        mDb.missionDao().insertMissions((ArrayList<Mission>) data);
                         Log.v("INSERT ALL", "DONE!");
+                        MissionsPreferences.setLoadingStatus(getApplicationContext(), true);
                     }
                 });
 

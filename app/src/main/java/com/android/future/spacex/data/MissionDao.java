@@ -13,17 +13,17 @@ import java.util.List;
 
 @Dao
 public interface MissionDao {
-    @Query("SELECT * FROM mission ORDER BY flight_number DESC")
+    @Query("SELECT * FROM missions ORDER BY flight_number DESC")
     LiveData<List<Mission>> loadAllMissions();
 
-    @Query("SELECT * FROM mission WHERE flight_number = :flightNumber")
+    @Query("SELECT * FROM missions WHERE flight_number = :flightNumber")
     LiveData<Mission> loadMissionDetails(int flightNumber);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMission(Mission mission);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMissions(List<Mission> missions);
+    void insertMissions(ArrayList<Mission> missions);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateMission(Mission mission);
