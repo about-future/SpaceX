@@ -1,8 +1,7 @@
 package com.android.future.spacex.retrofit;
 
-import com.android.future.spacex.data.Mission;
+import com.android.future.spacex.entity.Mission;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

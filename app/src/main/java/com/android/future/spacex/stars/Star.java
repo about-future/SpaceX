@@ -1,14 +1,7 @@
-package com.android.future.spacex.data;
+package com.android.future.spacex.stars;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-
-import com.android.future.spacex.R;
-import com.android.future.spacex.utils.MathUtils;
-
-import java.util.Random;
 
 import static com.android.future.spacex.utils.MathUtils.map;
 
@@ -18,17 +11,17 @@ public class Star {
     private float z;
 
     public Star(int width, int height) {
-        this.x = (float) (Math.random() * width/2);
-        this.y = (float) (Math.random() * height/2);
-        this.z = (float) (Math.random() * width/2);
+        this.x = (float) (Math.random() * width / 2);
+        this.y = (float) (Math.random() * height / 2);
+        this.z = (float) (Math.random() * width / 2);
     }
 
     public void update(double speed, int width, int height) {
         this.z = (float) (this.z - speed);
         if (this.z < 1) {
-            this.z = (float) (Math.random() * width/2);
-            this.x = (float) (Math.random() * width/2);
-            this.y = (float) (Math.random() * height/2);
+            this.z = (float) (Math.random() * width / 2);
+            this.x = (float) (Math.random() * width / 2);
+            this.y = (float) (Math.random() * height / 2);
         }
     }
 

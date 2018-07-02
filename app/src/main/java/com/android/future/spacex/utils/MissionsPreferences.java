@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.android.future.spacex.R;
-
 public class MissionsPreferences {
     private static final String CATEGORY = "missions_loaded";
 

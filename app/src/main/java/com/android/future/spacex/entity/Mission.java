@@ -1,4 +1,4 @@
-package com.android.future.spacex.data;
+package com.android.future.spacex.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
@@ -27,16 +27,19 @@ public class Mission {
     @ColumnInfo(name = "launch_date_utc")
     @SerializedName("launch_date_utc")
     private String launchDateUtc;
-//    @Embedded
-//    private Rocket rocket;
-    //private String telemetry;
-//    @Embedded
-// @ColumnInfo(name = "launch_site")
-//    private LaunchSite launchSite;
+    @SerializedName("rocket")
+    @Embedded
+    private Rocket rocket;
+    @SerializedName("reuse")
+    @Embedded
+    private Reuse reuse;
+    //@ColumnInfo(name = "launch_site")
+    @SerializedName("launch_site")
+    @Embedded
+    private LaunchSite launchSite;
     @ColumnInfo(name = "launch_success")
     @SerializedName("launch_success")
     private boolean launchSuccess;
-
     @SerializedName("links")
     @Embedded
     private Links links;
@@ -44,13 +47,17 @@ public class Mission {
     private String details;
 
     public Mission(int id, int flightNumber, String missionName, String launchYear, long launchDateUnix,
-                   String launchDateUtc, boolean launchSuccess, Links links, String details) {
+                   String launchDateUtc, Rocket rocket, Reuse reuse, LaunchSite launchSite,
+                   boolean launchSuccess, Links links, String details) {
         this.id = id;
         this.flightNumber = flightNumber;
         this.missionName = missionName;
         this.launchYear = launchYear;
         this.launchDateUnix = launchDateUnix;
         this.launchDateUtc = launchDateUtc;
+        this.rocket = rocket;
+        this.reuse = reuse;
+        this.launchSite = launchSite;
         this.launchSuccess = launchSuccess;
         this.links = links;
         this.details = details;
@@ -58,12 +65,16 @@ public class Mission {
 
     @Ignore
     public Mission(int flightNumber, String missionName, String launchYear, long launchDateUnix,
-                   String launchDateUtc, boolean launchSuccess, Links links, String details) {
+                   String launchDateUtc, Rocket rocket, Reuse reuse, LaunchSite launchSite, boolean launchSuccess,
+                   Links links, String details) {
         this.flightNumber = flightNumber;
         this.missionName = missionName;
         this.launchYear = launchYear;
         this.launchDateUnix = launchDateUnix;
         this.launchDateUtc = launchDateUtc;
+        this.rocket = rocket;
+        this.reuse = reuse;
+        this.launchSite = launchSite;
         this.launchSuccess = launchSuccess;
         this.links = links;
         this.details = details;
@@ -89,6 +100,15 @@ public class Mission {
 
     public String getLaunchDateUtc() { return launchDateUtc; }
     public void setLaunchDateUtc(String launchDateUtc) { this.launchDateUtc = launchDateUtc; }
+
+    public Rocket getRocket() { return rocket; }
+    public void setRocket(Rocket rocket) { this.rocket = rocket; }
+
+    public Reuse getReuse() { return reuse; }
+    public void setReuse(Reuse reuse) { this.reuse = reuse; }
+
+    public LaunchSite getLaunchSite() { return launchSite; }
+    public void setLaunchSite(LaunchSite launchSite) { this.launchSite = launchSite; }
 
     public boolean isLaunchSuccess() { return launchSuccess; }
     public void setLaunchSuccess(boolean launchSuccess) { this.launchSuccess = launchSuccess; }

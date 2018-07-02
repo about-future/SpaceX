@@ -31,7 +31,7 @@
         app:shutter_background_color="@color/colorTransparent"
         app:surface_type="none" />
 
-    <com.android.future.spacex.data.StarField
+    <com.android.future.spacex.stars.StarField
         android:id="@+id/starfield"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

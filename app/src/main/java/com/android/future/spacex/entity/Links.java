@@ -1,4 +1,4 @@
-package com.android.future.spacex.data;
+package com.android.future.spacex.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 

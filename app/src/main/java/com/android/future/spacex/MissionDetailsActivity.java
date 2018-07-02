@@ -1,6 +1,5 @@
 package com.android.future.spacex;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -11,7 +10,7 @@ import android.os.Bundle;
 import com.android.future.spacex.data.AddMissionViewModel;
 import com.android.future.spacex.data.AddMissionViewModelFactory;
 import com.android.future.spacex.data.AppDatabase;
-import com.android.future.spacex.data.Mission;
+import com.android.future.spacex.entity.Mission;
 
 public class MissionDetailsActivity extends AppCompatActivity {
 

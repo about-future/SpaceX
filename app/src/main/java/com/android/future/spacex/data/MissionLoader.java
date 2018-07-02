@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
+import com.android.future.spacex.entity.Mission;
 import com.android.future.spacex.retrofit.ApiClient;
 import com.android.future.spacex.retrofit.ApiInterface;
 

@@ -10,8 +10,10 @@
     <string name="sound_off">Sound off</string>
     <string name="welcome">Welcome to SpaceX</string>
 
+    <string name="updating_launch">Updating launch data&#8230;</string>
+
     <!-- Credits -->
     <string name="song_credits">ARTIST: TEST SHOT STARFISH\nFLIGHT-PROVEN</string>
-    <string name="skip">Swipe to skip intro\n</string>
+    <string name="skip">Swipe to skip intro</string>
 
 </resources>

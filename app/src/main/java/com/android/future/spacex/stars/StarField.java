@@ -1,4 +1,4 @@
-package com.android.future.spacex.data;
+package com.android.future.spacex.stars;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -32,14 +32,14 @@ public class StarField extends View {
         invalidate();
     }
 
-    public void initStarField () {
+    public void initStarField() {
         mWidth = getWidth();
         mHeight = getHeight();
         paint = new Paint();
         shadowPaint = new Paint();
         isInit = true;
 
-        mTotalStars = Math.min (mWidth, mHeight);
+        mTotalStars = Math.min(mWidth, mHeight);
         stars = new Star[mTotalStars];
 
         for (int i = 0; i < stars.length; i++) {

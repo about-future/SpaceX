@@ -5,7 +5,8 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
+import com.android.future.spacex.entity.Mission;
+
 import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
