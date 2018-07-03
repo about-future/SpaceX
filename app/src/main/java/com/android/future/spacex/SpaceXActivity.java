@@ -2,6 +2,7 @@ package com.android.future.spacex;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -31,12 +32,14 @@ public class SpaceXActivity extends AppCompatActivity implements
 
     private static final int MISSIONS_LOADER_ID = 892;
     public static final String MISSION_NUMBER_KEY = "mission_number";
+    public static final String TOTAL_MISSIONS_KEY = "total_missions";
 
     @BindView(R.id.missions_rv)
     RecyclerView mMissionsRecyclerView;
 
     private MissionsAdapter mMissionsAdapter;
     private AppDatabase mDb;
+    private int mTotalMissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class SpaceXActivity extends AppCompatActivity implements
         mMissionsRecyclerView.setHasFixedSize(false);
         mMissionsAdapter = new MissionsAdapter(this, this);
         mMissionsRecyclerView.setAdapter(mMissionsAdapter);
+        //TODO background for each clicked item and a better divider
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
@@ -74,16 +78,20 @@ public class SpaceXActivity extends AppCompatActivity implements
         mainViewModel.getMissions().observe(this, new Observer<List<Mission>>() {
             @Override
             public void onChanged(@Nullable List<Mission> missions) {
-                mMissionsAdapter.setMissions(missions);
+                if (missions != null) {
+                    mMissionsAdapter.setMissions(missions);
+                    mTotalMissions = missions.size();
+                }
             }
         });
     }
 
     @Override
     public void onListItemClick(int missionNumber) {
-//        Intent missionDetailsIntent = new Intent(SpaceXActivity.this, MissionDetailsActivity.class);
-//        missionDetailsIntent.putExtra(MISSION_NUMBER_KEY, missionNumber);
-//        startActivity(missionDetailsIntent);
+        Intent missionDetailsIntent = new Intent(SpaceXActivity.this, MissionDetailsActivity.class);
+        missionDetailsIntent.putExtra(MISSION_NUMBER_KEY, missionNumber);
+        missionDetailsIntent.putExtra(TOTAL_MISSIONS_KEY, mTotalMissions);
+        startActivity(missionDetailsIntent);
     }
 
     @NonNull

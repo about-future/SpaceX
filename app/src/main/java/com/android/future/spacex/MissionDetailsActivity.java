@@ -1,44 +1,90 @@
 package com.android.future.spacex;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 
-import com.android.future.spacex.data.AddMissionViewModel;
-import com.android.future.spacex.data.AddMissionViewModelFactory;
-import com.android.future.spacex.data.AppDatabase;
-import com.android.future.spacex.entity.Mission;
+import static com.android.future.spacex.SpaceXActivity.*;
 
 public class MissionDetailsActivity extends AppCompatActivity {
 
-    private static final int DEFAULT_MISSION_NUMBER = -1;
+    private static final int DEFAULT_MISSION_NUMBER = 1;
     private int mMissionNumber = DEFAULT_MISSION_NUMBER;
-    private AppDatabase mDb;
+    private int mTotalMissions = DEFAULT_MISSION_NUMBER;
+
+    private ViewPager mPager;
+    private MyPagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mission_details);
 
-        mDb = AppDatabase.getInstance(getApplicationContext());
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            if (intent != null) {
+                if (intent.hasExtra(TOTAL_MISSIONS_KEY))
+                    mTotalMissions = intent.getIntExtra(TOTAL_MISSIONS_KEY, DEFAULT_MISSION_NUMBER);
 
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(SpaceXActivity.MISSION_NUMBER_KEY)) {
-            //if ()
-            mMissionNumber = intent.getIntExtra(SpaceXActivity.MISSION_NUMBER_KEY, DEFAULT_MISSION_NUMBER);
-            //final LiveData<Mission> missionLiveData = mDb.missionDao().loadMissionDetails(mMissionNumber);
-            AddMissionViewModelFactory factory = new AddMissionViewModelFactory(mDb, mMissionNumber);
-            final AddMissionViewModel viewModel = ViewModelProviders.of(this, factory).get(AddMissionViewModel.class);
-            viewModel.getMissionLiveData().observe(this, new Observer<Mission>() {
-                @Override
-                public void onChanged(@Nullable Mission mission) {
-                    viewModel.getMissionLiveData().removeObserver(this);
-                    //populateUi();
+                if (intent.hasExtra(MISSION_NUMBER_KEY)) {
+                    mMissionNumber = intent.getIntExtra(MISSION_NUMBER_KEY, DEFAULT_MISSION_NUMBER);
                 }
-            });
+            }
+
+        }
+
+        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        mPager = findViewById(R.id.pager);
+        mPager.setAdapter(mPagerAdapter);
+        //mPager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
+        mPager.setCurrentItem(mMissionNumber);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(TOTAL_MISSIONS_KEY, mTotalMissions);
+        outState.putInt(MISSION_NUMBER_KEY, mMissionNumber);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        mMissionNumber = savedInstanceState.getInt(MISSION_NUMBER_KEY);
+        mTotalMissions = savedInstanceState.getInt(TOTAL_MISSIONS_KEY);
+        mPager.setCurrentItem(mMissionNumber);
+        mPagerAdapter.notifyDataSetChanged();
+
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    private class MyPagerAdapter extends FragmentStatePagerAdapter {
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            MissionDetailsFragment fragment = (MissionDetailsFragment) object;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return MissionDetailsFragment.newInstance(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mTotalMissions;//(mCursor != null) ? mCursor.getCount() : 0;
         }
     }
 }

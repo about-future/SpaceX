@@ -4,6 +4,8 @@
     <!-- Content description -->
     <string name="spacex_logo">SpaceX logo</string>
     <string name="mission_patch">Mission patch</string>
+    <string name="rocket_image">Rocket image</string>
+    <string name="action_share">Share</string>
 
     <!-- Toast Messages -->
     <string name="sound_on">Sound on</string>

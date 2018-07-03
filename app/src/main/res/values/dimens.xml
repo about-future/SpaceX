@@ -13,4 +13,20 @@
     <dimen name="music_credits_font_size">11sp</dimen>
     <dimen name="music_credits_margin">24dp</dimen>
 
+    <!-- Details Activity -->
+    <dimen name="detail_appbar_height">280dp</dimen>
+    <dimen name="detail_title_bottom_margin">42dp</dimen>
+    <dimen name="detail_inner_horiz_margin">16dp</dimen>
+    <dimen name="detail_title_text_size">32sp</dimen>
+    <dimen name="detail_small_title_text_size">20sp</dimen>
+    <dimen name="detail_metabar_vert_padding">16dp</dimen>
+    <dimen name="detail_metabar_title_bottom_padding">4dp</dimen>
+    <dimen name="spacing">16dp</dimen>
+    <dimen name="detail_body_top_margin">16dp</dimen>
+    <dimen name="detail_body_bottom_margin">48dp</dimen>
+    <dimen name="detail_body_text_size">16sp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="fab_press_translation_z">12dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
 </resources>
