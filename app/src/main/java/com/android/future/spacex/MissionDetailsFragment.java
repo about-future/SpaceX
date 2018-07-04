@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.android.future.spacex.data.AddMissionViewModel;
 import com.android.future.spacex.data.AddMissionViewModelFactory;
 import com.android.future.spacex.data.AppDatabase;
 import com.android.future.spacex.entity.Mission;
+import com.android.future.spacex.utils.ImageUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -99,7 +101,17 @@ public class MissionDetailsFragment extends Fragment {
             return;
         }
 
-        final TextView bodyView = mRootView.findViewById(R.id.article_body);
+        TextView launchDateTextView = mRootView.findViewById(R.id.launch_date);
+        TextView rocketTypeTextView = mRootView.findViewById(R.id.rocket_type);
+
+        final ImageView missionPatchImageView = mRootView.findViewById(R.id.mission_patch_large);
+
+        TextView launchSiteNameTextView = mRootView.findViewById(R.id.launch_site_name);
+        //TextView launchSiteNameLongTextView = mRootView.findViewById(R.id.launch_site_name_long);
+
+        TextView detailsTextView = mRootView.findViewById(R.id.mission_details);
+
+        final ImageView webcastPreviewImageView = mRootView.findViewById(R.id.webcast_preview);
 
         if (mission != null) {
             mRootView.setAlpha(0);
@@ -115,14 +127,13 @@ public class MissionDetailsFragment extends Fragment {
                 }
             });
 
-            bodyView.setText(mission.getDetails());
-
+            // Set mission patch if it's available
             if (mission.getLinks() != null && mission.getLinks().getMissionPatchSmall() != null) {
                 final String missionPatchImageUrl = mission.getLinks().getMissionPatchSmall();
                 Picasso.get()
                         .load(missionPatchImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(mPhotoView, new Callback() {
+                        .into(missionPatchImageView, new Callback() {
                             @Override
                             public void onSuccess() {
                                 // Yay!
@@ -133,25 +144,56 @@ public class MissionDetailsFragment extends Fragment {
                                 // Try again online, if cache loading failed
                                 Picasso.get()
                                         .load(missionPatchImageUrl)
-                                        .error(R.drawable.bangabandu)
-                                        .into(mPhotoView);
+                                        .error(R.drawable.falcon_heavy)
+                                        .into(missionPatchImageView);
                             }
                         });
             } else {
-                mPhotoView.setImageResource(R.drawable.falcon9_block5);
+                missionPatchImageView.setImageResource(R.drawable.dragon);
             }
 
-            bodyView.append("\n");
-            bodyView.append(mission.getLaunchSite().getSiteName() + "\n");
-            if (mission.getLinks() != null)
-                bodyView.append(mission.getLinks().getVideoLink() + "\n");
-            bodyView.append(mission.getReuse().isCore() + "\n");
-            if (mission.getRocket() != null) {
-                bodyView.append(mission.getRocket().getRocketType() + "\n");
-                bodyView.append(mission.getRocket().getRocketName() + "\n");
+            if (mission.getLinks() != null && mission.getLinks().getVideoLink() != null) {
+                final String missionVideoUrl = mission.getLinks().getVideoLink();
+                String videoKey = missionVideoUrl.substring(missionVideoUrl.indexOf("=") + 1, missionVideoUrl.length());
+                Log.v("YOUTUBE ID", videoKey);
+                final String videoImageUrl = ImageUtils.buildSdVideoThumbnailUrl(getContext(), videoKey);
+
+                Picasso.get()
+                        .load(videoImageUrl)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .into(webcastPreviewImageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                // Yay!
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                // Try again online, if cache loading failed
+                                Picasso.get()
+                                        .load(videoImageUrl)
+                                        .error(R.drawable.video)
+                                        .into(webcastPreviewImageView);
+                            }
+                        });
+            } else {
+                // Hide the video layout if no video link available
+                mRootView.findViewById(R.id.webcast_layout).setVisibility(View.GONE);
             }
-//        } else {
-//            mRootView.setVisibility(View.GONE);
+
+            if (mission.getRocket() != null) {
+                rocketTypeTextView.setText(mission.getRocket().getRocketName());
+            } else {
+                mPhotoView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
+                rocketTypeTextView.setVisibility(View.GONE);
+            }
+
+            launchDateTextView.setText(mission.getLaunchDateUtc());
+
+            launchSiteNameTextView.setText(mission.getLaunchSite().getSiteName());
+            //launchSiteNameLongTextView.setText(mission.getLaunchSite().getSiteNameLong());
+
+            detailsTextView.setText(mission.getDetails());
         }
 
     }

@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="spacing">16dp</dimen>
     <dimen name="horizontal_margin">16dp</dimen>
     <dimen name="vertical_margin">16dp</dimen>
 
     <dimen name="corner_radius">24dp</dimen>
-
     <dimen name="card_margin">8dp</dimen>
 
+    <!-- Starfield Activity -->
     <dimen name="volume_size">24sp</dimen>
     <dimen name="volume_margin">24dp</dimen>
-
     <dimen name="music_credits_font_size">11sp</dimen>
     <dimen name="music_credits_margin">24dp</dimen>
 
     <!-- Details Activity -->
     <dimen name="detail_appbar_height">280dp</dimen>
-    <dimen name="detail_title_bottom_margin">42dp</dimen>
+    <dimen name="detail_title_bottom_margin">24dp</dimen>
     <dimen name="detail_inner_horiz_margin">16dp</dimen>
     <dimen name="detail_title_text_size">32sp</dimen>
     <dimen name="detail_small_title_text_size">20sp</dimen>
     <dimen name="detail_metabar_vert_padding">16dp</dimen>
     <dimen name="detail_metabar_title_bottom_padding">4dp</dimen>
-    <dimen name="spacing">16dp</dimen>
     <dimen name="detail_body_top_margin">16dp</dimen>
     <dimen name="detail_body_bottom_margin">48dp</dimen>
-    <dimen name="detail_body_text_size">16sp</dimen>
+    <dimen name="detail_body_text_size">15sp</dimen>
+    <dimen name="details_video_height">200dp</dimen>
+
+    <dimen name="dimen_patch_size">140dp</dimen>
+
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">12dp</dimen>
     <dimen name="fab_margin">16dp</dimen>

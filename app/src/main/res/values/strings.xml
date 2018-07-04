@@ -6,6 +6,14 @@
     <string name="mission_patch">Mission patch</string>
     <string name="rocket_image">Rocket image</string>
     <string name="action_share">Share</string>
+    <string name="mission_webcast">Mission webcast</string>
+
+    <!-- Labels -->
+    <string name="label_launch_date">Launch Date</string>
+    <string name="label_rocket_type">Rocket Type</string>
+    <string name="label_launch_site">Launch Site</string>
+    <string name="label_webcast">Webcast</string>
+    <string name="label_mission_name">Mission Name</string>
 
     <!-- Toast Messages -->
     <string name="sound_on">Sound on</string>
