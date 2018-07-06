@@ -7,6 +7,7 @@
     <string name="rocket_image">Rocket image</string>
     <string name="action_share">Share</string>
     <string name="mission_webcast">Mission webcast</string>
+    <string name="video_play">Play button</string>
 
     <!-- Labels -->
     <string name="label_launch_date">Launch Date</string>

@@ -31,18 +31,13 @@
                 android:contentDescription="@string/rocket_image"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                tools:src="@drawable/falcon9_block5" />
+                tools:src="@drawable/falcon9" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/gradient_grey" />
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical">-->
 
                 <!--<View-->
                     <!--android:layout_width="match_parent"-->
@@ -56,8 +51,6 @@
                     <!--android:layout_height="30dp"-->
                     <!--android:layout_gravity="bottom"-->
                     <!--android:background="@color/colorBackgroundGrey"/>-->
-
-            <!--</LinearLayout>-->
 
             <TextView
                 android:id="@+id/customers"
@@ -109,7 +102,7 @@
                     android:layout_height="@dimen/details_patch_size"
                     android:scaleType="centerCrop"
                     android:layout_gravity="top"
-                    tools:src="@drawable/mission_patch" />
+                    tools:src="@drawable/dragon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -237,14 +230,47 @@
                     android:textSize="20sp"
                     android:text="@string/label_webcast" />
 
-                <ImageView
-                    android:layout_marginTop="@dimen/spacing"
-                    android:id="@+id/webcast_preview"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/details_video_height"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/mission_webcast"
-                    tools:src="@drawable/video"/>
+                    android:layout_height="@dimen/details_video_height">
+
+                    <ImageView
+                        android:layout_marginTop="@dimen/spacing"
+                        android:id="@+id/webcast_preview"
+                        android:layout_width="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_height="@dimen/details_video_height"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/mission_webcast"
+                        tools:src="@drawable/video"/>
+
+                    <ImageView
+                        android:id="@+id/webcast_play"
+                        android:layout_width="@dimen/details_play_icon"
+                        android:layout_height="@dimen/details_play_icon"
+                        android:contentDescription="@string/video_play"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toTopOf="@id/webcast_preview"
+                        app:layout_constraintEnd_toStartOf="@id/webcast_preview"
+                        app:layout_constraintStart_toEndOf="@id/webcast_preview"
+                        app:layout_constraintTop_toBottomOf="@id/webcast_preview"
+                        app:srcCompat="@drawable/ic_play" />
+
+                    <ImageView
+                        android:id="@+id/webcast_play_arrow"
+                        android:layout_width="@dimen/details_play_icon"
+                        android:layout_height="@dimen/details_play_icon"
+                        android:contentDescription="@string/video_play"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toTopOf="@id/webcast_preview"
+                        app:layout_constraintEnd_toStartOf="@id/webcast_preview"
+                        app:layout_constraintStart_toEndOf="@id/webcast_preview"
+                        app:layout_constraintTop_toBottomOf="@id/webcast_preview"
+                        app:srcCompat="@drawable/ic_play_arrow" />
+
+                </android.support.constraint.ConstraintLayout>
 
             </LinearLayout>
 
@@ -257,6 +283,7 @@
 
             <View
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/spacing"
                 android:layout_height="@dimen/spacing"
                 android:background="@color/colorTransparent" />
 

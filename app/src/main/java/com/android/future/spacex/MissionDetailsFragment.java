@@ -189,7 +189,7 @@ public class MissionDetailsFragment extends Fragment {
                                 // Try again online, if cache loading failed
                                 Picasso.get()
                                         .load(missionPatchImageUrl)
-                                        .error(R.drawable.falcon_heavy)
+                                        .error(R.drawable.dragon)
                                         .into(missionPatchImageView);
                             }
                         });

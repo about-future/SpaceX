@@ -70,13 +70,13 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
                             // Try again online, if cache loading failed
                             Picasso.get()
                                     .load(missionPatchImageUrl)
-                                    .error(R.drawable.bangabandu)
+                                    .error(R.drawable.dragon)
                                     .into(holder.missionPatchImageView);
                         }
                     });
         } else {
             // Otherwise, don't bother using Picasso and set default_mission_patch image for missionPatchImageView
-            holder.missionPatchImageView.setImageResource(R.drawable.bangabandu); // default_mission_patch
+            holder.missionPatchImageView.setImageResource(R.drawable.dragon); // default_mission_patch
         }
 
         holder.missionNameTextView.setText(mMissions.get(position).getMissionName());
