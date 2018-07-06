@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,14 +104,10 @@ public class MissionDetailsFragment extends Fragment {
 
         TextView launchDateTextView = mRootView.findViewById(R.id.launch_date);
         TextView rocketTypeTextView = mRootView.findViewById(R.id.rocket_type);
-
         final ImageView missionPatchImageView = mRootView.findViewById(R.id.mission_patch_large);
-
         TextView launchSiteNameTextView = mRootView.findViewById(R.id.launch_site_name);
         //TextView launchSiteNameLongTextView = mRootView.findViewById(R.id.launch_site_name_long);
-
         TextView detailsTextView = mRootView.findViewById(R.id.mission_details);
-
         final ImageView webcastPreviewImageView = mRootView.findViewById(R.id.webcast_preview);
 
         if (mission != null) {
@@ -126,6 +123,54 @@ public class MissionDetailsFragment extends Fragment {
                     getActivityCast().onBackPressed();
                 }
             });
+
+            // Set backdrop image and rocket type
+            if (mission.getRocket() != null && mission.getRocket().getRocketName() != null) {
+                String rocketName = mission.getRocket().getRocketName();
+                rocketTypeTextView.setText(rocketName);
+
+                // Set backdrop image, depending on rocket type and payload
+                switch (rocketName) {
+                    case "Falcon 1":
+                        mPhotoView.setImageResource(R.drawable.falcon1);
+                        break;
+                    case "Falcon 9":
+                        // Depending on the payload type, we can show a different falcon 9 image
+//                        String payloadType = mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType();
+//                        switch (payloadType) {
+//                            case "Satellite":
+//                                // Falcon 9 with Fairing
+//                                mPhotoView.setImageResource(R.drawable.falcon93);
+//                                break;
+//                            case "Dragon 1.1":
+//                                // Falcon 9 with Dragon
+//                                mPhotoView.setImageResource(R.drawable.falcon92);
+//                                break;
+//                            default:
+//                                mPhotoView.setImageResource(R.drawable.falcon9);
+//                                break;
+//                        }
+                        mPhotoView.setImageResource(R.drawable.falcon93);
+                        break;
+                    case "Falcon Heavy":
+                        mPhotoView.setImageResource(R.drawable.falconheavy2);
+                        break;
+                    case "BFR":
+                        mPhotoView.setImageResource(R.drawable.bfr);
+                        break;
+                    case "Big Falcon Rocket":
+                        mPhotoView.setImageResource(R.drawable.bfr);
+                        break;
+                }
+            }
+
+            if (mission.getRocket() != null) {
+                rocketTypeTextView.setText(mission.getRocket().getRocketName());
+
+            } else {
+                mPhotoView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
+                rocketTypeTextView.setVisibility(View.GONE);
+            }
 
             // Set mission patch if it's available
             if (mission.getLinks() != null && mission.getLinks().getMissionPatchSmall() != null) {
@@ -154,12 +199,12 @@ public class MissionDetailsFragment extends Fragment {
 
             if (mission.getLinks() != null && mission.getLinks().getVideoLink() != null) {
                 final String missionVideoUrl = mission.getLinks().getVideoLink();
-                String videoKey = missionVideoUrl.substring(missionVideoUrl.indexOf("=") + 1, missionVideoUrl.length());
+                final String videoKey = missionVideoUrl.substring(missionVideoUrl.indexOf("=") + 1, missionVideoUrl.length());
                 Log.v("YOUTUBE ID", videoKey);
-                final String videoImageUrl = ImageUtils.buildSdVideoThumbnailUrl(getContext(), videoKey);
+                final String sdVideoImageUrl = ImageUtils.buildSdVideoThumbnailUrl(getContext(), videoKey);
 
                 Picasso.get()
-                        .load(videoImageUrl)
+                        .load(sdVideoImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
                         .into(webcastPreviewImageView, new Callback() {
                             @Override
@@ -171,9 +216,23 @@ public class MissionDetailsFragment extends Fragment {
                             public void onError(Exception e) {
                                 // Try again online, if cache loading failed
                                 Picasso.get()
-                                        .load(videoImageUrl)
-                                        .error(R.drawable.video)
-                                        .into(webcastPreviewImageView);
+                                        .load(sdVideoImageUrl)
+                                        .into(webcastPreviewImageView, new Callback() {
+                                            @Override
+                                            public void onSuccess() {
+                                                // Yay!
+                                            }
+
+                                            @Override
+                                            public void onError(Exception e) {
+                                                // Try again online, using a lower resolution image URL
+                                                String hqVideoUrl = ImageUtils.buildHqVideoThumbnailUrl(getContext(), videoKey);
+                                                Picasso.get()
+                                                        .load(hqVideoUrl)
+                                                        .error(R.drawable.video)
+                                                        .into(webcastPreviewImageView);
+                                            }
+                                        });
                             }
                         });
             } else {
@@ -181,19 +240,16 @@ public class MissionDetailsFragment extends Fragment {
                 mRootView.findViewById(R.id.webcast_layout).setVisibility(View.GONE);
             }
 
-            if (mission.getRocket() != null) {
-                rocketTypeTextView.setText(mission.getRocket().getRocketName());
-            } else {
-                mPhotoView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
-                rocketTypeTextView.setVisibility(View.GONE);
-            }
-
             launchDateTextView.setText(mission.getLaunchDateUtc());
 
             launchSiteNameTextView.setText(mission.getLaunchSite().getSiteName());
             //launchSiteNameLongTextView.setText(mission.getLaunchSite().getSiteNameLong());
 
-            detailsTextView.setText(mission.getDetails());
+            if (mission.getDetails() != null && !TextUtils.isEmpty(mission.getDetails())) {
+                detailsTextView.setText(mission.getDetails());
+            } else {
+                detailsTextView.setVisibility(View.GONE);
+            }
         }
 
     }

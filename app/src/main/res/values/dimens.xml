@@ -14,7 +14,7 @@
     <dimen name="music_credits_margin">24dp</dimen>
 
     <!-- Details Activity -->
-    <dimen name="detail_appbar_height">280dp</dimen>
+    <dimen name="detail_appbar_height">250dp</dimen>
     <dimen name="detail_title_bottom_margin">24dp</dimen>
     <dimen name="detail_inner_horiz_margin">16dp</dimen>
     <dimen name="detail_title_text_size">32sp</dimen>
@@ -25,8 +25,7 @@
     <dimen name="detail_body_bottom_margin">48dp</dimen>
     <dimen name="detail_body_text_size">15sp</dimen>
     <dimen name="details_video_height">200dp</dimen>
-
-    <dimen name="dimen_patch_size">140dp</dimen>
+    <dimen name="details_patch_size">140dp</dimen>
 
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">12dp</dimen>
