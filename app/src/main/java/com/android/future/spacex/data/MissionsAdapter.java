@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.future.spacex.R;
 import com.android.future.spacex.entity.Mission;
@@ -28,7 +29,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     private final ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
-        void onListItemClick(int missionSelected);
+        void onItemClickListener(int missionSelected);
     }
 
     public MissionsAdapter(Context context, ListItemClickListener listener) {
@@ -81,10 +82,6 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
 
         holder.missionNameTextView.setText(mMissions.get(position).getMissionName());
         holder.launchDateTextView.setText(mMissions.get(position).getLaunchDateUtc());
-
-        if (position == mMissions.size() - 1) {
-            holder.dividerLine.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override
@@ -103,8 +100,6 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         TextView missionNameTextView;
         @BindView(R.id.launch_date)
         TextView launchDateTextView;
-        @BindView(R.id.line)
-        View dividerLine;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -114,8 +109,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            int clickedPosition = getAdapterPosition();
-            mOnClickListener.onListItemClick(mMissions.get(clickedPosition).getFlightNumber());
+            mOnClickListener.onItemClickListener(mMissions.get(getAdapterPosition()).getFlightNumber());
         }
     }
 

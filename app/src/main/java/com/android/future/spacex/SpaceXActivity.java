@@ -9,9 +9,11 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.future.spacex.data.AppDatabase;
 import com.android.future.spacex.data.AppExecutors;
@@ -58,13 +60,18 @@ public class SpaceXActivity extends AppCompatActivity implements
 
         mMissionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mMissionsRecyclerView.setHasFixedSize(false);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                mMissionsRecyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        mMissionsRecyclerView.addItemDecoration(mDividerItemDecoration);
         mMissionsAdapter = new MissionsAdapter(this, this);
         mMissionsRecyclerView.setAdapter(mMissionsAdapter);
+
         //TODO background for each clicked item and a better divider
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
-        // If missions were already loaded once, just display query the DB, otherwise init the loader
+        // If missions were already loaded once, just query the DB and display them, otherwise init the loader
         if (MissionsPreferences.getLoadingStatus(this)) {
             setupViewModel();
         } else {
@@ -87,7 +94,7 @@ public class SpaceXActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onListItemClick(int missionNumber) {
+    public void onItemClickListener(int missionNumber) {
         Intent missionDetailsIntent = new Intent(SpaceXActivity.this, MissionDetailsActivity.class);
         missionDetailsIntent.putExtra(MISSION_NUMBER_KEY, missionNumber);
         missionDetailsIntent.putExtra(TOTAL_MISSIONS_KEY, mTotalMissions);
@@ -111,19 +118,9 @@ public class SpaceXActivity extends AppCompatActivity implements
     public void onLoadFinished(@NonNull Loader loader, final Object data) {
         switch (loader.getId()) {
             case MISSIONS_LOADER_ID:
-                //mMissionsAdapter.swapMissions((List<Mission>) data);
-                //mMissionsRecyclerView.smoothScrollToPosition(0);
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-//                        if (mTaskId == DEFAULT_TASK_ID) {
-//                            // insert new task
-//                            mDb.taskDao().insertTask(task);
-//                        } else {
-//                            //update task
-//                            task.setId(mTaskId);
-//                            mDb.taskDao().updateTask(task);
-//                        }
                         mDb.missionDao().insertMissions((ArrayList<Mission>) data);
                         Log.v("INSERT ALL", "DONE!");
                         MissionsPreferences.setLoadingStatus(getApplicationContext(), true);

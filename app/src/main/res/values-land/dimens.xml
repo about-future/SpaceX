@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="detail_appbar_height">320dp</dimen>
     <dimen name="details_patch_size">250dp</dimen>
-    <dimen name="details_video_height">350dp</dimen>
+    <dimen name="details_video_height">360dp</dimen>
 </resources>

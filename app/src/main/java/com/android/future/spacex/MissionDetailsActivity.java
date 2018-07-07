@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -44,9 +46,7 @@ public class MissionDetailsActivity extends AppCompatActivity {
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager = findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
-        //mPager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
-        mPager.setCurrentItem(mMissionNumber);
-
+        mPager.setCurrentItem(mMissionNumber - 1);
     }
 
     @Override
@@ -60,13 +60,13 @@ public class MissionDetailsActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mMissionNumber = savedInstanceState.getInt(MISSION_NUMBER_KEY);
         mTotalMissions = savedInstanceState.getInt(TOTAL_MISSIONS_KEY);
-        mPager.setCurrentItem(mMissionNumber);
+        mPager.setCurrentItem(mMissionNumber - 1);
         mPagerAdapter.notifyDataSetChanged();
 
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    private class MyPagerAdapter extends FragmentStatePagerAdapter {
+    private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -74,17 +74,16 @@ public class MissionDetailsActivity extends AppCompatActivity {
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
-            MissionDetailsFragment fragment = (MissionDetailsFragment) object;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return MissionDetailsFragment.newInstance(position);
+            return MissionDetailsFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
-            return mTotalMissions;//(mCursor != null) ? mCursor.getCount() : 0;
+            return mTotalMissions;
         }
     }
 }

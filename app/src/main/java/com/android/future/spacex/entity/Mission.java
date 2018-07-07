@@ -10,8 +10,6 @@ import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "missions")
 public class Mission {
-    //@PrimaryKey(autoGenerate = true)
-    //private int id;
     @PrimaryKey
     @ColumnInfo(name = "flight_number")
     @SerializedName("flight_number")
@@ -50,7 +48,6 @@ public class Mission {
     public Mission(int flightNumber, String missionName, String launchYear, long launchDateUnix,
                    String launchDateUtc, Rocket rocket, Reuse reuse, LaunchSite launchSite,
                    boolean launchSuccess, Links links, String details) {
-        //this.id = id;
         this.flightNumber = flightNumber;
         this.missionName = missionName;
         this.launchYear = launchYear;
@@ -64,28 +61,25 @@ public class Mission {
         this.details = details;
     }
 
-//    @Ignore
-//    public Mission(int flightNumber, String missionName, String launchYear, long launchDateUnix,
-//                   String launchDateUtc, Rocket rocket, Reuse reuse, LaunchSite launchSite, boolean launchSuccess,
-//                   Links links, String details) {
-//        this.flightNumber = flightNumber;
-//        this.missionName = missionName;
-//        this.launchYear = launchYear;
-//        this.launchDateUnix = launchDateUnix;
-//        this.launchDateUtc = launchDateUtc;
-//        this.rocket = rocket;
-//        this.reuse = reuse;
-//        this.launchSite = launchSite;
-//        this.launchSuccess = launchSuccess;
-//        this.links = links;
-//        this.details = details;
-//    }
+    @Ignore
+    public Mission(String missionName, String launchYear, long launchDateUnix,
+                   String launchDateUtc, Rocket rocket, Reuse reuse, LaunchSite launchSite, boolean launchSuccess,
+                   Links links, String details) {
+        this.flightNumber = flightNumber;
+        this.missionName = missionName;
+        this.launchYear = launchYear;
+        this.launchDateUnix = launchDateUnix;
+        this.launchDateUtc = launchDateUtc;
+        this.rocket = rocket;
+        this.reuse = reuse;
+        this.launchSite = launchSite;
+        this.launchSuccess = launchSuccess;
+        this.links = links;
+        this.details = details;
+    }
 
     @Ignore
     public Mission(){}
-
-//    public int getId() { return id; }
-//    public void setId(int id) { this.id = id; }
 
     public int getFlightNumber() { return flightNumber; }
     public void setFlightNumber(int flightNumber) { this.flightNumber = flightNumber; }

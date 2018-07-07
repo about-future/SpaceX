@@ -2,6 +2,8 @@ package com.android.future.spacex;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -87,8 +89,6 @@ public class MissionDetailsFragment extends Fragment {
             }
         });
 
-        mPhotoView = mRootView.findViewById(R.id.photo);
-
         return mRootView;
     }
 
@@ -102,6 +102,7 @@ public class MissionDetailsFragment extends Fragment {
             return;
         }
 
+        mPhotoView = mRootView.findViewById(R.id.photo);
         TextView launchDateTextView = mRootView.findViewById(R.id.launch_date);
         TextView rocketTypeTextView = mRootView.findViewById(R.id.rocket_type);
         final ImageView missionPatchImageView = mRootView.findViewById(R.id.mission_patch_large);
@@ -235,6 +236,16 @@ public class MissionDetailsFragment extends Fragment {
                                         });
                             }
                         });
+
+                // Set a listener, so we can open each video when the webcast image is clicked
+                webcastPreviewImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(missionVideoUrl)));
+                    }
+                });
+
+                // TODO: Set listener on play image too and make a touch background changer
             } else {
                 // Hide the video layout if no video link available
                 mRootView.findViewById(R.id.webcast_layout).setVisibility(View.GONE);
