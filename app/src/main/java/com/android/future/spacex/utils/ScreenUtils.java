@@ -2,6 +2,7 @@ package com.android.future.spacex.utils;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -44,5 +45,12 @@ public class ScreenUtils {
                 (float) displayMetrics.widthPixels,
                 (float) displayMetrics.heightPixels,
                 displayMetrics.density};
+    }
+
+    /* Check the screen orientation and return true if it's portrait or false if it's landscape
+     * @param context is used to access resources
+     */
+    public static boolean isPortraitMode(Context context) {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 }

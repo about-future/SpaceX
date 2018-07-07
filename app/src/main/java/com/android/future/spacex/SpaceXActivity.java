@@ -22,6 +22,7 @@ import com.android.future.spacex.entity.Mission;
 import com.android.future.spacex.data.MissionsAdapter;
 import com.android.future.spacex.data.MissionsLoader;
 import com.android.future.spacex.utils.MissionsPreferences;
+import com.android.future.spacex.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +59,19 @@ public class SpaceXActivity extends AppCompatActivity implements
 //        missionNameTextView2.setTypeface(brandonBlack);
 //        missionNameTextView22.setTypeface(brandonBlack);
 
-        mMissionsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager;
+
+        if (ScreenUtils.isPortraitMode(this)) {
+            linearLayoutManager = new LinearLayoutManager(this);
+            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                    mMissionsRecyclerView.getContext(),
+                    DividerItemDecoration.VERTICAL);
+            mMissionsRecyclerView.addItemDecoration(mDividerItemDecoration);
+        } else {
+            linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        }
+        mMissionsRecyclerView.setLayoutManager(linearLayoutManager);
         mMissionsRecyclerView.setHasFixedSize(false);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                mMissionsRecyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        mMissionsRecyclerView.addItemDecoration(mDividerItemDecoration);
         mMissionsAdapter = new MissionsAdapter(this, this);
         mMissionsRecyclerView.setAdapter(mMissionsAdapter);
 

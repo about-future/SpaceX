@@ -5,9 +5,11 @@
     <color name="colorAccent">#CCAC55</color>
 
     <color name="colorMainBackground">#181C1F</color>
-    <color name="colorCardBackground">#21272B</color>
+    <!--<color name="colorCardBackground">#21272B</color>-->
     <color name="colorBodyText">#CCCCCC</color>
     <color name="colorLink">#3569a4</color>
+    <color name="colorCardBackground">#484848</color>
+    <color name="colorCardLaunchTime">#55000000</color>
 
     <color name="colorLine">#424242</color>
 

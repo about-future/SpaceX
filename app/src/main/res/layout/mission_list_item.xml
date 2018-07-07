@@ -37,7 +37,7 @@
             android:maxLines="1"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
-            android:textSize="20sp"
+            android:textSize="@dimen/detail_small_title_text_size"
             tools:text="SES-12" />
 
         <TextView
@@ -49,13 +49,5 @@
             tools:text="4:45 AM, 4 June 2018" />
 
     </LinearLayout>
-
-    <!--<View-->
-        <!--android:id="@+id/line"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:background="#4E4E4E"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent" />-->
 
 </android.support.constraint.ConstraintLayout>
