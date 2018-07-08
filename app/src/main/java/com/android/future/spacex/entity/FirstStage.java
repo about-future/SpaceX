@@ -1,8 +1,7 @@
 package com.android.future.spacex.entity;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,8 +9,8 @@ import java.util.List;
 
 public class FirstStage {
     @SerializedName("cores")
-    @Ignore
-    private List<Core> cores; //TODO
+    @TypeConverters(CoreTypeConverter.class)
+    private List<Core> cores = null;
 
     public FirstStage() {}
 

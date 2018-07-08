@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#005080</color>
+
+    <color name="colorPrimary">#005288</color>
     <color name="colorPrimaryDark">#21272B</color>
+    <color name="colorPrimaryDark2">#181C1F</color>
     <color name="colorAccent">#CCAC55</color>
 
     <color name="colorMainBackground">#181C1F</color>
-    <!--<color name="colorCardBackground">#21272B</color>-->
+    <!--<color name="colorCardBackground">#4B5256</color>-->
+    <color name="colorCardBackground2">#21272B</color>
     <color name="colorBodyText">#CCCCCC</color>
-    <color name="colorLink">#3569a4</color>
+    <color name="colorLink">#3569A4</color>
     <color name="colorCardBackground">#484848</color>
-    <color name="colorCardLaunchTime">#55000000</color>
+    <color name="colorCardLaunchTime">#88FFFFFF</color>
 
     <color name="colorLine">#424242</color>
 
     <color name="colorBorder">#296CA9</color>
+
     <color name="colorX">#A7A9AC</color>
     <color name="colorSpaceX">#005288</color>
-
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorLightX">#AFC8CF</color>
+    <color name="colorBlack">#000000</color>
+
 
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorBackgroundGrey">#303030</color>
-    <color name="colorBlack">#000000</color>
     <color name="colorSpaceXTranslucid">#CC005288</color>
     <color name="colorBackgroundTransparent">#BB303F9F</color>
     <color name="colorBackground">#303F9F</color>
