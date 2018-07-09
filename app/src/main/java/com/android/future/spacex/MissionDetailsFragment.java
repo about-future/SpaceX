@@ -17,10 +17,12 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.future.spacex.data.AddMissionViewModel;
@@ -30,6 +32,7 @@ import com.android.future.spacex.entity.Core;
 import com.android.future.spacex.entity.Mission;
 import com.android.future.spacex.entity.Payload;
 import com.android.future.spacex.utils.ImageUtils;
+import com.android.future.spacex.utils.ScreenUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -109,7 +112,7 @@ public class MissionDetailsFragment extends Fragment {
             return;
         }
 
-        ImageView mPhotoImageView = mRootView.findViewById(R.id.photo);
+        final ImageView mPhotoImageView = mRootView.findViewById(R.id.photo);
         TextView launchDateTextView = mRootView.findViewById(R.id.launch_date);
         TextView rocketTypeTextView = mRootView.findViewById(R.id.rocket_type);
         final ImageView missionPatchImageView = mRootView.findViewById(R.id.mission_patch_large);
@@ -184,9 +187,9 @@ public class MissionDetailsFragment extends Fragment {
                     Core firstCore = mission.getRocket().getFirstStage().getCores().get(0);
                     coreSerialTextView.append(firstCore.getCoreSerial() + "\n");
                     coreSerialTextView.append("" + firstCore.getBlock() + "\n");
+                    coreSerialTextView.append(firstCore.getLandingType() + "\n");
                     coreSerialTextView.append(firstCore.getLandingVehicle() + "\n");
 
-                    //Log.v("CORE SERIAL", coreSerial);
                 } else {
                     Log.v("CORE", "IS EMPTY");
                 }
@@ -241,7 +244,7 @@ public class MissionDetailsFragment extends Fragment {
                 Picasso.get()
                         .load(sdVideoImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(webcastPreviewImageView, new Callback() {
+                        .into(mPhotoImageView, new Callback() {
                             @Override
                             public void onSuccess() {
                                 // Yay!
@@ -252,7 +255,7 @@ public class MissionDetailsFragment extends Fragment {
                                 // Try again online, if cache loading failed
                                 Picasso.get()
                                         .load(sdVideoImageUrl)
-                                        .into(webcastPreviewImageView, new Callback() {
+                                        .into(mPhotoImageView, new Callback() {
                                             @Override
                                             public void onSuccess() {
                                                 // Yay!
@@ -265,7 +268,7 @@ public class MissionDetailsFragment extends Fragment {
                                                 Picasso.get()
                                                         .load(hqVideoUrl)
                                                         .error(R.drawable.video)
-                                                        .into(webcastPreviewImageView);
+                                                        .into(mPhotoImageView);
                                             }
                                         });
                             }
@@ -295,6 +298,24 @@ public class MissionDetailsFragment extends Fragment {
             } else {
                 detailsTextView.setVisibility(View.GONE);
             }
+
+            //Set the height of the rocket image,
+            ImageView rocketImage = mRootView.findViewById(R.id.rocket_image);
+
+//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+//                    ScreenUtils.getScreenWidthInDps(getContext()),
+//                    1200);
+
+            float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
+
+            rocketImage.getLayoutParams().height = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    ScreenUtils.getScreenHeightInDps(getActivityCast()) - 128,
+                    getResources().getDisplayMetrics());
+
+            //rocketImage.getLayoutParams().height = ScreenUtils.getScreenHeightInDps(getActivityCast()) - 128;
+            rocketImage.requestLayout();
+            //rocketImage.setLayoutParams(layoutParams);
         }
     }
 

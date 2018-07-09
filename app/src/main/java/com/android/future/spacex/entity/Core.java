@@ -17,11 +17,11 @@ public class Core {
     @ColumnInfo(name = "land_success")
     @SerializedName("land_success")
     private boolean landingSuccess;
-    @ColumnInfo(name = "land_type")
-    @SerializedName("land_type")
+    @ColumnInfo(name = "landing_type")
+    @SerializedName("landing_type")
     private String landingType;
-    @ColumnInfo(name = "land_vehicle")
-    @SerializedName("land_vehicle")
+    @ColumnInfo(name = "landing_vehicle")
+    @SerializedName("landing_vehicle")
     private String landingVehicle;
 
     public Core(String coreSerial, int flight, int block, boolean reused,

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<dimen name="detail_appbar_height">320dp</dimen>-->
-    <dimen name="details_patch_size">250dp</dimen>
-    <dimen name="details_video_height">360dp</dimen>
+    <dimen name="detail_appbar_height">280dp</dimen>
+    <dimen name="details_patch_size">220dp</dimen>
+    <dimen name="details_video_height">300dp</dimen>
     <dimen name="details_recycler_margin">0dp</dimen>
+    <dimen name="detail_inner_horiz_margin">80dp</dimen>
 </resources>
