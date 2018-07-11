@@ -18,9 +18,6 @@ public class SecondStage {
     private List<Payload> payloads = null;
 
     public SecondStage() {}
-//    public SecondStage(int block) {
-//        this.block = block;
-//    }
 
     @Ignore
     public SecondStage(int block, List<Payload> payloads) {

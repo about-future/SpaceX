@@ -11,7 +11,7 @@ public class Payload {
     @SerializedName("reused")
     private boolean reused;
     @SerializedName("customers")
-    private String[] customers; //TODO
+    private String[] customers;
     @ColumnInfo(name = "payload_type")
     @SerializedName("payload_type")
     private String payloadType;

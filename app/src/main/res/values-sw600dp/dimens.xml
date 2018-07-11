@@ -10,4 +10,7 @@
 
     <dimen name="music_credits_font_size">12sp</dimen>
     <dimen name="music_credits_margin">64dp</dimen>
+
+    <dimen name="spacing">24dp</dimen>
+
 </resources>

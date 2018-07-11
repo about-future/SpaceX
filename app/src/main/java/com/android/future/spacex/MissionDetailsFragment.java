@@ -3,21 +3,15 @@ package com.android.future.spacex;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +32,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.android.future.spacex.SpaceXActivity.MISSION_NUMBER_KEY;
 
@@ -46,7 +41,29 @@ public class MissionDetailsFragment extends Fragment {
     private AppDatabase mDb;
     private int mMissionNumber;
     private View mRootView;
-    private Toolbar mToolbar;
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.webcast_preview)
+    ImageView mWebcastPreviewImageView;
+    @BindView(R.id.launch_date)
+    TextView mLaunchDateTextView;
+    @BindView(R.id.rocket_type)
+    TextView mRocketTypeTextView;
+    @BindView(R.id.mission_patch_large)
+    ImageView mMissionPatchImageView;
+    @BindView(R.id.launch_site_name)
+    TextView mLaunchSiteNameTextView;
+    @BindView(R.id.mission_details)
+    TextView mDetailsTextView;
+    @BindView(R.id.payload_details)
+    TextView mPayloadDetailsTextView;
+    @BindView(R.id.core_details)
+    TextView mCoreDetailsTextView;
+    @BindView(R.id.rocket_core_image)
+    ImageView mCoreImageView;
+    @BindView(R.id.rocket_payload_image)
+    ImageView mPayloadImageView;
 
     public MissionDetailsFragment() {
     }
@@ -84,8 +101,8 @@ public class MissionDetailsFragment extends Fragment {
         }
 
         mRootView = inflater.inflate(R.layout.fragment_mission_details, container, false);
+        ButterKnife.bind(this, mRootView);
 
-        mToolbar = mRootView.findViewById(R.id.toolbar);
         mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
 
@@ -112,22 +129,12 @@ public class MissionDetailsFragment extends Fragment {
             return;
         }
 
-        final ImageView mPhotoImageView = mRootView.findViewById(R.id.photo);
-        TextView launchDateTextView = mRootView.findViewById(R.id.launch_date);
-        TextView rocketTypeTextView = mRootView.findViewById(R.id.rocket_type);
-        final ImageView missionPatchImageView = mRootView.findViewById(R.id.mission_patch_large);
-        TextView launchSiteNameTextView = mRootView.findViewById(R.id.launch_site_name);
-        //TextView launchSiteNameLongTextView = mRootView.findViewById(R.id.launch_site_name_long);
-        TextView detailsTextView = mRootView.findViewById(R.id.mission_details);
-        final ImageView webcastPreviewImageView = mRootView.findViewById(R.id.webcast_preview);
-
-        TextView coreSerialTextView = mRootView.findViewById(R.id.core_serial);
-
         if (mission != null) {
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
 
+            // TODO: check toolbar
             Toolbar toolbar = mRootView.findViewById(R.id.toolbar);
             toolbar.setTitle(mission.getMissionName());
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -137,105 +144,7 @@ public class MissionDetailsFragment extends Fragment {
                 }
             });
 
-            // Set backdrop image and rocket type
-            if (mission.getRocket() != null && mission.getRocket().getRocketName() != null) {
-                String rocketName = mission.getRocket().getRocketName();
-                rocketTypeTextView.setText(rocketName);
-
-                // Set backdrop image, depending on rocket type and payload
-                switch (rocketName) {
-                    case "Falcon 1":
-                        mPhotoImageView.setImageResource(R.drawable.falcon1);
-                        break;
-                    case "Falcon 9":
-                        // Depending on the payload type, we can show a different falcon 9 image
-//                        String payloadType = mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType();
-//                        switch (payloadType) {
-//                            case "Satellite":
-//                                // Falcon 9 with Fairing
-//                                mPhotoView.setImageResource(R.drawable.falcon93);
-//                                break;
-//                            case "Dragon 1.1":
-//                                // Falcon 9 with Dragon
-//                                mPhotoView.setImageResource(R.drawable.falcon92);
-//                                break;
-//                            default:
-//                                mPhotoView.setImageResource(R.drawable.falcon9);
-//                                break;
-//                        }
-                        mPhotoImageView.setImageResource(R.drawable.falcon93);
-                        break;
-                    case "Falcon Heavy":
-                        mPhotoImageView.setImageResource(R.drawable.falconheavy2);
-                        break;
-                    case "BFR":
-                        mPhotoImageView.setImageResource(R.drawable.bfr);
-                        break;
-                    case "Big Falcon Rocket":
-                        mPhotoImageView.setImageResource(R.drawable.bfr);
-                        break;
-                }
-            }
-
-            // Get rocket details
-            if (mission.getRocket() != null) {
-                rocketTypeTextView.setText(mission.getRocket().getRocketName());
-
-                // Get core details
-                if (mission.getRocket().getFirstStage().getCores() != null) {
-
-                    Core firstCore = mission.getRocket().getFirstStage().getCores().get(0);
-                    coreSerialTextView.append(firstCore.getCoreSerial() + "\n");
-                    coreSerialTextView.append("" + firstCore.getBlock() + "\n");
-                    coreSerialTextView.append(firstCore.getLandingType() + "\n");
-                    coreSerialTextView.append(firstCore.getLandingVehicle() + "\n");
-
-                } else {
-                    Log.v("CORE", "IS EMPTY");
-                }
-
-                // Get payload details
-                if (mission.getRocket().getSecondStage().getPayloads() != null) {
-                    Payload firstPayload = mission.getRocket().getSecondStage().getPayloads().get(0);
-
-                    coreSerialTextView.append(firstPayload.getPayloadId() + "\n");
-                    coreSerialTextView.append(firstPayload.getPayloadType() + "\n");
-                    coreSerialTextView.append("" + firstPayload.getPayloadMassKg() + "\n");
-
-                } else {
-                    Log.v("PAYLOAD", "IS EMPTY");
-                }
-
-            } else {
-                mPhotoImageView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
-                rocketTypeTextView.setVisibility(View.GONE);
-            }
-
-            // Set mission patch if it's available
-            if (mission.getLinks() != null && mission.getLinks().getMissionPatchSmall() != null) {
-                final String missionPatchImageUrl = mission.getLinks().getMissionPatchSmall();
-                Picasso.get()
-                        .load(missionPatchImageUrl)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(missionPatchImageView, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                // Yay!
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                // Try again online, if cache loading failed
-                                Picasso.get()
-                                        .load(missionPatchImageUrl)
-                                        .error(R.drawable.dragon)
-                                        .into(missionPatchImageView);
-                            }
-                        });
-            } else {
-                missionPatchImageView.setImageResource(R.drawable.dragon);
-            }
-
+            // Webcast preview and link
             if (mission.getLinks() != null && mission.getLinks().getVideoLink() != null) {
                 final String missionVideoUrl = mission.getLinks().getVideoLink();
                 final String videoKey = missionVideoUrl.substring(missionVideoUrl.indexOf("=") + 1, missionVideoUrl.length());
@@ -244,7 +153,7 @@ public class MissionDetailsFragment extends Fragment {
                 Picasso.get()
                         .load(sdVideoImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(mPhotoImageView, new Callback() {
+                        .into(mWebcastPreviewImageView, new Callback() {
                             @Override
                             public void onSuccess() {
                                 // Yay!
@@ -255,7 +164,7 @@ public class MissionDetailsFragment extends Fragment {
                                 // Try again online, if cache loading failed
                                 Picasso.get()
                                         .load(sdVideoImageUrl)
-                                        .into(mPhotoImageView, new Callback() {
+                                        .into(mWebcastPreviewImageView, new Callback() {
                                             @Override
                                             public void onSuccess() {
                                                 // Yay!
@@ -268,14 +177,14 @@ public class MissionDetailsFragment extends Fragment {
                                                 Picasso.get()
                                                         .load(hqVideoUrl)
                                                         .error(R.drawable.video)
-                                                        .into(mPhotoImageView);
+                                                        .into(mWebcastPreviewImageView);
                                             }
                                         });
                             }
                         });
 
                 // Set a listener, so we can open each video when the webcast image is clicked
-                webcastPreviewImageView.setOnClickListener(new View.OnClickListener() {
+                mWebcastPreviewImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(missionVideoUrl)));
@@ -284,38 +193,194 @@ public class MissionDetailsFragment extends Fragment {
 
                 // TODO: Set listener on play image too and make a touch selector
             } else {
-                // Hide the video layout if no video link available
-                mRootView.findViewById(R.id.webcast_layout).setVisibility(View.GONE);
+                mWebcastPreviewImageView.setImageResource(R.drawable.falcon9);
+                mRootView.findViewById(R.id.webcast_play).setVisibility(View.GONE);
             }
 
-            launchDateTextView.setText(mission.getLaunchDateUtc());
+            // Patch (if it's available)
+            if (mission.getLinks() != null && mission.getLinks().getMissionPatchSmall() != null) {
+                final String missionPatchImageUrl = mission.getLinks().getMissionPatchSmall();
+                Picasso.get()
+                        .load(missionPatchImageUrl)
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .into(mMissionPatchImageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                // Yay!
+                            }
 
-            launchSiteNameTextView.setText(mission.getLaunchSite().getSiteName());
-            //launchSiteNameLongTextView.setText(mission.getLaunchSite().getSiteNameLong());
-
-            if (mission.getDetails() != null && !TextUtils.isEmpty(mission.getDetails())) {
-                detailsTextView.setText(mission.getDetails());
+                            @Override
+                            public void onError(Exception e) {
+                                // Try again online, if cache loading failed
+                                Picasso.get()
+                                        .load(missionPatchImageUrl)
+                                        .error(R.drawable.dragon)
+                                        .into(mMissionPatchImageView);
+                            }
+                        });
             } else {
-                detailsTextView.setVisibility(View.GONE);
+                mMissionPatchImageView.setImageResource(R.drawable.dragon);
             }
 
-            //Set the height of the rocket image,
-            ImageView rocketImage = mRootView.findViewById(R.id.rocket_image);
+            // Launch date
+            mLaunchDateTextView.setText(mission.getLaunchDateUtc());
+            // Launch site
+            mLaunchSiteNameTextView.setText(mission.getLaunchSite().getSiteName());
+            // Mission details
+            if (mission.getDetails() != null && !TextUtils.isEmpty(mission.getDetails())) {
+                mDetailsTextView.setText(mission.getDetails());
+            } else {
+                mDetailsTextView.setVisibility(View.GONE);
+            }
 
-//            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-//                    ScreenUtils.getScreenWidthInDps(getContext()),
-//                    1200);
+            // Rocket details
+            if (mission.getRocket() != null) {
+                Payload firstPayload = null;
+                Core firstCore = null;
 
-            float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
+                // Rocket name
+                String rocketName = mission.getRocket().getRocketName();
+                mRocketTypeTextView.setText(rocketName);
 
-            rocketImage.getLayoutParams().height = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    ScreenUtils.getScreenHeightInDps(getActivityCast()) - 128,
-                    getResources().getDisplayMetrics());
+                // Payload details
+                if (mission.getRocket().getSecondStage().getPayloads() != null) {
+                    firstPayload = mission.getRocket().getSecondStage().getPayloads().get(0);
 
-            //rocketImage.getLayoutParams().height = ScreenUtils.getScreenHeightInDps(getActivityCast()) - 128;
-            rocketImage.requestLayout();
-            //rocketImage.setLayoutParams(layoutParams);
+                    mPayloadDetailsTextView.append(firstPayload.getPayloadId());
+                    if (firstPayload.isReused()) {
+                        mPayloadDetailsTextView.append(" (Reused)\n");
+                    } else {
+                        mPayloadDetailsTextView.append("\n");
+                    }
+                    mPayloadDetailsTextView.append("" + firstPayload.getPayloadMassKg() + "kg\n");
+                    mPayloadDetailsTextView.append(firstPayload.getOrbit());
+
+                } else {
+                    Log.v("PAYLOAD", "IS EMPTY");
+                }
+
+                // Core details
+                if (mission.getRocket().getFirstStage().getCores() != null) {
+                    firstCore = mission.getRocket().getFirstStage().getCores().get(0);
+
+                    mCoreDetailsTextView.append(firstCore.getCoreSerial() + "\n");
+                    mCoreDetailsTextView.append("" + firstCore.getBlock() + "\n");
+                    if (firstCore.isReused()) {
+                        mCoreDetailsTextView.append("Reused: " + firstCore.getFlight() + "\n");
+                    }
+
+//                    mCoreDetailsTextView.append(firstCore.getLandingType() + "\n");
+//                    mCoreDetailsTextView.append(firstCore.getLandingVehicle() + "\n");
+
+                } else {
+                    Log.v("CORE", "IS EMPTY");
+                }
+
+                // Set rocket image (payload and core)
+                ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
+                ConstraintLayout.LayoutParams paramsCore = (ConstraintLayout.LayoutParams) mCoreImageView.getLayoutParams();
+                float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
+
+                // Depending on the payload type, we can show a different upper image
+                String payloadType = "";
+                if (firstPayload != null) {
+                    payloadType = mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType();
+                }
+                // Depending on the block type, we can show a different lower image
+                int blockNumber = 5;
+                if (firstCore != null && firstCore.getBlock() > 0) {
+                    blockNumber = mission.getRocket().getFirstStage().getCores().get(0).getBlock();
+                }
+
+                // Set image, depending on rocket type and payload
+                switch (rocketName) {
+                    case "Falcon 1":
+                        mPayloadImageView.setImageResource(R.drawable.payload_bfr);
+                        mCoreImageView.setImageResource(R.drawable.core_bfr);
+
+                        break;
+                    case "Falcon 9":
+                        setPayloadImage(payloadType);
+
+                        switch (blockNumber) {
+                            case 5:
+                                mCoreImageView.setImageResource(R.drawable.core_block5);
+                                break;
+                            default:
+                                mCoreImageView.setImageResource(R.drawable.core_block4);
+                                break;
+                        }
+
+                        paramsPayload.setMarginEnd(48);
+                        paramsCore.setMarginEnd(48);
+                        break;
+                    case "Falcon Heavy":
+                        setPayloadImage(payloadType);
+
+                        switch (blockNumber) {
+                            case 5:
+                                mCoreImageView.setImageResource(R.drawable.falcon_heavy_block5);
+                                break;
+                            default:
+                                mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
+                                break;
+                        }
+
+                        paramsPayload.setMarginEnd(69);
+                        paramsCore.setMarginEnd(20);
+                        break;
+                    case "BFR":
+                        mPayloadImageView.setImageResource(R.drawable.payload_bfr);
+                        mCoreImageView.setImageResource(R.drawable.core_bfr);
+                        paramsPayload.setMarginEnd(20);
+                        paramsCore.setMarginEnd(20);
+                        break;
+                    case "Big Falcon Rocket":
+                        mPayloadImageView.setImageResource(R.drawable.payload_bfr);
+                        mCoreImageView.setImageResource(R.drawable.core_bfr);
+                        paramsPayload.setMarginEnd(20);
+                        paramsCore.setMarginEnd(20);
+                        break;
+                }
+
+                // We will set the payload/core image height to be equal to:
+                // {Devices screen height(in px) - [(StatusBar + ActionBar + TopMargin + 2 x BottomMargin) (in dp) * screen density]} * 30.8%(or 69.2%) of total resulted height
+                // Phone: 24 + 56 + 16 + 2x16 = 128dp
+                // Tablet: 24 + 64 + 24 + 2x24 = 160dp
+                float maxSize = Math.max(screenSize[0], screenSize[1]);
+                paramsPayload.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.308);
+                paramsCore.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.692);
+
+                mPayloadImageView.setLayoutParams(paramsPayload);
+                mCoreImageView.setLayoutParams(paramsCore);
+
+                mPayloadImageView.requestLayout();
+                mCoreImageView.requestLayout();
+
+            } else {
+                mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
+                mRocketTypeTextView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void setPayloadImage(String payloadType) {
+        switch (payloadType) {
+            case "Satellite":
+                // Falcon 9 with Fairing
+                mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                break;
+            case "Dragon 1.0":
+                // Falcon 9 with Dragon 1.1
+                mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
+                break;
+            case "Dragon 1.1":
+                // Falcon 9 with Dragon 1.1
+                mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
+                break;
+            default:
+                mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
+                break;
         }
     }
 
