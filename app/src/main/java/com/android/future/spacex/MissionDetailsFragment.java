@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -219,6 +220,7 @@ public class MissionDetailsFragment extends Fragment {
                             }
                         });
             } else {
+                // Otherwise, load placeholder patch
                 mMissionPatchImageView.setImageResource(R.drawable.dragon);
             }
 
@@ -252,28 +254,22 @@ public class MissionDetailsFragment extends Fragment {
                     } else {
                         mPayloadDetailsTextView.append("\n");
                     }
-                    mPayloadDetailsTextView.append("" + firstPayload.getPayloadMassKg() + "kg\n");
-                    mPayloadDetailsTextView.append(firstPayload.getOrbit());
-
-                } else {
-                    Log.v("PAYLOAD", "IS EMPTY");
+                    mPayloadDetailsTextView.append("Weight: " + firstPayload.getPayloadMassKg() + " kg\n");
+                    mPayloadDetailsTextView.append("Orbit Type: " + firstPayload.getOrbit());
                 }
 
                 // Core details
                 if (mission.getRocket().getFirstStage().getCores() != null) {
                     firstCore = mission.getRocket().getFirstStage().getCores().get(0);
 
-                    mCoreDetailsTextView.append(firstCore.getCoreSerial() + "\n");
-                    mCoreDetailsTextView.append("" + firstCore.getBlock() + "\n");
+                    mCoreDetailsTextView.append("Core Serial: "+ firstCore.getCoreSerial() + "\n");
+                    mCoreDetailsTextView.append("Block: " + firstCore.getBlock() + "\n");
                     if (firstCore.isReused()) {
                         mCoreDetailsTextView.append("Reused: " + firstCore.getFlight() + "\n");
                     }
 
 //                    mCoreDetailsTextView.append(firstCore.getLandingType() + "\n");
 //                    mCoreDetailsTextView.append(firstCore.getLandingVehicle() + "\n");
-
-                } else {
-                    Log.v("CORE", "IS EMPTY");
                 }
 
                 // Set rocket image (payload and core)
@@ -295,9 +291,10 @@ public class MissionDetailsFragment extends Fragment {
                 // Set image, depending on rocket type and payload
                 switch (rocketName) {
                     case "Falcon 1":
-                        mPayloadImageView.setImageResource(R.drawable.payload_bfr);
-                        mCoreImageView.setImageResource(R.drawable.core_bfr);
-
+                        mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
+                        mCoreImageView.setImageResource(R.drawable.core_falcon1);
+                        paramsPayload.setMarginEnd(48);
+                        paramsCore.setMarginEnd(48);
                         break;
                     case "Falcon 9":
                         setPayloadImage(payloadType);
@@ -332,14 +329,14 @@ public class MissionDetailsFragment extends Fragment {
                     case "BFR":
                         mPayloadImageView.setImageResource(R.drawable.payload_bfr);
                         mCoreImageView.setImageResource(R.drawable.core_bfr);
-                        paramsPayload.setMarginEnd(20);
-                        paramsCore.setMarginEnd(20);
+                        paramsPayload.setMarginEnd(24);
+                        paramsCore.setMarginEnd(24);
                         break;
                     case "Big Falcon Rocket":
                         mPayloadImageView.setImageResource(R.drawable.payload_bfr);
                         mCoreImageView.setImageResource(R.drawable.core_bfr);
-                        paramsPayload.setMarginEnd(20);
-                        paramsCore.setMarginEnd(20);
+                        paramsPayload.setMarginEnd(24);
+                        paramsCore.setMarginEnd(24);
                         break;
                 }
 
@@ -350,15 +347,13 @@ public class MissionDetailsFragment extends Fragment {
                 float maxSize = Math.max(screenSize[0], screenSize[1]);
                 paramsPayload.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.308);
                 paramsCore.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.692);
+                paramsPayload.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
+                paramsCore.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
 
                 mPayloadImageView.setLayoutParams(paramsPayload);
                 mCoreImageView.setLayoutParams(paramsCore);
-
-                mPayloadImageView.requestLayout();
-                mCoreImageView.requestLayout();
-
             } else {
-                mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
+                //mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
                 mRocketTypeTextView.setVisibility(View.GONE);
             }
         }
@@ -370,8 +365,12 @@ public class MissionDetailsFragment extends Fragment {
                 // Falcon 9 with Fairing
                 mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                 break;
+            case "Dragon Boilerplate":
+                // Falcon 9 with Dragon 1
+                mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
+                break;
             case "Dragon 1.0":
-                // Falcon 9 with Dragon 1.1
+                // Falcon 9 with Dragon 1.0
                 mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
                 break;
             case "Dragon 1.1":
@@ -385,6 +384,5 @@ public class MissionDetailsFragment extends Fragment {
     }
 
     // TODO 2: Slide to refresh data and save it in DB
-    // TODO 3: Add more data in layout about rocket and payload
     // TODO 4: Create layout-land version
 }

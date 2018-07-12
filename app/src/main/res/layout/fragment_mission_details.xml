@@ -35,7 +35,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="180dp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/gradient_grey" />
 
@@ -48,17 +48,17 @@
                 android:visibility="visible"
                 app:srcCompat="@drawable/ic_play" />
 
-            <TextView
-                android:id="@+id/customers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="@dimen/spacing"
-                android:layout_marginStart="@dimen/detail_inner_horiz_margin"
-                android:fontFamily="sans-serif-condensed"
-                android:text="@string/label_webcast"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/detail_body_text_size" />
+            <!--<TextView-->
+                <!--android:id="@+id/customers"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:layout_marginBottom="@dimen/spacing"-->
+                <!--android:layout_marginStart="@dimen/detail_inner_horiz_margin"-->
+                <!--android:fontFamily="sans-serif-condensed"-->
+                <!--android:text="@string/label_webcast"-->
+                <!--android:textColor="@color/colorAccent"-->
+                <!--android:textSize="@dimen/detail_body_text_size" />-->
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -109,64 +109,168 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/rocket_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:fontFamily="sans-serif-condensed"
-                        android:maxLines="1"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/detail_small_title_text_size"
-                        tools:text="Falcon 9 - Block 4" />
+                    android:id="@+id/rocket_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-condensed"
+                    android:maxLines="1"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/detail_small_title_text_size"
+                    tools:text="Falcon 9 - Block 4" />
 
                     <TextView
-                        android:id="@+id/rocket_type_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed"
-                        android:text="@string/label_rocket_type"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/detail_body_text_size" />
+                    android:id="@+id/rocket_type_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/label_rocket_type"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/detail_body_text_size" />
 
                     <TextView
-                        android:id="@+id/launch_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing"
-                        android:ellipsize="end"
-                        android:fontFamily="sans-serif-condensed"
-                        android:maxLines="1"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/detail_small_title_text_size"
-                        tools:text="3:12 PM, 20 Jul 2018" />
+                    android:id="@+id/launch_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-condensed"
+                    android:maxLines="1"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/detail_small_title_text_size"
+                    tools:text="3:12 PM, 20 Jul 2018" />
 
                     <TextView
-                        android:id="@+id/launch_date_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed"
-                        android:text="@string/label_launch_date"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/detail_body_text_size" />
+                    android:id="@+id/launch_date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/label_launch_date"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/detail_body_text_size" />
 
                     <TextView
-                        android:id="@+id/launch_site_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing"
-                        android:fontFamily="sans-serif-condensed"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/detail_small_title_text_size"
-                        tools:text="CCAFS SLC 40" />
+                    android:id="@+id/launch_site_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/detail_small_title_text_size"
+                    tools:text="CCAFS SLC 40" />
 
                     <TextView
-                        android:id="@+id/launch_site_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed"
-                        android:text="@string/label_launch_site"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/detail_body_text_size" />
+                    android:id="@+id/launch_site_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/label_launch_site"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/detail_body_text_size" />
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/mission_details_label"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:fontFamily="sans-serif-condensed"-->
+                    <!--android:text="@string/label_mission_details"-->
+                    <!--android:textColor="@color/colorWhite"-->
+                    <!--android:textSize="18sp" />-->
+
+                    <!--<View-->
+                    <!--android:id="@+id/separation_line7"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                        <!--android:layout_marginTop="4dp"-->
+                        <!--android:layout_marginBottom="8dp"-->
+                    <!--android:background="@color/colorAccent" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/mission_number"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:fontFamily="sans-serif-condensed"-->
+                        <!--android:textSize="@dimen/detail_body_text_size"-->
+                        <!--android:text="Flight Number: 64" />-->
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/rocket_type"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:fontFamily="sans-serif-condensed"-->
+                    <!--android:textSize="@dimen/detail_body_text_size"-->
+                    <!--tools:text="Rocket Type: Falcon 9" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/rocket_type_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:fontFamily="sans-serif-condensed"-->
+                        <!--android:text="@string/label_rocket_type"-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18sp" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/separation_line7"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="1dp"-->
+                        <!--android:background="@color/colorAccent" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/rocket_type"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:fontFamily="sans-serif-condensed"-->
+                        <!--android:textSize="@dimen/detail_body_text_size"-->
+                        <!--tools:text="Falcon 9" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/launch_date_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="@dimen/spacing"-->
+                        <!--android:fontFamily="sans-serif-condensed"-->
+                        <!--android:text="@string/label_launch_date"-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18sp" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/separation_line8"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="1dp"-->
+                        <!--android:background="@color/colorAccent" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/launch_date"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:fontFamily="sans-serif-condensed"-->
+                        <!--android:textSize="@dimen/detail_body_text_size"-->
+                        <!--tools:text="Launch Date: 3:12 PM, 20 Jul 2018" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/launch_site_label"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="@dimen/spacing"-->
+                        <!--android:fontFamily="sans-serif-condensed"-->
+                        <!--android:text="@string/label_launch_site"-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18sp" />-->
+
+                    <!--<View-->
+                        <!--android:id="@+id/separation_line9"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="1dp"-->
+                        <!--android:background="@color/colorAccent" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/launch_site_name"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:fontFamily="sans-serif-condensed"-->
+                        <!--android:textSize="@dimen/detail_body_text_size"-->
+                        <!--tools:text="Launch Site: CCAFS SLC 40" />-->
 
                 </LinearLayout>
 
@@ -189,21 +293,21 @@
                 android:layout_marginTop="@dimen/detail_body_top_margin"
                 android:orientation="vertical">
 
-                <View
-                    android:id="@+id/separation_line2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorLine" />
+                <!--<View-->
+                    <!--android:id="@+id/separation_line2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/colorLine" />-->
 
-                <TextView
-                    android:id="@+id/rocket_details_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="@string/label_rocket_details"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/rocket_details_label"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/spacing"-->
+                    <!--android:fontFamily="sans-serif-condensed"-->
+                    <!--android:text="@string/label_rocket_details"-->
+                    <!--android:textColor="@color/colorWhite"-->
+                    <!--android:textSize="20sp" />-->
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -213,7 +317,6 @@
                         android:id="@+id/rocket_payload_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
                         android:layout_marginEnd="@dimen/details_rocket_margin"
                         android:contentDescription="@string/rocket_image"
                         android:scaleType="fitEnd"
@@ -225,7 +328,6 @@
                         android:id="@+id/rocket_core_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
                         android:layout_marginEnd="@dimen/details_rocket_margin"
                         android:contentDescription="@string/rocket_image"
                         android:scaleType="fitEnd"
@@ -246,9 +348,18 @@
                         app:layout_constraintTop_toTopOf="@+id/rocket_payload_image" />
 
                     <View
+                        android:id="@+id/guide_line"
+                        android:layout_width="1dp"
+                        android:layout_height="100dp"
+                        app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
+                        app:layout_constraintStart_toEndOf="@id/rocket_payload_image"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
                         android:id="@+id/separation_line3"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
                         android:background="@color/colorAccent"
                         app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
                         app:layout_constraintStart_toStartOf="parent"
@@ -258,6 +369,9 @@
                         android:id="@+id/payload_details"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="@dimen/detail_body_text_size"
                         app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/separation_line3"
@@ -279,8 +393,9 @@
                         android:id="@+id/separation_line4"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
                         android:background="@color/colorAccent"
-                        app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
+                        app:layout_constraintEnd_toEndOf="@id/separation_line3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/second_stage_label" />
 
@@ -288,10 +403,13 @@
                         android:id="@+id/second_stage_details"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="Block 3"
+                        android:layout_marginTop="8dp"
+                        android:textSize="@dimen/detail_body_text_size"
                         app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/separation_line4"
-                        android:text="Block 3" />
+                        app:layout_constraintTop_toBottomOf="@+id/separation_line4" />
 
                     <TextView
                         android:id="@+id/first_stage_label"
@@ -309,8 +427,9 @@
                         android:id="@+id/separation_line5"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
                         android:background="@color/colorAccent"
-                        app:layout_constraintEnd_toStartOf="@id/rocket_core_image"
+                        app:layout_constraintEnd_toEndOf="@id/separation_line3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/first_stage_label" />
 
@@ -318,6 +437,9 @@
                         android:id="@+id/core_details"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="@dimen/detail_body_text_size"
+                        android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toStartOf="@id/rocket_core_image"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/separation_line5"
