@@ -18,14 +18,29 @@
     <string name="label_rocket_details">Rocket Details</string>
     <string name="label_mission_name">Mission Name</string>
     <string name="label_payload">Payload</string>
+    <string name="label_id">ID:</string>
+    <string name="label_type">Type:</string>
+    <string name="label_mass">Mass:</string>
+    <string name="label_orbit">Orbit:</string>
     <string name="label_second_stage">Second Stage</string>
+    <string name="label_block">Block:</string>
+    <string name="label_unknown">Unknown</string>
     <string name="label_first_stage">First Stage</string>
+    <string name="label_core_serial">Core Serial:</string>
+    <string name="label_flight">Flight:</string>
+    <string name="label_reused">Reused:</string>
+    <string name="label_land_successful">Landing Successful:</string>
+    <string name="label_land_type">Landing Type:</string>
+    <string name="label_land_vehicle">Landing Vehicle:</string>
 
     <!-- Toast Messages -->
     <string name="sound_on">Sound on</string>
     <string name="sound_off">Sound off</string>
     <string name="welcome">Welcome to SpaceX</string>
 
+    <string name="mission_updating">Updating mission details&#8230;</string>
+    <string name="mission_up_to_date">Mission is up to date!</string>
+    <string name="mission_updated">Mission updated!</string>
     <string name="updating_launch">Updating launch data&#8230;</string>
 
     <!-- Credits -->

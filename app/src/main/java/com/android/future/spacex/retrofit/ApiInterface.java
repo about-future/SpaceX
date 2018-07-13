@@ -14,13 +14,10 @@ public interface ApiInterface {
     Call<List<Mission>> getMissions();
 
     @GET("launches/all")
-    Call<Mission> getMissionDetails(@Query("flight_number") int number);
+    Call<List<Mission>> getMissionDetails(@Query("flight_number") int number);
 
     @GET("launches/upcoming")
     Call<List<Mission>> getUpcomingMissions();
-
-    @GET("launches/upcoming")
-    Call<Mission> getUpcomingMissionDetails(@Query("flight_number") int number);
 
     @GET("launches/latest")
     Call<Mission> getLatestMission();

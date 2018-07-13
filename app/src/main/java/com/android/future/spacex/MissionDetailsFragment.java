@@ -5,24 +5,28 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.future.spacex.data.AddMissionViewModel;
 import com.android.future.spacex.data.AddMissionViewModelFactory;
 import com.android.future.spacex.data.AppDatabase;
+import com.android.future.spacex.data.MissionLoader;
 import com.android.future.spacex.entity.Core;
 import com.android.future.spacex.entity.Mission;
 import com.android.future.spacex.entity.Payload;
@@ -32,12 +36,16 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.android.future.spacex.SpaceXActivity.MISSION_NUMBER_KEY;
 
-public class MissionDetailsFragment extends Fragment {
+public class MissionDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Mission>> {
+
+    private static final int MISSION_LOADER_ID = 89207;
 
     private AppDatabase mDb;
     private int mMissionNumber;
@@ -45,6 +53,8 @@ public class MissionDetailsFragment extends Fragment {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.webcast_preview)
     ImageView mWebcastPreviewImageView;
     @BindView(R.id.launch_date)
@@ -57,14 +67,38 @@ public class MissionDetailsFragment extends Fragment {
     TextView mLaunchSiteNameTextView;
     @BindView(R.id.mission_details)
     TextView mDetailsTextView;
-    @BindView(R.id.payload_details)
-    TextView mPayloadDetailsTextView;
-    @BindView(R.id.core_details)
-    TextView mCoreDetailsTextView;
+    // Payload details
+    @BindView(R.id.payload_id)
+    TextView mPayloadIdTextView;
+    @BindView(R.id.payload_type)
+    TextView mPayloadTypeTextView;
+    @BindView(R.id.payload_mass)
+    TextView mPayloadMassTextView;
+    @BindView(R.id.payload_orbit)
+    TextView mPayloadOrbitTextView;
+    // Second stage details
+    @BindView(R.id.second_stage_block)
+    TextView mSecondStageBlockTextView;
+    // First stage details
+    @BindView(R.id.core_serial)
+    TextView mCoreSerialTextView;
+    @BindView(R.id.core_block)
+    TextView mCoreBlockTextView;
+    @BindView(R.id.core_flight)
+    TextView mCoreFlightTextView;
+    @BindView(R.id.core_landing)
+    TextView mCoreLandingSuccessTextView;
+    @BindView(R.id.core_landing_type)
+    TextView mCoreLandingTypeTextView;
+    @BindView(R.id.core_landing_vehicle)
+    TextView mCoreLandingVehicleTextView;
+
     @BindView(R.id.rocket_core_image)
     ImageView mCoreImageView;
     @BindView(R.id.rocket_payload_image)
     ImageView mPayloadImageView;
+
+    private Mission mMission;
 
     public MissionDetailsFragment() {
     }
@@ -107,17 +141,41 @@ public class MissionDetailsFragment extends Fragment {
         mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Snackbar.make(mSwipeRefreshLayout, getString(R.string.mission_updating), Snackbar.LENGTH_LONG).show();
+
+                refreshData();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
+
         AddMissionViewModelFactory factory = new AddMissionViewModelFactory(mDb, mMissionNumber);
         final AddMissionViewModel viewModel = ViewModelProviders.of(this, factory).get(AddMissionViewModel.class);
         viewModel.getMissionLiveData().observe(this, new Observer<Mission>() {
             @Override
             public void onChanged(@Nullable Mission mission) {
+                mMission = mission;
                 viewModel.getMissionLiveData().removeObserver(this);
                 bindViews(mission);
             }
         });
 
         return mRootView;
+    }
+
+    private void refreshData() {
+        //Init mission loader
+        Log.v("LOADER" ,"INIT");
+        getLoaderManager().initLoader(MISSION_LOADER_ID, null, this);
+
     }
 
     @Override
@@ -248,28 +306,39 @@ public class MissionDetailsFragment extends Fragment {
                 if (mission.getRocket().getSecondStage().getPayloads() != null) {
                     firstPayload = mission.getRocket().getSecondStage().getPayloads().get(0);
 
-                    mPayloadDetailsTextView.append(firstPayload.getPayloadId());
+                    mPayloadIdTextView.setText(firstPayload.getPayloadId());
+                    mPayloadTypeTextView.setText(firstPayload.getPayloadType());
                     if (firstPayload.isReused()) {
-                        mPayloadDetailsTextView.append(" (Reused)\n");
-                    } else {
-                        mPayloadDetailsTextView.append("\n");
+                        mPayloadTypeTextView.append(" (Reused)");
                     }
-                    mPayloadDetailsTextView.append("Weight: " + firstPayload.getPayloadMassKg() + " kg\n");
-                    mPayloadDetailsTextView.append("Orbit Type: " + firstPayload.getOrbit());
+                    mPayloadMassTextView.setText(String.valueOf(firstPayload.getPayloadMassKg()) + " kg\n");
+                    mPayloadMassTextView.append(String.valueOf(firstPayload.getPayloadMassLbs()) + " lbs");
+                    mPayloadOrbitTextView.setText(firstPayload.getOrbit());
+                }
+
+                // Second stage details
+                if (mission.getRocket().getSecondStage().getBlock() > 0) {
+                    mSecondStageBlockTextView.setText(String.valueOf(mission.getRocket().getSecondStage().getBlock()));
+                } else {
+                    mSecondStageBlockTextView.setText(getString(R.string.label_unknown));
                 }
 
                 // Core details
                 if (mission.getRocket().getFirstStage().getCores() != null) {
                     firstCore = mission.getRocket().getFirstStage().getCores().get(0);
 
-                    mCoreDetailsTextView.append("Core Serial: "+ firstCore.getCoreSerial() + "\n");
-                    mCoreDetailsTextView.append("Block: " + firstCore.getBlock() + "\n");
-                    if (firstCore.isReused()) {
-                        mCoreDetailsTextView.append("Reused: " + firstCore.getFlight() + "\n");
+                    mCoreSerialTextView.setText(firstCore.getCoreSerial());
+                    if (firstCore.getBlock() > 0) {
+                        mCoreBlockTextView.setText(String.valueOf(firstCore.getBlock()));
+                    } else {
+                        mCoreBlockTextView.setText(getString(R.string.label_unknown));
                     }
-
-//                    mCoreDetailsTextView.append(firstCore.getLandingType() + "\n");
-//                    mCoreDetailsTextView.append(firstCore.getLandingVehicle() + "\n");
+                    if (firstCore.isReused()) {
+                        mCoreFlightTextView.setText(String.valueOf(firstCore.getFlight()));
+                    }
+                    mCoreLandingSuccessTextView.setText(String.valueOf(firstCore.isLandingSuccess()));
+                    mCoreLandingTypeTextView.setText(firstCore.getLandingType());
+                    mCoreLandingVehicleTextView.setText(firstCore.getLandingVehicle());
                 }
 
                 // Set rocket image (payload and core)
@@ -341,7 +410,7 @@ public class MissionDetailsFragment extends Fragment {
                 }
 
                 // We will set the payload/core image height to be equal to:
-                // {Devices screen height(in px) - [(StatusBar + ActionBar + TopMargin + 2 x BottomMargin) (in dp) * screen density]} * 30.8%(or 69.2%) of total resulted height
+                // {Devices max screen size in px(height or width) - [(StatusBar + ActionBar + TopMargin + 2 x BottomMargin) (in dp) * screen density]} * 30.8%(or 69.2%) of total resulted height
                 // Phone: 24 + 56 + 16 + 2x16 = 128dp
                 // Tablet: 24 + 64 + 24 + 2x24 = 160dp
                 float maxSize = Math.max(screenSize[0], screenSize[1]);
@@ -356,6 +425,21 @@ public class MissionDetailsFragment extends Fragment {
                 //mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
                 mRocketTypeTextView.setVisibility(View.GONE);
             }
+        } else {
+            mToolbar.setTitle("");
+            mWebcastPreviewImageView.setImageResource(R.drawable.video);
+            mLaunchDateTextView.setText("");
+            mRocketTypeTextView.setText("");
+            mMissionPatchImageView.setImageResource(R.drawable.dragon);
+            mLaunchSiteNameTextView.setText("");
+            mDetailsTextView.setText("");
+            mPayloadIdTextView.setText("");
+            mPayloadTypeTextView.setText("");
+            mPayloadMassTextView.setText("");
+            mPayloadOrbitTextView.setText("");
+            mSecondStageBlockTextView.setText("");
+            mCoreSerialTextView.setText("");
+            //TODO: add the rest of core texts
         }
     }
 
@@ -381,6 +465,32 @@ public class MissionDetailsFragment extends Fragment {
                 mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
                 break;
         }
+    }
+
+    @NonNull
+    @Override
+    public Loader<List<Mission>> onCreateLoader(int loaderId, @Nullable Bundle args) {
+        switch (loaderId) {
+            case MISSION_LOADER_ID:
+                // If the loaded id matches mission loader, return a new missions loader
+                Log.v("MISSION NUMBER", "" + mMission.getFlightNumber());
+                return new MissionLoader(getActivityCast(), mMission.getFlightNumber());
+            default:
+                throw new RuntimeException("Loader Not Implemented: " + loaderId);
+        }
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<Mission>> loader, List<Mission> data) {
+        if (data != null) {
+            Log.v("MISSION REFRESHED", data.get(0).getLaunchDateUtc());
+            bindViews(data.get(0));
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<Mission>> loader) {
+        mMission = null;
     }
 
     // TODO 2: Slide to refresh data and save it in DB

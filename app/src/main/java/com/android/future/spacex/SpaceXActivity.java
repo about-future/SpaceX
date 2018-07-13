@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SpaceXActivity extends AppCompatActivity implements
-        MissionsAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks {
+        MissionsAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<List<Mission>> {
 
     private static final int MISSIONS_LOADER_ID = 892;
     public static final String MISSION_NUMBER_KEY = "mission_number";
@@ -111,7 +111,7 @@ public class SpaceXActivity extends AppCompatActivity implements
 
     @NonNull
     @Override
-    public Loader onCreateLoader(int loaderId, @Nullable Bundle args) {
+    public Loader<List<Mission>> onCreateLoader(int loaderId, @Nullable Bundle args) {
         switch (loaderId) {
             case MISSIONS_LOADER_ID:
                 // If the loaded id matches missions loader, return a new missions loader
@@ -121,15 +121,14 @@ public class SpaceXActivity extends AppCompatActivity implements
         }
     }
 
-    @SuppressWarnings({"unchecked"})
     @Override
-    public void onLoadFinished(@NonNull Loader loader, final Object data) {
+    public void onLoadFinished(@NonNull Loader<List<Mission>> loader, final List<Mission> data) {
         switch (loader.getId()) {
             case MISSIONS_LOADER_ID:
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        mDb.missionDao().insertMissions((ArrayList<Mission>) data);
+                        mDb.missionDao().insertMissions(data);
                         Log.v("INSERT ALL", "DONE!");
                         MissionsPreferences.setLoadingStatus(getApplicationContext(), true);
                     }
@@ -144,7 +143,7 @@ public class SpaceXActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader loader) {
+    public void onLoaderReset(@NonNull Loader<List<Mission>> loader) {
         //mMissionsAdapter.swapMissions(null);
     }
 }

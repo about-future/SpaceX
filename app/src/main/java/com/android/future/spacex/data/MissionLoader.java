@@ -11,11 +11,13 @@ import com.android.future.spacex.retrofit.ApiClient;
 import com.android.future.spacex.retrofit.ApiInterface;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 
-public class MissionLoader extends AsyncTaskLoader<Mission> {
-    private Mission cachedMission;
+public class MissionLoader extends AsyncTaskLoader<List<Mission>> {
+    private List<Mission> cachedMission;
     private final int missionNumber;
 
     public MissionLoader(@NonNull Context context, int missionNumber) {
@@ -31,11 +33,11 @@ public class MissionLoader extends AsyncTaskLoader<Mission> {
 
     @Nullable
     @Override
-    public Mission loadInBackground() {
+    public List<Mission> loadInBackground() {
         ApiInterface missionApiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<Mission> call = missionApiInterface.getMissionDetails(missionNumber);
+        Call<List<Mission>> call = missionApiInterface.getMissionDetails(missionNumber);
 
-        Mission result = new Mission();
+        List<Mission> result = new ArrayList<>();
         try {
             result = call.execute().body();
         } catch (IOException e) {
@@ -46,8 +48,8 @@ public class MissionLoader extends AsyncTaskLoader<Mission> {
     }
 
     @Override
-    public void deliverResult(Mission mission) {
-        cachedMission = mission;
-        super.deliverResult(mission);
+    public void deliverResult(List<Mission> missions) {
+        cachedMission = missions;
+        super.deliverResult(missions);
     }
 }

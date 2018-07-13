@@ -25,7 +25,7 @@ public interface MissionDao {
     void insertMission(Mission mission);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMissions(ArrayList<Mission> missions);
+    void insertMissions(List<Mission> missions);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateMission(Mission mission);
