@@ -31,6 +31,7 @@
     <dimen name="details_play_icon">48dp</dimen>
     <dimen name="details_recycler_margin">16dp</dimen>
     <dimen name="details_rocket_margin">48dp</dimen>
+    <dimen name="detail_first_stage_margin_top">40dp</dimen>
 
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">12dp</dimen>

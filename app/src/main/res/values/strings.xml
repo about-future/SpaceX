@@ -59,7 +59,11 @@
     <string name="label_orbit_tmi">Trans-Mars Injection</string>
     <string name="label_orbit_po">Polar Orbit</string>
     <string name="label_orbit_iss">International Space Station</string>
-
+    <string name="label_orbit_sso">Sun-Synchronous Orbit</string>
+    <string name="label_orbit_hco">Heliocentric Orbit</string>
+    <string name="label_orbit_se_l1">Sun-Earth Lagrange Point 1</string>
+    <string name="label_es_l1">ES-L1</string>
+    <string name="label_se_l1">SE-L1</string>
 
     <!-- Toast Messages -->
     <string name="sound_on">Sound on</string>

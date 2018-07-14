@@ -6,5 +6,6 @@
     <dimen name="details_recycler_margin">0dp</dimen>
     <dimen name="details_rocket_margin">64dp</dimen>
     <dimen name="detail_small_title_text_size">20sp</dimen>
-    <dimen name="detail_inner_horiz_margin">16dp</dimen>
+    <dimen name="detail_inner_horiz_margin">64dp</dimen>
+    <dimen name="detail_first_stage_margin_top">80dp</dimen>
 </resources>

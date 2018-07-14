@@ -59,4 +59,9 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="RocketDetails.Values.Acronyms" parent="RocketDetails.Values">
+        <item name="android:textColor">@color/colorAccent</item>
+        <!--<item name="android:textSize">13sp</item>-->
+    </style>
+
 </resources>

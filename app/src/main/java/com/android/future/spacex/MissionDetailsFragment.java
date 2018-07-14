@@ -83,6 +83,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     @BindView(R.id.second_stage_block)
     TextView mSecondStageBlockTextView;
     // First stage details
+    @BindView(R.id.separation_line5)
+    View mSeparationLine5View;
     @BindView(R.id.core_serial)
     TextView mCoreSerialTextView;
     @BindView(R.id.core_block)
@@ -201,9 +203,9 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
             mRootView.animate().alpha(1);
 
             // TODO: check toolbar
-            Toolbar toolbar = mRootView.findViewById(R.id.toolbar);
-            toolbar.setTitle(mission.getMissionName());
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            //Toolbar toolbar = mRootView.findViewById(R.id.toolbar);
+            mToolbar.setTitle(mission.getMissionName());
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     getActivityCast().onBackPressed();
@@ -337,7 +339,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
 
                     // Set Orbit
                     if (!TextUtils.isEmpty(firstPayload.getOrbit())) {
-                        mPayloadOrbitTextView.setText(firstPayload.getOrbit());
+                        if (TextUtils.equals(firstPayload.getOrbit(), getString(R.string.label_es_l1))) {
+                            mPayloadOrbitTextView.setText(getString(R.string.label_se_l1));
+                        } else {
+                            mPayloadOrbitTextView.setText(firstPayload.getOrbit());
+                        }
                         switch (firstPayload.getOrbit()) {
                             case "BEO":
                                 mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_beo));
@@ -380,6 +386,15 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                                 break;
                             case "ISS":
                                 mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_iss));
+                                break;
+                            case "SSO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_sso));
+                                break;
+                            case "HCO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_hco));
+                                break;
+                            case "ES-L1":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_se_l1));
                                 break;
                             default:
                                 mPayloadOrbitLongTextView.setText("");
@@ -488,6 +503,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 // Set rocket image (payload and core)
                 ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
                 ConstraintLayout.LayoutParams paramsCore = (ConstraintLayout.LayoutParams) mCoreImageView.getLayoutParams();
+                ConstraintLayout.LayoutParams paramsSeparationLine5 = (ConstraintLayout.LayoutParams) mSeparationLine5View.getLayoutParams();
                 float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
 
                 // Depending on the payload type, we can show a different upper image
@@ -539,9 +555,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         if (ScreenUtils.isPortraitMode(getActivityCast())) {
                             paramsPayload.setMarginEnd(69);
                             paramsCore.setMarginEnd(20);
+                            paramsSeparationLine5.setMarginEnd(0);
                         } else {
                             paramsPayload.setMarginEnd(90);
                             paramsCore.setMarginEnd(20);
+                            paramsSeparationLine5.setMarginEnd(70);
                         }
 
                         break;
@@ -575,6 +593,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
 
                 mPayloadImageView.setLayoutParams(paramsPayload);
                 mCoreImageView.setLayoutParams(paramsCore);
+                mSeparationLine5View.setLayoutParams(paramsSeparationLine5);
             } else {
                 //mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
                 mRocketTypeTextView.setVisibility(View.GONE);
