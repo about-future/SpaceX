@@ -36,6 +36,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,6 +77,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     TextView mPayloadMassTextView;
     @BindView(R.id.payload_orbit)
     TextView mPayloadOrbitTextView;
+    @BindView(R.id.payload_orbit_long)
+    TextView mPayloadOrbitLongTextView;
     // Second stage details
     @BindView(R.id.second_stage_block)
     TextView mSecondStageBlockTextView;
@@ -84,14 +87,18 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     TextView mCoreSerialTextView;
     @BindView(R.id.core_block)
     TextView mCoreBlockTextView;
-    @BindView(R.id.core_flight)
-    TextView mCoreFlightTextView;
+    @BindView(R.id.core_reused)
+    TextView mCoreReusedTextView;
     @BindView(R.id.core_landing)
     TextView mCoreLandingSuccessTextView;
     @BindView(R.id.core_landing_type)
     TextView mCoreLandingTypeTextView;
     @BindView(R.id.core_landing_vehicle)
     TextView mCoreLandingVehicleTextView;
+    @BindView(R.id.core_landing_type_long)
+    TextView mCoreLandingTypeLongTextView;
+    @BindView(R.id.core_landing_vehicle_long)
+    TextView mCoreLandingVehicleLongTextView;
 
     @BindView(R.id.rocket_core_image)
     ImageView mCoreImageView;
@@ -173,7 +180,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
 
     private void refreshData() {
         //Init mission loader
-        Log.v("LOADER" ,"INIT");
+        Log.v("LOADER", "INIT");
         getLoaderManager().initLoader(MISSION_LOADER_ID, null, this);
 
     }
@@ -306,14 +313,81 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 if (mission.getRocket().getSecondStage().getPayloads() != null) {
                     firstPayload = mission.getRocket().getSecondStage().getPayloads().get(0);
 
+                    // Set payload Id
                     mPayloadIdTextView.setText(firstPayload.getPayloadId());
+                    // Set payload Type
                     mPayloadTypeTextView.setText(firstPayload.getPayloadType());
+                    // Append "Reused" annotation
                     if (firstPayload.isReused()) {
-                        mPayloadTypeTextView.append(" (Reused)");
+                        mPayloadTypeTextView.append(getString(R.string.label_reused_payload));
                     }
-                    mPayloadMassTextView.setText(String.valueOf(firstPayload.getPayloadMassKg()) + " kg\n");
-                    mPayloadMassTextView.append(String.valueOf(firstPayload.getPayloadMassLbs()) + " lbs");
-                    mPayloadOrbitTextView.setText(firstPayload.getOrbit());
+
+                    // Set payload Mass
+                    if (firstPayload.getPayloadMassKg() > 0) {
+                        mPayloadMassTextView.setText(String.valueOf(firstPayload.getPayloadMassKg()) + " kg");
+                        if (firstPayload.getPayloadMassLbs() > 0) {
+                            mPayloadMassTextView.append("\n" + String.valueOf(firstPayload.getPayloadMassLbs()) + " lbs");
+                        } else {
+                            int pounds = (int) (firstPayload.getPayloadMassKg() * 2.20462);
+                            mPayloadMassTextView.append("\n" + String.valueOf(pounds) + " lbs");
+                        }
+                    } else {
+                        mPayloadMassTextView.setText(getString(R.string.label_unknown));
+                    }
+
+                    // Set Orbit
+                    if (!TextUtils.isEmpty(firstPayload.getOrbit())) {
+                        mPayloadOrbitTextView.setText(firstPayload.getOrbit());
+                        switch (firstPayload.getOrbit()) {
+                            case "BEO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_beo));
+                                break;
+                            case "DRO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_dro));
+                                break;
+                            case "GEO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_geo));
+                                break;
+                            case "GTO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_gto));
+                                break;
+                            case "HEO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_heo));
+                                break;
+                            case "LEO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_leo));
+                                break;
+                            case "LOI":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_loi));
+                                break;
+                            case "MEO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_meo));
+                                break;
+                            case "MOI":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_moi));
+                                break;
+                            case "SO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_so));
+                                break;
+                            case "TLI":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_tli));
+                                break;
+                            case "TMI":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_tmi));
+                                break;
+                            case "PO":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_po));
+                                break;
+                            case "ISS":
+                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_iss));
+                                break;
+                            default:
+                                mPayloadOrbitLongTextView.setText("");
+                        }
+                    } else {
+                        mPayloadOrbitTextView.setText(getString(R.string.label_unknown));
+                        mPayloadOrbitLongTextView.setText("");
+                    }
                 }
 
                 // Second stage details
@@ -326,19 +400,89 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 // Core details
                 if (mission.getRocket().getFirstStage().getCores() != null) {
                     firstCore = mission.getRocket().getFirstStage().getCores().get(0);
+                    // Core serial
+                    if (!TextUtils.isEmpty(firstCore.getCoreSerial())) {
+                        mCoreSerialTextView.setText(firstCore.getCoreSerial());
+                    } else {
+                        mCoreSerialTextView.setText(getString(R.string.label_unknown));
+                    }
 
-                    mCoreSerialTextView.setText(firstCore.getCoreSerial());
+                    // Core type
                     if (firstCore.getBlock() > 0) {
                         mCoreBlockTextView.setText(String.valueOf(firstCore.getBlock()));
                     } else {
                         mCoreBlockTextView.setText(getString(R.string.label_unknown));
                     }
+                    // Was this core used before?
                     if (firstCore.isReused()) {
-                        mCoreFlightTextView.setText(String.valueOf(firstCore.getFlight()));
+                        mCoreReusedTextView.setText(getString(R.string.label_yes));
+                        // Check how many time this core was used before
+                        if (firstCore.getFlight() > 2) {
+                            mCoreReusedTextView.append(" (" + String.valueOf(firstCore.getFlight() - 1) + " times)");
+                        } else if (firstCore.getFlight() == 2) {
+                            mCoreReusedTextView.append(" (" + String.valueOf(firstCore.getFlight() - 1) + " time)");
+                        }
+                    } else {
+                        mCoreReusedTextView.setText(getString(R.string.label_no));
                     }
-                    mCoreLandingSuccessTextView.setText(String.valueOf(firstCore.isLandingSuccess()));
-                    mCoreLandingTypeTextView.setText(firstCore.getLandingType());
-                    mCoreLandingVehicleTextView.setText(firstCore.getLandingVehicle());
+
+                    // Landing
+                    if (!TextUtils.isEmpty(firstCore.getLandingType()) && !TextUtils.isEmpty(firstCore.getLandingVehicle())) {
+                        // Get current time
+                        long now = new Date().getTime();
+                        // Was the core landing successful?
+                        if (firstCore.isLandingSuccess()) {
+                            mCoreLandingSuccessTextView.setText(getString(R.string.label_yes));
+                        } else {
+                            // Otherwise, check if this is an upcoming mission by comparing
+                            // the launch time with current time
+                            // If it is an upcoming mission, just hide the two views
+                            if (mission.getLaunchDateUnix() > now / 1000) {
+                                mCoreLandingSuccessTextView.setVisibility(View.GONE);
+                                mRootView.findViewById(R.id.core_landing_label).setVisibility(View.GONE);
+                            } else {
+                                // Otherwise, if it's a past mission, just set text as "No"
+                                mCoreLandingSuccessTextView.setText(getString(R.string.label_no));
+                            }
+                        }
+
+                        // Set landing type
+                        mCoreLandingTypeTextView.setText(firstCore.getLandingType());
+                        switch (firstCore.getLandingType()) {
+                            case "ASDS":
+                                mCoreLandingTypeLongTextView.setText(getString(R.string.label_asds));
+                                break;
+                            case "RTLS":
+                                mCoreLandingTypeLongTextView.setText(getString(R.string.label_rtls));
+                                break;
+                            default:
+                                break;
+                        }
+
+                        // Set landing vehicle
+                        mCoreLandingVehicleTextView.setText(firstCore.getLandingVehicle());
+                        switch (firstCore.getLandingVehicle()) {
+                            case "OCISLY":
+                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_ocisly));
+                                break;
+                            case "JRTI":
+                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_jrti));
+                                break;
+                            case "ASOG":
+                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_asog));
+                                break;
+                            case "LZ1":
+                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_lz1));
+                                break;
+                            case "LZ2":
+                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_lz2));
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        mRootView.findViewById(R.id.landing_layout).setVisibility(View.GONE);
+                    }
                 }
 
                 // Set rocket image (payload and core)
@@ -392,8 +536,14 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                                 break;
                         }
 
-                        paramsPayload.setMarginEnd(69);
-                        paramsCore.setMarginEnd(20);
+                        if (ScreenUtils.isPortraitMode(getActivityCast())) {
+                            paramsPayload.setMarginEnd(69);
+                            paramsCore.setMarginEnd(20);
+                        } else {
+                            paramsPayload.setMarginEnd(90);
+                            paramsCore.setMarginEnd(20);
+                        }
+
                         break;
                     case "BFR":
                         mPayloadImageView.setImageResource(R.drawable.payload_bfr);
@@ -414,6 +564,10 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 // Phone: 24 + 56 + 16 + 2x16 = 128dp
                 // Tablet: 24 + 64 + 24 + 2x24 = 160dp
                 float maxSize = Math.max(screenSize[0], screenSize[1]);
+                // If screen is in Landscape mode, show rocket image 33% bigger
+                if (!ScreenUtils.isPortraitMode(getActivityCast())) {
+                    maxSize = (float) (maxSize * 1.33);
+                }
                 paramsPayload.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.308);
                 paramsCore.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.692);
                 paramsPayload.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;

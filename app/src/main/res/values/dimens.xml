@@ -19,7 +19,7 @@
     <dimen name="detail_inner_horiz_margin">16dp</dimen>
     <dimen name="detail_title_text_size">32sp</dimen>
     <dimen name="detail_title_view_size">34dp</dimen>
-    <dimen name="detail_small_title_text_size">20sp</dimen>
+    <dimen name="detail_small_title_text_size">18sp</dimen>
 
     <dimen name="detail_metabar_vert_padding">16dp</dimen>
     <dimen name="detail_metabar_title_bottom_padding">4dp</dimen>
