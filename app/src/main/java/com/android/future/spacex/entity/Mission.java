@@ -65,7 +65,6 @@ public class Mission {
     public Mission(String missionName, String launchYear, long launchDateUnix,
                    String launchDateUtc, Rocket rocket, Reuse reuse, LaunchSite launchSite, boolean launchSuccess,
                    Links links, String details) {
-        this.flightNumber = flightNumber;
         this.missionName = missionName;
         this.launchYear = launchYear;
         this.launchDateUnix = launchDateUnix;

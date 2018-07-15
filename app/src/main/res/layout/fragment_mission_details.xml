@@ -49,6 +49,21 @@
                 app:srcCompat="@drawable/ic_play" />
 
             <!--<TextView-->
+                <!--android:id="@+id/mission_name"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:layout_marginBottom="@dimen/spacing"-->
+                <!--android:layout_marginStart="@dimen/spacing"-->
+                <!--android:layout_marginEnd="@dimen/spacing"-->
+                <!--android:ellipsize="end"-->
+                <!--android:maxLines="1"-->
+                <!--android:fontFamily="sans-serif-condensed"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:textSize="@dimen/detail_title_text_size"-->
+                <!--tools:text="Iridium Next Mission 4" />-->
+
+            <!--<TextView-->
             <!--android:id="@+id/customers"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->

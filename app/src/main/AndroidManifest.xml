@@ -25,6 +25,7 @@
             android:theme="@style/AppTheme.Logo" />
         <activity
             android:name=".MissionDetailsActivity"
+            android:label=""
             android:parentActivityName=".SpaceXActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

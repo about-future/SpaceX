@@ -3,12 +3,15 @@ package com.android.future.spacex;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -22,16 +25,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.future.spacex.data.AddMissionViewModel;
 import com.android.future.spacex.data.AddMissionViewModelFactory;
 import com.android.future.spacex.data.AppDatabase;
+import com.android.future.spacex.data.AppExecutors;
 import com.android.future.spacex.data.MissionLoader;
 import com.android.future.spacex.entity.Core;
 import com.android.future.spacex.entity.Mission;
 import com.android.future.spacex.entity.Payload;
 import com.android.future.spacex.utils.ImageUtils;
 import com.android.future.spacex.utils.ScreenUtils;
+import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -49,6 +55,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     private static final int MISSION_LOADER_ID = 89207;
 
     private AppDatabase mDb;
+    private Mission mMission;
     private int mMissionNumber;
     private View mRootView;
 
@@ -56,6 +63,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     Toolbar mToolbar;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.webcast_preview)
     ImageView mWebcastPreviewImageView;
     @BindView(R.id.launch_date)
@@ -107,7 +116,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     @BindView(R.id.rocket_payload_image)
     ImageView mPayloadImageView;
 
-    private Mission mMission;
 
     public MissionDetailsFragment() {
     }
@@ -123,13 +131,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mDb = AppDatabase.getInstance(getContext());
 
         if (getArguments() != null && getArguments().containsKey(MISSION_NUMBER_KEY)) {
             mMissionNumber = getArguments().getInt(MISSION_NUMBER_KEY);
         }
-
         setHasOptionsMenu(true);
     }
 
@@ -153,8 +159,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Snackbar.make(mSwipeRefreshLayout, getString(R.string.mission_updating), Snackbar.LENGTH_LONG).show();
-
+                //Snackbar.make(mSwipeRefreshLayout, getString(R.string.mission_updating), Snackbar.LENGTH_SHORT).show();
                 refreshData();
 
                 new Handler().postDelayed(new Runnable() {
@@ -171,9 +176,9 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         viewModel.getMissionLiveData().observe(this, new Observer<Mission>() {
             @Override
             public void onChanged(@Nullable Mission mission) {
-                mMission = mission;
-                viewModel.getMissionLiveData().removeObserver(this);
+                //viewModel.getMissionLiveData().removeObserver(this);
                 bindViews(mission);
+                mMission = mission;
             }
         });
 
@@ -182,9 +187,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
 
     private void refreshData() {
         //Init mission loader
-        Log.v("LOADER", "INIT");
         getLoaderManager().initLoader(MISSION_LOADER_ID, null, this);
-
     }
 
     @Override
@@ -202,9 +205,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
 
-            // TODO: check toolbar
-            //Toolbar toolbar = mRootView.findViewById(R.id.toolbar);
-            mToolbar.setTitle(mission.getMissionName());
+            mCollapsingToolbarLayout.setTitle(mission.getMissionName());
+            Log.v("TITLE SET", mission.getMissionName());
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -486,10 +488,10 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                             case "ASOG":
                                 mCoreLandingVehicleLongTextView.setText(getString(R.string.label_asog));
                                 break;
-                            case "LZ1":
+                            case "LZ-1":
                                 mCoreLandingVehicleLongTextView.setText(getString(R.string.label_lz1));
                                 break;
-                            case "LZ2":
+                            case "LZ-2":
                                 mCoreLandingVehicleLongTextView.setText(getString(R.string.label_lz2));
                                 break;
                             default:
@@ -595,24 +597,9 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 mCoreImageView.setLayoutParams(paramsCore);
                 mSeparationLine5View.setLayoutParams(paramsSeparationLine5);
             } else {
-                //mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
+                mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
                 mRocketTypeTextView.setVisibility(View.GONE);
             }
-        } else {
-            mToolbar.setTitle("");
-            mWebcastPreviewImageView.setImageResource(R.drawable.video);
-            mLaunchDateTextView.setText("");
-            mRocketTypeTextView.setText("");
-            mMissionPatchImageView.setImageResource(R.drawable.dragon);
-            mLaunchSiteNameTextView.setText("");
-            mDetailsTextView.setText("");
-            mPayloadIdTextView.setText("");
-            mPayloadTypeTextView.setText("");
-            mPayloadMassTextView.setText("");
-            mPayloadOrbitTextView.setText("");
-            mSecondStageBlockTextView.setText("");
-            mCoreSerialTextView.setText("");
-            //TODO: add the rest of core texts
         }
     }
 
@@ -654,10 +641,26 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader<List<Mission>> loader, List<Mission> data) {
-        if (data != null) {
-            Log.v("MISSION REFRESHED", data.get(0).getLaunchDateUtc());
-            bindViews(data.get(0));
+    public void onLoadFinished(@NonNull Loader<List<Mission>> loader, List<Mission> missions) {
+        if (missions != null) {
+            final Mission newMission = missions.get(0);
+
+            String missionAsString1 = new Gson().toJson(newMission);
+            String missionAsString2 = new Gson().toJson(mMission);
+
+            // If the content of the two missions is different, update the DB and
+            // reattach the fragment, so the new values could be displayed in the UI
+            if (!missionAsString1.equals(missionAsString2)) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDb.missionDao().updateMission(newMission);
+                        snakeBarThis(getString(R.string.mission_updated));
+                    }
+                });
+            } else {
+                snakeBarThis(getString(R.string.mission_up_to_date));
+            }
         }
     }
 
@@ -666,6 +669,19 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         mMission = null;
     }
 
-    // TODO 2: Slide to refresh data and save it in DB
-    // TODO 4: Create layout-land version
+    private void snakeBarThis(String message) {
+        Snackbar snackbar = Snackbar.make(mSwipeRefreshLayout, message, Snackbar.LENGTH_SHORT);
+        View view = snackbar.getView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
+        } else {
+            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
+        snackbar.show();
+    }
+
+    // TODO: Solve displayed mission data
+    // TODO: Swipe and Refresh all missions
+    // TODO: Mark upcoming missions with something
 }

@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import static com.android.future.spacex.SpaceXActivity.*;
 
-public class MissionDetailsActivity extends AppCompatActivity {
+public class MissionDetailsActivity extends AppCompatActivity { //implements MissionDetailsFragment.OnTitleChangeListener {
 
     private static final int DEFAULT_MISSION_NUMBER = 1;
     private int mMissionNumber = DEFAULT_MISSION_NUMBER;
