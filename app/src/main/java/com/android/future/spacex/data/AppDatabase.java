@@ -6,9 +6,10 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.future.spacex.entity.Mission;
+import com.android.future.spacex.mission_entity.Mission;
+import com.android.future.spacex.launch_pad_entity.LaunchPad;
 
-@Database(entities = {Mission.class}, version = 1, exportSchema = false)
+@Database(entities = {Mission.class, LaunchPad.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();
@@ -29,4 +30,5 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract MissionDao missionDao();
+    public abstract LaunchPadDao launchPadDao();
 }

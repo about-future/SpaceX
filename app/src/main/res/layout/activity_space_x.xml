@@ -23,8 +23,7 @@
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="">
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -54,10 +53,10 @@
                 android:text="@string/label_tab_rockets" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tab_launch_sites"
+                android:id="@+id/tab_launch_pads"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_tab_launch_sites" />
+                android:text="@string/label_tab_launch_pads" />
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>

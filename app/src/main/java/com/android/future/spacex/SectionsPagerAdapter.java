@@ -17,7 +17,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         } else if (position == 1){
             return new RocketsFragment();
         } else {
-            return new LaunchSitesFragment();
+            return new LaunchPadsFragment();
         }
     }
 

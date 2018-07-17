@@ -8,27 +8,27 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.android.future.spacex.mission_entity.Mission;
+import com.android.future.spacex.launch_pad_entity.LaunchPad;
 
 import java.util.List;
 
 @Dao
-public interface MissionDao {
-    @Query("SELECT * FROM missions ORDER BY flight_number DESC")
-    LiveData<List<Mission>> loadAllMissions();
+public interface LaunchPadDao {
+    @Query("SELECT * FROM launch_pads ORDER BY id")
+    LiveData<List<LaunchPad>> loadAllLaunchPads();
 
-    @Query("SELECT * FROM missions WHERE flight_number = :flightNumber")
-    LiveData<Mission> loadMissionDetails(int flightNumber);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMission(Mission mission);
+    @Query("SELECT * FROM launch_pads WHERE id = :id")
+    LiveData<LaunchPad> loadLaunchPadDetails(String id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMissions(List<Mission> missions);
+    void insertLaunchPad(LaunchPad launchPad);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertLaunchPads(List<LaunchPad> launchPads);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateMission(Mission mission);
+    void updateLaunchPad(LaunchPad launchPad);
 
     @Delete
-    void deleteMission(Mission mission);
+    void deleteLaunchPad(LaunchPad launchPad);
 }

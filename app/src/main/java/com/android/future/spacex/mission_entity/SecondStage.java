@@ -1,7 +1,6 @@
-package com.android.future.spacex.entity;
+package com.android.future.spacex.mission_entity;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.TypeConverters;
 

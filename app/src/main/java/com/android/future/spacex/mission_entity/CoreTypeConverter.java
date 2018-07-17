@@ -1,4 +1,4 @@
-package com.android.future.spacex.entity;
+package com.android.future.spacex.mission_entity;
 
 import android.arch.persistence.room.TypeConverter;
 

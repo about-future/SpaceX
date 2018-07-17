@@ -3,7 +3,7 @@ package com.android.future.spacex.data;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.android.future.spacex.entity.Mission;
+import com.android.future.spacex.mission_entity.Mission;
 
 public class AddMissionViewModel extends ViewModel {
 

@@ -24,8 +24,8 @@ import com.android.future.spacex.data.AppExecutors;
 import com.android.future.spacex.data.MainViewModel;
 import com.android.future.spacex.data.MissionsAdapter;
 import com.android.future.spacex.data.MissionsLoader;
-import com.android.future.spacex.entity.Mission;
-import com.android.future.spacex.utils.MissionsPreferences;
+import com.android.future.spacex.mission_entity.Mission;
+import com.android.future.spacex.utils.SpaceXPreferences;
 
 import java.util.List;
 
@@ -51,8 +51,8 @@ public class MissionsFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mRootView = inflater.inflate(R.layout.fragment_missions_list, container, false);
-        ButterKnife.bind(this, mRootView);
+        View view = inflater.inflate(R.layout.fragment_missions_list, container, false);
+        ButterKnife.bind(this, view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
@@ -69,7 +69,7 @@ public class MissionsFragment extends Fragment implements
         mDb = AppDatabase.getInstance(getContext());
 
         // If missions were already loaded once, just query the DB and display them, otherwise init the loader
-        if (MissionsPreferences.getLoadingStatus(getActivityCast())) {
+        if (SpaceXPreferences.getLoadingStatus(getActivityCast())) {
             // Load data
             setupViewModel();
         } else {
@@ -90,7 +90,7 @@ public class MissionsFragment extends Fragment implements
             }
         });
 
-        return mRootView;
+        return view;
     }
 
     private void setupViewModel() {
@@ -144,7 +144,7 @@ public class MissionsFragment extends Fragment implements
                     public void run() {
                         mDb.missionDao().insertMissions(data);
                         Log.v("INSERT ALL", "DONE!");
-                        MissionsPreferences.setLoadingStatus(getContext(), true);
+                        SpaceXPreferences.setLoadingStatus(getContext(), true);
                     }
                 });
 

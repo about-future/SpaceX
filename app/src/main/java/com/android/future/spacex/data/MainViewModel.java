@@ -5,7 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import com.android.future.spacex.entity.Mission;
+import com.android.future.spacex.mission_entity.Mission;
 
 import java.util.List;
 
