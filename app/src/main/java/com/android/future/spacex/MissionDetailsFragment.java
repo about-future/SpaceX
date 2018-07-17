@@ -48,7 +48,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.android.future.spacex.SpaceXActivity.MISSION_NUMBER_KEY;
+import static com.android.future.spacex.MissionsFragment.MISSION_NUMBER_KEY;
 
 public class MissionDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Mission>> {
 
@@ -670,7 +670,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     }
 
     private void snakeBarThis(String message) {
-        Snackbar snackbar = Snackbar.make(mSwipeRefreshLayout, message, Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(mRootView, message, Snackbar.LENGTH_SHORT);
         View view = snackbar.getView();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -681,7 +681,15 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         snackbar.show();
     }
 
-    // TODO: Solve displayed mission data
+    // TODO: Solve displayed mission data, depending on location
     // TODO: Swipe and Refresh all missions
     // TODO: Mark upcoming missions with something
+    // TODO: Create upcoming mission patch
+
+    // TODO: Notifications with Firebase and Google Maps
+    // TODO: Launching Sites on Google Maps
+    // TODO: Rockets, Launching Sites and Payloads/Capsules
+
+    // TODO: Widget
+    // TODO: Video link update from Firebase (maybe)
 }

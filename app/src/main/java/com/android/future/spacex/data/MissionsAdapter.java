@@ -41,12 +41,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
-        if (ScreenUtils.isPortraitMode(mContext)) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.mission_list_item, parent, false);
-        } else {
-            view = LayoutInflater.from(mContext).inflate(R.layout.mission_card_item, parent, false);
-        }
+        View view = LayoutInflater.from(mContext).inflate(R.layout.mission_list_item, parent, false);
         view.setFocusable(false);
         return new ViewHolder(view);
     }
@@ -55,7 +50,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         String missionPatchImagePath = "";
-        // TODO
+        // TODO: Default mission patch
         if (mMissions.get(position).getLinks() != null && mMissions.get(position).getLinks().getMissionPatchSmall() != null)
             missionPatchImagePath = mMissions.get(position).getLinks().getMissionPatchSmall();
 

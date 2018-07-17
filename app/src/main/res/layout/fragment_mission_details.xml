@@ -48,33 +48,6 @@
                 android:visibility="visible"
                 app:srcCompat="@drawable/ic_play" />
 
-            <!--<TextView-->
-                <!--android:id="@+id/mission_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:layout_marginBottom="@dimen/spacing"-->
-                <!--android:layout_marginStart="@dimen/spacing"-->
-                <!--android:layout_marginEnd="@dimen/spacing"-->
-                <!--android:ellipsize="end"-->
-                <!--android:maxLines="1"-->
-                <!--android:fontFamily="sans-serif-condensed"-->
-                <!--android:textColor="@color/colorWhite"-->
-                <!--android:textSize="@dimen/detail_title_text_size"-->
-                <!--tools:text="Iridium Next Mission 4" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/customers"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:layout_marginBottom="@dimen/spacing"-->
-            <!--android:layout_marginStart="@dimen/detail_inner_horiz_margin"-->
-            <!--android:fontFamily="sans-serif-condensed"-->
-            <!--android:text="@string/label_webcast"-->
-            <!--android:textColor="@color/colorAccent"-->
-            <!--android:textSize="@dimen/detail_body_text_size" />-->
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -206,11 +179,11 @@
                     android:layout_marginTop="@dimen/detail_body_top_margin"
                     android:orientation="vertical">
 
-                    <!--<View-->
-                    <!--android:id="@+id/separation_line2"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="@color/colorLine" />-->
+                    <View
+                    android:id="@+id/separation_line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorLine" />
 
                     <!--<TextView-->
                     <!--android:id="@+id/rocket_details_label"-->
@@ -224,7 +197,8 @@
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing">
 
                         <ImageView
                             android:id="@+id/rocket_payload_image"

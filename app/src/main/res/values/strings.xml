@@ -10,6 +10,10 @@
     <string name="video_play">Play button</string>
 
     <!-- Labels -->
+    <string name="label_tab_missions">Missions</string>
+    <string name="label_tab_rockets">Rockets</string>
+    <string name="label_tab_launch_sites">Launch Sites</string>
+
     <string name="label_launch_date">Launch Date</string>
     <string name="label_rocket_type">Rocket Type</string>
     <string name="label_launch_site">Launch Site</string>

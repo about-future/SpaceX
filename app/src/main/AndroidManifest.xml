@@ -16,13 +16,12 @@
         <activity android:name=".StarfieldActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".SpaceXActivity"
-            android:theme="@style/AppTheme.Logo" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MissionDetailsActivity"
             android:label=""

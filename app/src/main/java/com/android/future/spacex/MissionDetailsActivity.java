@@ -14,6 +14,8 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import static com.android.future.spacex.MissionsFragment.MISSION_NUMBER_KEY;
+import static com.android.future.spacex.MissionsFragment.TOTAL_MISSIONS_KEY;
 import static com.android.future.spacex.SpaceXActivity.*;
 
 public class MissionDetailsActivity extends AppCompatActivity { //implements MissionDetailsFragment.OnTitleChangeListener {
