@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlack"
-    tools:context="com.android.future.spacex.StarfieldActivity">
+    tools:context="com.android.future.spacex.com.about.future.spacex.StarfieldActivity">
 
     <!-- TODO: Better background and Stars should start very small-->
     <ImageView
@@ -33,7 +33,7 @@
         app:shutter_background_color="@color/colorTransparent"
         app:surface_type="none" />
 
-    <com.android.future.spacex.stars.StarField
+    <com.about.future.spacex.stars.StarField
         android:id="@+id/starfield"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.future.spacex">
+    package="com.about.future.spacex">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,25 +17,25 @@
 
         <meta-data
             android:name="com.google.android.maps"
-            android:value="AIzaSyDuN9TmAFhyTbxj3LcQhNaIcftCqG0e-9E" />
+            android:value="xxx" />
 
-        <activity android:name=".StarfieldActivity">
+        <activity android:name="com.about.future.spacex.StarfieldActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SpaceXActivity"
+            android:name="com.about.future.spacex.SpaceXActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MissionDetailsActivity"
+            android:name="com.about.future.spacex.MissionDetailsActivity"
             android:label=""
-            android:parentActivityName=".SpaceXActivity"
+            android:parentActivityName="com.about.future.spacex.SpaceXActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SpaceXActivity" />
+                android:value="com.about.future.spacex.SpaceXActivity" />
         </activity>
     </application>
 

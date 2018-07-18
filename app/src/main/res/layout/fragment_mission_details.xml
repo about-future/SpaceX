@@ -5,7 +5,7 @@
     android:id="@+id/details_coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MissionDetailsActivity">
+    tools:context="com.about.future.spacex.MissionDetailsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
