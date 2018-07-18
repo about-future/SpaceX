@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="96dp"
-    android:layout_marginEnd="@dimen/details_recycler_margin"
-    android:layout_marginStart="@dimen/details_recycler_margin"
+    android:layout_marginEnd="@dimen/spacing"
+    android:layout_marginStart="@dimen/spacing"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
@@ -23,11 +23,11 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/vertical_margin"
-        android:layout_marginStart="@dimen/vertical_margin"
+        android:layout_marginStart="@dimen/spacing"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/launch_pad_thumbnail"
         app:layout_constraintStart_toEndOf="@id/launch_pad_thumbnail"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/launch_pad_thumbnail">
 
         <TextView
@@ -36,10 +36,10 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="sans-serif-condensed"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/detail_small_title_text_size"
+            android:textSize="@dimen/title_text_size"
             tools:text="Kennedy Space Center Historic Launch Complex 39A" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
-            android:textSize="13sp"
+            android:textSize="@dimen/subtitle_text_size"
             tools:text="Cape Canaveral, Florida" />
 
     </LinearLayout>

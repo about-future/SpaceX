@@ -30,7 +30,7 @@
                 android:layout_height="25dp"
                 android:scaleType="fitStart"
                 android:contentDescription="@string/app_name"
-                android:layout_marginStart="@dimen/spacing"
+                android:layout_marginStart="@dimen/recycler_view_margin"
                 app:srcCompat="@drawable/ic_spacex_logo"/>
 
         </android.support.v7.widget.Toolbar>

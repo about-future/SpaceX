@@ -50,9 +50,9 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
     public void onBindViewHolder(@NonNull final LaunchPadsAdapter.ViewHolder holder, int position) {
         String launchPadThumbnailPath = "";
 
-        if (mLaunchPads.get(position).getPadLocation() != null) {
-            double latitude = mLaunchPads.get(position).getPadLocation().getLatitude();
-            double longitude = mLaunchPads.get(position).getPadLocation().getLongitude();
+        if (mLaunchPads.get(position).getLocation() != null) {
+            double latitude = mLaunchPads.get(position).getLocation().getLatitude();
+            double longitude = mLaunchPads.get(position).getLocation().getLongitude();
             launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude);
         }
 
@@ -89,12 +89,12 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
             holder.launchPadFullNameTextView.setText(mContext.getString(R.string.label_unknown));
         }
 
-        if (!TextUtils.isEmpty(mLaunchPads.get(position).getPadLocation().getName()) &&
-                !TextUtils.isEmpty(mLaunchPads.get(position).getPadLocation().getRegion())) {
+        if (!TextUtils.isEmpty(mLaunchPads.get(position).getLocation().getName()) &&
+                !TextUtils.isEmpty(mLaunchPads.get(position).getLocation().getRegion())) {
             holder.launchPadLocationTextView.setText(
-                    mLaunchPads.get(position).getPadLocation().getName()
+                    mLaunchPads.get(position).getLocation().getName()
                             + ", " +
-                            mLaunchPads.get(position).getPadLocation().getRegion());
+                            mLaunchPads.get(position).getLocation().getRegion());
         } else {
             holder.launchPadFullNameTextView.setText(mContext.getString(R.string.label_unknown));
         }

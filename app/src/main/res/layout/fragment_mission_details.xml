@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/detail_appbar_height"
+        android:layout_height="@dimen/details_appbar_height"
         android:background="@android:color/transparent">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -19,8 +19,8 @@
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/Condensed.Small"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginBottom="@dimen/detail_title_bottom_margin"
-            app:expandedTitleMarginStart="@dimen/detail_inner_horiz_margin"
+            app:expandedTitleMarginBottom="@dimen/details_title_bottom_margin"
+            app:expandedTitleMarginStart="@dimen/details_inner_horiz_margin"
             app:expandedTitleTextAppearance="@style/Condensed"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -74,8 +74,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/detail_inner_horiz_margin"
-                android:layout_marginStart="@dimen/detail_inner_horiz_margin"
+                android:layout_marginEnd="@dimen/details_inner_horiz_margin"
+                android:layout_marginStart="@dimen/details_inner_horiz_margin"
                 android:layout_marginTop="@dimen/spacing"
                 android:orientation="vertical">
 
@@ -103,60 +103,35 @@
 
                         <TextView
                             android:id="@+id/rocket_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:fontFamily="sans-serif-condensed"
-                            android:maxLines="1"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/detail_small_title_text_size"
+                            style="@style/Title"
                             tools:text="Falcon 9" />
 
                         <TextView
                             android:id="@+id/rocket_type_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-condensed"
-                            android:text="@string/label_rocket_type"
-                            android:textColor="@color/colorAccent" />
+                            style="@style/Subtitle"
+                            android:text="@string/label_rocket_type"/>
 
                         <TextView
                             android:id="@+id/launch_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Title"
                             android:layout_marginTop="@dimen/spacing"
-                            android:ellipsize="end"
-                            android:fontFamily="sans-serif-condensed"
-                            android:maxLines="1"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/detail_small_title_text_size"
                             tools:text="3:12 PM, 20 Jul 2018" />
 
                         <TextView
                             android:id="@+id/launch_date_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-condensed"
-                            android:text="@string/label_launch_date"
-                            android:textColor="@color/colorAccent" />
+                            style="@style/Subtitle"
+                            android:text="@string/label_launch_date" />
 
                         <TextView
                             android:id="@+id/launch_site_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Title"
                             android:layout_marginTop="@dimen/spacing"
-                            android:fontFamily="sans-serif-condensed"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/detail_small_title_text_size"
                             tools:text="CCAFS SLC 40" />
 
                         <TextView
                             android:id="@+id/launch_site_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-condensed"
-                            android:text="@string/label_launch_site"
-                            android:textColor="@color/colorAccent" />
+                            style="@style/Subtitle"
+                            android:text="@string/label_launch_site" />
 
                     </LinearLayout>
 
@@ -166,17 +141,16 @@
                     android:id="@+id/mission_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/detail_body_top_margin"
+                    android:layout_marginTop="@dimen/details_body_top_margin"
                     android:fontFamily="sans-serif-condensed"
-                    android:textColorLink="@color/colorAccent"
-                    android:textSize="@dimen/detail_body_text_size"
+                    android:textSize="@dimen/details_body_text_size"
                     tools:text="This is a sample text meant." />
 
                 <LinearLayout
                     android:id="@+id/rocket_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/detail_body_top_margin"
+                    android:layout_marginTop="@dimen/details_body_top_margin"
                     android:orientation="vertical">
 
                     <View
@@ -224,14 +198,12 @@
 
                         <TextView
                             android:id="@+id/payload_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Title"
                             android:layout_marginTop="@dimen/spacing"
-                            android:fontFamily="sans-serif-condensed"
                             android:text="@string/label_payload"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/detail_small_title_text_size"
+                            android:layout_width="0dp"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
                             app:layout_constraintTop_toTopOf="@+id/rocket_payload_image" />
 
                         <View
@@ -323,14 +295,12 @@
 
                         <TextView
                             android:id="@+id/second_stage_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            style="@style/Title"
                             android:layout_marginTop="@dimen/spacing"
-                            android:fontFamily="sans-serif-condensed"
                             android:text="@string/label_second_stage"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/detail_small_title_text_size"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
                             app:layout_constraintTop_toBottomOf="@+id/payload_orbit_long" />
 
                         <View
@@ -361,13 +331,10 @@
 
                         <TextView
                             android:id="@+id/first_stage_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/detail_first_stage_margin_top"
-                            android:fontFamily="sans-serif-condensed"
+                            android:layout_width="0dp"
+                            style="@style/Title"
+                            android:layout_marginTop="@dimen/details_first_stage_margin_top"
                             android:text="@string/label_first_stage"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/detail_small_title_text_size"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/second_stage_block_label" />
 

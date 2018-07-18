@@ -2,7 +2,7 @@ package com.android.future.spacex.launch_pad_entity;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PadLocation {
+public class Location {
     @SerializedName("name")
     private String name;
     @SerializedName("region")
@@ -12,7 +12,7 @@ public class PadLocation {
     @SerializedName("longitude")
     private double longitude;
 
-    public PadLocation(String name, String region, double latitude, double longitude) {
+    public Location(String name, String region, double latitude, double longitude) {
         this.name = name;
         this.region = region;
         this.latitude = latitude;

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        android:contentDescription="@string/spacex_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/milky2" />
@@ -19,6 +20,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="0.6"
         android:background="@drawable/gradient" />
 
     <com.google.android.exoplayer2.ui.PlayerView

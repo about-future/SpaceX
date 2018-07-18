@@ -18,7 +18,7 @@ import java.util.List;
 import retrofit2.Call;
 
 public class LaunchPadsLoader extends AsyncTaskLoader<List<LaunchPad>> {
-    private List<LaunchPad> cachedPads;// = new ArrayList<>();
+    private List<LaunchPad> cachedPads;
 
     public LaunchPadsLoader(@NonNull Context context) {
         super(context);

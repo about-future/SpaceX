@@ -8,11 +8,17 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen">
+
+        <meta-data
+            android:name="com.google.android.maps"
+            android:value="AIzaSyDuN9TmAFhyTbxj3LcQhNaIcftCqG0e-9E" />
+
         <activity android:name=".StarfieldActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

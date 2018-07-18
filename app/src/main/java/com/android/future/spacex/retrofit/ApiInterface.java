@@ -30,7 +30,7 @@ public interface ApiInterface {
 
 
     // Launch Pads Endpoint
-    @GET("launchpads}")
+    @GET("launchpads")
     Call<List<LaunchPad>> getLaunchPads();
 
     @GET("launchpads/{id}")

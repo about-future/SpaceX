@@ -141,25 +141,16 @@ public class LaunchPadsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<LaunchPad>> loader, final List<LaunchPad> data) {
         switch (loader.getId()) {
             case LAUNCH_PADS_LOADER_ID:
-//                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        //mDb.launchPadDao().insertLaunchPads(data);
-//                        Log.v("INSERT ALL", "DONE!");
-//                        SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
-//                    }
-//                });
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDb.launchPadDao().insertLaunchPads(data);
+                        Log.v("INSERT ALL", "DONE!");
+                        SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
+                    }
+                });
 
-                //setupViewModel();
-                Log.v("LAUNCH PAD", data.get(0).getId());
-                Log.v("LAUNCH PAD", data.get(0).getFullName());
-                Log.v("LAUNCH PAD", data.get(0).getPadLocation().getRegion());
-                Log.v("LAUNCH PAD", String.valueOf(data.get(0).getPadLocation().getLatitude()));
-                Log.v("LAUNCH PAD", ImageUtils.buildMapThumbnailUrl(
-                        data.get(0).getPadLocation().getLatitude(),
-                        data.get(0).getPadLocation().getLongitude()));
-
-                //mLaunchPadsAdapter.setLaunchPads(data);
+                setupViewModel();
 
                 break;
             default:

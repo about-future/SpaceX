@@ -9,7 +9,7 @@ public class ImageUtils {
     private static final String VIDEO_THUMBNAIL_SIZE_HQ = "/hqdefault.jpg";
 
     private static final String MAP_THUMBNAIL_BASE_URL = "https://maps.googleapis.com/maps/api/staticmap?center=";
-    private static final String MAP_THUMBNAIL_REST_URL = "&zoom=14&size=400x400";
+    private static final String MAP_THUMBNAIL_REST_URL = "&zoom=14&size=200x200&maptype=satellite";
 
     /* Build and return the Thumbnail URL for SpaceX missions
      * @param missionKey is used to build the url
