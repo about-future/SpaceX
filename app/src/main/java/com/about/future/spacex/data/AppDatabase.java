@@ -6,8 +6,8 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.util.Log;
 
-import com.about.future.spacex.mission_entity.Mission;
-import com.about.future.spacex.launch_pad_entity.LaunchPad;
+import com.about.future.spacex.mission.Mission;
+import com.about.future.spacex.launch_pad.LaunchPad;
 
 @Database(entities = {Mission.class, LaunchPad.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

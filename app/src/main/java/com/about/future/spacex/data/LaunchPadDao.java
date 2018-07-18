@@ -8,7 +8,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.about.future.spacex.launch_pad_entity.LaunchPad;
+import com.about.future.spacex.launch_pad.LaunchPad;
 
 import java.util.List;
 

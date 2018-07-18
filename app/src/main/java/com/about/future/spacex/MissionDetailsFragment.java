@@ -25,14 +25,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.about.future.spacex.mission_entity.Core;
-import com.about.future.spacex.mission_entity.Payload;
+import com.about.future.spacex.mission.Core;
+import com.about.future.spacex.mission.Payload;
 import com.about.future.spacex.data.MissionViewModel;
 import com.about.future.spacex.data.MissionViewModelFactory;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.MissionLoader;
-import com.about.future.spacex.mission_entity.Mission;
+import com.about.future.spacex.mission.Mission;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.google.gson.Gson;
@@ -216,7 +216,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
             if (mission.getLinks() != null && mission.getLinks().getVideoLink() != null) {
                 final String missionVideoUrl = mission.getLinks().getVideoLink();
                 final String videoKey = missionVideoUrl.substring(missionVideoUrl.indexOf("=") + 1, missionVideoUrl.length());
-                final String sdVideoImageUrl = ImageUtils.buildSdVideoThumbnailUrl(getContext(), videoKey);
+                final String sdVideoImageUrl = ImageUtils.buildSdVideoThumbnailUrl(videoKey);
 
                 Picasso.get()
                         .load(sdVideoImageUrl)
@@ -241,7 +241,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                                             @Override
                                             public void onError(Exception e) {
                                                 // Try again online, using a lower resolution image URL
-                                                String hqVideoUrl = ImageUtils.buildHqVideoThumbnailUrl(getContext(), videoKey);
+                                                String hqVideoUrl = ImageUtils.buildHqVideoThumbnailUrl(videoKey);
                                                 Picasso.get()
                                                         .load(hqVideoUrl)
                                                         .error(R.drawable.video)

@@ -1,8 +1,8 @@
 package com.about.future.spacex.retrofit;
 
-import com.about.future.spacex.mission_entity.Mission;
-import com.about.future.spacex.mission_entity.Rocket;
-import com.about.future.spacex.launch_pad_entity.LaunchPad;
+import com.about.future.spacex.mission.Mission;
+import com.about.future.spacex.mission.Rocket;
+import com.about.future.spacex.launch_pad.LaunchPad;
 
 import java.util.List;
 

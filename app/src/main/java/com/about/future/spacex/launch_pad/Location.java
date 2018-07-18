@@ -1,4 +1,4 @@
-package com.about.future.spacex.launch_pad_entity;
+package com.about.future.spacex.launch_pad;
 
 import com.google.gson.annotations.SerializedName;
 

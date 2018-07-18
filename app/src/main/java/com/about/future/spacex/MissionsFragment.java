@@ -14,14 +14,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.MissionsViewModel;
-import com.about.future.spacex.mission_entity.Mission;
+import com.about.future.spacex.mission.Mission;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.MissionsAdapter;
 import com.about.future.spacex.data.MissionsLoader;

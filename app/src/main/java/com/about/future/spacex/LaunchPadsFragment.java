@@ -14,18 +14,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.about.future.spacex.data.AppExecutors;
-import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.LaunchPadsAdapter;
 import com.about.future.spacex.data.LaunchPadsLoader;
 import com.about.future.spacex.data.LaunchPadsViewModel;
-import com.about.future.spacex.launch_pad_entity.LaunchPad;
+import com.about.future.spacex.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.SpaceXPreferences;
 
 import java.util.List;

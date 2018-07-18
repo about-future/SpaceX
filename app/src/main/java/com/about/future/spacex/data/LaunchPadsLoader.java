@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import com.about.future.spacex.launch_pad_entity.LaunchPad;
+import com.about.future.spacex.launch_pad.LaunchPad;
 import com.about.future.spacex.retrofit.ApiClient;
 import com.about.future.spacex.retrofit.ApiInterface;
 

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.about.future.spacex.mission_entity.Mission;
+import com.about.future.spacex.mission.Mission;
 import com.about.future.spacex.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
