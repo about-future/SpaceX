@@ -27,6 +27,7 @@
 
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorBackgroundGrey">#303030</color>
+    <color name="colorBackgroundGreyDark">#202020</color>
     <color name="colorSpaceXTranslucid">#CC005288</color>
     <color name="colorBackgroundTransparent">#BB303F8F</color>
     <color name="colorBackground">#303F8F</color> <!-- Before: #303F9F -->

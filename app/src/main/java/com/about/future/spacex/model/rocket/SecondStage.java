@@ -1,14 +1,20 @@
 package com.about.future.spacex.model.rocket;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+
 import com.google.gson.annotations.SerializedName;
 
 public class SecondStage {
     @SerializedName("engines")
     private int engines;
+    @ColumnInfo(name = "burn_time_sec")
     @SerializedName("burn_time_sec")
     private int burnTimeSec;
+    @Embedded(prefix = "thrust")
     @SerializedName("thrust")
     private Thrust thrust;
+    @Embedded(prefix = "payloads")
     @SerializedName("payloads")
     private Payloads payloads;
 

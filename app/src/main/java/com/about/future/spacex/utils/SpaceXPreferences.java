@@ -48,4 +48,16 @@ public class SpaceXPreferences {
         editor.putLong(LAUNCH_PADS_THUMBNAILS_DATE, saveDate);
         editor.apply();
     }
+
+    public static Boolean getRocketsStatus(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(ROCKETS, false);
+    }
+
+    public static void setRocketsStatus(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(ROCKETS, status);
+        editor.apply();
+    }
 }

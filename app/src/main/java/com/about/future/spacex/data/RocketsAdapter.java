@@ -11,16 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.model.rocket.Rocket;
-import com.about.future.spacex.utils.ImageUtils;
-import com.about.future.spacex.utils.SpaceXPreferences;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,22 +48,22 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
         if (!TextUtils.isEmpty(mRockets.get(position).getId())) {
             switch (mRockets.get(position).getId()) {
                 case "falcon1":
-                    holder.rocketImageView.setImageResource(R.drawable.falcon1);
+                    holder.rocketImageView.setImageResource(R.drawable.falcon1_small);
                     break;
                 case "falcon9":
-                    holder.rocketImageView.setImageResource(R.drawable.falcon9);
+                    holder.rocketImageView.setImageResource(R.drawable.falcon9_small);
                     break;
                 case "falconheavy":
-                    holder.rocketImageView.setImageResource(R.drawable.falcon_heavy);
+                    holder.rocketImageView.setImageResource(R.drawable.falcon_heavy_small);
                     break;
                 case "bfr":
-                    holder.rocketImageView.setImageResource(R.drawable.bfr);
+                    holder.rocketImageView.setImageResource(R.drawable.bfr1);
                     break;
                 default:
-                    holder.rocketImageView.setImageResource(R.drawable.rocket);
+                    holder.rocketImageView.setImageResource(R.drawable.rocket_small);
             }
         } else {
-            holder.rocketImageView.setImageResource(R.drawable.rocket);
+            holder.rocketImageView.setImageResource(R.drawable.rocket_small);
         }
 
         if (!TextUtils.isEmpty(mRockets.get(position).getName())) {
@@ -111,7 +104,7 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
         }
     }
 
-    public void setLaunchPads(List<Rocket> rockets) {
+    public void setRockets(List<Rocket> rockets) {
         mRockets = rockets;
         notifyDataSetChanged();
     }

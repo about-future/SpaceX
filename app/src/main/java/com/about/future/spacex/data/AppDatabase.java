@@ -8,8 +8,9 @@ import android.util.Log;
 
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
+import com.about.future.spacex.model.rocket.Rocket;
 
-@Database(entities = {Mission.class, LaunchPad.class}, version = 1, exportSchema = false)
+@Database(entities = {Mission.class, LaunchPad.class, Rocket.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();
@@ -31,4 +32,5 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract MissionDao missionDao();
     public abstract LaunchPadDao launchPadDao();
+    public abstract RocketDao rocketDao();
 }

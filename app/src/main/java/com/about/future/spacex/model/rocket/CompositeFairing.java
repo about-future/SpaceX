@@ -1,10 +1,14 @@
 package com.about.future.spacex.model.rocket;
 
+import android.arch.persistence.room.Embedded;
+
 import com.google.gson.annotations.SerializedName;
 
 public class CompositeFairing {
+    @Embedded(prefix = "height")
     @SerializedName("height")
     private Dimension height;
+    @Embedded(prefix = "diameter")
     @SerializedName("diameter")
     private Dimension diameter;
 

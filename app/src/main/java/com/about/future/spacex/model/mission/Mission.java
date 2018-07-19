@@ -32,7 +32,6 @@ public class Mission {
     @SerializedName("reuse")
     @Embedded
     private Reuse reuse;
-    //@ColumnInfo(name = "launch_site")
     @SerializedName("launch_site")
     @Embedded
     private LaunchSite launchSite;

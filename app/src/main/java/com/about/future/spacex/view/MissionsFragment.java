@@ -14,6 +14,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,11 +56,17 @@ public class MissionsFragment extends Fragment implements
         ButterKnife.bind(this, view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mMissionsRecyclerView.setLayoutManager(linearLayoutManager);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                 mMissionsRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
         mMissionsRecyclerView.addItemDecoration(mDividerItemDecoration);
-        mMissionsRecyclerView.setLayoutManager(linearLayoutManager);
+
+//        int columnCount = getResources().getInteger(R.integer.rocket_list_column_count);
+//        StaggeredGridLayoutManager sglm =
+//                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+//        mMissionsRecyclerView.setLayoutManager(sglm);
+
         mMissionsRecyclerView.setHasFixedSize(false);
         mMissionsAdapter = new MissionsAdapter(getContext(), this);
         mMissionsRecyclerView.setAdapter(mMissionsAdapter);

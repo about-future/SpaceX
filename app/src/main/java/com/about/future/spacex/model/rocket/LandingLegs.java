@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class LandingLegs {
     @SerializedName("number")
     private int number;
-    @SerializedName("number")
+    @SerializedName("material")
     private String material;
 
     public LandingLegs(int number, String material) {

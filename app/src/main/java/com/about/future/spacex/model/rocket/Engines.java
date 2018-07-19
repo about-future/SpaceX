@@ -1,5 +1,8 @@
 package com.about.future.spacex.model.rocket;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Engines {
@@ -11,16 +14,22 @@ public class Engines {
     private String version;
     @SerializedName("layout")
     private String layout;
+    @ColumnInfo(name = "engine_loss_max")
     @SerializedName("engine_loss_max")
     private int engineLossMax;
+    @ColumnInfo(name = "propellant_1")
     @SerializedName("propellant_1")
     private String propellant1;
+    @ColumnInfo(name = "propellant_2")
     @SerializedName("propellant_2")
     private String propellant2;
+    @Embedded(prefix = "thrust_sea_level")
     @SerializedName("thrust_sea_level")
     private Thrust thrustSeaLevel;
+    @Embedded(prefix = "thrust_vacuum")
     @SerializedName("thrust_vacuum")
     private Thrust thrustVacuum;
+    @ColumnInfo(name = "thrust_to_weight")
     @SerializedName("thrust_to_weight")
     private double thrustToWeight;
 

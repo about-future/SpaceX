@@ -1,12 +1,18 @@
 package com.about.future.spacex.model.rocket;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Payloads {
+    @ColumnInfo(name = "option_1")
     @SerializedName("option_1")
     private String option1;
+    @ColumnInfo(name = "option_2")
     @SerializedName("option_2")
     private String option2;
+    @Embedded(prefix = "composite_fairing")
     @SerializedName("composite_fairing")
     private CompositeFairing compositeFairing;
 

@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:layout_marginStart="@dimen/card_margin"
+    android:layout_height="320dp"
+    android:layout_marginBottom="@dimen/card_margin"
     android:layout_marginEnd="@dimen/card_margin"
+    android:layout_marginStart="@dimen/card_margin"
     android:layout_marginTop="@dimen/card_margin"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
@@ -19,13 +20,13 @@
             android:id="@+id/card_rocket_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="top"
             android:layout_gravity="top"
+            android:layout_weight="1"
             android:background="@color/colorCardBackground"
             android:contentDescription="@string/rocket_image"
+            android:gravity="top"
             android:scaleType="centerCrop"
-            tools:src="@drawable/bfr" />
+            tools:src="@drawable/bfr1" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,8 +40,8 @@
                 android:id="@+id/card_rocket_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed"
                 android:ellipsize="end"
+                android:fontFamily="sans-serif-condensed"
                 android:maxLines="1"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/title_text_size"
@@ -51,9 +52,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:maxLines="2"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-condensed"
+                android:maxLines="2"
                 android:textColor="@color/colorCardDescription"
                 android:textSize="@dimen/subtitle_text_size"
                 tools:text="BFR is a privately funded next-generation reusable launch vehicle and spacecraft system developed by SpaceX. It was announced by Elon Musk" />

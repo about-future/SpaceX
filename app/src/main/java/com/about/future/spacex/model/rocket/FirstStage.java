@@ -1,5 +1,8 @@
 package com.about.future.spacex.model.rocket;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+
 import com.google.gson.annotations.SerializedName;
 
 public class FirstStage {
@@ -7,12 +10,16 @@ public class FirstStage {
     private boolean reusable;
     @SerializedName("engines")
     private int engines;
+    @ColumnInfo(name = "fuel_amount_tons")
     @SerializedName("fuel_amount_tons")
     private double fuelAmountTons;
+    @ColumnInfo(name = "burn_time_sec")
     @SerializedName("burn_time_sec")
     private int burnTimeSec;
+    @Embedded(prefix = "thrust_sea_level")
     @SerializedName("thrust_sea_level")
     private Thrust thrustSeaLevel;
+    @Embedded(prefix = "thrust_vacuum")
     @SerializedName("thrust_vacuum")
     private Thrust thrustVacuum;
 

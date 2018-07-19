@@ -5,6 +5,8 @@
     <dimen name="subtitle_text_size">14sp</dimen>
     <dimen name="recycler_view_margin">16dp</dimen>
 
+    <integer name="rocket_list_column_count">2</integer>
+
     <!-- Mission Details Activity -->
     <dimen name="details_appbar_height">280dp</dimen>
     <dimen name="details_patch_size">220dp</dimen>
