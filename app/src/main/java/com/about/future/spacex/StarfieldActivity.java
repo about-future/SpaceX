@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.about.future.spacex.utils.ScreenUtils;
-import com.about.future.spacex.R;
 import com.about.future.spacex.utils.DetectSwipeGestureListener;
+import com.about.future.spacex.view.SpaceXActivity;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.PlaybackParameters;
@@ -79,8 +79,6 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
     private Typeface brandonBlack;
     private Typeface conthraxTypeface;
-
-    // SpaceX live feed on 2 Feb 2018 https://www.youtube.com/watch?v=BPQHG-LevZM
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

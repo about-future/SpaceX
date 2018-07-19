@@ -4,14 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.about.future.spacex.launch_pad.LaunchPad;
+import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.R;
 import com.about.future.spacex.utils.SpaceXPreferences;
@@ -19,7 +18,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

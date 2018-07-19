@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-import com.about.future.spacex.SpaceXActivity;
+import com.about.future.spacex.view.SpaceXActivity;
 import com.about.future.spacex.StarfieldActivity;
 
 public class DetectSwipeGestureListener  extends GestureDetector.SimpleOnGestureListener {

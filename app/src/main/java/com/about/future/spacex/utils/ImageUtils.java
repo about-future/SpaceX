@@ -23,6 +23,7 @@ public class ImageUtils {
      * @param missionKey is used to build the url
      */
     public static String buildSdVideoThumbnailUrl(String missionKey) {
+        //TODO: modify this with Uri
         return VIDEO_THUMBNAIL_BASE_URL.concat(missionKey).concat(VIDEO_THUMBNAIL_SIZE_SD);
     }
 

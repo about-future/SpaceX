@@ -26,16 +26,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.about.future.spacex.SpaceXActivity"
+            android:name="com.about.future.spacex.view.SpaceXActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.about.future.spacex.MissionDetailsActivity"
+            android:name="com.about.future.spacex.view.MissionDetailsActivity"
             android:label=""
-            android:parentActivityName="com.about.future.spacex.SpaceXActivity"
+            android:parentActivityName="com.about.future.spacex.view.SpaceXActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.about.future.spacex.SpaceXActivity" />
+                android:value="com.about.future.spacex.view.SpaceXActivity" />
         </activity>
     </application>
 
