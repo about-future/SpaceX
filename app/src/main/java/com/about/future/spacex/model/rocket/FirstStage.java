@@ -16,10 +16,10 @@ public class FirstStage {
     @ColumnInfo(name = "burn_time_sec")
     @SerializedName("burn_time_sec")
     private int burnTimeSec;
-    @Embedded(prefix = "thrust_sea_level")
+    @Embedded(prefix = "thrust_sea_level_")
     @SerializedName("thrust_sea_level")
     private Thrust thrustSeaLevel;
-    @Embedded(prefix = "thrust_vacuum")
+    @Embedded(prefix = "thrust_vacuum_")
     @SerializedName("thrust_vacuum")
     private Thrust thrustVacuum;
 

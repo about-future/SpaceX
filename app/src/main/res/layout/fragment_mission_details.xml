@@ -265,6 +265,7 @@
                         <TextView
                             android:id="@+id/payload_mass"
                             style="@style/RocketDetails.Values"
+                            android:maxLines="2"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/payload_mass_label"

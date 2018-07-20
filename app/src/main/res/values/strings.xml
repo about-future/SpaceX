@@ -8,6 +8,7 @@
     <string name="action_share">Share</string>
     <string name="mission_webcast">Mission webcast preview</string>
     <string name="video_play">Play button</string>
+    <string name="launch_pad_satellite_view">Launch pad satellite view</string>
 
     <!-- Labels -->
     <string name="label_tab_missions">Missions</string>
@@ -39,6 +40,11 @@
     <string name="label_land_vehicle">Landing Vehicle:</string>
     <string name="label_no">No</string>
     <string name="label_yes">Yes</string>
+
+    <string name="label_location">Location</string>
+    <string name="label_status">Status</string>
+    <string name="label_vehicles_launched">Vehicles Launched</string>
+
     <!-- Landing types -->
     <string name="label_asds">Autonomous Spaceport Drone Ship</string>
     <string name="label_rtls">Return To Launch Site</string>
@@ -77,10 +83,20 @@
     <string name="mission_updating">Updating mission details&#8230;</string>
     <string name="mission_up_to_date">Mission is up to date!</string>
     <string name="mission_updated">Mission updated!</string>
-    <string name="updating_launch">Updating launch data&#8230;</string>
+
+    <string name="launch_pad_updating">Updating launch pad details&#8230;</string>
+    <string name="launch_pad_up_to_date">Launch pad details are up to date!</string>
+    <string name="launch_pad_updated">Launch pad updated!</string>
+
+    <string name="rocket_updating">Updating rocket details&#8230;</string>
+    <string name="rocket_up_to_date">Rocket details are up to date!</string>
+    <string name="rocket_updated">Rocket updated!</string>
 
     <!-- Credits -->
     <string name="song_credits">ARTIST: TEST SHOT STARFISH\nFLIGHT-PROVEN</string>
     <string name="skip">Swipe to skip intro</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

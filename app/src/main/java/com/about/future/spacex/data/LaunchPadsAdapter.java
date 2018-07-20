@@ -32,7 +32,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
     private final ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
-        void onItemClickListener(String launchPadSelected);
+        void onItemClickListener(int launchPadSelected);
     }
 
     public LaunchPadsAdapter(Context context, ListItemClickListener listener) {
@@ -49,13 +49,14 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final LaunchPadsAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final LaunchPadsAdapter.ViewHolder holder, int position) {
         String launchPadThumbnailPath = "";
+        final int thisPosition = position;
 
         if (mLaunchPads.get(position).getLocation() != null) {
             double latitude = mLaunchPads.get(position).getLocation().getLatitude();
             double longitude = mLaunchPads.get(position).getLocation().getLongitude();
-            launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude);
+            launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 14, "satellite");
         }
 
         // If we have a valid image path, try loading it
@@ -92,7 +93,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
                                         .error(R.drawable.empty_map)
                                         .into(holder.launchPadThumbnailImageView);
                                 // Reset savedDate, only when last position is reached
-                                if (position == mLaunchPads.size() - 1)
+                                if (thisPosition == mLaunchPads.size() - 1)
                                     SpaceXPreferences.setLaunchPadsThumbnailsSavingDate(mContext, new Date().getTime());
                             }
                         });
@@ -141,16 +142,12 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(mLaunchPads.get(getAdapterPosition()).getId());
+            mOnClickListener.onItemClickListener(mLaunchPads.get(getAdapterPosition()).getPadId());
         }
     }
 
     public void setLaunchPads(List<LaunchPad> launchPads) {
         mLaunchPads = launchPads;
         notifyDataSetChanged();
-    }
-
-    public List<LaunchPad> getLaunchPads() {
-        return mLaunchPads;
     }
 }

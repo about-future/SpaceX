@@ -12,7 +12,7 @@ public class Payloads {
     @ColumnInfo(name = "option_2")
     @SerializedName("option_2")
     private String option2;
-    @Embedded(prefix = "composite_fairing")
+    @Embedded(prefix = "composite_fairing_")
     @SerializedName("composite_fairing")
     private CompositeFairing compositeFairing;
 

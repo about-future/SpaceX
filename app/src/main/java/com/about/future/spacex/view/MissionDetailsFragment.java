@@ -158,7 +158,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Snackbar.make(mSwipeRefreshLayout, getString(R.string.mission_updating), Snackbar.LENGTH_SHORT).show();
                 refreshData();
 
                 new Handler().postDelayed(new Runnable() {
@@ -175,7 +174,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         viewModel.getMissionLiveData().observe(this, new Observer<Mission>() {
             @Override
             public void onChanged(@Nullable Mission mission) {
-                //viewModel.getMissionLiveData().removeObserver(this);
                 bindViews(mission);
                 mMission = mission;
             }
@@ -654,11 +652,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                     @Override
                     public void run() {
                         mDb.missionDao().updateMission(newMission);
-                        snakeBarThis(getString(R.string.mission_updated));
                     }
                 });
+                snakBarThis(getString(R.string.mission_updated));
             } else {
-                snakeBarThis(getString(R.string.mission_up_to_date));
+                snakBarThis(getString(R.string.mission_up_to_date));
             }
         }
     }
@@ -668,7 +666,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         mMission = null;
     }
 
-    private void snakeBarThis(String message) {
+    private void snakBarThis(String message) {
         Snackbar snackbar = Snackbar.make(mRootView, message, Snackbar.LENGTH_SHORT);
         View view = snackbar.getView();
 

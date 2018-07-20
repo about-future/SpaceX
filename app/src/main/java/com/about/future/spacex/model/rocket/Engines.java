@@ -23,10 +23,10 @@ public class Engines {
     @ColumnInfo(name = "propellant_2")
     @SerializedName("propellant_2")
     private String propellant2;
-    @Embedded(prefix = "thrust_sea_level")
+    @Embedded(prefix = "thrust_sea_level_")
     @SerializedName("thrust_sea_level")
     private Thrust thrustSeaLevel;
-    @Embedded(prefix = "thrust_vacuum")
+    @Embedded(prefix = "thrust_vacuum_")
     @SerializedName("thrust_vacuum")
     private Thrust thrustVacuum;
     @ColumnInfo(name = "thrust_to_weight")

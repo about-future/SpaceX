@@ -5,10 +5,10 @@ import android.arch.persistence.room.Embedded;
 import com.google.gson.annotations.SerializedName;
 
 public class CompositeFairing {
-    @Embedded(prefix = "height")
+    @Embedded(prefix = "height_")
     @SerializedName("height")
     private Dimension height;
-    @Embedded(prefix = "diameter")
+    @Embedded(prefix = "diameter_")
     @SerializedName("diameter")
     private Dimension diameter;
 

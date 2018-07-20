@@ -14,7 +14,7 @@ import java.util.List;
 
 @Dao
 public interface RocketDao {
-    @Query("SELECT * FROM rockets ORDER BY id")
+    @Query("SELECT * FROM rockets")
     LiveData<List<Rocket>> loadAllRockets();
 
     @Query("SELECT * FROM rockets WHERE id = :id")

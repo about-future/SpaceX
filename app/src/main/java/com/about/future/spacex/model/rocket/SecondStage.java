@@ -11,10 +11,10 @@ public class SecondStage {
     @ColumnInfo(name = "burn_time_sec")
     @SerializedName("burn_time_sec")
     private int burnTimeSec;
-    @Embedded(prefix = "thrust")
+    @Embedded(prefix = "thrust_")
     @SerializedName("thrust")
     private Thrust thrust;
-    @Embedded(prefix = "payloads")
+    @Embedded(prefix = "payloads_")
     @SerializedName("payloads")
     private Payloads payloads;
 

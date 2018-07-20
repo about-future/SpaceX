@@ -114,8 +114,8 @@ public class LaunchPadsFragment extends Fragment implements
     }
 
     @Override
-    public void onItemClickListener(String launchPadId) {
-        Intent launchPadDetailsIntent = new Intent(getActivity(), MissionDetailsActivity.class);
+    public void onItemClickListener(int launchPadId) {
+        Intent launchPadDetailsIntent = new Intent(getActivity(), LaunchPadDetailsActivity.class);
         launchPadDetailsIntent.putExtra(LAUNCH_PAD_ID_KEY, launchPadId);
         launchPadDetailsIntent.putExtra(TOTAL_LAUNCH_PADS_KEY, mTotalLaunchPads);
         startActivity(launchPadDetailsIntent);
@@ -152,6 +152,8 @@ public class LaunchPadsFragment extends Fragment implements
                 break;
         }
     }
+
+    //TODO: Show snakbar message if update was done
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<LaunchPad>> loader) {

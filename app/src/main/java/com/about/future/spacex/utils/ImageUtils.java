@@ -7,9 +7,9 @@ import java.util.Date;
 
 public class ImageUtils {
 
-    private static final String VIDEO_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/";
-    private static final String VIDEO_THUMBNAIL_SIZE_SD = "/sddefault.jpg";
-    private static final String VIDEO_THUMBNAIL_SIZE_HQ = "/hqdefault.jpg";
+    private static final String VIDEO_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi";
+    private static final String VIDEO_THUMBNAIL_SIZE_SD = "sddefault.jpg";
+    private static final String VIDEO_THUMBNAIL_SIZE_HQ = "hqdefault.jpg";
 
     private static final String MAP_BASE_URL = "https://maps.googleapis.com/maps/api/staticmap";
     private static final String CENTER_PARAMETER = "center";
@@ -23,28 +23,33 @@ public class ImageUtils {
      * @param missionKey is used to build the url
      */
     public static String buildSdVideoThumbnailUrl(String missionKey) {
-        //TODO: modify this with Uri
-        return VIDEO_THUMBNAIL_BASE_URL.concat(missionKey).concat(VIDEO_THUMBNAIL_SIZE_SD);
+        return Uri.parse(VIDEO_THUMBNAIL_BASE_URL).buildUpon()
+                .appendPath(missionKey)
+                .appendPath(VIDEO_THUMBNAIL_SIZE_SD)
+                .build().toString();
     }
 
     public static String buildHqVideoThumbnailUrl(String missionKey) {
-        return VIDEO_THUMBNAIL_BASE_URL.concat(missionKey).concat(VIDEO_THUMBNAIL_SIZE_HQ);
+        return Uri.parse(VIDEO_THUMBNAIL_BASE_URL).buildUpon()
+                .appendPath(missionKey)
+                .appendPath(VIDEO_THUMBNAIL_SIZE_HQ)
+                .build().toString();
     }
 
     /* Build and return the Thumbnail URL for SpaceX launch pad location
      * @param latitude and longitude are used to build the url
      */
-    public static String buildMapThumbnailUrl(double latitude, double longitude) {
+    public static String buildMapThumbnailUrl(double latitude, double longitude, int zoom, String mapType) {
         return Uri.parse(MAP_BASE_URL).buildUpon()
                 .appendQueryParameter(CENTER_PARAMETER, String.valueOf(latitude) + "," + String.valueOf(longitude))
-                .appendQueryParameter(ZOOM_PARAMETER, "14")
+                .appendQueryParameter(ZOOM_PARAMETER, String.valueOf(zoom))
                 .appendQueryParameter(SIZE_PARAMETER, "200x200")
-                .appendQueryParameter(MAP_TYPE_PARAMETER, "satellite")
+                .appendQueryParameter(MAP_TYPE_PARAMETER, mapType)
                 .appendQueryParameter(SCALE_PARAMETER, "2")
                 .build().toString();
     }
 
-    public static String buildMapBackdropUrl(double latitude, double longitude) {
+    public static String buildSatelliteBackdropUrl(double latitude, double longitude) {
         return Uri.parse(MAP_BASE_URL).buildUpon()
                 .appendQueryParameter(CENTER_PARAMETER, String.valueOf(latitude) + "," + String.valueOf(longitude))
                 .appendQueryParameter(ZOOM_PARAMETER, "15")

@@ -11,54 +11,53 @@ import android.view.ViewGroup;
 
 import com.about.future.spacex.R;
 
-import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
-import static com.about.future.spacex.view.MissionsFragment.TOTAL_MISSIONS_KEY;
+import static com.about.future.spacex.view.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.view.LaunchPadsFragment.TOTAL_LAUNCH_PADS_KEY;
 
-public class MissionDetailsActivity extends AppCompatActivity {
-
-    private static final int DEFAULT_MISSION_NUMBER = 1;
-    private int mMissionNumber = DEFAULT_MISSION_NUMBER;
-    private int mTotalMissions = DEFAULT_MISSION_NUMBER;
+public class LaunchPadDetailsActivity extends AppCompatActivity {
+    private static final int DEFAULT_LAUNCH_PAD_ID = 1;
+    private int mLaunchPadId = DEFAULT_LAUNCH_PAD_ID;
+    private int mTotalLaunchPads = DEFAULT_LAUNCH_PAD_ID;
 
     private ViewPager mPager;
-    private MyPagerAdapter mPagerAdapter;
+    private LaunchPadDetailsActivity.MyPagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mission_details);
+        setContentView(R.layout.activity_launch_pad_details);
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (intent != null) {
-                if (intent.hasExtra(TOTAL_MISSIONS_KEY))
-                    mTotalMissions = intent.getIntExtra(TOTAL_MISSIONS_KEY, DEFAULT_MISSION_NUMBER);
+                if (intent.hasExtra(TOTAL_LAUNCH_PADS_KEY))
+                    mTotalLaunchPads = intent.getIntExtra(TOTAL_LAUNCH_PADS_KEY, 1);
 
-                if (intent.hasExtra(MISSION_NUMBER_KEY)) {
-                    mMissionNumber = intent.getIntExtra(MISSION_NUMBER_KEY, DEFAULT_MISSION_NUMBER);
+                if (intent.hasExtra(LAUNCH_PAD_ID_KEY)) {
+                    mLaunchPadId = intent.getIntExtra(LAUNCH_PAD_ID_KEY, DEFAULT_LAUNCH_PAD_ID);
                 }
             }
 
         }
 
-        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        mPager = findViewById(R.id.mission_pager);
+        mPagerAdapter = new LaunchPadDetailsActivity.MyPagerAdapter(getSupportFragmentManager());
+        mPager = findViewById(R.id.launch_pad_pager);
         mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(mMissionNumber - 1);
+        mPager.setCurrentItem(mLaunchPadId - 1);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(TOTAL_MISSIONS_KEY, mTotalMissions);
-        outState.putInt(MISSION_NUMBER_KEY, mMissionNumber);
+        outState.putInt(TOTAL_LAUNCH_PADS_KEY, mTotalLaunchPads);
+        outState.putInt(LAUNCH_PAD_ID_KEY, mLaunchPadId);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        mMissionNumber = savedInstanceState.getInt(MISSION_NUMBER_KEY);
-        mTotalMissions = savedInstanceState.getInt(TOTAL_MISSIONS_KEY);
-        mPager.setCurrentItem(mMissionNumber - 1);
+        mLaunchPadId = savedInstanceState.getInt(LAUNCH_PAD_ID_KEY);
+        mTotalLaunchPads = savedInstanceState.getInt(TOTAL_LAUNCH_PADS_KEY);
+        mPager.setCurrentItem(mLaunchPadId - 1);
         mPagerAdapter.notifyDataSetChanged();
 
         super.onRestoreInstanceState(savedInstanceState);
@@ -76,12 +75,12 @@ public class MissionDetailsActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return MissionDetailsFragment.newInstance(position + 1);
+            return LaunchPadDetailsFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
-            return mTotalMissions;
+            return mTotalLaunchPads;
         }
     }
 }

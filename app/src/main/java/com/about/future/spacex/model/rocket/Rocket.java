@@ -41,28 +41,25 @@ public class Rocket {
     private String country;
     @SerializedName("company")
     private String company;
-    @Embedded(prefix = "height")
+    @Embedded(prefix = "height_")
     @SerializedName("height")
     private Dimension height;
-    @Embedded(prefix = "diameter")
+    @Embedded(prefix = "diameter_")
     @SerializedName("diameter")
     private Dimension diameter;
     @Embedded
     @SerializedName("mass")
     private Mass mass;
-
-    //@Embedded
     @TypeConverters(PayloadWeightsTypeConverter.class)
     @SerializedName("payload_weights")
     private List<PayloadWeights> payloadWeights;
-
-    @Embedded(prefix = "first_stage")
+    @Embedded(prefix = "first_stage_")
     @SerializedName("first_stage")
     private FirstStage firstStage;
-    @Embedded(prefix = "second_stage")
+    @Embedded(prefix = "second_stage_")
     @SerializedName("second_stage")
     private SecondStage secondStage;
-    @Embedded(prefix = "engines")
+    @Embedded(prefix = "engines_")
     @SerializedName("engines")
     private Engines engines;
     @Embedded
