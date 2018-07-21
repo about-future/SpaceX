@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.mission.Core;
 import com.about.future.spacex.model.mission.Payload;
+import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.viewmodel.MissionViewModel;
 import com.about.future.spacex.viewmodel.MissionViewModelFactory;
 import com.about.future.spacex.data.AppDatabase;
@@ -290,8 +291,17 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 mMissionPatchImageView.setImageResource(R.drawable.dragon);
             }
 
-            // Launch date
-            mLaunchDateTextView.setText(mission.getLaunchDateUtc());
+            // Set launch date
+            if (mission.getLaunchDateUnix() > 0) {
+                // Convert mission Date from seconds in milliseconds
+                Date missionDate = new Date(mission.getLaunchDateUnix() * 1000L);
+                // Set formatted date in TextView
+                mLaunchDateTextView.setText(DateUtils.formatDate(missionDate));
+            } else {
+                // Otherwise, set text as Unknown
+                mLaunchDateTextView.setText(getString(R.string.label_unknown));
+            }
+
             // Launch site
             mLaunchSiteNameTextView.setText(mission.getLaunchSite().getSiteName());
             // Mission details
@@ -679,12 +689,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     }
 
     // TODO: Solve displayed mission data, depending on location
-    // TODO: Swipe and Refresh all missions
+
     // TODO: Mark upcoming missions with something
     // TODO: Create upcoming mission patch
 
     // TODO: Notifications with Firebase and Google Maps
-    // TODO: Launching Sites on Google Maps
     // TODO: Rockets, Launching Sites and Payloads/Capsules
 
     // TODO: Widget

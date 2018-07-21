@@ -261,6 +261,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         mToast.show();
     }
 
+    //TODO: generate credits and message svg image
     private void credits() {
         if (mExoPlayer != null) {
             long position = mExoPlayer.getCurrentPosition();

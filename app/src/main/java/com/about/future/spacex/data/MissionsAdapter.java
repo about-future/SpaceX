@@ -12,12 +12,20 @@ import android.widget.TextView;
 
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.R;
+import com.about.future.spacex.utils.DateUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,7 +87,30 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         }
 
         holder.missionNameTextView.setText(mMissions.get(position).getMissionName());
-        holder.launchDateTextView.setText(mMissions.get(position).getLaunchDateUtc());
+
+        //TimeZone timeZone = TimeZone.getDefault();
+        //String tz = timeZone.getDisplayName(false, TimeZone.SHORT);
+        //int timeZoneOffset = timeZone.getOffset(mMissions.get(position).getLaunchDateUnix());
+        //long launchTime = mMissions.get(position).getLaunchDateUnix() + (timeZoneOffset / 1000);
+
+        // Set mission date and time, if it's available
+        if (mMissions.get(position).getLaunchDateUnix() > 0) {
+            // Convert mission Date from seconds in milliseconds
+            Date missionDate = new Date(mMissions.get(position).getLaunchDateUnix() * 1000L);
+            // Set formatted date in TextView
+            holder.launchDateTextView.setText(DateUtils.formatDate(missionDate));
+
+            // Set green color if mission time is bigger than present time (meaning it's an upcoming mission)
+            if (missionDate.getTime() > new Date().getTime()) {
+                holder.launchDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorGreen));
+            } else {
+                // Otherwise, set the default color
+                holder.launchDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+            }
+        } else {
+            // Otherwise, set text as Unknown
+            holder.launchDateTextView.setText(mContext.getString(R.string.label_unknown));
+        }
     }
 
     @Override
