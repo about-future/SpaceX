@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.about.future.spacex.R;
@@ -33,10 +34,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> data = remoteMessage.getData();
 
         if (data.size() > 0) {
-            Log.d(LOG_TAG, "Message data payload: " + data);
+            if (TextUtils.equals(remoteMessage.getFrom(), "/topics/news")) {
+                // Send a notification with the new received message
+                sendNotification(data);
+            } else {
+                // Update the upcoming mission's webcast link
+                Log.v("UPDATE", "DATABASE NOW");
+            }
 
-            // Send a notification that you got a new message
-            sendNotification(data);
+            Log.d(LOG_TAG, "Message data payload: " + data);
         }
     }
 
@@ -61,7 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = getString(R.string.default_notification_channel_id);
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher_round)

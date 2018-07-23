@@ -6,9 +6,9 @@
         android:centerColor="@color/colorBackgroundTransparent"
         android:endColor="@color/colorBlack"
         android:angle="90"/>
-    <padding android:left="7dp"
-        android:top="7dp"
-        android:right="7dp"
-        android:bottom="7dp" />
+    <!--<padding android:left="7dp"-->
+        <!--android:top="7dp"-->
+        <!--android:right="7dp"-->
+        <!--android:bottom="7dp" />-->
     <corners android:radius="0dp" />
 </shape>
