@@ -76,7 +76,7 @@
     <string name="label_es_l1">ES-L1</string>
     <string name="label_se_l1">SE-L1</string>
 
-    <!-- Toast Messages -->
+    <!-- Toast/Snakbar Messages -->
     <string name="sound_on">Sound on</string>
     <string name="sound_off">Sound off</string>
     <string name="welcome">Welcome to SpaceX</string>
@@ -105,4 +105,12 @@
     <string name="updates_title">Updates</string>
     <string name="summary_on">Enabled</string>
     <string name="summary_off">Disabled</string>
+
+    <!-- PREFERENCE KEYS -->
+    <string name="pref_mission_status_key">missions_loaded</string>
+    <string name="pref_launch_pads_status_key">launch_pads_loaded</string>
+    <string name="pref_rockets_status_key">rockets_loaded</string>
+    <string name="pref_launch_pads_thumbnails_date_key">launch_pads_thumbnails_date</string>
+    <string name="pref_topic_subscription_status_key">subscribed</string>
+
 </resources>

@@ -21,14 +21,8 @@ public interface LaunchPadDao {
     LiveData<LaunchPad> loadLaunchPadDetails(int padId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertLaunchPad(LaunchPad launchPad);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertLaunchPads(List<LaunchPad> launchPads);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateLaunchPad(LaunchPad launchPad);
-
-    @Delete
-    void deleteLaunchPad(LaunchPad launchPad);
 }

@@ -2,6 +2,7 @@ package com.about.future.spacex;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.SwitchPreferenceCompat;
@@ -17,29 +18,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         addPreferencesFromResource(R.xml.pref_general);
     }
 
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        // unregister the preference change listener
-//        getPreferenceScreen().getSharedPreferences()
-//                .unregisterOnSharedPreferenceChangeListener(this);
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // register the preference change listener
-//        getPreferenceScreen().getSharedPreferences()
-//                .registerOnSharedPreferenceChangeListener(this);
-//    }
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference preference = findPreference(key);
 
         if (preference != null && preference instanceof SwitchPreferenceCompat) {
             // Get the current state of the switch preference
-            Boolean switchIsOn = sharedPreferences.getBoolean(key, false);
+            Boolean switchIsOn = sharedPreferences.getBoolean(key, true);
 
             if (switchIsOn) {
                 // Subscribe to this topic

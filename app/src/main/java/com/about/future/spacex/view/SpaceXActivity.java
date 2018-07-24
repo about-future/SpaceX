@@ -12,6 +12,8 @@ import android.view.MenuItem;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.SettingsActivity;
+import com.about.future.spacex.utils.SpaceXPreferences;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +47,14 @@ public class SpaceXActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        // If the app runs for the first time, set subscriptions to updates and notifications topics
+        if (!SpaceXPreferences.getTopicSubscriptionStatus(this)) {
+            // Subscribe to topics
+            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.updates_key));
+            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.notifications_key));
+            SpaceXPreferences.setTopicSubscriptionStatus(this);
+        }
     }
 
     @Override

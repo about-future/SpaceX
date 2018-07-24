@@ -1,6 +1,7 @@
 package com.about.future.spacex.model.mission;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Ignore;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -49,6 +50,9 @@ public class Links {
         this.wikipedia = wikipedia;
         this.videoLink = videoLink;
     }
+
+    @Ignore
+    public Links(){}
 
     public String getMissionPatch() { return missionPatch; }
     public String getMissionPatchSmall() { return missionPatchSmall; }

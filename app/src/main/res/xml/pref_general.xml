@@ -11,12 +11,4 @@
         android:summaryOff="@string/summary_off"
         android:title="@string/notifications_title"/>
 
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        android:visibility="gone"
-        android:key="@string/updates_key"
-        android:summaryOn="@string/summary_on"
-        android:summaryOff="@string/summary_off"
-        android:title="@string/updates_title"/>
-
 </PreferenceScreen>

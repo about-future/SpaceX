@@ -114,7 +114,7 @@ public class MissionsFragment extends Fragment implements
     }
 
     private void getData() {
-        //Init mission loader
+        //Init or restart mission loader
         getLoaderManager().restartLoader(MISSIONS_LOADER_ID, null, this);
     }
 

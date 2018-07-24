@@ -10,8 +10,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
+        android:alpha="0.5"
         android:contentDescription="@string/spacex_logo"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/milky" />
@@ -85,12 +86,12 @@
 
     <TextView
         android:id="@+id/credits"
-        android:lineSpacingMultiplier="1.4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/music_credits_margin"
         android:layout_marginStart="@dimen/music_credits_margin"
         android:fontFamily="sans-serif"
+        android:lineSpacingMultiplier="1.4"
         android:text="@string/song_credits"
         android:textAlignment="viewEnd"
         android:textAllCaps="true"

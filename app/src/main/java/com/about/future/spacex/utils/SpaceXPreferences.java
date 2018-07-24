@@ -5,59 +5,69 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.about.future.spacex.R;
+
 import java.util.Date;
 
 public class SpaceXPreferences {
-    private static final String MISSIONS = "missions_loaded";
-    private static final String LAUNCH_PADS = "launch_pads_loaded";
-    private static final String ROCKETS = "rockets_loaded";
-    private static final String LAUNCH_PADS_THUMBNAILS_DATE = "launch_pads_thumbnails_date";
 
-    public static Boolean getLoadingStatus(Context context) {
+    public static boolean getLoadingStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(MISSIONS, false);
+        return sp.getBoolean(context.getString(R.string.pref_mission_status_key), false);
     }
 
     public static void setLoadingStatus(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(MISSIONS, status);
+        editor.putBoolean(context.getString(R.string.pref_mission_status_key), status);
         editor.apply();
     }
 
-    public static Boolean getLaunchPadsStatus(Context context) {
+    public static boolean getLaunchPadsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(LAUNCH_PADS, false);
+        return sp.getBoolean(context.getString(R.string.pref_launch_pads_status_key), false);
     }
 
     public static void setLaunchPadsStatus(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(LAUNCH_PADS, status);
+        editor.putBoolean(context.getString(R.string.pref_launch_pads_status_key), status);
         editor.apply();
     }
 
     public static long getLaunchPadsThumbnailsSavingDate(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getLong(LAUNCH_PADS_THUMBNAILS_DATE, 1530000000);
+        return sp.getLong(context.getString(R.string.pref_launch_pads_thumbnails_date_key), 1530000000);
     }
 
     public static void setLaunchPadsThumbnailsSavingDate(Context context, long saveDate) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putLong(LAUNCH_PADS_THUMBNAILS_DATE, saveDate);
+        editor.putLong(context.getString(R.string.pref_launch_pads_thumbnails_date_key), saveDate);
         editor.apply();
     }
 
-    public static Boolean getRocketsStatus(Context context) {
+    public static boolean getRocketsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(ROCKETS, false);
+        return sp.getBoolean(context.getString(R.string.pref_rockets_status_key), false);
     }
 
     public static void setRocketsStatus(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(ROCKETS, status);
+        editor.putBoolean(context.getString(R.string.pref_rockets_status_key), status);
         editor.apply();
+    }
+
+    public static void setTopicSubscriptionStatus(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_topic_subscription_status_key), true);
+        editor.apply();
+    }
+
+    public static boolean getTopicSubscriptionStatus(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_topic_subscription_status_key), false);
     }
 }
