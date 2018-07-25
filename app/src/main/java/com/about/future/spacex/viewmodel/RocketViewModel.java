@@ -12,7 +12,7 @@ public class RocketViewModel extends ViewModel {
 
     public LiveData<Rocket> getRocketLiveData() { return rocketLiveData; }
 
-    public RocketViewModel(AppDatabase database, String rocketId) {
+    public RocketViewModel(AppDatabase database, int rocketId) {
         rocketLiveData = database.rocketDao().loadRocketDetails(rocketId);
     }
 }

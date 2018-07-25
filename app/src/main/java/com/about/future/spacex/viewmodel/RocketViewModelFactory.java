@@ -8,9 +8,9 @@ import com.about.future.spacex.data.AppDatabase;
 public class RocketViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final AppDatabase mDb;
-    private final String mRocketId;
+    private final int mRocketId;
 
-    public RocketViewModelFactory(AppDatabase database, String rocketId) {
+    public RocketViewModelFactory(AppDatabase database, int rocketId) {
         mDb = database;
         mRocketId = rocketId;
     }

@@ -21,13 +21,14 @@
         <activity android:name=".StarfieldActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".view.SpaceXActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".view.MissionDetailsActivity"
             android:parentActivityName=".view.SpaceXActivity"
@@ -36,7 +37,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.about.future.spacex.view.SpaceXActivity" />
         </activity>
-        <activity android:name=".view.RocketDetailsActivity" />
+
+        <activity
+            android:name=".view.RocketDetailsActivity"
+            android:parentActivityName=".view.SpaceXActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.about.future.spacex.view.SpaceXActivity" />
+        </activity>
+
         <activity
             android:name=".view.LaunchPadDetailsActivity"
             android:parentActivityName=".view.SpaceXActivity"
@@ -46,7 +56,9 @@
                 android:value="com.about.future.spacex.view.SpaceXActivity" />
         </activity>
 
-        <service android:name=".fcm.MyFirebaseMessagingService">
+        <service
+            android:name=".fcm.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -54,9 +66,9 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:theme="@style/AppTheme"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".view.SpaceXActivity">
+            android:parentActivityName=".view.SpaceXActivity"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.about.future.spacex.view.SpaceXActivity" />

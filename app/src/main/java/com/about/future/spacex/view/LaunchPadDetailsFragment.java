@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 import static com.about.future.spacex.view.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
 
 
-public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<LaunchPad>{
+public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<LaunchPad> {
 
     private static final int LAUNCH_PAD_LOADER_ID = 917746;
 

@@ -75,4 +75,8 @@ public class SpaceXActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    // TODO: show snakbar when missions, rockets or launchpads are updated
+    // TODO: create links from mission to rocket and launchpad
+    // TODO: handle network connection in each activity and/or fragment
 }

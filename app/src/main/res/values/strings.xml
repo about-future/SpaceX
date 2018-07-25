@@ -42,9 +42,17 @@
     <string name="label_no">No</string>
     <string name="label_yes">Yes</string>
 
+    <!-- Launch Pad Details -->
     <string name="label_location">Location</string>
     <string name="label_status">Status</string>
     <string name="label_vehicles_launched">Vehicles Launched</string>
+
+    <!-- Rocket Details -->
+    <string name="label_first_flight">First Flight</string>
+    <string name="label_cost_per_launch">Cost Per Launch</string>
+    <string name="label_active">Active</string>
+    <string name="label_inactive">Inactive</string>
+
 
     <!-- Landing types -->
     <string name="label_asds">Autonomous Spaceport Drone Ship</string>

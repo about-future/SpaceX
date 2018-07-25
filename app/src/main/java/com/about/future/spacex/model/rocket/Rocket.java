@@ -14,8 +14,8 @@ import java.util.List;
 
 @Entity(tableName = "rockets")
 public class Rocket {
-    @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int rocketId;
     @SerializedName("id")
     private String id;
     @SerializedName("name")
@@ -68,11 +68,12 @@ public class Rocket {
     @SerializedName("description")
     private String description;
 
-    public Rocket(@NonNull String id, String name, String type, boolean active, int stages, int boosters,
+    public Rocket(int rocketId, String id, String name, String type, boolean active, int stages, int boosters,
                   int costPerLaunch, int successRatePct, String firstFlight, String country,
                   String company, Dimension height, Dimension diameter, Mass mass,
                   List<PayloadWeights> payloadWeights, FirstStage firstStage, SecondStage secondStage,
                   Engines engines, LandingLegs landingLegs, String description) {
+        this.rocketId = rocketId;
         this.id = id;
         this.name = name;
         this.type = type;
@@ -95,7 +96,7 @@ public class Rocket {
         this.description = description;
     }
 
-    @NonNull
+    public int getRocketId() { return rocketId; }
     public String getId() { return id; }
     public String getName() { return name; }
     public String getType() { return type; }
@@ -117,7 +118,8 @@ public class Rocket {
     public LandingLegs getLandingLegs() { return landingLegs; }
     public String getDescription() { return description; }
 
-    public void setId(@NonNull String id) { this.id = id; }
+    public void setRocketId(int rocketId) { this.rocketId = rocketId; }
+    public void setId(String id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setType(String type) { this.type = type; }
     public void setActive(boolean active) { this.active = active; }

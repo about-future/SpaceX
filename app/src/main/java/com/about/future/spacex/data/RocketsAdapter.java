@@ -26,7 +26,7 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
     private final RocketsAdapter.ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
-        void onItemClickListener(String rocketId);
+        void onItemClickListener(int rocketId);
     }
 
     public RocketsAdapter(Context context, RocketsAdapter.ListItemClickListener listener) {
@@ -100,7 +100,7 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(mRockets.get(getAdapterPosition()).getId());
+            mOnClickListener.onItemClickListener(mRockets.get(getAdapterPosition()).getRocketId());
         }
     }
 

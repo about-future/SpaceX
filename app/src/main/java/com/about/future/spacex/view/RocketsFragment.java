@@ -118,9 +118,9 @@ public class RocketsFragment extends Fragment implements
     }
 
     @Override
-    public void onItemClickListener(String launchPadId) {
-        Intent rocketDetailsIntent = new Intent(getActivity(), MissionDetailsActivity.class);
-        rocketDetailsIntent.putExtra(ROCKET_ID_KEY, launchPadId);
+    public void onItemClickListener(int rocketId) {
+        Intent rocketDetailsIntent = new Intent(getActivity(), RocketDetailsActivity.class);
+        rocketDetailsIntent.putExtra(ROCKET_ID_KEY, rocketId);
         rocketDetailsIntent.putExtra(TOTAL_ROCKETS_KEY, mTotalRockets);
         startActivity(rocketDetailsIntent);
     }
