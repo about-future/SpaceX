@@ -43,9 +43,6 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
     private static final String SONG_POSITION = "seek_position";
     private static final String SOUND_ON = "sound_on";
-    private static final int CREDIT_ARTIST_INSERTION = 139800;
-    private static final int CREDIT_SONG_INSERTION = 142200;
-    private static final int CREDITS_EXTRACTION = 180000;
 
     @BindView(R.id.playerView)
     PlayerView mPlayerView;
@@ -74,10 +71,9 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     // Store the current Toast
     private Toast mToast;
 
-    // This is the gesture detector compat instance.
+    // This is the gesture detector compat instance
     private GestureDetectorCompat gestureDetectorCompat = null;
 
-    private Typeface brandonBlack;
     private Typeface conthraxTypeface;
 
     @Override
@@ -92,7 +88,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         starFieldView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         // Prepare params for SpaceX logo
-        // Logo width is 74% of screen width and logo height is 12.5% of width logo.
+        // Logo width is 74% of screen width and logo height is 12.5% of width logo
         int width = (int) (ScreenUtils.getScreenWidhtInPixels(this) * 0.74);
         int height = (int) (width * 0.125);
 
@@ -140,7 +136,6 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         gestureDetectorCompat = new GestureDetectorCompat(this, gestureListener);
 
         // Set typeface for credits
-        //brandonBlack = Typeface.createFromAsset(getAssets(), "Brandon_blk.otf");
         conthraxTypeface = Typeface.createFromAsset(getAssets(), "conthrax_sb.ttf");
         mCredits.setTypeface(conthraxTypeface);
     }
@@ -321,11 +316,8 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         // If the background song has ended, start SpaceX activity
         if (playbackState == Player.STATE_ENDED) {
-            startActivity(new Intent(StarfieldActivity.this, SpaceXActivity.class));
             mExoPlayer.seekTo(0);
-        }
-        if (playbackState == Player.STATE_READY) {
-            Log.v("PLAYING POSITION:", "" + mExoPlayer.getCurrentPosition());
+            startActivity(new Intent(StarfieldActivity.this, SpaceXActivity.class));
         }
     }
 

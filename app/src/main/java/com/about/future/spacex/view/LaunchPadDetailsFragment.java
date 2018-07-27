@@ -27,6 +27,7 @@ import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.LaunchPadLoader;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.LaunchPadViewModel;
 import com.about.future.spacex.viewmodel.LaunchPadViewModelFactory;
 import com.google.gson.Gson;
@@ -183,7 +184,6 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
                                 // Try again online, if cache loading failed
                                 Picasso.get()
                                         .load(locationPadSatelliteImageUrl)
-                                        //TODO: change staticmap
                                         .error(R.drawable.staticmap)
                                         .into(mLaunchPadSatelliteImageView);
                             }
@@ -221,7 +221,6 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
                 }
 
             } else {
-                //TODO: change staticmap
                 mLaunchPadSatelliteImageView.setImageResource(R.drawable.staticmap);
                 mLaunchPadMapImageView.setImageResource(R.drawable.empty_map);
                 mLaunchPadLocationTextView.setText(getString(R.string.label_unknown));
@@ -279,9 +278,9 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
                         mDb.launchPadDao().updateLaunchPad(launchPad);
                     }
                 });
-                snakBarThis(getString(R.string.launch_pad_updated));
+                ScreenUtils.snakBarThis(mRootView, getString(R.string.launch_pad_updated));
             } else {
-                snakBarThis(getString(R.string.launch_pad_up_to_date));
+                ScreenUtils.snakBarThis(mRootView, getString(R.string.launch_pad_up_to_date));
             }
         }
     }
@@ -289,17 +288,5 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
     @Override
     public void onLoaderReset(@NonNull Loader<LaunchPad> loader) {
         mLaunchPad = null;
-    }
-
-    private void snakBarThis(String message) {
-        Snackbar snackbar = Snackbar.make(mRootView, message, Snackbar.LENGTH_SHORT);
-        View view = snackbar.getView();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
-        } else {
-            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }
-        snackbar.show();
     }
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.about.future.spacex.R;
@@ -37,7 +38,6 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
                     mLaunchPadId = intent.getIntExtra(LAUNCH_PAD_ID_KEY, DEFAULT_LAUNCH_PAD_ID);
                 }
             }
-
         }
 
         mPagerAdapter = new LaunchPadDetailsActivity.MyPagerAdapter(getSupportFragmentManager());

@@ -268,6 +268,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
             // Patch (if it's available)
             if (mission.getLinks() != null && mission.getLinks().getMissionPatchSmall() != null) {
                 final String missionPatchImageUrl = mission.getLinks().getMissionPatchSmall();
+                // First, try loading from cache
                 Picasso.get()
                         .load(missionPatchImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
@@ -282,13 +283,20 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                                 // Try again online, if cache loading failed
                                 Picasso.get()
                                         .load(missionPatchImageUrl)
-                                        .error(R.drawable.dragon)
+                                        .error(R.drawable.default_patch_f9_small)
                                         .into(mMissionPatchImageView);
                             }
                         });
             } else {
                 // Otherwise, load placeholder patch
-                mMissionPatchImageView.setImageResource(R.drawable.dragon);
+                try {
+                    ImageUtils.setDefaultImage(
+                            mMissionPatchImageView,
+                            mission.getRocket().getRocketName(),
+                            mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType());
+                } catch (NullPointerException e) {
+                    mMissionPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
+                }
             }
 
             // Set launch date
@@ -664,9 +672,9 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         mDb.missionDao().updateMission(newMission);
                     }
                 });
-                snakBarThis(getString(R.string.mission_updated));
+                ScreenUtils.snakBarThis(getView(), getString(R.string.mission_updated));
             } else {
-                snakBarThis(getString(R.string.mission_up_to_date));
+                ScreenUtils.snakBarThis(getView(), getString(R.string.mission_up_to_date));
             }
         }
     }
@@ -676,26 +684,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         mMission = null;
     }
 
-    private void snakBarThis(String message) {
-        Snackbar snackbar = Snackbar.make(mRootView, message, Snackbar.LENGTH_SHORT);
-        View view = snackbar.getView();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
-        } else {
-            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }
-        snackbar.show();
-    }
-
-    // TODO: Solve displayed mission data, depending on location
-
-    // TODO: Mark upcoming missions with something
-    // TODO: Create upcoming mission patch
-
-    // TODO: Notifications with Firebase and Google Maps
-    // TODO: Rockets, Launching Sites and Payloads/Capsules
-
+    // TODO: Create landscape layout for missions list
     // TODO: Widget
-    // TODO: Video link update from Firebase (maybe)
 }

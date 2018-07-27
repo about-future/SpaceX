@@ -13,19 +13,14 @@ import android.widget.TextView;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.R;
 import com.about.future.spacex.utils.DateUtils;
+import com.about.future.spacex.utils.ImageUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +50,6 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         String missionPatchImagePath = "";
-        // TODO: Default mission patch
         if (mMissions.get(position).getLinks() != null && mMissions.get(position).getLinks().getMissionPatchSmall() != null)
             missionPatchImagePath = mMissions.get(position).getLinks().getMissionPatchSmall();
 
@@ -77,13 +71,20 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
                             // Try again online, if cache loading failed
                             Picasso.get()
                                     .load(missionPatchImageUrl)
-                                    .error(R.drawable.dragon)
+                                    .error(R.drawable.default_patch_f9_small)
                                     .into(holder.missionPatchImageView);
                         }
                     });
         } else {
             // Otherwise, don't bother using Picasso and set default_mission_patch image for missionPatchImageView
-            holder.missionPatchImageView.setImageResource(R.drawable.dragon); // default_mission_patch
+            try {
+                ImageUtils.setDefaultImage(
+                        holder.missionPatchImageView,
+                        mMissions.get(position).getRocket().getRocketName(),
+                        mMissions.get(position).getRocket().getSecondStage().getPayloads().get(0).getPayloadType());
+            } catch (NullPointerException e) {
+                holder.missionPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
+            }
         }
 
         holder.missionNameTextView.setText(mMissions.get(position).getMissionName());

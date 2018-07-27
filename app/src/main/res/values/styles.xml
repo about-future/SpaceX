@@ -10,17 +10,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
-    <style name="ActionBar.Solid.SpaceX.NoTitle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="displayOptions">useLogo|showHome</item>
-        <item name="logo">@drawable/logo</item>
-    </style>
-
-    <style name="AppTheme.Logo" parent="@style/AppTheme">
-        <item name="actionBarStyle">@style/ActionBar.Solid.SpaceX.NoTitle</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.SpaceX.NoTitle</item>
-    </style>
-
-    <!-- NoActionBar Style -->
+    <!-- FullScreen Style -->
     <style name="AppTheme.FullScreen" parent="@style/Theme.AppCompat">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
@@ -29,18 +19,21 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- NoActionBar Style -->
     <style name="AppTheme.NoActionBar" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Activity Big Title Style -->
     <style name="Condensed">
         <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:windowTitleSize">@dimen/details_title_text_size</item>
         <item name="android:textColor">#fff</item>
     </style>
 
+    <!-- Activity Small Title Style -->
     <style name="Condensed.Small">
         <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:windowTitleSize">@dimen/details_small_title_text_size</item>
@@ -51,7 +44,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
+    <!-- TextView Styles -->
     <style name="Title">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

@@ -5,6 +5,7 @@
 package com.about.future.spacex.utils;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
@@ -46,7 +47,7 @@ public class DetectSwipeGestureListener  extends GestureDetector.SimpleOnGesture
         // then we treat it as effective swipe gesture
         if((deltaXAbs >= MIN_SWIPE_DISTANCE_X && deltaXAbs <= MAX_SWIPE_DISTANCE_X)
                 || (deltaYAbs >= MIN_SWIPE_DISTANCE_Y && deltaYAbs <= MAX_SWIPE_DISTANCE_Y)) {
-            activity.startActivity(new Intent(activity, SpaceXActivity.class));
+                activity.startActivity(new Intent(activity, SpaceXActivity.class));
         }
         return true;
     }

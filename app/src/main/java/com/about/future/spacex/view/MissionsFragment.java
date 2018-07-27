@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppExecutors;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.MissionsViewModel;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.data.AppDatabase;
@@ -41,6 +42,7 @@ public class MissionsFragment extends Fragment implements
     public static final String TOTAL_MISSIONS_KEY = "total_missions";
 
     private AppDatabase mDb;
+    private List<Mission> mMissions;
     private MissionsAdapter mMissionsAdapter;
     private int mTotalMissions;
 
@@ -106,6 +108,7 @@ public class MissionsFragment extends Fragment implements
             @Override
             public void onChanged(@Nullable List<Mission> missions) {
                 if (missions != null) {
+                    mMissions = missions;
                     mMissionsAdapter.setMissions(missions);
                     mTotalMissions = missions.size();
                 }
@@ -146,13 +149,20 @@ public class MissionsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Mission>> loader, final List<Mission> data) {
         switch (loader.getId()) {
             case MISSIONS_LOADER_ID:
+
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
+                        // TODO: Check later if this is necessary
+//                        if (mMissions.size() < data.size()) {
+//                            mDb.missionDao().deleteAllMissions();
+//                        }
                         mDb.missionDao().insertMissions(data);
                         SpaceXPreferences.setLoadingStatus(getContext(), true);
                     }
                 });
+
+                ScreenUtils.snakBarThis(getView(), getString(R.string.missions_updated));
 
                 setupViewModel();
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -26,9 +27,16 @@ import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.RocketLoader;
 import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.utils.DateUtils;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.RocketViewModel;
 import com.about.future.spacex.viewmodel.RocketViewModelFactory;
 import com.google.gson.Gson;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +59,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.backdrop_rocket_view)
     ImageView mBackdropImageView;
+    @BindView(R.id.rocket_patch)
+    ImageView mRocketPatchImageView;
     @BindView(R.id.first_flight)
     TextView mFirstFlightTextView;
     @BindView(R.id.cost_per_launch)
@@ -59,6 +69,13 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     TextView mRocketStatus;
     @BindView(R.id.rocket_description)
     TextView mDescriptionTextView;
+
+    @BindView(R.id.rocket_core_image)
+    ImageView mCoreImageView;
+    @BindView(R.id.rocket_payload_image)
+    ImageView mPayloadImageView;
+    @BindView(R.id.separation_line5)
+    View mSeparationLine5View;
 
     public RocketDetailsFragment() {
         // Required empty public constructor
@@ -175,13 +192,37 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     break;
             }
 
+            // Rocket Patch
+            switch (rocket.getName()) {
+                case "Falcon 1":
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_f1_small);
+                    break;
+                case "Falcon 9":
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_dragon_small);
+                    break;
+                case "Falcon Heavy":
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
+                    break;
+                case "Big Falcon Rocket":
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_bfr_small);
+                    break;
+                default:
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
+                    break;
+            }
+
             // First flight
-            mFirstFlightTextView.setText(rocket.getFirstFlight());
+            mFirstFlightTextView.setText(DateUtils.shortDateFormat(rocket.getFirstFlight()));
 
             // Cost per launch
-            //float cost = rocket.getCostPerLaunch();
+            //DecimalFormat formatter = new DecimalFormat("#,###,###,### ");
+            //formatter.setCurrency(Currency.getInstance(Locale.US));
+            //String formattedCost = formatter.format(rocket.getCostPerLaunch()).concat(formatter.getCurrency().getSymbol());
 
-            mCostPerLaunchTextView.setText(String.valueOf(rocket.getCostPerLaunch()));
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
+            numberFormat.setMaximumFractionDigits(0);
+
+            mCostPerLaunchTextView.setText(numberFormat.format(rocket.getCostPerLaunch()));
 
             // Status
             if (rocket.isActive()) {
@@ -196,6 +237,85 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
             } else {
                 mDescriptionTextView.setVisibility(View.GONE);
             }
+
+
+
+            // Set rocket image (payload and core)
+            ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
+            ConstraintLayout.LayoutParams paramsCore = (ConstraintLayout.LayoutParams) mCoreImageView.getLayoutParams();
+            ConstraintLayout.LayoutParams paramsSeparationLine5 = (ConstraintLayout.LayoutParams) mSeparationLine5View.getLayoutParams();
+            float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
+
+            // Set image, depending on rocket type
+            switch (rocket.getName()) {
+                case "Falcon 1":
+                    mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
+                    mCoreImageView.setImageResource(R.drawable.core_falcon1);
+                    paramsPayload.setMarginEnd(48);
+                    paramsCore.setMarginEnd(48);
+                    break;
+                case "Falcon 9":
+                    mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
+                    mCoreImageView.setImageResource(R.drawable.core_block5);
+                    paramsPayload.setMarginEnd(48);
+                    paramsCore.setMarginEnd(48);
+                    break;
+                case "Falcon Heavy":
+                    mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                    mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
+                    if (ScreenUtils.isPortraitMode(getActivityCast())) {
+                        paramsPayload.setMarginEnd(69);
+                        paramsCore.setMarginEnd(20);
+                        paramsSeparationLine5.setMarginEnd(0);
+                    } else {
+                        paramsPayload.setMarginEnd(90);
+                        paramsCore.setMarginEnd(9);
+                        paramsSeparationLine5.setMarginEnd(70);
+                    }
+                    break;
+                case "BFR":
+                    mPayloadImageView.setImageResource(R.drawable.payload_bfr);
+                    mCoreImageView.setImageResource(R.drawable.core_bfr);
+                    paramsPayload.setMarginEnd(24);
+                    paramsCore.setMarginEnd(24);
+                    break;
+                case "Big Falcon Rocket":
+                    mPayloadImageView.setImageResource(R.drawable.payload_bfr);
+                    mCoreImageView.setImageResource(R.drawable.core_bfr);
+                    paramsPayload.setMarginEnd(24);
+                    paramsCore.setMarginEnd(24);
+                    break;
+            }
+
+            // We will set the payload/core image height to be equal to:
+            // {Devices max screen size in px(height or width) - [(StatusBar + ActionBar + TopMargin + 2 x BottomMargin) (in dp) * screen density]} * 30.8%(or 69.2%) of total resulted height
+            // Phone: 24 + 56 + 16 + 2x16 = 128dp
+            // Tablet: 24 + 64 + 24 + 2x24 = 160dp
+            float maxSize = Math.max(screenSize[0], screenSize[1]);
+            // If screen is in Landscape mode, show rocket image 33% bigger
+            if (!ScreenUtils.isPortraitMode(getActivityCast())) {
+                maxSize = (float) (maxSize * 1.5);
+            }
+            paramsPayload.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.308);
+            paramsCore.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.692);
+            paramsPayload.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
+            paramsCore.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
+
+            mPayloadImageView.setLayoutParams(paramsPayload);
+            mCoreImageView.setLayoutParams(paramsCore);
+            mSeparationLine5View.setLayoutParams(paramsSeparationLine5);
+
+            //
+            //
+
+            // Height
+            //
+
+            // Diameter
+            //
+
+            // Mass
+            //
 
             //TODO: complete this
         }
@@ -228,9 +348,9 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                         mDb.rocketDao().updateRocket(rocket);
                     }
                 });
-                snakBarThis(getString(R.string.rocket_updated));
+                ScreenUtils.snakBarThis(mRootView, getString(R.string.rocket_updated));
             } else {
-                snakBarThis(getString(R.string.rocket_up_to_date));
+                ScreenUtils.snakBarThis(mRootView, getString(R.string.rocket_up_to_date));
             }
         }
     }
@@ -238,17 +358,5 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onLoaderReset(@NonNull Loader<Rocket> loader) {
         mRocket = null;
-    }
-
-    private void snakBarThis(String message) {
-        Snackbar snackbar = Snackbar.make(mRootView, message, Snackbar.LENGTH_SHORT);
-        View view = snackbar.getView();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
-        } else {
-            view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }
-        snackbar.show();
     }
 }

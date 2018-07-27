@@ -15,6 +15,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,11 @@ import com.about.future.spacex.data.RocketsAdapter;
 import com.about.future.spacex.data.RocketsLoader;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
 import com.about.future.spacex.viewmodel.RocketsViewModel;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -45,6 +48,7 @@ public class RocketsFragment extends Fragment implements
     public static final String TOTAL_ROCKETS_KEY = "total_rockets";
 
     private AppDatabase mDb;
+    private List<Rocket> mRockets;
     private RocketsAdapter mRocketsAdapter;
     private int mTotalRockets;
 
@@ -101,6 +105,7 @@ public class RocketsFragment extends Fragment implements
             @Override
             public void onChanged(@Nullable List<Rocket> rockets) {
                 if (rockets != null) {
+                    mRockets = rockets;
                     mRocketsAdapter.setRockets(rockets);
                     mTotalRockets = rockets.size();
                 }
@@ -141,21 +146,23 @@ public class RocketsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Rocket>> loader, final List<Rocket> data) {
         switch (loader.getId()) {
             case ROCKETS_LOADER_ID:
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.rocketDao().insertRockets(data);
-                        SpaceXPreferences.setRocketsStatus(getContext(), true);
-                    }
-                });
+                String rocketsAsString = new Gson().toJson(mRockets);
+                String dataAsString = new Gson().toJson(data);
 
-                setupViewModel();
-
-//                if (data != null) {
-//                    mRocketsAdapter.setRockets(data);
-//                    mTotalRockets = data.size();
-//                }
-
+                if (!TextUtils.equals(rocketsAsString, dataAsString)) {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDb.rocketDao().deleteAllRockets();
+                            mDb.rocketDao().insertRockets(data);
+                            SpaceXPreferences.setRocketsStatus(getContext(), true);
+                        }
+                    });
+                    setupViewModel();
+                    ScreenUtils.snakBarThis(getView(), getString(R.string.rockets_updated));
+                } else {
+                    ScreenUtils.snakBarThis(getView(), getString(R.string.rockets_up_to_date));
+                }
                 break;
             default:
                 break;

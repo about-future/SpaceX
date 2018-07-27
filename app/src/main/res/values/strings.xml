@@ -52,6 +52,18 @@
     <string name="label_cost_per_launch">Cost Per Launch</string>
     <string name="label_active">Active</string>
     <string name="label_inactive">Inactive</string>
+    <string name="label_rocket_height">Height</string>
+    <string name="label_rocket_diameter">Diameter</string>
+    <string name="label_rocket_mass">Mass</string>
+    <string name="label_rocket_stages">Stages</string>
+    <string name="label_engines">Engines</string>
+    <string name="label_burn_time">Burn Time</string>
+    <string name="label_thrust_at_sea_level">Thrust at sea level</string>
+    <string name="label_thrust_in_vacuum">Thrust in vacuum</string>
+    <string name="label_payload_to_leo">Payload to LEO</string>
+    <string name="label_payload_to_gto">Payload to GTO</string>
+    <string name="label_payload_to_mars">Payload to Mars</string>
+    <string name="label_payload_to_pluto">Payload to Pluto</string>
 
 
     <!-- Landing types -->
@@ -92,14 +104,20 @@
     <string name="mission_updating">Updating mission details&#8230;</string>
     <string name="mission_up_to_date">Mission is up to date!</string>
     <string name="mission_updated">Mission updated!</string>
+    <string name="missions_up_to_date">Missions are up to date!</string>
+    <string name="missions_updated">Missions updated!</string>
 
     <string name="launch_pad_updating">Updating launch pad details&#8230;</string>
     <string name="launch_pad_up_to_date">Launch pad details are up to date!</string>
     <string name="launch_pad_updated">Launch pad updated!</string>
+    <string name="launch_pads_up_to_date">Launch pads are up to date!</string>
+    <string name="launch_pads_updated">Launch pads updated!</string>
 
     <string name="rocket_updating">Updating rocket details&#8230;</string>
     <string name="rocket_up_to_date">Rocket details are up to date!</string>
     <string name="rocket_updated">Rocket updated!</string>
+    <string name="rockets_up_to_date">Rockets details are up to date!</string>
+    <string name="rockets_updated">Rockets updated!</string>
 
     <!-- Credits -->
     <string name="song_credits">ARTIST: TEST SHOT STARFISH\nFLIGHT-PROVEN</string>
@@ -113,6 +131,7 @@
     <string name="updates_title">Updates</string>
     <string name="summary_on">Enabled</string>
     <string name="summary_off">Disabled</string>
+    <string name="live_webcast">Webcast is now live! Enjoy!</string>
 
     <!-- PREFERENCE KEYS -->
     <string name="pref_mission_status_key">missions_loaded</string>

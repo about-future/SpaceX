@@ -27,8 +27,7 @@ import butterknife.ButterKnife;
 
 public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.ViewHolder> {
     private final Context mContext;
-    private List<LaunchPad> mLaunchPads = new ArrayList<LaunchPad>() {
-    };
+    private List<LaunchPad> mLaunchPads = new ArrayList<LaunchPad>() {};
     private final ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {

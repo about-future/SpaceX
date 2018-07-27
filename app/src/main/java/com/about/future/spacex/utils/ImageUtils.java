@@ -2,6 +2,10 @@ package com.about.future.spacex.utils;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.widget.ImageView;
+
+import com.about.future.spacex.R;
 
 import java.util.Date;
 
@@ -67,5 +71,29 @@ public class ImageUtils {
         long savedDate = SpaceXPreferences.getLaunchPadsThumbnailsSavingDate(context) / 1000;
 
         return (now - savedDate) >= (30 * 24 * 60 * 60); // 30 days * 24h * 60min * 60sec
+    }
+
+    public static void setDefaultImage(ImageView imageView, String rocketName, String payloadType) {
+        switch (rocketName) {
+            case "Falcon 9":
+                if (!TextUtils.isEmpty(payloadType) && TextUtils.equals(payloadType, "Satellite")) {
+                    imageView.setImageResource(R.drawable.default_patch_f9_small);
+                } else {
+                    imageView.setImageResource(R.drawable.default_patch_dragon_small);
+                }
+                break;
+            case "Falcon Heavy":
+                imageView.setImageResource(R.drawable.default_patch_fh_small);
+                break;
+            case "BFR":
+                imageView.setImageResource(R.drawable.default_patch_bfr_small);
+                break;
+            case "Big Falcon Rocket":
+                imageView.setImageResource(R.drawable.default_patch_bfr_small);
+                break;
+            default:
+                imageView.setImageResource(R.drawable.default_patch_f9_small);
+                break;
+        }
     }
 }

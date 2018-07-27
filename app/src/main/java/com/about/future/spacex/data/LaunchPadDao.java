@@ -20,9 +20,15 @@ public interface LaunchPadDao {
     @Query("SELECT * FROM launch_pads WHERE padId = :padId")
     LiveData<LaunchPad> loadLaunchPadDetails(int padId);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertLaunchPads(List<LaunchPad> launchPads);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateLaunchPad(LaunchPad launchPad);
+
+//    @Update(onConflict = OnConflictStrategy.REPLACE)
+//    void updateLaunchPads(List<LaunchPad> launchPads);
+
+    @Query("DELETE FROM launch_pads")
+    void deleteAllLaunchPads();
 }

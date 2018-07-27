@@ -3,8 +3,13 @@ package com.about.future.spacex.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.WindowManager;
+
+import com.about.future.spacex.R;
 
 public class ScreenUtils {
 
@@ -64,5 +69,17 @@ public class ScreenUtils {
      */
     public static boolean isPortraitMode(Context context) {
         return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    public static void snakBarThis(View mainView, String message) {
+        Snackbar snackbar = Snackbar.make(mainView, message, Snackbar.LENGTH_SHORT);
+        View view = snackbar.getView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            view.setBackgroundColor(view.getResources().getColor(R.color.colorPrimary, null));
+        } else {
+            view.setBackgroundColor(view.getResources().getColor(R.color.colorPrimary));
+        }
+        snackbar.show();
     }
 }

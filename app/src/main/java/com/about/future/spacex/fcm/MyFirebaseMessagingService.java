@@ -3,18 +3,17 @@ package com.about.future.spacex.fcm;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
@@ -22,12 +21,12 @@ import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.model.mission.Links;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.utils.ImageUtils;
-import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.view.MissionDetailsActivity;
-import com.about.future.spacex.viewmodel.MissionsViewModel;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,16 +38,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final int NOTIFICATION_MAX_CHARACTERS = 45;
     private static final String SPACEX_GROUP_KEY = "spacex_group";
-    private static String LOG_TAG = MyFirebaseMessagingService.class.getSimpleName();
 
     private AppDatabase mDb;
-    private List<Mission> mUpcomingMissions;
-    private Mission mUpcomingMission;
-    private int mMissionNumber;
-    private int mTotalMissions;
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(final RemoteMessage remoteMessage) {
         final Map<String, String> data = remoteMessage.getData();
 
         if (data.size() > 0) {
@@ -57,58 +51,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    //TODO: small mess
-                    mUpcomingMissions = mDb.missionDao().findUpcomingMission((new Date().getTime() / 1000));
-                    mTotalMissions = mDb.missionDao().countMissions();
+                    Mission upcomingMission = mDb.missionDao().findUpcomingMission((new Date().getTime() / 1000));
+                    int totalMissions = mDb.missionDao().countMissions();
+                    int missionNumber = upcomingMission.getFlightNumber();
 
-                    mMissionNumber = mUpcomingMissions.get(0).getFlightNumber();
-                    mUpcomingMission = mUpcomingMissions.get(0);
+                    if (TextUtils.equals(remoteMessage.getFrom(), "/topics/updates")) {
+                        // Update the upcoming mission's webcast link
+                        String webcastLink = data.get("body");
+                        //String webcastVideoKey = webcastLink.substring(webcastLink.indexOf("=") + 1, webcastLink.length());
+                        //String webcastImagePreviewUrl = ImageUtils.buildSdVideoThumbnailUrl(webcastVideoKey);
 
-                    //Log.v("TOTAL1", "IS: " + String.valueOf(mTotalMissions));
-                    //Log.v("UPCOMING1", " IS: " + String.valueOf(mMissionNumber));
+                        // Update the upcoming mission's webcast link
+                        Links newLinks = upcomingMission.getLinks();
+                        newLinks.setVideoLink(webcastLink);
+                        upcomingMission.setLinks(newLinks);
+                        mDb.missionDao().updateMission(upcomingMission);
 
-//                    if (mUpcomingMissions.size() > 0 && totalMissions > 0) {
-//                        mUpcomingMission = upcomingMissions.get(0);
-//                        mMissionNumber = upcomingMissions.get(0).getFlightNumber();
-//                        mTotalMissions = totalMissions;
-//                    }
-
-                    sendNotification("SpaceX", data.get("body"), mTotalMissions, mMissionNumber);
+                        sendNotification(getString(R.string.live_webcast), totalMissions, missionNumber);
+                    } else {
+                        sendNotification(data.get("body"), totalMissions, missionNumber);
+                    }
                 }
             });
-
-            if (TextUtils.equals(remoteMessage.getFrom(), "/topics/news")) {
-                // Send a notification with the new received message
-                //Log.v("SEND", "NOTIFICATION");
-                //sendNotification(data.get("title"), data.get("body"));
-            } else {
-                // Update the upcoming mission's webcast link
-                String title = "SpaceX";
-                final String webcastLink = data.get("body");
-                String webcastVideoKey = webcastLink.substring(webcastLink.indexOf("=") + 1, webcastLink.length());
-                String webcastImagePreview = ImageUtils.buildSdVideoThumbnailUrl(webcastLink);
-
-                // Update the upcoming mission's webcast link
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        Links newLinks = new Links();
-                        newLinks.setVideoLink(webcastLink);
-                        mUpcomingMission.setLinks(newLinks);
-
-                        mDb.missionDao().updateMission(mUpcomingMission);
-                    }
-                });
-
-                //Log.v("SEND", "UPDATE");
-                //sendNotification(title, webcastLink);
-            }
-
-            //Log.d(LOG_TAG, "Message data payload: " + data);
         }
     }
 
-    private void sendNotification(String title, String message, int totalMissions, int missionNumber) {
+    private void sendNotification(String message, int totalMissions, int missionNumber) {
         String shortMessage;
 
         // If the message is longer than the max number of characters we want in our
@@ -131,13 +99,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setContentTitle(title)
+                        .setContentTitle("SpaceX")
+                        .setLights(0xFF005288, 2000, 5000)
                         .setContentText(shortMessage)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(message))
-                        // TODO: Test this: .setGroup(SPACEX_GROUP_KEY)
+                        .setGroup(SPACEX_GROUP_KEY)
                         .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
@@ -148,13 +117,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationChannel channel = new NotificationChannel(channelId,
                     "Channel human readable title",
                     NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-    }
-
-    private void setUpdatedNotification(String title, String body) {
-
+        if (notificationManager != null) {
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }
     }
 }

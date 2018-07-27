@@ -1,5 +1,6 @@
 package com.about.future.spacex.utils;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,4 +17,13 @@ public class DateUtils {
         return simpleDateFormat.format(missionDate);
     }
 
+    public static String shortDateFormat(String stringDate) {
+        // Date format
+        ParsePosition pos = new ParsePosition(0);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        Date date = simpleDateFormat.parse(stringDate, pos);
+        SimpleDateFormat simpleDateReformat = new SimpleDateFormat("d MMMM yyyy", Locale.US);
+
+        return simpleDateReformat.format(date);
+    }
 }

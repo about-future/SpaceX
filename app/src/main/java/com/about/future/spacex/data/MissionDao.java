@@ -20,8 +20,8 @@ public interface MissionDao {
     @Query("SELECT * FROM missions WHERE flight_number = :flightNumber")
     LiveData<Mission> loadMissionDetails(int flightNumber);
 
-    @Query("SELECT * FROM missions WHERE launch_date_unix > :now ORDER BY launch_date_unix ASC")
-    List<Mission> findUpcomingMission(long now);
+    @Query("SELECT * FROM missions WHERE launch_date_unix > :now ORDER BY launch_date_unix ASC LIMIT 1")
+    Mission findUpcomingMission(long now);
 
     @Query("SELECT COUNT(*) FROM missions")
     int countMissions();
@@ -31,4 +31,7 @@ public interface MissionDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateMission(Mission mission);
+
+    @Query("DELETE FROM missions")
+    void deleteAllMissions();
 }

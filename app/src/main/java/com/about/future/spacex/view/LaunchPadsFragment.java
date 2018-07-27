@@ -14,18 +14,23 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.LaunchPadsAdapter;
 import com.about.future.spacex.data.LaunchPadsLoader;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.SpaceXPreferences;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -40,6 +45,7 @@ public class LaunchPadsFragment extends Fragment implements
     public static final String TOTAL_LAUNCH_PADS_KEY = "total_launch_pads";
 
     private AppDatabase mDb;
+    private List<LaunchPad> mLaunchPads;
     private LaunchPadsAdapter mLaunchPadsAdapter;
     private int mTotalLaunchPads;
 
@@ -97,6 +103,7 @@ public class LaunchPadsFragment extends Fragment implements
             @Override
             public void onChanged(@Nullable List<LaunchPad> launchPads) {
                 if (launchPads != null) {
+                    mLaunchPads = launchPads;
                     mLaunchPadsAdapter.setLaunchPads(launchPads);
                     mTotalLaunchPads = launchPads.size();
                 }
@@ -137,23 +144,31 @@ public class LaunchPadsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<LaunchPad>> loader, final List<LaunchPad> data) {
         switch (loader.getId()) {
             case LAUNCH_PADS_LOADER_ID:
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.launchPadDao().insertLaunchPads(data);
-                        SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
-                    }
-                });
+                String launchPadsAsString = new Gson().toJson(mLaunchPads);
+                String dataAsString = new Gson().toJson(data);
 
-                setupViewModel();
+                if (!TextUtils.equals(launchPadsAsString, dataAsString)) {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDb.launchPadDao().deleteAllLaunchPads();
+                            mDb.launchPadDao().insertLaunchPads(data);
+                            SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
+                        }
+                    });
+                    setupViewModel();
+                    ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_updated));
+                } else {
+                    ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_up_to_date));
+                }
 
+                //ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_updated));
+                //Toast.makeText(getActivityCast(), getString(R.string.launch_pads_updated), Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
         }
     }
-
-    //TODO: Show snakbar message if update was done
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<LaunchPad>> loader) {
