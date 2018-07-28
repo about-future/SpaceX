@@ -173,7 +173,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
         mRootView = inflater.inflate(R.layout.fragment_rocket_details, container, false);
         ButterKnife.bind(this, mRootView);
 
-        //mToolbar.setTitle("");
+        mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -233,45 +233,77 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 }
             });
 
-            // TODO: unify this block with the one below
-            // TODO: get dragon dimension
-            // Backdrop
+            // Set rocket image (payload and core)
+            ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
+            ConstraintLayout.LayoutParams paramsCore = (ConstraintLayout.LayoutParams) mCoreImageView.getLayoutParams();
+            float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
+
+            // Set Backdrop, Rocket Patch & Rocket image, depending on rocket id
             switch (rocket.getId()) {
                 case "falcon1":
                     mBackdropImageView.setImageResource(R.drawable.falcon1);
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_f1_small);
+                    mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
+                    mCoreImageView.setImageResource(R.drawable.core_falcon1);
+                    paramsPayload.setMarginEnd(48);
+                    paramsCore.setMarginEnd(48);
                     break;
                 case "falcon9":
                     mBackdropImageView.setImageResource(R.drawable.falcon9);
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
+                    mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                    mCoreImageView.setImageResource(R.drawable.core_block5);
+                    paramsPayload.setMarginEnd(48);
+                    paramsCore.setMarginEnd(48);
                     break;
                 case "falconheavy":
                     mBackdropImageView.setImageResource(R.drawable.falcon_heavy);
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
+                    mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                    mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
+                    if (ScreenUtils.isPortraitMode(getActivityCast())) {
+                        paramsPayload.setMarginEnd(69);
+                        paramsCore.setMarginEnd(20);
+                    } else {
+                        paramsPayload.setMarginEnd(90);
+                        paramsCore.setMarginEnd(9);
+                    }
                     break;
                 case "bfr":
                     mBackdropImageView.setImageResource(R.drawable.bfr1);
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_bfr_small);
+                    mPayloadImageView.setImageResource(R.drawable.payload_bfr);
+                    mCoreImageView.setImageResource(R.drawable.core_bfr);
+                    paramsPayload.setMarginEnd(24);
+                    paramsCore.setMarginEnd(24);
                     break;
                 default:
+                    // Other new type of rocket
                     mBackdropImageView.setImageResource(R.drawable.rocket);
+                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_dragon_small);
+                    mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                    mCoreImageView.setImageResource(R.drawable.core_block4);
+                    paramsPayload.setMarginEnd(48);
+                    paramsCore.setMarginEnd(48);
                     break;
             }
 
-            // Rocket Patch
-            switch (rocket.getName()) {
-                case "Falcon 1":
-                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_f1_small);
-                    break;
-                case "Falcon 9":
-                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_dragon_small);
-                    break;
-                case "Falcon Heavy":
-                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
-                    break;
-                case "Big Falcon Rocket":
-                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_bfr_small);
-                    break;
-                default:
-                    mRocketPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
-                    break;
+            // We will set the payload/core image height to be equal to:
+            // {Devices max screen size in px(height or width) - [(StatusBar + ActionBar + TopMargin + 2 x BottomMargin) (in dp) * screen density]} * 30.8%(or 69.2%) of total resulted height
+            // Phone: 24 + 56 + 16 + 2x16 = 128dp
+            // Tablet: 24 + 64 + 24 + 2x24 = 160dp
+            float maxSize = Math.max(screenSize[0], screenSize[1]);
+            // If screen is in Landscape mode, show rocket image 33% bigger
+            if (!ScreenUtils.isPortraitMode(getActivityCast())) {
+                maxSize = (float) (maxSize * 1.5);
             }
+            paramsPayload.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.308);
+            paramsCore.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.692);
+            paramsPayload.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
+            paramsCore.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
+
+            mPayloadImageView.setLayoutParams(paramsPayload);
+            mCoreImageView.setLayoutParams(paramsCore);
 
             // First flight
             mFirstFlightTextView.setText(DateUtils.shortDateFormat(rocket.getFirstFlight()));
@@ -354,67 +386,6 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 i++;
             }
 
-            // Set rocket image (payload and core)
-            ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
-            ConstraintLayout.LayoutParams paramsCore = (ConstraintLayout.LayoutParams) mCoreImageView.getLayoutParams();
-            float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
-
-            // Set image, depending on rocket type
-            switch (rocket.getName()) {
-                case "Falcon 1":
-                    mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
-                    mCoreImageView.setImageResource(R.drawable.core_falcon1);
-                    paramsPayload.setMarginEnd(48);
-                    paramsCore.setMarginEnd(48);
-                    break;
-                case "Falcon 9":
-                    mPayloadImageView.setImageResource(R.drawable.payload_satellite);
-                    mCoreImageView.setImageResource(R.drawable.core_block5);
-                    paramsPayload.setMarginEnd(48);
-                    paramsCore.setMarginEnd(48);
-                    break;
-                case "Falcon Heavy":
-                    mPayloadImageView.setImageResource(R.drawable.payload_satellite);
-                    mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
-                    if (ScreenUtils.isPortraitMode(getActivityCast())) {
-                        paramsPayload.setMarginEnd(69);
-                        paramsCore.setMarginEnd(20);
-                    } else {
-                        paramsPayload.setMarginEnd(90);
-                        paramsCore.setMarginEnd(9);
-                    }
-                    break;
-                case "BFR":
-                    mPayloadImageView.setImageResource(R.drawable.payload_bfr);
-                    mCoreImageView.setImageResource(R.drawable.core_bfr);
-                    paramsPayload.setMarginEnd(24);
-                    paramsCore.setMarginEnd(24);
-                    break;
-                case "Big Falcon Rocket":
-                    mPayloadImageView.setImageResource(R.drawable.payload_bfr);
-                    mCoreImageView.setImageResource(R.drawable.core_bfr);
-                    paramsPayload.setMarginEnd(24);
-                    paramsCore.setMarginEnd(24);
-                    break;
-            }
-
-            // We will set the payload/core image height to be equal to:
-            // {Devices max screen size in px(height or width) - [(StatusBar + ActionBar + TopMargin + 2 x BottomMargin) (in dp) * screen density]} * 30.8%(or 69.2%) of total resulted height
-            // Phone: 24 + 56 + 16 + 2x16 = 128dp
-            // Tablet: 24 + 64 + 24 + 2x24 = 160dp
-            float maxSize = Math.max(screenSize[0], screenSize[1]);
-            // If screen is in Landscape mode, show rocket image 33% bigger
-            if (!ScreenUtils.isPortraitMode(getActivityCast())) {
-                maxSize = (float) (maxSize * 1.5);
-            }
-            paramsPayload.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.308);
-            paramsCore.height = (int) ((maxSize - getResources().getInteger(R.integer.rocket_height_subtraction) * screenSize[2]) * 0.692);
-            paramsPayload.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
-            paramsCore.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
-
-            mPayloadImageView.setLayoutParams(paramsPayload);
-            mCoreImageView.setLayoutParams(paramsCore);
-
             // Second State
             // Payload Options
             switch (rocket.getName()) {
@@ -432,6 +403,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     break;
             }
 
+            final CompositeFairing payload = rocket.getSecondStage().getPayloads().getCompositeFairing();
+
             mPayloadImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -440,16 +413,45 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                             mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
                             mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                             mPayloadOptionLabel.setText(R.string.label_payload_option1);
+
+                            // Payload Height
+                            if (payload.getHeight() != null && payload.getHeight().getMeters() > 0) {
+                                if(mIsMetric) {
+                                    mPayloadHeight.setText(String.format(getString(R.string.dimensions_meters), payload.getHeight().getMeters()));
+                                } else {
+                                    mPayloadHeight.setText(String.format(getString(R.string.dimensions_feet), payload.getHeight().getFeet()));
+                                }
+                            } else {
+                                mPayloadHeight.setText(getString(R.string.label_unknown));
+                            }
+
+                            // Payload Diameter
+                            if (payload.getDiameter() != null && payload.getDiameter().getMeters() > 0) {
+                                if(mIsMetric) {
+                                    mPayloadDiameter.setText(String.format(getString(R.string.dimensions_meters), payload.getDiameter().getMeters()));
+                                } else {
+                                    mPayloadDiameter.setText(String.format(getString(R.string.dimensions_feet), payload.getDiameter().getFeet()));
+                                }
+                            } else {
+                                mPayloadDiameter.setText(getString(R.string.label_unknown));
+                            }
                         } else {
                             mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption1()));
                             mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
                             mPayloadOptionLabel.setText(R.string.label_payload_option2);
+
+                            // Set payload height and diameter
+                            if(mIsMetric) {
+                                mPayloadHeight.setText(getString(R.string.dragon_height_metric));
+                                mPayloadDiameter.setText(getString(R.string.dragon_diameter_metric));
+                            } else {
+                                mPayloadHeight.setText(getString(R.string.dragon_height_imperial));
+                                mPayloadDiameter.setText(getString(R.string.dragon_diameter_imperial));
+                            }
                         }
                     }
                 }
             });
-
-            CompositeFairing payload = rocket.getSecondStage().getPayloads().getCompositeFairing();
 
             // Payload Height
             if (payload.getHeight() != null && payload.getHeight().getMeters() > 0) {

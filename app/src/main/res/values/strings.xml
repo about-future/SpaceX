@@ -42,6 +42,7 @@
     <string name="label_no">No</string>
     <string name="label_yes">Yes</string>
 
+
     <!-- Launch Pad Details -->
     <string name="label_location">Location</string>
     <string name="label_status">Status</string>
@@ -169,6 +170,10 @@
     <string name="pref_launch_pads_thumbnails_date_key">launch_pads_thumbnails_date</string>
     <string name="pref_topic_subscription_status_key">subscribed</string>
 
-
+    <!-- Dragon Dimensions -->
+    <string name="dragon_height_metric">8.1 m</string>
+    <string name="dragon_height_imperial">26.6 ft</string>
+    <string name="dragon_diameter_metric">3.7 m</string>
+    <string name="dragon_diameter_imperial">12.0 ft</string>
 
 </resources>

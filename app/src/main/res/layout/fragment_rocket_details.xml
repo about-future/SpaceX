@@ -77,8 +77,8 @@
 
                     <ImageView
                         android:id="@+id/rocket_patch"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
+                        android:layout_width="@dimen/rocket_patch_size"
+                        android:layout_height="@dimen/rocket_patch_size"
                         android:layout_gravity="top"
                         android:contentDescription="@string/mission_patch"
                         android:scaleType="centerCrop"

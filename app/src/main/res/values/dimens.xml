@@ -46,4 +46,7 @@
     <dimen name="fab_press_translation_z">12dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!-- Rocket Details -->
+    <dimen name="rocket_patch_size">180dp</dimen>
+
 </resources>
