@@ -11,7 +11,9 @@ import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "launch_pads")
 public class LaunchPad {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @SerializedName("padid")
+    @ColumnInfo(name = "padid")
     private int padId;
     @SerializedName("id")
     private String id;

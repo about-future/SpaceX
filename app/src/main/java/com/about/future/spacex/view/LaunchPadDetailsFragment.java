@@ -28,6 +28,7 @@ import com.about.future.spacex.data.LaunchPadLoader;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.ScreenUtils;
+import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.viewmodel.LaunchPadViewModel;
 import com.about.future.spacex.viewmodel.LaunchPadViewModelFactory;
 import com.google.gson.Gson;
@@ -214,8 +215,10 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
                 // Launch pad location
                 if (!TextUtils.isEmpty(launchPad.getLocation().getName()) &&
                         !TextUtils.isEmpty(launchPad.getLocation().getRegion())) {
-                    //TODO: fix this string
-                    mLaunchPadLocationTextView.setText(launchPad.getLocation().getName() + ", " + launchPad.getLocation().getRegion());
+                    mLaunchPadLocationTextView.setText(
+                            String.format(getString(R.string.launch_pad_location),
+                                    launchPad.getLocation().getName(),
+                                    launchPad.getLocation().getRegion()));
                 } else {
                     mLaunchPadLocationTextView.setText(getString(R.string.label_unknown));
                 }
@@ -228,9 +231,7 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
 
             // Launch pad status
             if (!TextUtils.isEmpty(launchPad.getStatus())) {
-                String launchPadStatus = launchPad.getStatus();
-                String firstLetterUpperCaseStatus = launchPadStatus.substring(0,1).toUpperCase() + launchPadStatus.substring(1);
-                mLaunchPadStatusTextView.setText(firstLetterUpperCaseStatus);
+                mLaunchPadStatusTextView.setText(TextsUtils.firstLetterUpperCase(launchPad.getStatus()));
             } else {
                 mLaunchPadStatusTextView.setText(getString(R.string.label_unknown));
             }

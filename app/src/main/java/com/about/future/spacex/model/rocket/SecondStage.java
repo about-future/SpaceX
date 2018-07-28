@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 public class SecondStage {
     @SerializedName("engines")
     private int engines;
+    @SerializedName("fuel_amount_tons")
+    private double fuelAmountTons;
     @ColumnInfo(name = "burn_time_sec")
     @SerializedName("burn_time_sec")
     private int burnTimeSec;
@@ -18,19 +20,22 @@ public class SecondStage {
     @SerializedName("payloads")
     private Payloads payloads;
 
-    public SecondStage(int engines, int burnTimeSec, Thrust thrust, Payloads payloads) {
+    public SecondStage(int engines, double fuelAmountTons, int burnTimeSec, Thrust thrust, Payloads payloads) {
         this.engines = engines;
+        this.fuelAmountTons = fuelAmountTons;
         this.burnTimeSec = burnTimeSec;
         this.thrust = thrust;
         this.payloads = payloads;
     }
 
     public int getEngines() { return engines; }
+    public double getFuelAmountTons() { return fuelAmountTons; }
     public int getBurnTimeSec() { return burnTimeSec; }
     public Thrust getThrust() { return thrust; }
     public Payloads getPayloads() { return payloads; }
 
     public void setEngines(int engines) { this.engines = engines; }
+    public void setFuelAmountTons(double fuelAmountTons) { this.fuelAmountTons = fuelAmountTons; }
     public void setBurnTimeSec(int burnTimeSec) { this.burnTimeSec = burnTimeSec; }
     public void setThrust(Thrust thrust) { this.thrust = thrust; }
     public void setPayloads(Payloads payloads) { this.payloads = payloads; }

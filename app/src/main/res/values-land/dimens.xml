@@ -14,6 +14,7 @@
     <dimen name="details_rocket_margin">64dp</dimen>
     <dimen name="details_small_title_text_size">20sp</dimen>
     <dimen name="details_inner_horiz_margin">64dp</dimen>
+    <dimen name="details_second_stage_margin_top">40dp</dimen>
     <dimen name="details_first_stage_margin_top">80dp</dimen>
 
 </resources>

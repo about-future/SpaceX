@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="spacing">16dp</dimen>
+    <dimen name="big_spacing">20dp</dimen>
     <dimen name="horizontal_margin">16dp</dimen>
     <dimen name="vertical_margin">16dp</dimen>
 
@@ -39,8 +40,8 @@
     <dimen name="details_patch_size">140dp</dimen>
     <dimen name="details_play_icon">48dp</dimen>
     <dimen name="details_rocket_margin">48dp</dimen>
-    <dimen name="details_first_stage_margin_top">40dp</dimen>
-
+    <dimen name="details_first_stage_margin_top">24dp</dimen>
+    <dimen name="details_second_stage_margin_top">24dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">12dp</dimen>
     <dimen name="fab_margin">16dp</dimen>

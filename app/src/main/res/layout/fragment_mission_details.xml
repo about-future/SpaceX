@@ -147,7 +147,7 @@
                     tools:text="This is a sample text meant." />
 
                 <LinearLayout
-                    android:id="@+id/rocket_layout"
+                    android:id="@+id/mission_rocket_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/details_body_top_margin"
@@ -159,23 +159,13 @@
                     android:layout_height="1dp"
                     android:background="@color/colorLine" />
 
-                    <!--<TextView-->
-                    <!--android:id="@+id/rocket_details_label"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="@dimen/spacing"-->
-                    <!--android:fontFamily="sans-serif-condensed"-->
-                    <!--android:text="@string/label_rocket_details"-->
-                    <!--android:textColor="@color/colorWhite"-->
-                    <!--android:textSize="20sp" />-->
-
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing">
 
                         <ImageView
-                            android:id="@+id/rocket_payload_image"
+                            android:id="@+id/mission_rocket_payload_image"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/details_rocket_margin"
@@ -186,14 +176,14 @@
                             tools:src="@drawable/payload_satellite" />
 
                         <ImageView
-                            android:id="@+id/rocket_core_image"
+                            android:id="@+id/mission_rocket_core_image"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/details_rocket_margin"
                             android:contentDescription="@string/rocket_image"
                             android:scaleType="fitEnd"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/rocket_payload_image"
+                            app:layout_constraintTop_toBottomOf="@+id/mission_rocket_payload_image"
                             tools:src="@drawable/core_block4" />
 
                         <TextView
@@ -203,24 +193,24 @@
                             android:text="@string/label_payload"
                             android:layout_width="0dp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
-                            app:layout_constraintTop_toTopOf="@+id/rocket_payload_image" />
+                            app:layout_constraintEnd_toStartOf="@+id/mission_rocket_payload_image"
+                            app:layout_constraintTop_toTopOf="@+id/mission_rocket_payload_image" />
 
                         <View
                             android:id="@+id/guide_line"
                             android:layout_width="1dp"
                             android:layout_height="100dp"
-                            app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
-                            app:layout_constraintStart_toEndOf="@id/rocket_payload_image"
+                            app:layout_constraintEnd_toStartOf="@+id/mission_rocket_payload_image"
+                            app:layout_constraintStart_toEndOf="@+id/mission_rocket_payload_image"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
-                            android:id="@+id/separation_line3"
+                            android:id="@+id/separation_line33"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_marginTop="2dp"
                             android:background="@color/colorAccent"
-                            app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
+                            app:layout_constraintEnd_toStartOf="@+id/mission_rocket_payload_image"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/payload_label" />
 
@@ -230,12 +220,12 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/label_id"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/separation_line3" />
+                            app:layout_constraintTop_toBottomOf="@+id/separation_line33" />
 
                         <TextView
                             android:id="@+id/payload_id"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/payload_id_label"
                             tools:text="Telstar 19V" />
@@ -250,7 +240,7 @@
                         <TextView
                             android:id="@+id/payload_type"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/payload_type_label"
                             tools:text="Satellite" />
@@ -266,7 +256,7 @@
                             android:id="@+id/payload_mass"
                             style="@style/RocketDetails.Values"
                             android:maxLines="2"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/payload_mass_label"
                             tools:text="2760 kg" />
@@ -281,7 +271,7 @@
                         <TextView
                             android:id="@+id/payload_orbit"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/payload_orbit_label"
                             tools:text="GTO" />
@@ -289,7 +279,7 @@
                         <TextView
                             android:id="@+id/payload_orbit_long"
                             style="@style/RocketDetails.Values.Acronyms"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/payload_orbit"
                             tools:text="Geostationary Transfer Orbit" />
@@ -301,7 +291,7 @@
                             android:layout_marginTop="@dimen/spacing"
                             android:text="@string/label_second_stage"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/rocket_payload_image"
+                            app:layout_constraintEnd_toStartOf="@id/mission_rocket_payload_image"
                             app:layout_constraintTop_toBottomOf="@+id/payload_orbit_long" />
 
                         <View
@@ -310,7 +300,7 @@
                             android:layout_height="1dp"
                             android:layout_marginTop="2dp"
                             android:background="@color/colorAccent"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/second_stage_label" />
 
@@ -325,7 +315,7 @@
                         <TextView
                             android:id="@+id/second_stage_block"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/second_stage_block_label"
                             tools:text="3" />
@@ -340,12 +330,12 @@
                             app:layout_constraintTop_toBottomOf="@id/second_stage_block_label" />
 
                         <View
-                            android:id="@+id/separation_line5"
-                            android:layout_width="1dp"
+                            android:id="@+id/separation_line55"
+                            android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_marginTop="2dp"
                             android:background="@color/colorAccent"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/first_stage_label" />
 
@@ -355,12 +345,12 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/label_core_serial"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/separation_line5" />
+                            app:layout_constraintTop_toBottomOf="@id/separation_line55" />
 
                         <TextView
                             android:id="@+id/core_serial"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line5"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line55"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/core_serial_label"
                             tools:text="B1039" />
@@ -375,7 +365,7 @@
                         <TextView
                             android:id="@+id/core_block"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/core_block_label"
                             tools:text="4" />
@@ -390,7 +380,7 @@
                         <TextView
                             android:id="@+id/core_reused"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line3"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/core_reused_label"
                             tools:text="2" />
@@ -399,7 +389,7 @@
                             android:id="@+id/landing_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line5"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line55"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/core_reused_label">
 
@@ -465,49 +455,6 @@
                                 tools:text="Landing Zone 1" />
 
                         </android.support.constraint.ConstraintLayout>
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/core_landing_label"-->
-                        <!--style="@style/RocketDetails"-->
-                        <!--android:text="@string/label_land_successful"-->
-                        <!--app:layout_constraintStart_toStartOf="parent"-->
-                        <!--app:layout_constraintTop_toBottomOf="@id/core_reused_label" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/core_landing"-->
-                        <!--style="@style/RocketDetails"-->
-                        <!--android:layout_marginStart="15dp"-->
-                        <!--app:layout_constraintStart_toEndOf="@id/core_landing_label"-->
-                        <!--app:layout_constraintTop_toTopOf="@id/core_landing_label"-->
-                        <!--tools:text="True" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/core_landing_type_label"-->
-                        <!--style="@style/RocketDetails"-->
-                        <!--android:text="@string/label_land_type"-->
-                        <!--app:layout_constraintStart_toStartOf="parent"-->
-                        <!--app:layout_constraintTop_toBottomOf="@id/core_landing_label" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/core_landing_type"-->
-                        <!--style="@style/RocketDetails"-->
-                        <!--app:layout_constraintStart_toStartOf="@id/core_landing"-->
-                        <!--app:layout_constraintTop_toTopOf="@id/core_landing_type_label"-->
-                        <!--tools:text="RTLS" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/core_landing_vehicle_label"-->
-                        <!--style="@style/RocketDetails"-->
-                        <!--android:text="@string/label_land_vehicle"-->
-                        <!--app:layout_constraintStart_toStartOf="parent"-->
-                        <!--app:layout_constraintTop_toBottomOf="@id/core_landing_type_label" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/core_landing_vehicle"-->
-                        <!--style="@style/RocketDetails"-->
-                        <!--app:layout_constraintStart_toStartOf="@id/core_landing"-->
-                        <!--app:layout_constraintTop_toTopOf="@id/core_landing_vehicle_label"-->
-                        <!--tools:text="LZ-1" />-->
 
                     </android.support.constraint.ConstraintLayout>
 

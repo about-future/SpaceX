@@ -61,11 +61,11 @@ public class LaunchPadsFragment extends Fragment implements
         ButterKnife.bind(this, view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mLaunchPadsRecyclerView.setLayoutManager(linearLayoutManager);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                 mLaunchPadsRecyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
         mLaunchPadsRecyclerView.addItemDecoration(mDividerItemDecoration);
-        mLaunchPadsRecyclerView.setLayoutManager(linearLayoutManager);
         mLaunchPadsRecyclerView.setHasFixedSize(false);
         mLaunchPadsAdapter = new LaunchPadsAdapter(getContext(), this);
         mLaunchPadsRecyclerView.setAdapter(mLaunchPadsAdapter);
@@ -151,19 +151,18 @@ public class LaunchPadsFragment extends Fragment implements
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            mDb.launchPadDao().deleteAllLaunchPads();
                             mDb.launchPadDao().insertLaunchPads(data);
                             SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
                         }
                     });
-                    setupViewModel();
-                    ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_updated));
+                    ScreenUtils.snakBarThis(getParentLayoutRootView(), getString(R.string.launch_pads_updated));
                 } else {
-                    ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_up_to_date));
+                    // TODO: test this method
+                    ScreenUtils.snakBarThis(getParentLayoutRootView(), getString(R.string.launch_pads_up_to_date));
                 }
 
-                //ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_updated));
-                //Toast.makeText(getActivityCast(), getString(R.string.launch_pads_updated), Toast.LENGTH_SHORT).show();
+                setupViewModel();
+
                 break;
             default:
                 break;
@@ -173,5 +172,13 @@ public class LaunchPadsFragment extends Fragment implements
     @Override
     public void onLoaderReset(@NonNull Loader<List<LaunchPad>> loader) {
         mLaunchPadsAdapter.setLaunchPads(null);
+    }
+
+    private View getParentLayoutRootView() {
+        if (getParentFragment() != null) { //if it has a parent fragment
+            return getParentFragment().getView();
+        } else {
+            return getActivityCast().getWindow().getDecorView().getRootView();
+        }
     }
 }

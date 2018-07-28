@@ -3,6 +3,7 @@ package com.about.future.spacex.model.rocket;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
@@ -14,7 +15,9 @@ import java.util.List;
 
 @Entity(tableName = "rockets")
 public class Rocket {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @SerializedName("rocketid")
+    @ColumnInfo(name = "rocketid")
     private int rocketId;
     @SerializedName("id")
     private String id;
@@ -74,6 +77,34 @@ public class Rocket {
                   List<PayloadWeights> payloadWeights, FirstStage firstStage, SecondStage secondStage,
                   Engines engines, LandingLegs landingLegs, String description) {
         this.rocketId = rocketId;
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.active = active;
+        this.stages = stages;
+        this.boosters = boosters;
+        this.costPerLaunch = costPerLaunch;
+        this.successRatePct = successRatePct;
+        this.firstFlight = firstFlight;
+        this.country = country;
+        this.company = company;
+        this.height = height;
+        this.diameter = diameter;
+        this.mass = mass;
+        this.payloadWeights = payloadWeights;
+        this.firstStage = firstStage;
+        this.secondStage = secondStage;
+        this.engines = engines;
+        this.landingLegs = landingLegs;
+        this.description = description;
+    }
+
+    @Ignore
+    public Rocket(String id, String name, String type, boolean active, int stages, int boosters,
+                  int costPerLaunch, int successRatePct, String firstFlight, String country,
+                  String company, Dimension height, Dimension diameter, Mass mass,
+                  List<PayloadWeights> payloadWeights, FirstStage firstStage, SecondStage secondStage,
+                  Engines engines, LandingLegs landingLegs, String description) {
         this.id = id;
         this.name = name;
         this.type = type;

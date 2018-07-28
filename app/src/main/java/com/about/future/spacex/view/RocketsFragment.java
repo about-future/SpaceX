@@ -63,14 +63,13 @@ public class RocketsFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_rockets_list, container, false);
         ButterKnife.bind(this, view);
 
-        mRocketsRecyclerView.setHasFixedSize(false);
-        mRocketsAdapter = new RocketsAdapter(getContext(), this);
-        mRocketsRecyclerView.setAdapter(mRocketsAdapter);
-
         int columnCount = getResources().getInteger(R.integer.rocket_list_column_count);
         StaggeredGridLayoutManager sglm =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRocketsRecyclerView.setLayoutManager(sglm);
+        mRocketsRecyclerView.setHasFixedSize(false);
+        mRocketsAdapter = new RocketsAdapter(getContext(), this);
+        mRocketsRecyclerView.setAdapter(mRocketsAdapter);
 
         mDb = AppDatabase.getInstance(getContext());
 
@@ -153,16 +152,16 @@ public class RocketsFragment extends Fragment implements
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            mDb.rocketDao().deleteAllRockets();
                             mDb.rocketDao().insertRockets(data);
                             SpaceXPreferences.setRocketsStatus(getContext(), true);
                         }
                     });
-                    setupViewModel();
                     ScreenUtils.snakBarThis(getView(), getString(R.string.rockets_updated));
                 } else {
                     ScreenUtils.snakBarThis(getView(), getString(R.string.rockets_up_to_date));
                 }
+
+                setupViewModel();
                 break;
             default:
                 break;

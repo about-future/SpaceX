@@ -77,6 +77,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     TextView mLaunchSiteNameTextView;
     @BindView(R.id.mission_details)
     TextView mDetailsTextView;
+
     // Payload details
     @BindView(R.id.payload_id)
     TextView mPayloadIdTextView;
@@ -88,11 +89,13 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     TextView mPayloadOrbitTextView;
     @BindView(R.id.payload_orbit_long)
     TextView mPayloadOrbitLongTextView;
+
     // Second stage details
     @BindView(R.id.second_stage_block)
     TextView mSecondStageBlockTextView;
+
     // First stage details
-    @BindView(R.id.separation_line5)
+    @BindView(R.id.separation_line55)
     View mSeparationLine5View;
     @BindView(R.id.core_serial)
     TextView mCoreSerialTextView;
@@ -111,11 +114,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     @BindView(R.id.core_landing_vehicle_long)
     TextView mCoreLandingVehicleLongTextView;
 
-    @BindView(R.id.rocket_core_image)
+    // Rocket images
+    @BindView(R.id.mission_rocket_core_image)
     ImageView mCoreImageView;
-    @BindView(R.id.rocket_payload_image)
+    @BindView(R.id.mission_rocket_payload_image)
     ImageView mPayloadImageView;
-
 
     public MissionDetailsFragment() {
     }

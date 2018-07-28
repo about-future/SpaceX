@@ -46,25 +46,40 @@
     <string name="label_location">Location</string>
     <string name="label_status">Status</string>
     <string name="label_vehicles_launched">Vehicles Launched</string>
+    <string name="launch_pad_location">%s, %s</string>
 
     <!-- Rocket Details -->
     <string name="label_first_flight">First Flight</string>
     <string name="label_cost_per_launch">Cost Per Launch</string>
     <string name="label_active">Active</string>
     <string name="label_inactive">Inactive</string>
-    <string name="label_rocket_height">Height</string>
-    <string name="label_rocket_diameter">Diameter</string>
-    <string name="label_rocket_mass">Mass</string>
-    <string name="label_rocket_stages">Stages</string>
-    <string name="label_engines">Engines</string>
-    <string name="label_burn_time">Burn Time</string>
-    <string name="label_thrust_at_sea_level">Thrust at sea level</string>
-    <string name="label_thrust_in_vacuum">Thrust in vacuum</string>
-    <string name="label_payload_to_leo">Payload to LEO</string>
-    <string name="label_payload_to_gto">Payload to GTO</string>
-    <string name="label_payload_to_mars">Payload to Mars</string>
-    <string name="label_payload_to_pluto">Payload to Pluto</string>
-
+    <string name="label_rocket_height">Height:</string>
+    <string name="label_rocket_diameter">Diameter:</string>
+    <string name="label_rocket_mass">Mass:</string>
+    <string name="label_rocket_stages">Stages:</string>
+    <string name="label_engines">Engines:</string>
+    <string name="label_burn_time">Burn Time:</string>
+    <string name="label_thrust_at_sea_level">Thrust at sea level:</string>
+    <string name="label_thrust_in_vacuum">Thrust in vacuum:</string>
+    <string name="label_thrust">Thrust:</string>
+    <string name="label_payload_to_leo">LEO:</string>
+    <string name="label_payload_to_gto">GTO:</string>
+    <string name="label_payload_to_mars">Mars:</string>
+    <string name="label_payload_to_pluto">Pluto:</string>
+    <string name="label_payload_height">Height:</string>
+    <string name="label_payload_diameter">Diameter:</string>
+    <string name="label_payload_option">Option:</string>
+    <string name="label_payload_option1">Option 1:</string>
+    <string name="label_payload_option2">Option 2:</string>
+    <string name="label_fuel_amount">Fuel Amount:</string>
+    <string name="fuel_amount">%s t</string>
+    <string name="burn_time">%d sec</string>
+    <string name="thrust">%1s kN\n%2s lbf</string>
+    <string name="dimensions">%1$.1f m\n%2$.1f ft</string>
+    <string name="mass">%1$d kg\n%2$d lbs</string>
+    <string name="mass2">%1s kg\n%2s lbs</string>
+    <string name="label_overview">Technical Overview</string>
+    <string name="label_payload_weights">Payload Weights</string>
 
     <!-- Landing types -->
     <string name="label_asds">Autonomous Spaceport Drone Ship</string>
