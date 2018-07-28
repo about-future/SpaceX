@@ -3,6 +3,7 @@ package com.about.future.spacex.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.about.future.spacex.R;
@@ -69,5 +70,14 @@ public class SpaceXPreferences {
     public static boolean getTopicSubscriptionStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(context.getString(R.string.pref_topic_subscription_status_key), false);
+    }
+
+    public static boolean isMetric(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        String preferredUnits = sp.getString(
+                context.getString(R.string.pref_units_key),
+                context.getString(R.string.pref_units_metric));
+
+        return preferredUnits.equals(context.getString(R.string.pref_units_metric));
     }
 }

@@ -28,6 +28,7 @@ import com.about.future.spacex.model.rocket.CompositeFairing;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.ScreenUtils;
+import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.viewmodel.RocketViewModel;
 import com.about.future.spacex.viewmodel.RocketViewModelFactory;
@@ -48,6 +49,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     private Rocket mRocket;
     private int mRocketId;
     private View mRootView;
+    private boolean mIsMetric;
 
     @BindView(R.id.rocket_toolbar)
     Toolbar mToolbar;
@@ -72,8 +74,6 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     ImageView mCoreImageView;
     @BindView(R.id.rocket_payload_image)
     ImageView mPayloadImageView;
-//    @BindView(R.id.separation_line5)
-//    View mSeparationLine5View;
 
     // Payload
     @BindView(R.id.payload_option)
@@ -173,14 +173,13 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
         mRootView = inflater.inflate(R.layout.fragment_rocket_details, container, false);
         ButterKnife.bind(this, mRootView);
 
-        mToolbar.setTitle("");
+        //mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -219,6 +218,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
         }
 
         if (rocket != null) {
+            mIsMetric = SpaceXPreferences.isMetric(getActivityCast());
+
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
@@ -232,6 +233,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 }
             });
 
+            // TODO: unify this block with the one below
+            // TODO: get dragon dimension
             // Backdrop
             switch (rocket.getId()) {
                 case "falcon1":
@@ -276,7 +279,6 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
             // Cost per launch
             NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
             numberFormat.setMaximumFractionDigits(0);
-
             mCostPerLaunchTextView.setText(numberFormat.format(rocket.getCostPerLaunch()));
 
             // Status
@@ -293,21 +295,18 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 mDescriptionTextView.setVisibility(View.GONE);
             }
 
-            // Height
-            mRocketHeight.setText(String.format(
-                    getString(R.string.dimensions),
-                    rocket.getHeight().getMeters(),
-                    rocket.getHeight().getFeet()));
-            // Diameter
-            mRocketDiameter.setText(String.format(
-                    getString(R.string.dimensions),
-                    rocket.getDiameter().getMeters(),
-                    rocket.getDiameter().getFeet()));
-            // Mass
-            mRocketMass.setText(String.format(
-                    getString(R.string.mass2),
-                    TextsUtils.formatThrust(rocket.getMass().getKg()),
-                    TextsUtils.formatThrust(rocket.getMass().getLb())));
+            if (mIsMetric) {
+                // Set values in metric system
+                mRocketHeight.setText(String.format(getString(R.string.dimensions_meters), rocket.getHeight().getMeters()));
+                mRocketDiameter.setText(String.format(getString(R.string.dimensions_meters), rocket.getDiameter().getMeters()));
+                mRocketMass.setText(String.format(getString(R.string.mass_kg), TextsUtils.formatThrust(rocket.getMass().getKg())));
+            } else {
+                // Set values in imperial system
+                mRocketHeight.setText(String.format(getString(R.string.dimensions_feet), rocket.getHeight().getFeet()));
+                mRocketDiameter.setText(String.format(getString(R.string.dimensions_feet), rocket.getDiameter().getFeet()));
+                mRocketMass.setText(String.format(getString(R.string.mass_lbs), TextsUtils.formatThrust(rocket.getMass().getLb())));
+            }
+
             // Stages
             mRocketStages.setText(String.valueOf(rocket.getStages()));
 
@@ -321,7 +320,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                                 mPayloadMassToLeo,
                                 mPayloadMassToLeoLabel,
                                 rocket.getPayloadWeights().get(0).getKg(),
-                                rocket.getPayloadWeights().get(0).getLb());
+                                rocket.getPayloadWeights().get(0).getLb(),
+                                mIsMetric);
                         break;
                     case "gto":
                         TextsUtils.formatPayloadMass(
@@ -329,7 +329,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                                 mPayloadMassToGto,
                                 mPayloadMassToGtoLabel,
                                 rocket.getPayloadWeights().get(0).getKg(),
-                                rocket.getPayloadWeights().get(0).getLb());
+                                rocket.getPayloadWeights().get(0).getLb(),
+                                mIsMetric);
                         break;
                     case "mars":
                         TextsUtils.formatPayloadMass(
@@ -337,7 +338,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                                 mPayloadMassToMars,
                                 mPayloadMassToMarsLabel,
                                 rocket.getPayloadWeights().get(0).getKg(),
-                                rocket.getPayloadWeights().get(0).getLb());
+                                rocket.getPayloadWeights().get(0).getLb(),
+                                mIsMetric);
                         break;
                     case "pluto":
                         TextsUtils.formatPayloadMass(
@@ -345,7 +347,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                                 mPayloadMassToPluto,
                                 mPayloadMassToPlutoLabel,
                                 rocket.getPayloadWeights().get(0).getKg(),
-                                rocket.getPayloadWeights().get(0).getLb());
+                                rocket.getPayloadWeights().get(0).getLb(),
+                                mIsMetric);
                         break;
                 }
                 i++;
@@ -354,7 +357,6 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
             // Set rocket image (payload and core)
             ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
             ConstraintLayout.LayoutParams paramsCore = (ConstraintLayout.LayoutParams) mCoreImageView.getLayoutParams();
-            //ConstraintLayout.LayoutParams paramsSeparationLine5 = (ConstraintLayout.LayoutParams) mSeparationLine5View.getLayoutParams();
             float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
 
             // Set image, depending on rocket type
@@ -377,11 +379,9 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     if (ScreenUtils.isPortraitMode(getActivityCast())) {
                         paramsPayload.setMarginEnd(69);
                         paramsCore.setMarginEnd(20);
-                        //paramsSeparationLine5.setMarginEnd(0);
                     } else {
                         paramsPayload.setMarginEnd(90);
                         paramsCore.setMarginEnd(9);
-                        //paramsSeparationLine5.setMarginEnd(70);
                     }
                     break;
                 case "BFR":
@@ -414,7 +414,6 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
 
             mPayloadImageView.setLayoutParams(paramsPayload);
             mCoreImageView.setLayoutParams(paramsCore);
-            //mSeparationLine5View.setLayoutParams(paramsSeparationLine5);
 
             // Second State
             // Payload Options
@@ -454,19 +453,22 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
 
             // Payload Height
             if (payload.getHeight() != null && payload.getHeight().getMeters() > 0) {
-                mPayloadHeight.setText(String.format(
-                        getString(R.string.dimensions),
-                        payload.getHeight().getMeters(),
-                        payload.getHeight().getFeet()));
+                if(mIsMetric) {
+                    mPayloadHeight.setText(String.format(getString(R.string.dimensions_meters), payload.getHeight().getMeters()));
+                } else {
+                    mPayloadHeight.setText(String.format(getString(R.string.dimensions_feet), payload.getHeight().getFeet()));
+                }
             } else {
                 mPayloadHeight.setText(getString(R.string.label_unknown));
             }
 
             // Payload Diameter
             if (payload.getDiameter() != null && payload.getDiameter().getMeters() > 0) {
-                mPayloadDiameter.setText(String.format(getString(R.string.dimensions),
-                        payload.getDiameter().getMeters(),
-                        payload.getDiameter().getFeet()));
+                if(mIsMetric) {
+                    mPayloadDiameter.setText(String.format(getString(R.string.dimensions_meters), payload.getDiameter().getMeters()));
+                } else {
+                    mPayloadDiameter.setText(String.format(getString(R.string.dimensions_feet), payload.getDiameter().getFeet()));
+                }
             } else {
                 mPayloadDiameter.setText(getString(R.string.label_unknown));
             }
@@ -488,9 +490,11 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 mSecondStageBurnTime.setText(getString(R.string.label_unknown));
             }
             // Thrust
-            mSecondStageThrust.setText(String.format(getString(R.string.thrust),
-                    TextsUtils.formatThrust(rocket.getSecondStage().getThrust().getKN()),
-                    TextsUtils.formatThrust(rocket.getSecondStage().getThrust().getLbf())));
+            if (mIsMetric) {
+                mSecondStageThrust.setText(String.format(getString(R.string.thrust_kN), TextsUtils.formatThrust(rocket.getSecondStage().getThrust().getKN())));
+            } else {
+                mSecondStageThrust.setText(String.format(getString(R.string.thrust_lbf), TextsUtils.formatThrust(rocket.getSecondStage().getThrust().getLbf())));
+            }
 
             // First Stage
             // Engines
@@ -501,23 +505,21 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 mFirstStageEndinesType.append(" " + rocket.getEngines().getVersion());
             }
             // Fuel Amount
-            mFirstStageFuelAmount.setText(String.format(getString(R.string.fuel_amount),
-                    TextsUtils.formatFuel(rocket.getFirstStage().getFuelAmountTons())));
+            mFirstStageFuelAmount.setText(String.format(getString(R.string.fuel_amount), TextsUtils.formatFuel(rocket.getFirstStage().getFuelAmountTons())));
             // Burn Time
             if (rocket.getFirstStage().getBurnTimeSec() > 0) {
-                mFirstStageBurnTime.setText(String.format(getString(R.string.burn_time),
-                        rocket.getFirstStage().getBurnTimeSec()));
+                mFirstStageBurnTime.setText(String.format(getString(R.string.burn_time), rocket.getFirstStage().getBurnTimeSec()));
             } else {
                 mFirstStageBurnTime.setText(getString(R.string.label_unknown));
             }
-            // Thrust Sea Level
-            mFirstStageThrustAtSeaLevel.setText(String.format(getString(R.string.thrust),
-                    TextsUtils.formatThrust(rocket.getFirstStage().getThrustSeaLevel().getKN()),
-                    TextsUtils.formatThrust(rocket.getFirstStage().getThrustSeaLevel().getLbf())));
-            // Thrust in Vacuum
-            mFirstStageThrustInVacuum.setText(String.format(getString(R.string.thrust),
-                    TextsUtils.formatThrust(rocket.getFirstStage().getThrustVacuum().getKN()),
-                    TextsUtils.formatThrust(rocket.getFirstStage().getThrustVacuum().getLbf())));
+            // Thrust Sea Level & Thrust in Vacuum
+            if (mIsMetric) {
+                mFirstStageThrustAtSeaLevel.setText(String.format(getString(R.string.thrust_kN), TextsUtils.formatThrust(rocket.getFirstStage().getThrustSeaLevel().getKN())));
+                mFirstStageThrustInVacuum.setText(String.format(getString(R.string.thrust_kN), TextsUtils.formatThrust(rocket.getFirstStage().getThrustVacuum().getKN())));
+            } else {
+                mFirstStageThrustAtSeaLevel.setText(String.format(getString(R.string.thrust_lbf), TextsUtils.formatThrust(rocket.getFirstStage().getThrustSeaLevel().getLbf())));
+                mFirstStageThrustInVacuum.setText(String.format(getString(R.string.thrust_lbf), TextsUtils.formatThrust(rocket.getFirstStage().getThrustVacuum().getLbf())));
+            }
         }
     }
 

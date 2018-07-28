@@ -75,8 +75,14 @@
     <string name="fuel_amount">%s t</string>
     <string name="burn_time">%d sec</string>
     <string name="thrust">%1s kN\n%2s lbf</string>
+    <string name="thrust_kN">%s kN</string>
+    <string name="thrust_lbf">%s lbf</string>
     <string name="dimensions">%1$.1f m\n%2$.1f ft</string>
+    <string name="dimensions_meters">%.1f m</string>
+    <string name="dimensions_feet">%.1f ft</string>
     <string name="mass">%1$d kg\n%2$d lbs</string>
+    <string name="mass_kg">%s kg</string>
+    <string name="mass_lbs">%s lbs</string>
     <string name="mass2">%1s kg\n%2s lbs</string>
     <string name="label_overview">Technical Overview</string>
     <string name="label_payload_weights">Payload Weights</string>
@@ -138,6 +144,7 @@
     <string name="song_credits">ARTIST: TEST SHOT STARFISH\nFLIGHT-PROVEN</string>
     <string name="skip">Swipe to skip intro</string>
 
+    <!-- PREFERENCES -->
     <!-- Notifications -->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="notifications_key" translatable="false">news</string>
@@ -148,11 +155,20 @@
     <string name="summary_off">Disabled</string>
     <string name="live_webcast">Webcast is now live! Enjoy!</string>
 
-    <!-- PREFERENCE KEYS -->
+    <string name="pref_units_label">Units</string>
+    <string name="pref_units_label_metric">Metric</string>
+    <string name="pref_units_label_imperial">Imperial</string>
+    <string name="pref_units_key" translatable="false">units</string>
+    <string name="pref_units_metric" translatable="false">metric</string>
+    <string name="pref_units_imperial" translatable="false">imperial</string>
+
+    <!-- OTHER PREFERENCE KEYS -->
     <string name="pref_mission_status_key">missions_loaded</string>
     <string name="pref_launch_pads_status_key">launch_pads_loaded</string>
     <string name="pref_rockets_status_key">rockets_loaded</string>
     <string name="pref_launch_pads_thumbnails_date_key">launch_pads_thumbnails_date</string>
     <string name="pref_topic_subscription_status_key">subscribed</string>
+
+
 
 </resources>

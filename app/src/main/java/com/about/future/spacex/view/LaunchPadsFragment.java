@@ -155,10 +155,9 @@ public class LaunchPadsFragment extends Fragment implements
                             SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
                         }
                     });
-                    ScreenUtils.snakBarThis(getParentLayoutRootView(), getString(R.string.launch_pads_updated));
+                    ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_updated));
                 } else {
-                    // TODO: test this method
-                    ScreenUtils.snakBarThis(getParentLayoutRootView(), getString(R.string.launch_pads_up_to_date));
+                    ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_up_to_date));
                 }
 
                 setupViewModel();
@@ -172,13 +171,5 @@ public class LaunchPadsFragment extends Fragment implements
     @Override
     public void onLoaderReset(@NonNull Loader<List<LaunchPad>> loader) {
         mLaunchPadsAdapter.setLaunchPads(null);
-    }
-
-    private View getParentLayoutRootView() {
-        if (getParentFragment() != null) { //if it has a parent fragment
-            return getParentFragment().getView();
-        } else {
-            return getActivityCast().getWindow().getDecorView().getRootView();
-        }
     }
 }
