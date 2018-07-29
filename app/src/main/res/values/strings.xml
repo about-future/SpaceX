@@ -10,6 +10,7 @@
     <string name="mission_webcast">Mission webcast preview</string>
     <string name="video_play">Play button</string>
     <string name="launch_pad_satellite_view">Launch pad satellite view</string>
+    <string name="no_connection_icon">No connection icon</string>
 
     <!-- Labels -->
     <string name="label_tab_missions">Missions</string>
@@ -41,7 +42,6 @@
     <string name="label_land_vehicle">Landing Vehicle:</string>
     <string name="label_no">No</string>
     <string name="label_yes">Yes</string>
-
 
     <!-- Launch Pad Details -->
     <string name="label_location">Location</string>
@@ -140,6 +140,10 @@
     <string name="rocket_updated">Rocket updated!</string>
     <string name="rockets_up_to_date">Rockets details are up to date!</string>
     <string name="rockets_updated">Rockets updated!</string>
+
+    <string name="loading">Loading&#8230;</string>
+    <string name="no_internet">Huston, we have a problem!\nConnection unavailable</string>
+    <string name="no_connection">Connection unavailable</string>
 
     <!-- Credits -->
     <string name="song_credits">ARTIST: TEST SHOT STARFISH\nFLIGHT-PROVEN</string>

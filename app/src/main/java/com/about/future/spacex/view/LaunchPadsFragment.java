@@ -14,11 +14,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.about.future.spacex.R;
@@ -26,6 +29,7 @@ import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.LaunchPadsAdapter;
 import com.about.future.spacex.data.LaunchPadsLoader;
+import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
@@ -53,6 +57,10 @@ public class LaunchPadsFragment extends Fragment implements
     SwipeRefreshLayout mSwipeRefreshLaunchPadsLayout;
     @BindView(R.id.launch_pads_rv)
     RecyclerView mLaunchPadsRecyclerView;
+    @BindView(R.id.launch_pads_no_connection_cloud)
+    ImageView mNoConnectionImageView;
+    @BindView(R.id.launch_pads_no_connection_message)
+    TextView mNoConnectionMessage;
 
     @Nullable
     @Override
@@ -60,12 +68,20 @@ public class LaunchPadsFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_launch_pads_list, container, false);
         ButterKnife.bind(this, view);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        mLaunchPadsRecyclerView.setLayoutManager(linearLayoutManager);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                mLaunchPadsRecyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        mLaunchPadsRecyclerView.addItemDecoration(mDividerItemDecoration);
+        if (ScreenUtils.isPortraitMode(getActivityCast())) {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            mLaunchPadsRecyclerView.setLayoutManager(linearLayoutManager);
+            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                    mLaunchPadsRecyclerView.getContext(),
+                    DividerItemDecoration.VERTICAL);
+            mLaunchPadsRecyclerView.addItemDecoration(mDividerItemDecoration);
+        } else {
+            int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
+            StaggeredGridLayoutManager sglm =
+                    new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+            mLaunchPadsRecyclerView.setLayoutManager(sglm);
+        }
+
         mLaunchPadsRecyclerView.setHasFixedSize(false);
         mLaunchPadsAdapter = new LaunchPadsAdapter(getContext(), this);
         mLaunchPadsRecyclerView.setAdapter(mLaunchPadsAdapter);
@@ -77,6 +93,7 @@ public class LaunchPadsFragment extends Fragment implements
             // Load data
             setupViewModel();
         } else {
+            Log.v("GET LAUNCH PAD DATA", "CALLED");
             // Get data
             getData();
         }
@@ -84,6 +101,7 @@ public class LaunchPadsFragment extends Fragment implements
         mSwipeRefreshLaunchPadsLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.v("GET ROCKET DATA", "CALLED2");
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -112,8 +130,25 @@ public class LaunchPadsFragment extends Fragment implements
     }
 
     private void getData() {
-        //Init mission loader
-        getLoaderManager().restartLoader(LAUNCH_PADS_LOADER_ID, null, this);
+        // Get of refresh data, if there is a network connection
+        if (NetworkUtils.isConnected(getActivityCast())) {
+            mLaunchPadsRecyclerView.setVisibility(View.VISIBLE);
+            mNoConnectionImageView.setVisibility(View.INVISIBLE);
+            mNoConnectionMessage.setVisibility(View.INVISIBLE);
+
+            //Init or restart launch pads loader
+            getLoaderManager().restartLoader(LAUNCH_PADS_LOADER_ID, null, this);
+        } else {
+            // Otherwise, if LaunchPads were loaded before, just display a toast
+            if (SpaceXPreferences.getLaunchPadsStatus(getActivityCast())) {
+                Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, display a connection error message and a no connection icon
+                mLaunchPadsRecyclerView.setVisibility(View.INVISIBLE);
+                mNoConnectionImageView.setVisibility(View.VISIBLE);
+                mNoConnectionMessage.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public SpaceXActivity getActivityCast() {
@@ -144,6 +179,8 @@ public class LaunchPadsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<LaunchPad>> loader, final List<LaunchPad> data) {
         switch (loader.getId()) {
             case LAUNCH_PADS_LOADER_ID:
+                Log.v("LAUNCH PADS LOADER", "LOADED");
+
                 String launchPadsAsString = new Gson().toJson(mLaunchPads);
                 String dataAsString = new Gson().toJson(data);
 

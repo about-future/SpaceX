@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.R;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -42,7 +43,12 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
     @NonNull
     @Override
     public LaunchPadsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.launch_pad_list_item, parent, false);
+        View view;
+        if (ScreenUtils.isPortraitMode(mContext)) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.launch_pad_list_item, parent, false);
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.launch_pad_card_item, parent, false);
+        }
         view.setFocusable(false);
         return new LaunchPadsAdapter.ViewHolder(view);
     }
@@ -55,7 +61,11 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
         if (mLaunchPads.get(position).getLocation() != null) {
             double latitude = mLaunchPads.get(position).getLocation().getLatitude();
             double longitude = mLaunchPads.get(position).getLocation().getLongitude();
-            launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 14, "satellite");
+            if (ScreenUtils.isPortraitMode(mContext)) {
+                launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 14, "satellite");
+            } else {
+                launchPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude);
+            }
         }
 
         // If we have a valid image path, try loading it

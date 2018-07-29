@@ -14,6 +14,7 @@ import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.R;
 import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.ImageUtils;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -42,7 +43,12 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.mission_list_item, parent, false);
+        View view;
+        if (ScreenUtils.isPortraitMode(mContext)) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.mission_list_item, parent, false);
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.mission_card_item, parent, false);
+        }
         view.setFocusable(false);
         return new ViewHolder(view);
     }

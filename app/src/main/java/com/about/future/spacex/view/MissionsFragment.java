@@ -15,12 +15,17 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppExecutors;
+import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.MissionsViewModel;
 import com.about.future.spacex.model.mission.Mission;
@@ -42,7 +47,7 @@ public class MissionsFragment extends Fragment implements
     public static final String TOTAL_MISSIONS_KEY = "total_missions";
 
     private AppDatabase mDb;
-    private List<Mission> mMissions;
+    private List<Mission> mMissions = null;
     private MissionsAdapter mMissionsAdapter;
     private int mTotalMissions;
 
@@ -50,6 +55,10 @@ public class MissionsFragment extends Fragment implements
     SwipeRefreshLayout mSwipeRefreshMissionListLayout;
     @BindView(R.id.missions_rv)
     RecyclerView mMissionsRecyclerView;
+    @BindView(R.id.missions_no_connection_cloud)
+    ImageView mNoConnectionImageView;
+    @BindView(R.id.missions_no_connection_message)
+    TextView mNoConnectionMessage;
 
     @Nullable
     @Override
@@ -57,31 +66,32 @@ public class MissionsFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_missions_list, container, false);
         ButterKnife.bind(this, view);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        mMissionsRecyclerView.setLayoutManager(linearLayoutManager);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                mMissionsRecyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        mMissionsRecyclerView.addItemDecoration(mDividerItemDecoration);
-
-//        int columnCount = getResources().getInteger(R.integer.rocket_list_column_count);
-//        StaggeredGridLayoutManager sglm =
-//                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-//        mMissionsRecyclerView.setLayoutManager(sglm);
+        if (ScreenUtils.isPortraitMode(getActivityCast())) {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            mMissionsRecyclerView.setLayoutManager(linearLayoutManager);
+            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                    mMissionsRecyclerView.getContext(),
+                    DividerItemDecoration.VERTICAL);
+            mMissionsRecyclerView.addItemDecoration(mDividerItemDecoration);
+        } else {
+            int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
+            StaggeredGridLayoutManager sglm =
+                    new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+            mMissionsRecyclerView.setLayoutManager(sglm);
+        }
 
         mMissionsRecyclerView.setHasFixedSize(false);
         mMissionsAdapter = new MissionsAdapter(getContext(), this);
         mMissionsRecyclerView.setAdapter(mMissionsAdapter);
 
-        //TODO background for each clicked item and a better divider
-
         mDb = AppDatabase.getInstance(getContext());
 
         // If missions were already loaded once, just query the DB and display them, otherwise init the loader
-        if (SpaceXPreferences.getLoadingStatus(getActivityCast())) {
+        if (SpaceXPreferences.getMissionsStatus(getActivityCast())) {
             // Load data
             setupViewModel();
         } else {
+            Log.v("GET MISSION DATA", "CALLED");
             // Get data
             getData();
         }
@@ -89,6 +99,7 @@ public class MissionsFragment extends Fragment implements
         mSwipeRefreshMissionListLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.v("GET MISSION DATA", "CALLED2");
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -117,8 +128,26 @@ public class MissionsFragment extends Fragment implements
     }
 
     private void getData() {
-        //Init or restart mission loader
-        getLoaderManager().restartLoader(MISSIONS_LOADER_ID, null, this);
+        // Get of refresh data, if there is a network connection
+        if (NetworkUtils.isConnected(getActivityCast())) {
+            mMissionsRecyclerView.setVisibility(View.VISIBLE);
+            mNoConnectionImageView.setVisibility(View.INVISIBLE);
+            mNoConnectionMessage.setVisibility(View.INVISIBLE);
+
+            //Init or restart mission loader
+            getLoaderManager().restartLoader(MISSIONS_LOADER_ID, null, this);
+        } else {
+            // Otherwise, if missions were loaded before, just display a toast
+            if (SpaceXPreferences.getMissionsStatus(getActivityCast())) {
+                Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, display a connection error message and a no connection icon
+                mMissionsRecyclerView.setVisibility(View.INVISIBLE);
+                mNoConnectionImageView.setVisibility(View.VISIBLE);
+                mNoConnectionMessage.setVisibility(View.VISIBLE);
+            }
+
+        }
     }
 
     public SpaceXActivity getActivityCast() {
@@ -149,20 +178,19 @@ public class MissionsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Mission>> loader, final List<Mission> data) {
         switch (loader.getId()) {
             case MISSIONS_LOADER_ID:
+                Log.v("MISSIONS LOADER", "LOADED");
 
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        // TODO: Check later if this is necessary
-//                        if (mMissions.size() < data.size()) {
-//                            mDb.missionDao().deleteAllMissions();
-//                        }
                         mDb.missionDao().insertMissions(data);
-                        SpaceXPreferences.setLoadingStatus(getContext(), true);
+                        SpaceXPreferences.setMissionsStatus(getContext(), true);
                     }
                 });
 
-                ScreenUtils.snakBarThis(getView(), getString(R.string.missions_updated));
+                if (mMissions != null && data != null) {
+                    ScreenUtils.snakBarThis(getView(), getString(R.string.missions_updated));
+                }
 
                 setupViewModel();
 

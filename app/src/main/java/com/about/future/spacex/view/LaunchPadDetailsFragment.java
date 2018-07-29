@@ -2,13 +2,11 @@ package com.about.future.spacex.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -20,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
@@ -27,6 +26,7 @@ import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.LaunchPadLoader;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
+import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.viewmodel.LaunchPadViewModel;
@@ -138,8 +138,14 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
     }
 
     private void refreshData() {
-        //Init launch pad loader
-        getLoaderManager().initLoader(LAUNCH_PAD_LOADER_ID, null, this);
+        // If there is a network connection, refresh data
+        if (NetworkUtils.isConnected(getActivityCast())) {
+            //Init launch pad loader
+            getLoaderManager().initLoader(LAUNCH_PAD_LOADER_ID, null, this);
+        } else {
+            // Display connection error message
+            Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

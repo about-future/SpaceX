@@ -12,12 +12,12 @@ import java.util.Date;
 
 public class SpaceXPreferences {
 
-    public static boolean getLoadingStatus(Context context) {
+    public static boolean getMissionsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(context.getString(R.string.pref_mission_status_key), false);
     }
 
-    public static void setLoadingStatus(Context context, boolean status) {
+    public static void setMissionsStatus(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(context.getString(R.string.pref_mission_status_key), status);

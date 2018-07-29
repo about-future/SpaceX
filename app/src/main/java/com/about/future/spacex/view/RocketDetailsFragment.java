@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
@@ -27,6 +28,7 @@ import com.about.future.spacex.data.RocketLoader;
 import com.about.future.spacex.model.rocket.CompositeFairing;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.utils.DateUtils;
+import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.utils.TextsUtils;
@@ -203,8 +205,14 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     }
 
     private void refreshData() {
-        //Init rocket loader
-        getLoaderManager().initLoader(ROCKET_LOADER_ID, null, this);
+        // If there is a network connection, refresh data
+        if (NetworkUtils.isConnected(getActivityCast())) {
+            //Init rocket loader
+            getLoaderManager().initLoader(ROCKET_LOADER_ID, null, this);
+        } else {
+            // Display connection error message
+            Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

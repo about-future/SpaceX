@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,4 +20,26 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/launch_pads_no_connection_cloud"
+        android:layout_width="@dimen/icon"
+        android:layout_height="@dimen/icon"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/spacing"
+        android:contentDescription="@string/no_connection_icon"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_cloud_off" />
+
+    <TextView
+        android:id="@+id/launch_pads_no_connection_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:text="@string/no_internet"
+        android:textSize="@dimen/details_body_text_size"
+        android:visibility="invisible" />
+
+</FrameLayout>

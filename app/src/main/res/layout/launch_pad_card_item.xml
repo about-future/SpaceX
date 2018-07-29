@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="284dp"
     android:layout_marginBottom="@dimen/card_margin"
     android:layout_marginEnd="@dimen/card_margin"
     android:layout_marginStart="@dimen/card_margin"
@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/card_rocket_image"
+            android:id="@+id/launch_pad_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="top"
@@ -25,8 +25,8 @@
             android:background="@color/colorCardBackground"
             android:contentDescription="@string/rocket_image"
             android:gravity="top"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/bfr1" />
+            android:scaleType="fitStart"
+            tools:src="@drawable/empty_map" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:padding="@dimen/spacing">
 
             <TextView
-                android:id="@+id/card_rocket_name"
+                android:id="@+id/launch_pad_full_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -46,19 +46,19 @@
                 android:maxLines="1"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/title_text_size"
-                tools:text="Big Falcon Rocket" />
+                tools:text="Kennedy Space Center Historic Launch Complex 39A" />
 
             <TextView
-                android:id="@+id/card_rocket_description"
+                android:id="@+id/launch_pad_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-condensed"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:textColor="@color/colorCardDescription"
                 android:textSize="@dimen/subtitle_text_size"
-                tools:text="BFR is a privately funded next-generation reusable launch vehicle and spacecraft system developed by SpaceX. It was announced by Elon Musk" />
+                tools:text="Cape Canaveral, Florida" />
 
         </LinearLayout>
 

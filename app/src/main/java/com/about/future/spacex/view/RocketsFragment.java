@@ -16,9 +16,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
@@ -29,6 +33,7 @@ import com.about.future.spacex.data.RocketsAdapter;
 import com.about.future.spacex.data.RocketsLoader;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
@@ -56,6 +61,10 @@ public class RocketsFragment extends Fragment implements
     SwipeRefreshLayout mSwipeRefreshRocketsLayout;
     @BindView(R.id.rockets_rv)
     RecyclerView mRocketsRecyclerView;
+    @BindView(R.id.rockets_no_connection_cloud)
+    ImageView mNoConnectionImageView;
+    @BindView(R.id.rockets_no_connection_message)
+    TextView mNoConnectionMessage;
 
     @Nullable
     @Override
@@ -78,6 +87,7 @@ public class RocketsFragment extends Fragment implements
             // Load data
             setupViewModel();
         } else {
+            Log.v("GET ROCKET DATA", "CALLED");
             // Get data
             getData();
         }
@@ -85,6 +95,7 @@ public class RocketsFragment extends Fragment implements
         mSwipeRefreshRocketsLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.v("GET ROCKET DATA", "CALLED2");
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -113,8 +124,26 @@ public class RocketsFragment extends Fragment implements
     }
 
     private void getData() {
-        //Init mission loader
-        getLoaderManager().restartLoader(ROCKETS_LOADER_ID, null, this);
+        // Get of refresh data, if there is a network connection
+        if (NetworkUtils.isConnected(getActivityCast())) {
+            mRocketsRecyclerView.setVisibility(View.VISIBLE);
+            mNoConnectionImageView.setVisibility(View.INVISIBLE);
+            mNoConnectionMessage.setVisibility(View.INVISIBLE);
+
+            //Init or restart rockets loader
+            getLoaderManager().restartLoader(ROCKETS_LOADER_ID, null, this);
+        } else {
+            // Otherwise, if rockets were loaded before, just display a toast
+            if (SpaceXPreferences.getRocketsStatus(getActivityCast())) {
+                // Display connection error message as a Toast
+                Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, display a connection error message and a no connection icon
+                mRocketsRecyclerView.setVisibility(View.INVISIBLE);
+                mNoConnectionImageView.setVisibility(View.VISIBLE);
+                mNoConnectionMessage.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public SpaceXActivity getActivityCast() {
@@ -145,6 +174,8 @@ public class RocketsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Rocket>> loader, final List<Rocket> data) {
         switch (loader.getId()) {
             case ROCKETS_LOADER_ID:
+                Log.v("ROCKETS LOADER", "LOADED");
+
                 String rocketsAsString = new Gson().toJson(mRockets);
                 String dataAsString = new Gson().toJson(data);
 

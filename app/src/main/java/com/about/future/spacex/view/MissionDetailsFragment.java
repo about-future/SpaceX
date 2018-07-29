@@ -24,11 +24,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.mission.Core;
 import com.about.future.spacex.model.mission.Payload;
 import com.about.future.spacex.utils.DateUtils;
+import com.about.future.spacex.utils.NetworkUtils;
+import com.about.future.spacex.utils.SpaceXPreferences;
+import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.viewmodel.MissionViewModel;
 import com.about.future.spacex.viewmodel.MissionViewModelFactory;
 import com.about.future.spacex.data.AppDatabase;
@@ -187,8 +191,14 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     }
 
     private void refreshData() {
-        //Init mission loader
-        getLoaderManager().initLoader(MISSION_LOADER_ID, null, this);
+        // If there is a network connection, refresh data
+        if (NetworkUtils.isConnected(getActivityCast())) {
+            //Init mission loader
+            getLoaderManager().initLoader(MISSION_LOADER_ID, null, this);
+        } else {
+            // Display connection error message
+            Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -346,12 +356,18 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
 
                     // Set payload Mass
                     if (firstPayload.getPayloadMassKg() > 0) {
-                        mPayloadMassTextView.setText(String.valueOf(firstPayload.getPayloadMassKg()) + " kg");
-                        if (firstPayload.getPayloadMassLbs() > 0) {
-                            mPayloadMassTextView.append("\n" + String.valueOf(firstPayload.getPayloadMassLbs()) + " lbs");
+                        // Check if the mass should be displayed in metric or imperial system
+                        if (SpaceXPreferences.isMetric(getActivityCast())) {
+                            mPayloadMassTextView.setText(String.format(getString(R.string.mass_kg), TextsUtils.formatFuel(firstPayload.getPayloadMassKg())));
                         } else {
-                            int pounds = (int) (firstPayload.getPayloadMassKg() * 2.20462);
-                            mPayloadMassTextView.append("\n" + String.valueOf(pounds) + " lbs");
+                            // If we have a payload weight in lbs, display it
+                            if (firstPayload.getPayloadMassLbs() > 0) {
+                                mPayloadMassTextView.setText(String.format(getString(R.string.mass_lbs), TextsUtils.formatFuel(firstPayload.getPayloadMassLbs())));
+                            } else {
+                                // Otherwise, convert kgs in lbs and display it
+                                int pounds = (int) (firstPayload.getPayloadMassKg() * 2.20462);
+                                mPayloadMassTextView.setText(String.format(getString(R.string.mass_lbs), TextsUtils.formatFuel(pounds)));
+                            }
                         }
                     } else {
                         mPayloadMassTextView.setText(getString(R.string.label_unknown));
