@@ -22,14 +22,13 @@
         <activity android:name=".StarfieldActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".view.SpaceXActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".view.MissionDetailsActivity"
             android:parentActivityName=".view.SpaceXActivity"
@@ -38,7 +37,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.about.future.spacex.view.SpaceXActivity" />
         </activity>
-
         <activity
             android:name=".view.RocketDetailsActivity"
             android:parentActivityName=".view.SpaceXActivity"
@@ -47,7 +45,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.about.future.spacex.view.SpaceXActivity" />
         </activity>
-
         <activity
             android:name=".view.LaunchPadDetailsActivity"
             android:parentActivityName=".view.SpaceXActivity"
@@ -75,6 +72,15 @@
                 android:value="com.about.future.spacex.view.SpaceXActivity" />
         </activity>
 
+        <receiver android:name=".MissionAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/mission_app_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

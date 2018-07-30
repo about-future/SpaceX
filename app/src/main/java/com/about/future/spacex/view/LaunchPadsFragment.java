@@ -16,7 +16,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +92,6 @@ public class LaunchPadsFragment extends Fragment implements
             // Load data
             setupViewModel();
         } else {
-            Log.v("GET LAUNCH PAD DATA", "CALLED");
             // Get data
             getData();
         }
@@ -101,7 +99,6 @@ public class LaunchPadsFragment extends Fragment implements
         mSwipeRefreshLaunchPadsLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.v("GET ROCKET DATA", "CALLED2");
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -179,23 +176,13 @@ public class LaunchPadsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<LaunchPad>> loader, final List<LaunchPad> data) {
         switch (loader.getId()) {
             case LAUNCH_PADS_LOADER_ID:
-                Log.v("LAUNCH PADS LOADER", "LOADED");
-
-                String launchPadsAsString = new Gson().toJson(mLaunchPads);
-                String dataAsString = new Gson().toJson(data);
-
-                if (!TextUtils.equals(launchPadsAsString, dataAsString)) {
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            mDb.launchPadDao().insertLaunchPads(data);
-                            SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
-                        }
-                    });
-                    ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_updated));
-                } else {
-                    ScreenUtils.snakBarThis(getView(), getString(R.string.launch_pads_up_to_date));
-                }
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDb.launchPadDao().insertLaunchPads(data);
+                        SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
+                    }
+                });
 
                 setupViewModel();
 

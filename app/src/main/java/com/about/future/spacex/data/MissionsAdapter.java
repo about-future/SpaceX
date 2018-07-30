@@ -95,11 +95,6 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
 
         holder.missionNameTextView.setText(mMissions.get(position).getMissionName());
 
-        //TimeZone timeZone = TimeZone.getDefault();
-        //String tz = timeZone.getDisplayName(false, TimeZone.SHORT);
-        //int timeZoneOffset = timeZone.getOffset(mMissions.get(position).getLaunchDateUnix());
-        //long launchTime = mMissions.get(position).getLaunchDateUnix() + (timeZoneOffset / 1000);
-
         // Set mission date and time, if it's available
         if (mMissions.get(position).getLaunchDateUnix() > 0) {
             // Convert mission Date from seconds in milliseconds
@@ -112,7 +107,11 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
                 holder.launchDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorGreen));
             } else {
                 // Otherwise, set the default color
-                holder.launchDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                if (ScreenUtils.isPortraitMode(mContext)) {
+                    holder.launchDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                } else {
+                    holder.launchDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorCardDescription));
+                }
             }
         } else {
             // Otherwise, set text as Unknown

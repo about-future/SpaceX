@@ -11,12 +11,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,16 +24,12 @@ import android.widget.Toast;
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
-import com.about.future.spacex.data.LaunchPadsAdapter;
-import com.about.future.spacex.data.LaunchPadsLoader;
 import com.about.future.spacex.data.RocketsAdapter;
 import com.about.future.spacex.data.RocketsLoader;
-import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
-import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
 import com.about.future.spacex.viewmodel.RocketsViewModel;
 import com.google.gson.Gson;
 
@@ -87,7 +80,6 @@ public class RocketsFragment extends Fragment implements
             // Load data
             setupViewModel();
         } else {
-            Log.v("GET ROCKET DATA", "CALLED");
             // Get data
             getData();
         }
@@ -95,7 +87,6 @@ public class RocketsFragment extends Fragment implements
         mSwipeRefreshRocketsLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.v("GET ROCKET DATA", "CALLED2");
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -174,23 +165,13 @@ public class RocketsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Rocket>> loader, final List<Rocket> data) {
         switch (loader.getId()) {
             case ROCKETS_LOADER_ID:
-                Log.v("ROCKETS LOADER", "LOADED");
-
-                String rocketsAsString = new Gson().toJson(mRockets);
-                String dataAsString = new Gson().toJson(data);
-
-                if (!TextUtils.equals(rocketsAsString, dataAsString)) {
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            mDb.rocketDao().insertRockets(data);
-                            SpaceXPreferences.setRocketsStatus(getContext(), true);
-                        }
-                    });
-                    ScreenUtils.snakBarThis(getView(), getString(R.string.rockets_updated));
-                } else {
-                    ScreenUtils.snakBarThis(getView(), getString(R.string.rockets_up_to_date));
-                }
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDb.rocketDao().insertRockets(data);
+                        SpaceXPreferences.setRocketsStatus(getContext(), true);
+                    }
+                });
 
                 setupViewModel();
                 break;

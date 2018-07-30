@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    android:layout_marginBottom="@dimen/card_margin"
-    android:layout_marginEnd="@dimen/card_margin"
-    android:layout_marginStart="@dimen/card_margin"
-    android:layout_marginTop="@dimen/card_margin"
+    android:layout_margin="@dimen/card_margin"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 

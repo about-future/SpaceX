@@ -15,7 +15,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +59,11 @@ public class MissionsFragment extends Fragment implements
     @BindView(R.id.missions_no_connection_message)
     TextView mNoConnectionMessage;
 
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,7 +95,6 @@ public class MissionsFragment extends Fragment implements
             // Load data
             setupViewModel();
         } else {
-            Log.v("GET MISSION DATA", "CALLED");
             // Get data
             getData();
         }
@@ -99,7 +102,6 @@ public class MissionsFragment extends Fragment implements
         mSwipeRefreshMissionListLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.v("GET MISSION DATA", "CALLED2");
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -146,7 +148,6 @@ public class MissionsFragment extends Fragment implements
                 mNoConnectionImageView.setVisibility(View.VISIBLE);
                 mNoConnectionMessage.setVisibility(View.VISIBLE);
             }
-
         }
     }
 
@@ -178,8 +179,6 @@ public class MissionsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Mission>> loader, final List<Mission> data) {
         switch (loader.getId()) {
             case MISSIONS_LOADER_ID:
-                Log.v("MISSIONS LOADER", "LOADED");
-
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -187,10 +186,6 @@ public class MissionsFragment extends Fragment implements
                         SpaceXPreferences.setMissionsStatus(getContext(), true);
                     }
                 });
-
-                if (mMissions != null && data != null) {
-                    ScreenUtils.snakBarThis(getView(), getString(R.string.missions_updated));
-                }
 
                 setupViewModel();
 
