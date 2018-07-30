@@ -20,12 +20,15 @@ public interface RocketDao {
     @Query("SELECT * FROM rockets WHERE rocketId = :rocketId")
     LiveData<Rocket> loadRocketDetails(int rocketId);
 
+    @Query("SELECT rocketid FROM rockets WHERE name = :rocketName")
+    int getRocketId(String rocketName);
+
+    @Query("SELECT COUNT(*) FROM rockets")
+    int countRockets();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertRockets(List<Rocket> rockets);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateRocket(Rocket rocket);
-
-    @Query("DELETE FROM rockets")
-    void deleteAllRockets();
 }

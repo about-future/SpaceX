@@ -32,6 +32,7 @@ import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.MissionsAdapter;
 import com.about.future.spacex.data.MissionsLoader;
 import com.about.future.spacex.utils.SpaceXPreferences;
+import com.about.future.spacex.widget.UpdateIntentService;
 
 import java.util.List;
 
@@ -188,6 +189,8 @@ public class MissionsFragment extends Fragment implements
                 });
 
                 setupViewModel();
+
+                UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
 
                 break;
             default:

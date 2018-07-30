@@ -6,20 +6,6 @@
     android:layout_height="96dp"
     android:background="@color/colorBackgroundGrey">
 
-    <!--<TextView-->
-    <!--android:id="@+id/appwidget_text"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:layout_margin="8dp"-->
-    <!--android:background="#09C"-->
-    <!--android:contentDescription="@string/appwidget_text"-->
-    <!--android:text="@string/appwidget_text"-->
-    <!--android:textColor="#ffffff"-->
-    <!--android:textSize="24sp"-->
-    <!--android:textStyle="bold|italic" />-->
-
     <ImageView
         android:id="@+id/widget_mission_patch"
         android:layout_width="80dp"
@@ -28,7 +14,7 @@
         android:layout_marginStart="@dimen/spacing"
         android:contentDescription="@string/mission_patch"
         android:scaleType="centerCrop"
-        android:src="@drawable/default_patch_f9_small" />
+        android:src="@drawable/default_patch_fh_small" />
 
     <LinearLayout
         android:layout_width="wrap_content"

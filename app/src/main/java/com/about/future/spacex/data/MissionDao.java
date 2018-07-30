@@ -31,7 +31,4 @@ public interface MissionDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateMission(Mission mission);
-
-    @Query("DELETE FROM missions")
-    void deleteAllMissions();
 }

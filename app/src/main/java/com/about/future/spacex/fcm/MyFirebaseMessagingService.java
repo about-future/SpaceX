@@ -5,30 +5,23 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.model.mission.Links;
 import com.about.future.spacex.model.mission.Mission;
-import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.view.MissionDetailsActivity;
+import com.about.future.spacex.view.SpaceXActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
@@ -51,25 +44,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    Mission upcomingMission = mDb.missionDao().findUpcomingMission((new Date().getTime() / 1000));
-                    int totalMissions = mDb.missionDao().countMissions();
-                    int missionNumber = upcomingMission.getFlightNumber();
+                    try {
+                        Mission upcomingMission = mDb.missionDao().findUpcomingMission((new Date().getTime() / 1000));
+                        int totalMissions = mDb.missionDao().countMissions();
+                        int missionNumber = upcomingMission.getFlightNumber();
 
-                    if (TextUtils.equals(remoteMessage.getFrom(), "/topics/updates")) {
-                        // Update the upcoming mission's webcast link
-                        String webcastLink = data.get("body");
-                        //String webcastVideoKey = webcastLink.substring(webcastLink.indexOf("=") + 1, webcastLink.length());
-                        //String webcastImagePreviewUrl = ImageUtils.buildSdVideoThumbnailUrl(webcastVideoKey);
+                        if (TextUtils.equals(remoteMessage.getFrom(), "/topics/updates")) {
+                            // Update the upcoming mission's webcast link
+                            Links newLinks = upcomingMission.getLinks();
+                            newLinks.setVideoLink(data.get("body"));
+                            upcomingMission.setLinks(newLinks);
+                            mDb.missionDao().updateMission(upcomingMission);
 
-                        // Update the upcoming mission's webcast link
-                        Links newLinks = upcomingMission.getLinks();
-                        newLinks.setVideoLink(webcastLink);
-                        upcomingMission.setLinks(newLinks);
-                        mDb.missionDao().updateMission(upcomingMission);
-
-                        sendNotification(getString(R.string.live_webcast), totalMissions, missionNumber);
-                    } else {
-                        sendNotification(data.get("body"), totalMissions, missionNumber);
+                            // Send a notification containing a special message and the necessary
+                            // data so the app can open the upcoming mission
+                            sendNotification(getString(R.string.live_webcast), totalMissions, missionNumber);
+                        } else {
+                            // Send a notification with the received message, add the neccesary data
+                            // so the app can open the upcoming mission
+                            sendNotification(data.get("body"), totalMissions, missionNumber);
+                        }
+                    } catch (NullPointerException e) {
+                        sendNotification(data.get("body"), 0, 0);
                     }
                 }
             });
@@ -87,12 +83,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             shortMessage = message;
         }
 
-        Intent intent = new Intent(this, MissionDetailsActivity.class);
-        intent.putExtra(MISSION_NUMBER_KEY, missionNumber);
-        intent.putExtra(TOTAL_MISSIONS_KEY, totalMissions);
+        Intent intent;
+        // If both have value "0", it means we don't have data yet in our database, so any notification
+        // that we get, should point to SpaceXActivity
+        if (missionNumber == 0 && totalMissions == 0) {
+            intent = new Intent(this, SpaceXActivity.class);
+        } else {
+            // Otherwise, we do have data in our DB and our intent should point to the correct mission
+            intent = new Intent(this, MissionDetailsActivity.class);
+            intent.putExtra(MISSION_NUMBER_KEY, missionNumber);
+            intent.putExtra(TOTAL_MISSIONS_KEY, totalMissions);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
+
 
         String channelId = getString(R.string.default_notification_channel_id);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

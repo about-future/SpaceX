@@ -45,8 +45,8 @@
                 android:layout_height="@dimen/details_play_icon"
                 android:layout_gravity="center"
                 android:contentDescription="@string/video_play"
-                android:visibility="visible"
-                app:srcCompat="@drawable/ic_play" />
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_play_circle" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -96,42 +96,73 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginStart="@dimen/main_details_spacing"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/rocket_type"
-                            style="@style/Title"
-                            tools:text="Falcon 9" />
+                        <LinearLayout
+                            android:id="@+id/rocket_type_linear_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/touch_selector"
+                            android:orientation="vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingStart="@dimen/spacing">
 
-                        <TextView
-                            android:id="@+id/rocket_type_label"
-                            style="@style/Subtitle"
-                            android:text="@string/label_rocket_type"/>
+                            <TextView
+                                android:id="@+id/rocket_type"
+                                style="@style/Title"
+                                tools:text="Falcon 9" />
 
-                        <TextView
-                            android:id="@+id/launch_date"
-                            style="@style/Title"
+                            <TextView
+                                android:id="@+id/rocket_type_label"
+                                style="@style/Subtitle"
+                                android:text="@string/label_rocket_type" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/launch_date_linear_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing"
-                            tools:text="3:12 PM, 20 Jul 2018" />
+                            android:background="@drawable/touch_selector"
+                            android:orientation="vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingStart="@dimen/spacing">
 
-                        <TextView
-                            android:id="@+id/launch_date_label"
-                            style="@style/Subtitle"
-                            android:text="@string/label_launch_date" />
+                            <TextView
+                                android:id="@+id/launch_date"
+                                style="@style/Title"
+                                tools:text="3:12 PM, 20 Jul 2018" />
 
-                        <TextView
-                            android:id="@+id/launch_site_name"
-                            style="@style/Title"
+                            <TextView
+                                android:id="@+id/launch_date_label"
+                                style="@style/Subtitle"
+                                android:text="@string/label_launch_date" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/launch_site_linear_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing"
-                            tools:text="CCAFS SLC 40" />
+                            android:background="@drawable/touch_selector"
+                            android:orientation="vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingStart="@dimen/spacing">
 
-                        <TextView
-                            android:id="@+id/launch_site_label"
-                            style="@style/Subtitle"
-                            android:text="@string/label_launch_site" />
+                            <TextView
+                                android:id="@+id/launch_site_name"
+                                style="@style/Title"
+                                tools:text="CCAFS SLC 40" />
+
+                            <TextView
+                                android:id="@+id/launch_site_label"
+                                style="@style/Subtitle"
+                                android:text="@string/label_launch_site" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -154,10 +185,10 @@
                     android:orientation="vertical">
 
                     <View
-                    android:id="@+id/separation_line2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorLine" />
+                        android:id="@+id/separation_line2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLine" />
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
@@ -189,11 +220,11 @@
                         <TextView
                             android:id="@+id/payload_label"
                             style="@style/Title"
+                            android:layout_width="0dp"
                             android:layout_marginTop="@dimen/spacing"
                             android:text="@string/label_payload"
-                            android:layout_width="0dp"
-                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/mission_rocket_payload_image"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/mission_rocket_payload_image" />
 
                         <View
@@ -286,12 +317,12 @@
 
                         <TextView
                             android:id="@+id/second_stage_label"
-                            android:layout_width="0dp"
                             style="@style/Title"
+                            android:layout_width="0dp"
                             android:layout_marginTop="@dimen/spacing"
                             android:text="@string/label_second_stage"
-                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/mission_rocket_payload_image"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/payload_orbit_long" />
 
                         <View
@@ -322,8 +353,8 @@
 
                         <TextView
                             android:id="@+id/first_stage_label"
-                            android:layout_width="0dp"
                             style="@style/Title"
+                            android:layout_width="0dp"
                             android:layout_marginTop="@dimen/details_first_stage_margin_top"
                             android:text="@string/label_first_stage"
                             app:layout_constraintStart_toStartOf="parent"

@@ -4,25 +4,23 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +50,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.about.future.spacex.view.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.view.LaunchPadsFragment.TOTAL_LAUNCH_PADS_KEY;
 import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
+import static com.about.future.spacex.view.RocketsFragment.ROCKET_ID_KEY;
+import static com.about.future.spacex.view.RocketsFragment.TOTAL_ROCKETS_KEY;
 
 public class MissionDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Mission>> {
 
@@ -71,6 +73,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.webcast_preview)
     ImageView mWebcastPreviewImageView;
+    @BindView(R.id.webcast_play)
+    ImageView mWebcastPlayButton;
     @BindView(R.id.launch_date)
     TextView mLaunchDateTextView;
     @BindView(R.id.rocket_type)
@@ -81,6 +85,13 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     TextView mLaunchSiteNameTextView;
     @BindView(R.id.mission_details)
     TextView mDetailsTextView;
+
+    @BindView(R.id.rocket_type_linear_layout)
+    LinearLayout mRocketTypeLinearLayout;
+    @BindView(R.id.launch_date_linear_layout)
+    LinearLayout mLaunchDateLinearLayout;
+    @BindView(R.id.launch_site_linear_layout)
+    LinearLayout mLaunchSiteLinearLayout;
 
     // Payload details
     @BindView(R.id.payload_id)
@@ -206,7 +217,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         outState.putInt(MISSION_NUMBER_KEY, mMissionNumber);
     }
 
-    private void bindViews(Mission mission) {
+    private void bindViews(final Mission mission) {
         if (mRootView == null) {
             return;
         }
@@ -217,7 +228,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
             mRootView.animate().alpha(1);
 
             mCollapsingToolbarLayout.setTitle(mission.getMissionName());
-            Log.v("TITLE SET", mission.getMissionName());
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -271,11 +281,17 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(missionVideoUrl)));
                     }
                 });
-
-                // TODO: Set listener on play image too and make a touch selector
+                // Set a listener, so we can open each video when the play image is clicked
+                mWebcastPlayButton.setVisibility(View.VISIBLE);
+                mWebcastPlayButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(missionVideoUrl)));
+                    }
+                });
             } else {
                 mWebcastPreviewImageView.setImageResource(R.drawable.falcon9);
-                mRootView.findViewById(R.id.webcast_play).setVisibility(View.GONE);
+                mWebcastPlayButton.setVisibility(View.GONE);
             }
 
             // Patch (if it's available)
@@ -311,6 +327,40 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                     mMissionPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
                 }
             }
+
+            mRocketTypeLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            int rocketId = mDb.rocketDao().getRocketId(mRocketTypeTextView.getText().toString());
+                            int totalRockets = mDb.rocketDao().countRockets();
+                            Intent intent = new Intent(getActivityCast(), RocketDetailsActivity.class);
+                            intent.putExtra(ROCKET_ID_KEY, rocketId);
+                            intent.putExtra(TOTAL_ROCKETS_KEY, totalRockets);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            });
+
+            mLaunchSiteLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            int launchPadId = mDb.launchPadDao().getLaunchPadId(mission.getLaunchSite().getSiteId());
+                            int totalLaunchPads = mDb.launchPadDao().countLaunchPads();
+                            Intent intent = new Intent(getActivityCast(), LaunchPadDetailsActivity.class);
+                            intent.putExtra(LAUNCH_PAD_ID_KEY, launchPadId);
+                            intent.putExtra(TOTAL_LAUNCH_PADS_KEY, totalLaunchPads);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            });
 
             // Set launch date
             if (mission.getLaunchDateUnix() > 0) {
@@ -667,7 +717,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         switch (loaderId) {
             case MISSION_LOADER_ID:
                 // If the loaded id matches mission loader, return a new missions loader
-                Log.v("MISSION NUMBER", "" + mMission.getFlightNumber());
                 return new MissionLoader(getActivityCast(), mMission.getFlightNumber());
             default:
                 throw new RuntimeException("Loader Not Implemented: " + loaderId);
@@ -703,6 +752,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         mMission = null;
     }
 
-    // TODO: Create landscape layout for missions list
-    // TODO: Widget
+    // TODO: Widget countdown
+    // TODO: play button shape
+    // TODO: Touch selectors
 }

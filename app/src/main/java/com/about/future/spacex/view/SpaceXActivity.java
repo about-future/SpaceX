@@ -1,11 +1,13 @@
 package com.about.future.spacex.view;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +15,8 @@ import android.view.MenuItem;
 import com.about.future.spacex.R;
 import com.about.future.spacex.SettingsActivity;
 import com.about.future.spacex.utils.SpaceXPreferences;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.security.ProviderInstaller;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import butterknife.BindView;
@@ -37,6 +41,11 @@ public class SpaceXActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setTitle("");
+
+        // Some devices have
+        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 22) {
+            upgradeSecurityProvider();
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -76,7 +85,23 @@ public class SpaceXActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO: show snakbar when missions, rockets or launchpads are updated
     // TODO: create links from mission to rocket and launchpad
-    // TODO: handle network connection in each activity and/or fragment
+
+    private void upgradeSecurityProvider() {
+        try{
+            ProviderInstaller.installIfNeededAsync(this, new ProviderInstaller.ProviderInstallListener() {
+                @Override
+                public void onProviderInstalled() {
+                    Log.e("SpaceXActivity", "New security provider installed.");
+                }
+
+                @Override
+                public void onProviderInstallFailed(int errorCode, Intent recoveryIntent) {
+                    Log.e("SpaceXActivity", "New security provider install failed.");
+                }
+            });
+        }catch (Exception ex){
+            Log.e("SpaceXActivity", "Unknown issue trying to install a new security provider", ex);
+        }
+    }
 }
