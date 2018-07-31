@@ -48,6 +48,7 @@
     <string name="label_status">Status</string>
     <string name="label_vehicles_launched">Vehicles Launched</string>
     <string name="launch_pad_location">%s, %s</string>
+    <string name="label_google">Google</string>
 
     <!-- Rocket Details -->
     <string name="label_first_flight">First Flight</string>
@@ -183,5 +184,7 @@
     <!-- Widget -->
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="widget_label_no_mission_available">No mission available</string>
+    <string name="widget_label_click_here_to_load">Click here to load all missions!</string>
 
 </resources>

@@ -519,6 +519,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         mCoreReusedTextView.setText(getString(R.string.label_yes));
                         // Check how many time this core was used before
                         if (firstCore.getFlight() > 2) {
+                            // TODO: fix string concat
                             mCoreReusedTextView.append(" (" + String.valueOf(firstCore.getFlight() - 1) + " times)");
                         } else if (firstCore.getFlight() == 2) {
                             mCoreReusedTextView.append(" (" + String.valueOf(firstCore.getFlight() - 1) + " time)");
@@ -725,7 +726,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<Mission>> loader, List<Mission> missions) {
-        if (missions != null) {
+        if (missions != null && missions.size() > 0) {
             final Mission newMission = missions.get(0);
 
             String missionAsString1 = new Gson().toJson(newMission);
@@ -751,8 +752,4 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     public void onLoaderReset(@NonNull Loader<List<Mission>> loader) {
         mMission = null;
     }
-
-    // TODO: Widget countdown
-    // TODO: play button shape
-    // TODO: Touch selectors
 }

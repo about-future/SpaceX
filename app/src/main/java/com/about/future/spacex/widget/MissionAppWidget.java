@@ -5,9 +5,10 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.View;
+import android.widget.Chronometer;
 import android.widget.RemoteViews;
 
 import com.about.future.spacex.R;
@@ -17,6 +18,7 @@ import com.about.future.spacex.view.MissionDetailsActivity;
 import com.about.future.spacex.view.SpaceXActivity;
 
 import java.util.Date;
+import java.util.Locale;
 
 import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
 import static com.about.future.spacex.view.MissionsFragment.TOTAL_MISSIONS_KEY;
@@ -28,6 +30,8 @@ public class MissionAppWidget extends AppWidgetProvider {
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.mission_app_widget);
+
+        //TODO: empty view
 
         if (upcomingMission != null) {
             // Set mission patch
@@ -73,15 +77,22 @@ public class MissionAppWidget extends AppWidgetProvider {
             // Set formatted date
             views.setTextViewText(R.id.widget_launch_date, DateUtils.formatDate(upcomingMissionDate));
 
+            // Set time left until launch in a textview
+            views.setTextViewText(R.id.widget_time_left, DateUtils.formatTimeLeft(upcomingMission.getLaunchDateUnix()));
+
             // Create the intent and set extras
             Intent intent = new Intent(context, MissionDetailsActivity.class);
             intent.putExtra(MISSION_NUMBER_KEY, upcomingMission.getFlightNumber());
             intent.putExtra(TOTAL_MISSIONS_KEY, totalMissions);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             views.setOnClickPendingIntent(R.id.widget_main_content, pendingIntent);
-        }
 
-        //TODO: Add countdown
+        } else {
+            views.setImageViewResource(R.id.widget_mission_patch, R.drawable.spacex_landing_droneship);
+            views.setTextViewText(R.id.widget_mission_name, context.getString(R.string.widget_label_no_mission_available));
+            views.setViewVisibility(R.id.widget_launch_date, View.GONE);
+            views.setTextViewText(R.id.widget_time_left, context.getString(R.string.widget_label_click_here_to_load));
+        }
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

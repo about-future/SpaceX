@@ -121,10 +121,10 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
         if (!TextUtils.isEmpty(mLaunchPads.get(position).getLocation().getName()) &&
                 !TextUtils.isEmpty(mLaunchPads.get(position).getLocation().getRegion())) {
             holder.launchPadLocationTextView.setText(
-                    mLaunchPads.get(position).getLocation().getName()
-                            + ", " +
-                            mLaunchPads.get(position).getLocation().getRegion());
-            // TODO: fix above string concat
+                    String.format(
+                            mContext.getString(R.string.launch_pad_location),
+                            mLaunchPads.get(position).getLocation().getName(),
+                            mLaunchPads.get(position).getLocation().getRegion()));
         } else {
             holder.launchPadFullNameTextView.setText(mContext.getString(R.string.label_unknown));
         }

@@ -87,18 +87,20 @@ public class LaunchPadsFragment extends Fragment implements
 
         mDb = AppDatabase.getInstance(getContext());
 
-        // If launch pads were already loaded once, just query the DB and display them, otherwise init the loader
+        // If launch pads were already loaded once, just query the DB and display them,
+        // otherwise init the loader and get data from server
         if (SpaceXPreferences.getLaunchPadsStatus(getActivityCast())) {
-            // Load data
+            // Load data from DB
             setupViewModel();
         } else {
-            // Get data
+            // Get data from internet
             getData();
         }
 
         mSwipeRefreshLaunchPadsLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // Get data from internet
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -176,14 +178,22 @@ public class LaunchPadsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<LaunchPad>> loader, final List<LaunchPad> data) {
         switch (loader.getId()) {
             case LAUNCH_PADS_LOADER_ID:
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.launchPadDao().insertLaunchPads(data);
-                        SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
-                    }
-                });
+                if (data != null && data.size() > 0) {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            // If data indeed was retrieved, insert launch pads into the DB
+                            mDb.launchPadDao().insertLaunchPads(data);
+                            // This loader is activate the first time the activity is open or when
+                            // a swipe to refresh gesture is made. Each time we set the LaunchPad
+                            // status preference to TRUE, so the next time we need to load data,
+                            // the app will opt for loading it from DB
+                            SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
+                        }
+                    });
+                }
 
+                // Setup the view model, especially if this is the first time the data is loaded
                 setupViewModel();
 
                 break;

@@ -13,7 +13,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,8 @@ import com.about.future.spacex.data.RocketsAdapter;
 import com.about.future.spacex.data.RocketsLoader;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.utils.NetworkUtils;
-import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.viewmodel.RocketsViewModel;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -46,7 +43,6 @@ public class RocketsFragment extends Fragment implements
     public static final String TOTAL_ROCKETS_KEY = "total_rockets";
 
     private AppDatabase mDb;
-    private List<Rocket> mRockets;
     private RocketsAdapter mRocketsAdapter;
     private int mTotalRockets;
 
@@ -75,18 +71,20 @@ public class RocketsFragment extends Fragment implements
 
         mDb = AppDatabase.getInstance(getContext());
 
-        // If rockets were already loaded once, just query the DB and display them, otherwise init the loader
+        // If rockets were already loaded once, just query the DB and display them,
+        // otherwise init the loader and get data from server
         if (SpaceXPreferences.getRocketsStatus(getActivityCast())) {
-            // Load data
+            // Load data from DB
             setupViewModel();
         } else {
-            // Get data
+            // Get data from internet
             getData();
         }
 
         mSwipeRefreshRocketsLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // Get data from internet
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -106,7 +104,6 @@ public class RocketsFragment extends Fragment implements
             @Override
             public void onChanged(@Nullable List<Rocket> rockets) {
                 if (rockets != null) {
-                    mRockets = rockets;
                     mRocketsAdapter.setRockets(rockets);
                     mTotalRockets = rockets.size();
                 }
@@ -165,15 +162,26 @@ public class RocketsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Rocket>> loader, final List<Rocket> data) {
         switch (loader.getId()) {
             case ROCKETS_LOADER_ID:
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.rocketDao().insertRockets(data);
-                        SpaceXPreferences.setRocketsStatus(getContext(), true);
-                    }
-                });
+                if (data != null && data.size() > 0) {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            // If data indeed was retrieved, insert launch pads into the DB
+                            mDb.rocketDao().insertRockets(data);
+                            // This loader is activate the first time the activity is open or when
+                            // a swipe to refresh gesture is made. Each time we set the rockets
+                            // status preference to TRUE, so the next time we need to load data,
+                            // the app will opt for loading it from DB
+                            SpaceXPreferences.setRocketsStatus(getContext(), true);
+                        }
+                    });
 
+                    setupViewModel();
+                }
+
+                // Setup the view model, especially if this is the first time the data is loaded
                 setupViewModel();
+
                 break;
             default:
                 break;

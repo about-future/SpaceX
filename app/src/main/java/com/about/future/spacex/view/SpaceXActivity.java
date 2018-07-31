@@ -42,11 +42,6 @@ public class SpaceXActivity extends AppCompatActivity {
 
         setTitle("");
 
-        // Some devices have
-        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 22) {
-            upgradeSecurityProvider();
-        }
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -83,25 +78,5 @@ public class SpaceXActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // TODO: create links from mission to rocket and launchpad
-
-    private void upgradeSecurityProvider() {
-        try{
-            ProviderInstaller.installIfNeededAsync(this, new ProviderInstaller.ProviderInstallListener() {
-                @Override
-                public void onProviderInstalled() {
-                    Log.e("SpaceXActivity", "New security provider installed.");
-                }
-
-                @Override
-                public void onProviderInstallFailed(int errorCode, Intent recoveryIntent) {
-                    Log.e("SpaceXActivity", "New security provider install failed.");
-                }
-            });
-        }catch (Exception ex){
-            Log.e("SpaceXActivity", "Unknown issue trying to install a new security provider", ex);
-        }
     }
 }

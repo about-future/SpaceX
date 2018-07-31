@@ -47,7 +47,6 @@ public class MissionsFragment extends Fragment implements
     public static final String TOTAL_MISSIONS_KEY = "total_missions";
 
     private AppDatabase mDb;
-    private List<Mission> mMissions = null;
     private MissionsAdapter mMissionsAdapter;
     private int mTotalMissions;
 
@@ -59,11 +58,6 @@ public class MissionsFragment extends Fragment implements
     ImageView mNoConnectionImageView;
     @BindView(R.id.missions_no_connection_message)
     TextView mNoConnectionMessage;
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//    }
 
     @Nullable
     @Override
@@ -91,18 +85,20 @@ public class MissionsFragment extends Fragment implements
 
         mDb = AppDatabase.getInstance(getContext());
 
-        // If missions were already loaded once, just query the DB and display them, otherwise init the loader
+        // If missions were already loaded once, just query the DB and display them,
+        // otherwise init the loader and get data from server
         if (SpaceXPreferences.getMissionsStatus(getActivityCast())) {
-            // Load data
+            // Load data from DB
             setupViewModel();
         } else {
-            // Get data
+            // Get data from internet
             getData();
         }
 
         mSwipeRefreshMissionListLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // Get data from internet
                 getData();
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -122,7 +118,6 @@ public class MissionsFragment extends Fragment implements
             @Override
             public void onChanged(@Nullable List<Mission> missions) {
                 if (missions != null) {
-                    mMissions = missions;
                     mMissionsAdapter.setMissions(missions);
                     mTotalMissions = missions.size();
                 }
@@ -180,17 +175,26 @@ public class MissionsFragment extends Fragment implements
     public void onLoadFinished(@NonNull Loader<List<Mission>> loader, final List<Mission> data) {
         switch (loader.getId()) {
             case MISSIONS_LOADER_ID:
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.missionDao().insertMissions(data);
-                        SpaceXPreferences.setMissionsStatus(getContext(), true);
-                    }
-                });
+                if (data != null && data.size() > 0) {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            // If data indeed was retrieved, insert launch pads into the DB
+                            mDb.missionDao().insertMissions(data);
+                            // This loader is activate the first time the activity is open or when
+                            // a swipe to refresh gesture is made. Each time we set the missions
+                            // status preference to TRUE, so the next time we need to load data,
+                            // the app will opt for loading it from DB
+                            SpaceXPreferences.setMissionsStatus(getContext(), true);
+                        }
+                    });
+                }
 
-                setupViewModel();
-
+                // Update widget
                 UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
+
+                // Setup the view model, especially if this is the first time the data is loaded
+                setupViewModel();
 
                 break;
             default:
