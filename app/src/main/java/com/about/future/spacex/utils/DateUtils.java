@@ -1,5 +1,7 @@
 package com.about.future.spacex.utils;
 
+import android.content.Context;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,9 +10,16 @@ import java.util.TimeZone;
 
 public class DateUtils {
 
-    public static String formatDate(Date missionDate) {
+    public static String formatDate(Context context, Date missionDate) {
+        boolean isMetric = SpaceXPreferences.isMetric(context);
+
         // Date format
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm, d MMMM yyyy", Locale.US);
+        SimpleDateFormat simpleDateFormat;
+        if (isMetric) {
+            simpleDateFormat = new SimpleDateFormat("HH:mm, d MMMM yyyy z", Locale.US);
+        } else {
+            simpleDateFormat = new SimpleDateFormat("hh:mm a MMMM d, yyyy z", Locale.US);
+        }
         // Set the timezone reference for formatting
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(TimeZone.getDefault().getID()));
 
@@ -54,15 +63,19 @@ public class DateUtils {
         }
     }
 
-    public static String shortDateFormat(String stringDate) {
+    public static String shortDateFormat(Context context, String stringDate) {
+        boolean isMetric = SpaceXPreferences.isMetric(context);
         // Date format
         ParsePosition pos = new ParsePosition(0);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         Date date = simpleDateFormat.parse(stringDate, pos);
-        SimpleDateFormat simpleDateReformat = new SimpleDateFormat("d MMMM yyyy", Locale.US);
+        SimpleDateFormat simpleDateReformat;
+        if (isMetric) {
+            simpleDateReformat = new SimpleDateFormat("d MMMM yyyy", Locale.US);
+        } else {
+            simpleDateReformat = new SimpleDateFormat("MMMM d, yyyy", Locale.US);
+        }
 
         return simpleDateReformat.format(date);
     }
-
-
 }

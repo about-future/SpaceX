@@ -100,7 +100,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
             // Convert mission Date from seconds in milliseconds
             Date missionDate = new Date(mMissions.get(position).getLaunchDateUnix() * 1000L);
             // Set formatted date in TextView
-            holder.launchDateTextView.setText(DateUtils.formatDate(missionDate));
+            holder.launchDateTextView.setText(DateUtils.formatDate(mContext, missionDate));
 
             // Set green color if mission time is bigger than present time (meaning it's an upcoming mission)
             if (missionDate.getTime() > new Date().getTime()) {

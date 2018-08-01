@@ -1,5 +1,6 @@
 package com.about.future.spacex;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
@@ -9,6 +10,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.SwitchPreferenceCompat;
 
+import com.about.future.spacex.widget.UpdateIntentService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
@@ -54,6 +56,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 String value = sharedPreferences.getString(key, "");
                 setListSummary(preference, value);
             }
+
+            // Update widget
+            UpdateIntentService.startActionUpdateMissionWidget(getContext());
         }
     }
 

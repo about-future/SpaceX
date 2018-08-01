@@ -37,14 +37,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/label_google"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/label_google"
-                android:shadowColor="@color/colorAccent"
-                android:shadowRadius="50"
-                android:shadowDx="0"
-                android:shadowDy="0"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/colorWhite"
                 android:textSize="12sp" />

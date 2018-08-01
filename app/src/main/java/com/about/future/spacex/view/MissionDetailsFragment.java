@@ -368,7 +368,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 // Convert mission Date from seconds in milliseconds
                 Date missionDate = new Date(mission.getLaunchDateUnix() * 1000L);
                 // Set formatted date in TextView
-                mLaunchDateTextView.setText(DateUtils.formatDate(missionDate));
+                mLaunchDateTextView.setText(DateUtils.formatDate(getActivityCast(), missionDate));
             } else {
                 // Otherwise, set text as Unknown
                 mLaunchDateTextView.setText(getString(R.string.label_unknown));

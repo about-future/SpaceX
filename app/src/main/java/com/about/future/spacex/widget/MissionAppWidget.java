@@ -27,8 +27,6 @@ public class MissionAppWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.mission_app_widget);
 
-        //TODO: empty view
-
         if (upcomingMission != null) {
             // Set mission patch
             try {
@@ -65,7 +63,7 @@ public class MissionAppWidget extends AppWidgetProvider {
             // Convert mission Date from seconds in milliseconds
             Date upcomingMissionDate = new Date(upcomingMission.getLaunchDateUnix() * 1000L);
             // Set formatted date
-            views.setTextViewText(R.id.widget_launch_date, DateUtils.formatDate(upcomingMissionDate));
+            views.setTextViewText(R.id.widget_launch_date, DateUtils.formatDate(context, upcomingMissionDate));
 
             // Set time left until launch in a textview
             views.setTextViewText(R.id.widget_time_left, DateUtils.formatTimeLeft(upcomingMission.getLaunchDateUnix()));
@@ -83,6 +81,9 @@ public class MissionAppWidget extends AppWidgetProvider {
             views.setViewVisibility(R.id.widget_launch_date, View.GONE);
             views.setTextViewText(R.id.widget_time_left, context.getString(R.string.widget_label_click_here_to_load));
         }
+
+        // Handle
+        views.setEmptyView(R.id.widget_main_content, R.id.empty_widget);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

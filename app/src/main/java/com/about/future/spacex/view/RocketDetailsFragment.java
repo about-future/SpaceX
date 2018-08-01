@@ -138,6 +138,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     @BindView(R.id.payload_to_pluto_label)
     TextView mPayloadMassToPlutoLabel;
 
+    private boolean mIsCoreSwitched = false;
+
     public RocketDetailsFragment() {
         // Required empty public constructor
     }
@@ -265,7 +267,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     paramsCore.setMarginEnd(48);
                     break;
                 case "falconheavy":
-                    mBackdropImageView.setImageResource(R.drawable.falcon_heavy);
+                    mBackdropImageView.setImageResource(R.drawable.falcon_heavy2);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
@@ -314,7 +316,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
             mCoreImageView.setLayoutParams(paramsCore);
 
             // First flight
-            mFirstFlightTextView.setText(DateUtils.shortDateFormat(rocket.getFirstFlight()));
+            mFirstFlightTextView.setText(DateUtils.shortDateFormat(getActivityCast(), rocket.getFirstFlight()));
 
             // Cost per launch
             NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
@@ -458,6 +460,28 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                             }
                         }
                     }
+                }
+            });
+
+            mCoreImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!mIsCoreSwitched) {
+                        if (TextUtils.equals(rocket.getName(), "Falcon 9")) {
+                            mCoreImageView.setImageResource(R.drawable.core_block4);
+                        }
+                        if (TextUtils.equals(rocket.getName(), "Falcon Heavy")) {
+                            mCoreImageView.setImageResource(R.drawable.falcon_heavy_block5);
+                        }
+                    } else {
+                        if (TextUtils.equals(rocket.getName(), "Falcon 9")) {
+                            mCoreImageView.setImageResource(R.drawable.core_block5);
+                        }
+                        if (TextUtils.equals(rocket.getName(), "Falcon Heavy")) {
+                            mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
+                        }
+                    }
+                    mIsCoreSwitched = !mIsCoreSwitched;
                 }
             });
 
