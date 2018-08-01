@@ -267,7 +267,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     paramsCore.setMarginEnd(48);
                     break;
                 case "falconheavy":
-                    mBackdropImageView.setImageResource(R.drawable.falcon_heavy2);
+                    mBackdropImageView.setImageResource(R.drawable.falcon_heavy);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);

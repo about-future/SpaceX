@@ -291,6 +291,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                     }
                 });
             } else {
+                // TODO: backdrop for type of rocket
                 mWebcastPreviewImageView.setImageResource(R.drawable.falcon9);
                 mWebcastPlayButton.setVisibility(View.GONE);
             }
@@ -685,6 +686,31 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 mPayloadImageView.setLayoutParams(paramsPayload);
                 mCoreImageView.setLayoutParams(paramsCore);
                 mSeparationLine5View.setLayoutParams(paramsSeparationLine5);
+
+                // Set click listener on payload and core images and create an intent for RocketDetailsActivity
+                mPayloadImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                int rocketId = mDb.rocketDao().getRocketId(mRocketTypeTextView.getText().toString());
+                                int totalRockets = mDb.rocketDao().countRockets();
+                                Intent intent = new Intent(getActivityCast(), RocketDetailsActivity.class);
+                                intent.putExtra(ROCKET_ID_KEY, rocketId);
+                                intent.putExtra(TOTAL_ROCKETS_KEY, totalRockets);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+                mCoreImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        createRocketIntent();
+                    }
+                });
+
             } else {
                 mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
                 mRocketTypeTextView.setVisibility(View.GONE);
@@ -758,5 +784,19 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     @Override
     public void onLoaderReset(@NonNull Loader<List<Mission>> loader) {
         mMission = null;
+    }
+
+    private void createRocketIntent() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                int rocketId = mDb.rocketDao().getRocketId(mRocketTypeTextView.getText().toString());
+                int totalRockets = mDb.rocketDao().countRockets();
+                Intent intent = new Intent(getActivityCast(), RocketDetailsActivity.class);
+                intent.putExtra(ROCKET_ID_KEY, rocketId);
+                intent.putExtra(TOTAL_ROCKETS_KEY, totalRockets);
+                startActivity(intent);
+            }
+        });
     }
 }
