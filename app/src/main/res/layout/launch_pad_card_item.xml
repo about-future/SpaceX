@@ -50,8 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/colorWhite"
-            android:foreground="@drawable/touch_selector"
+            android:background="@drawable/touch_selector_card"
             android:orientation="vertical"
             android:padding="@dimen/spacing">
 

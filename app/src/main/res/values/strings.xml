@@ -88,6 +88,9 @@
     <string name="mass2">%1s kg\n%2s lbs</string>
     <string name="label_overview">Technical Overview</string>
     <string name="label_payload_weights">Payload Weights</string>
+    <string name="reused_x_times">\ (%s times)</string>
+    <string name="reused_1_time">\ (%s time)</string>
+    <string name="label_gallery">Gallery</string>
 
     <!-- Landing types -->
     <string name="label_asds">Autonomous Spaceport Drone Ship</string>

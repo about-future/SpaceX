@@ -39,6 +39,7 @@ import com.about.future.spacex.data.MissionLoader;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.ScreenUtils;
+import com.about.future.spacex.widget.UpdateIntentService;
 import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -519,10 +520,13 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         mCoreReusedTextView.setText(getString(R.string.label_yes));
                         // Check how many time this core was used before
                         if (firstCore.getFlight() > 2) {
-                            // TODO: fix string concat
-                            mCoreReusedTextView.append(" (" + String.valueOf(firstCore.getFlight() - 1) + " times)");
+                            mCoreReusedTextView.append(
+                                    String.format(getString(R.string.reused_x_times),
+                                            String.valueOf(firstCore.getFlight() - 1)));
                         } else if (firstCore.getFlight() == 2) {
-                            mCoreReusedTextView.append(" (" + String.valueOf(firstCore.getFlight() - 1) + " time)");
+                            mCoreReusedTextView.append(
+                                    String.format(getString(R.string.reused_1_time),
+                                            String.valueOf(firstCore.getFlight() - 1)));
                         }
                     } else {
                         mCoreReusedTextView.setText(getString(R.string.label_no));
@@ -746,6 +750,9 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 ScreenUtils.snakBarThis(getView(), getString(R.string.mission_up_to_date));
             }
         }
+
+        // Update widget
+        UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
     }
 
     @Override

@@ -12,7 +12,7 @@
 
     <!-- Mission Details Activity -->
     <dimen name="details_appbar_height">280dp</dimen>
-    <dimen name="details_patch_size">220dp</dimen>
+    <dimen name="details_patch_size">260dp</dimen>
     <dimen name="details_video_height">300dp</dimen>
     <dimen name="details_rocket_margin">64dp</dimen>
     <dimen name="details_small_title_text_size">20sp</dimen>

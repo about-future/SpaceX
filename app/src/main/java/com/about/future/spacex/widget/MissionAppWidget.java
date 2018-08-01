@@ -5,20 +5,16 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.RemoteViews;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.view.MissionDetailsActivity;
-import com.about.future.spacex.view.SpaceXActivity;
 
 import java.util.Date;
-import java.util.Locale;
 
 import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
 import static com.about.future.spacex.view.MissionsFragment.TOTAL_MISSIONS_KEY;
@@ -35,37 +31,31 @@ public class MissionAppWidget extends AppWidgetProvider {
 
         if (upcomingMission != null) {
             // Set mission patch
-            if (upcomingMission.getLinks() != null && !TextUtils.isEmpty(upcomingMission.getLinks().getMissionPatchSmall())) {
-                final String missionPatchImageUrl = upcomingMission.getLinks().getMissionPatchSmall();
-                //views.setImageViewUri(R.id.widget_mission_patch, Uri.parse(missionPatchImageUrl));
-            } else {
-                // Otherwise, load placeholder patch
-                try {
-                    switch (upcomingMission.getRocket().getRocketName()) {
-                        case "Falcon 9":
-                            if (!TextUtils.isEmpty(upcomingMission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType())
-                                    && TextUtils.equals(upcomingMission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType(), "Satellite")) {
-                                views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_f9_small);
-                            } else {
-                                views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_dragon_small);
-                            }
-                            break;
-                        case "Falcon Heavy":
-                            views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_fh_small);
-                            break;
-                        case "BFR":
-                            views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_bfr_small);
-                            break;
-                        case "Big Falcon Rocket":
-                            views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_bfr_small);
-                            break;
-                        default:
+            try {
+                switch (upcomingMission.getRocket().getRocketName()) {
+                    case "Falcon 9":
+                        if (!TextUtils.isEmpty(upcomingMission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType())
+                                && TextUtils.equals(upcomingMission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType(), "Satellite")) {
                             views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_f9_small);
-                            break;
-                    }
-                } catch (NullPointerException e) {
-                    views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_dragon_small);
+                        } else {
+                            views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_dragon_small);
+                        }
+                        break;
+                    case "Falcon Heavy":
+                        views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_fh_small);
+                        break;
+                    case "BFR":
+                        views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_bfr_small);
+                        break;
+                    case "Big Falcon Rocket":
+                        views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_bfr_small);
+                        break;
+                    default:
+                        views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_f9_small);
+                        break;
                 }
+            } catch (NullPointerException e) {
+                views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_dragon_small);
             }
 
             // Set Mission name

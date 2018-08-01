@@ -16,7 +16,6 @@ import java.util.Date;
 public class UpdateIntentService extends IntentService {
     public static final String ACTION_UPDATE_MISSION_WIDGET = "com.about.future.spacex.action.update_mission_widget";
     private AppDatabase mDb;
-    //private Mission upcomingMission;
 
     public UpdateIntentService() {
         super("UpdateIntentService");
@@ -54,7 +53,5 @@ public class UpdateIntentService extends IntentService {
                 MissionAppWidget.updateMissionWidgets(getApplicationContext(), appWidgetManager, appWidgetIds, upcomingMission, totalMissions);
             }
         });
-
-        //mDb = null;
     }
 }

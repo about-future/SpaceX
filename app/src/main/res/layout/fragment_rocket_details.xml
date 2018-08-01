@@ -348,6 +348,33 @@
                 </android.support.constraint.ConstraintLayout>
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:orientation="vertical">
+
+                    <View
+                        android:id="@+id/separation_line10"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLine" />
+
+                    <TextView
+                        android:id="@+id/pictures_label"
+                        style="@style/Title"
+                        android:layout_marginTop="@dimen/spacing"
+                        android:text="@string/label_gallery" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="@dimen/spacing"
+                        android:src="@drawable/video"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/rocket_details_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

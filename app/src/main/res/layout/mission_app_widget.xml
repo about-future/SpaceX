@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="sans-serif-condensed"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/title_text_size"
@@ -43,6 +43,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorGreen"
             android:textSize="@dimen/subtitle_text_size"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="16:45, 4 August 2018" />
 
         <TextView
@@ -51,6 +53,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorX"
             android:textSize="@dimen/subtitle_text_size"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="2 days, 12 hours and 15 minutes" />
 
     </LinearLayout>
