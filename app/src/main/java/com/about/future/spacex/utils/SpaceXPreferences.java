@@ -80,4 +80,9 @@ public class SpaceXPreferences {
 
         return preferredUnits.equals(context.getString(R.string.pref_units_metric));
     }
+
+    public static boolean showAcronymMeaning(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_acronyms_key), false);
+    }
 }

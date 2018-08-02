@@ -84,21 +84,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_volume_off" />
 
-    <TextView
-        android:id="@+id/credits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/music_credits_margin"
-        android:layout_marginStart="@dimen/music_credits_margin"
-        android:fontFamily="sans-serif"
-        android:lineSpacingMultiplier="1.4"
-        android:text="@string/song_credits"
-        android:textAlignment="viewEnd"
-        android:textAllCaps="true"
-        android:textColor="@color/creditsColor"
-        android:textSize="@dimen/music_credits_font_size"
-        android:visibility="invisible"
+    <ImageView
+        android:id="@+id/song_credits"
+        android:layout_width="216dp"
+        android:layout_height="36dp"
+        android:alpha="0.8"
+        android:src="@drawable/credits_artist"
+        android:contentDescription="@string/song_credits"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:visibility="invisible"
+        android:layout_marginStart="@dimen/music_credits_margin"
+        android:layout_marginBottom="@dimen/music_credits_margin"/>
 
 </android.support.constraint.ConstraintLayout>

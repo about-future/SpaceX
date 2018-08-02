@@ -119,6 +119,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     TextView mCoreBlockTextView;
     @BindView(R.id.core_reused)
     TextView mCoreReusedTextView;
+    @BindView(R.id.core_landing_label)
+    TextView mCoreLandingLabel;
     @BindView(R.id.core_landing)
     TextView mCoreLandingSuccessTextView;
     @BindView(R.id.core_landing_type)
@@ -390,7 +392,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
             // Rocket details
             if (mission.getRocket() != null) {
                 Payload firstPayload = null;
-                Core firstCore = null;
+                Core centralCore = null;
+                boolean showAcronymsMeaning = SpaceXPreferences.showAcronymMeaning(getActivityCast());
 
                 // Rocket name
                 String rocketName = mission.getRocket().getRocketName();
@@ -435,60 +438,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         } else {
                             mPayloadOrbitTextView.setText(firstPayload.getOrbit());
                         }
-                        switch (firstPayload.getOrbit()) {
-                            case "BEO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_beo));
-                                break;
-                            case "DRO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_dro));
-                                break;
-                            case "GEO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_geo));
-                                break;
-                            case "GTO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_gto));
-                                break;
-                            case "HEO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_heo));
-                                break;
-                            case "LEO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_leo));
-                                break;
-                            case "LOI":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_loi));
-                                break;
-                            case "MEO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_meo));
-                                break;
-                            case "MOI":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_moi));
-                                break;
-                            case "SO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_so));
-                                break;
-                            case "TLI":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_tli));
-                                break;
-                            case "TMI":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_tmi));
-                                break;
-                            case "PO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_po));
-                                break;
-                            case "ISS":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_iss));
-                                break;
-                            case "SSO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_sso));
-                                break;
-                            case "HCO":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_hco));
-                                break;
-                            case "ES-L1":
-                                mPayloadOrbitLongTextView.setText(getString(R.string.label_orbit_se_l1));
-                                break;
-                            default:
-                                mPayloadOrbitLongTextView.setText("");
+                        if (showAcronymsMeaning) {
+                            mPayloadOrbitLongTextView.setVisibility(View.VISIBLE);
+                            showLongOrbit(firstPayload.getOrbit(), mPayloadOrbitLongTextView);
+                        } else {
+                            mPayloadOrbitLongTextView.setVisibility(View.GONE);
                         }
                     } else {
                         mPayloadOrbitTextView.setText(getString(R.string.label_unknown));
@@ -503,95 +457,188 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                     mSecondStageBlockTextView.setText(getString(R.string.label_unknown));
                 }
 
+                // First Stage
                 // Core details
                 if (mission.getRocket().getFirstStage().getCores() != null) {
-                    firstCore = mission.getRocket().getFirstStage().getCores().get(0);
+                    // Get current time
+                    long now = new Date().getTime();
+
+                    // Get central core
+                    centralCore = mission.getRocket().getFirstStage().getCores().get(0);
+
                     // Core serial
-                    if (!TextUtils.isEmpty(firstCore.getCoreSerial())) {
-                        mCoreSerialTextView.setText(firstCore.getCoreSerial());
+                    TextView coreSerialLabel = mRootView.findViewById(R.id.core_serial_label);
+                    if (rocketName.equals("Falcon Heavy")) {
+                        coreSerialLabel.setText(getString(R.string.label_core_booster_serial));
+                    } else {
+                        coreSerialLabel.setText(getString(R.string.label_core_serial));
+                    }
+                    if (!TextUtils.isEmpty(centralCore.getCoreSerial())) {
+                        mCoreSerialTextView.setText(centralCore.getCoreSerial());
                     } else {
                         mCoreSerialTextView.setText(getString(R.string.label_unknown));
                     }
 
                     // Core type
-                    if (firstCore.getBlock() > 0) {
-                        mCoreBlockTextView.setText(String.valueOf(firstCore.getBlock()));
+                    if (centralCore.getBlock() > 0) {
+                        mCoreBlockTextView.setText(String.valueOf(centralCore.getBlock()));
                     } else {
                         mCoreBlockTextView.setText(getString(R.string.label_unknown));
                     }
                     // Was this core used before?
-                    if (firstCore.isReused()) {
-                        mCoreReusedTextView.setText(getString(R.string.label_yes));
-                        // Check how many time this core was used before
-                        if (firstCore.getFlight() > 2) {
-                            mCoreReusedTextView.append(
-                                    String.format(getString(R.string.reused_x_times),
-                                            String.valueOf(firstCore.getFlight() - 1)));
-                        } else if (firstCore.getFlight() == 2) {
-                            mCoreReusedTextView.append(
-                                    String.format(getString(R.string.reused_1_time),
-                                            String.valueOf(firstCore.getFlight() - 1)));
-                        }
-                    } else {
-                        mCoreReusedTextView.setText(getString(R.string.label_no));
-                    }
+                    setReused(centralCore.isReused(), centralCore.getFlight(), mCoreReusedTextView);
 
-                    // Landing
-                    if (!TextUtils.isEmpty(firstCore.getLandingType()) && !TextUtils.isEmpty(firstCore.getLandingVehicle())) {
-                        // Get current time
-                        long now = new Date().getTime();
+                    // Landing details
+                    if (!TextUtils.isEmpty(centralCore.getLandingType()) && !TextUtils.isEmpty(centralCore.getLandingVehicle())) {
                         // Was the core landing successful?
-                        if (firstCore.isLandingSuccess()) {
-                            mCoreLandingSuccessTextView.setText(getString(R.string.label_yes));
-                        } else {
-                            // Otherwise, check if this is an upcoming mission by comparing
-                            // the launch time with current time
-                            // If it is an upcoming mission, just hide the two views
-                            if (mission.getLaunchDateUnix() > now / 1000) {
-                                mCoreLandingSuccessTextView.setVisibility(View.GONE);
-                                mRootView.findViewById(R.id.core_landing_label).setVisibility(View.GONE);
-                            } else {
-                                // Otherwise, if it's a past mission, just set text as "No"
-                                mCoreLandingSuccessTextView.setText(getString(R.string.label_no));
-                            }
-                        }
+                        setSuccessfulLanding(
+                                centralCore.isLandingSuccess(),
+                                mCoreLandingSuccessTextView,
+                                mission.getLaunchDateUnix() > now / 1000,
+                                mCoreLandingLabel);
 
                         // Set landing type
-                        mCoreLandingTypeTextView.setText(firstCore.getLandingType());
-                        switch (firstCore.getLandingType()) {
-                            case "ASDS":
-                                mCoreLandingTypeLongTextView.setText(getString(R.string.label_asds));
-                                break;
-                            case "RTLS":
-                                mCoreLandingTypeLongTextView.setText(getString(R.string.label_rtls));
-                                break;
-                            default:
-                                break;
+                        mCoreLandingTypeTextView.setText(centralCore.getLandingType());
+                        if (showAcronymsMeaning) {
+                            mCoreLandingTypeLongTextView.setVisibility(View.VISIBLE);
+                            setLongLandingType(centralCore.getLandingType(), mCoreLandingTypeLongTextView);
+                        } else {
+                            mCoreLandingTypeLongTextView.setVisibility(View.GONE);
                         }
 
                         // Set landing vehicle
-                        mCoreLandingVehicleTextView.setText(firstCore.getLandingVehicle());
-                        switch (firstCore.getLandingVehicle()) {
-                            case "OCISLY":
-                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_ocisly));
-                                break;
-                            case "JRTI":
-                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_jrti));
-                                break;
-                            case "ASOG":
-                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_asog));
-                                break;
-                            case "LZ-1":
-                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_lz1));
-                                break;
-                            case "LZ-2":
-                                mCoreLandingVehicleLongTextView.setText(getString(R.string.label_lz2));
-                                break;
-                            default:
-                                break;
+                        mCoreLandingVehicleTextView.setText(centralCore.getLandingVehicle());
+                        if (showAcronymsMeaning) {
+                            mCoreLandingVehicleLongTextView.setVisibility(View.VISIBLE);
+                            setLongLandingVehicle(centralCore.getLandingVehicle(), mCoreLandingVehicleLongTextView);
+                        } else {
+                            mCoreLandingVehicleLongTextView.setVisibility(View.GONE);
                         }
                     } else {
-                        mRootView.findViewById(R.id.landing_layout).setVisibility(View.GONE);
+                        mRootView.findViewById(R.id.central_core_landing_layout).setVisibility(View.GONE);
+                    }
+
+                    if (rocketName.equals("Falcon Heavy") && mission.getRocket().getFirstStage().getCores().size() == 3) {
+                        // Show side cores layouts
+                        mRootView.findViewById(R.id.left_core_layout).setVisibility(View.VISIBLE);
+                        mRootView.findViewById(R.id.right_core_layout).setVisibility(View.VISIBLE);
+
+                        // Get Left Core
+                        Core leftCore = mission.getRocket().getFirstStage().getCores().get(1);
+
+                        // Left Core Serial
+                        TextView leftCoreSerial = mRootView.findViewById(R.id.left_core_serial);
+                        if (!TextUtils.isEmpty(leftCore.getCoreSerial())) {
+                            leftCoreSerial.setText(leftCore.getCoreSerial());
+                        } else {
+                            leftCoreSerial.setText(getString(R.string.label_unknown));
+                        }
+
+                        // Left Core type
+                        TextView leftCoreBlockType = mRootView.findViewById(R.id.left_core_block);
+                        if (leftCore.getBlock() > 0) {
+                            leftCoreBlockType.setText(String.valueOf(leftCore.getBlock()));
+                        } else {
+                            leftCoreBlockType.setText(getString(R.string.label_unknown));
+                        }
+                        // Was left core used before?
+                        TextView leftCoreReused = mRootView.findViewById(R.id.left_core_reused);
+                        setReused(leftCore.isReused(), leftCore.getFlight(), leftCoreReused);
+
+                        // Left Core landing details
+                        TextView leftCoreLandingSuccess = mRootView.findViewById(R.id.left_core_landing);
+                        TextView leftCoreLandingLabel = mRootView.findViewById(R.id.left_core_landing_label);
+                        if (!TextUtils.isEmpty(leftCore.getLandingType()) && !TextUtils.isEmpty(leftCore.getLandingVehicle())) {
+                            setSuccessfulLanding(
+                                    leftCore.isLandingSuccess(),
+                                    leftCoreLandingSuccess,
+                                    mission.getLaunchDateUnix() > now / 1000,
+                                    leftCoreLandingLabel);
+
+                            // Set landing type
+                            TextView leftCoreLandingType = mRootView.findViewById(R.id.left_core_landing_type);
+                            TextView leftCoreLandingTypeLong = mRootView.findViewById(R.id.left_core_landing_type_long);
+                            leftCoreLandingType.setText(leftCore.getLandingType());
+                            if (showAcronymsMeaning) {
+                                leftCoreLandingTypeLong.setVisibility(View.VISIBLE);
+                                setLongLandingType(leftCore.getLandingType(), leftCoreLandingTypeLong);
+                            } else {
+                                leftCoreLandingTypeLong.setVisibility(View.GONE);
+                            }
+
+                            // Set landing vehicle
+                            TextView leftCoreLandingVehicle = mRootView.findViewById(R.id.left_core_landing_vehicle);
+                            TextView leftCoreLandingVehicleLong = mRootView.findViewById(R.id.left_core_landing_vehicle_long);
+                            leftCoreLandingVehicle.setText(leftCore.getLandingVehicle());
+                            if (showAcronymsMeaning) {
+                                leftCoreLandingVehicleLong.setVisibility(View.VISIBLE);
+                                setLongLandingVehicle(leftCore.getLandingVehicle(), leftCoreLandingVehicleLong);
+                            } else {
+                                leftCoreLandingVehicleLong.setVisibility(View.GONE);
+                            }
+                        } else {
+                            mRootView.findViewById(R.id.left_core_landing_layout).setVisibility(View.GONE);
+                        }
+
+                        // Get Right Core
+                        Core rightCore = mission.getRocket().getFirstStage().getCores().get(2);
+
+                        // Right Core Serial
+                        TextView rightCoreSerial = mRootView.findViewById(R.id.right_core_serial);
+                        if (!TextUtils.isEmpty(rightCore.getCoreSerial())) {
+                            rightCoreSerial.setText(rightCore.getCoreSerial());
+                        } else {
+                            rightCoreSerial.setText(getString(R.string.label_unknown));
+                        }
+
+                        // Right Core type
+                        TextView rightCoreBlockType = mRootView.findViewById(R.id.right_core_block);
+                        if (rightCore.getBlock() > 0) {
+                            rightCoreBlockType.setText(String.valueOf(rightCore.getBlock()));
+                        } else {
+                            rightCoreBlockType.setText(getString(R.string.label_unknown));
+                        }
+                        // Was right core used before?
+                        TextView rightCoreReused = mRootView.findViewById(R.id.right_core_reused);
+                        setReused(rightCore.isReused(), rightCore.getFlight(), rightCoreReused);
+
+                        // Right Core landing details
+                        TextView rightCoreLandingSuccess = mRootView.findViewById(R.id.right_core_landing);
+                        TextView rightCoreLandingLabel = mRootView.findViewById(R.id.right_core_landing_label);
+                        if (!TextUtils.isEmpty(rightCore.getLandingType()) && !TextUtils.isEmpty(rightCore.getLandingVehicle())) {
+                            setSuccessfulLanding(
+                                    rightCore.isLandingSuccess(),
+                                    rightCoreLandingSuccess,
+                                    mission.getLaunchDateUnix() > now / 1000,
+                                    rightCoreLandingLabel);
+
+                            // Set landing type
+                            TextView rightCoreLandingType = mRootView.findViewById(R.id.right_core_landing_type);
+                            TextView rightCoreLandingTypeLong = mRootView.findViewById(R.id.right_core_landing_type_long);
+                            rightCoreLandingType.setText(rightCore.getLandingType());
+                            if (showAcronymsMeaning) {
+                                rightCoreLandingTypeLong.setVisibility(View.VISIBLE);
+                                setLongLandingType(rightCore.getLandingType(), rightCoreLandingTypeLong);
+                            } else {
+                                rightCoreLandingTypeLong.setVisibility(View.GONE);
+                            }
+
+                            // Set landing vehicle
+                            TextView rightCoreLandingVehicle = mRootView.findViewById(R.id.right_core_landing_vehicle);
+                            TextView rightCoreLandingVehicleLong = mRootView.findViewById(R.id.right_core_landing_vehicle_long);
+                            rightCoreLandingVehicle.setText(rightCore.getLandingVehicle());
+                            if (showAcronymsMeaning) {
+                                rightCoreLandingVehicleLong.setVisibility(View.VISIBLE);
+                                setLongLandingVehicle(rightCore.getLandingVehicle(), rightCoreLandingVehicleLong);
+                            } else {
+                                rightCoreLandingVehicleLong.setVisibility(View.GONE);
+                            }
+                        } else {
+                            mRootView.findViewById(R.id.right_core_landing_layout).setVisibility(View.GONE);
+                        }
+                    } else {
+                        mRootView.findViewById(R.id.left_core_layout).setVisibility(View.GONE);
+                        mRootView.findViewById(R.id.right_core_layout).setVisibility(View.GONE);
                     }
                 }
 
@@ -608,7 +655,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 }
                 // Depending on the block type, we can show a different lower image
                 int blockNumber = 5;
-                if (firstCore != null && firstCore.getBlock() > 0) {
+                if (centralCore != null && centralCore.getBlock() > 0) {
                     blockNumber = mission.getRocket().getFirstStage().getCores().get(0).getBlock();
                 }
 
@@ -731,6 +778,134 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 break;
             default:
                 mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
+                break;
+        }
+    }
+
+    private void showLongOrbit(String orbit, TextView view) {
+        switch (orbit) {
+            case "BEO":
+                view.setText(getString(R.string.label_orbit_beo));
+                break;
+            case "DRO":
+                view.setText(getString(R.string.label_orbit_dro));
+                break;
+            case "GEO":
+                view.setText(getString(R.string.label_orbit_geo));
+                break;
+            case "GTO":
+                view.setText(getString(R.string.label_orbit_gto));
+                break;
+            case "HEO":
+                view.setText(getString(R.string.label_orbit_heo));
+                break;
+            case "LEO":
+                view.setText(getString(R.string.label_orbit_leo));
+                break;
+            case "LOI":
+                view.setText(getString(R.string.label_orbit_loi));
+                break;
+            case "MEO":
+                view.setText(getString(R.string.label_orbit_meo));
+                break;
+            case "MOI":
+                view.setText(getString(R.string.label_orbit_moi));
+                break;
+            case "SO":
+                view.setText(getString(R.string.label_orbit_so));
+                break;
+            case "TLI":
+                view.setText(getString(R.string.label_orbit_tli));
+                break;
+            case "TMI":
+                view.setText(getString(R.string.label_orbit_tmi));
+                break;
+            case "PO":
+                view.setText(getString(R.string.label_orbit_po));
+                break;
+            case "ISS":
+                view.setText(getString(R.string.label_orbit_iss));
+                break;
+            case "SSO":
+                view.setText(getString(R.string.label_orbit_sso));
+                break;
+            case "HCO":
+                view.setText(getString(R.string.label_orbit_hco));
+                break;
+            case "ES-L1":
+                view.setText(getString(R.string.label_orbit_se_l1));
+                break;
+            default:
+                view.setText("");
+        }
+    }
+
+    private void setSuccessfulLanding(boolean isLandingSuccess, TextView view, boolean isUpcomingMission, TextView landingLabelView) {
+        if (isLandingSuccess) {
+            view.setText(getString(R.string.label_yes));
+        } else {
+            // Otherwise, check if this is an upcoming mission by comparing
+            // the launch time with current time
+            // If it is an upcoming mission, just hide the two views
+            if (isUpcomingMission) {
+                view.setVisibility(View.GONE);
+                landingLabelView.setVisibility(View.GONE);
+            } else {
+                // Otherwise, if it's a past mission, just set text as "No"
+                view.setText(getString(R.string.label_no));
+            }
+        }
+    }
+
+    private void setReused(boolean isReused, int flight, TextView view) {
+        if (isReused) {
+            view.setText(getString(R.string.label_yes));
+            // Check how many time this core was used before
+            if (flight > 2) {
+                view.append(
+                        String.format(getString(R.string.reused_x_times),
+                                String.valueOf(flight - 1)));
+            } else if (flight == 2) {
+                view.append(
+                        String.format(getString(R.string.reused_1_time),
+                                String.valueOf(flight - 1)));
+            }
+        } else {
+            view.setText(getString(R.string.label_no));
+        }
+    }
+
+    private void setLongLandingType(String landingType, TextView view) {
+        switch (landingType) {
+            case "ASDS":
+                view.setText(getString(R.string.label_asds));
+                break;
+            case "RTLS":
+                view.setText(getString(R.string.label_rtls));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void setLongLandingVehicle(String landingVehicle, TextView view) {
+        switch (landingVehicle) {
+            case "OCISLY":
+                view.setText(getString(R.string.label_ocisly));
+                break;
+            case "JRTI":
+                view.setText(getString(R.string.label_jrti));
+                break;
+            case "ASOG":
+                view.setText(getString(R.string.label_asog));
+                break;
+            case "LZ-1":
+                view.setText(getString(R.string.label_lz1));
+                break;
+            case "LZ-2":
+                view.setText(getString(R.string.label_lz2));
+                break;
+            default:
                 break;
         }
     }

@@ -7,6 +7,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.SwitchPreferenceCompat;
+import android.text.TextUtils;
 
 import com.about.future.spacex.widget.UpdateIntentService;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -36,7 +37,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         Preference preference = findPreference(key);
 
         if (preference != null) {
-            if (preference instanceof SwitchPreferenceCompat) {
+            if (preference instanceof SwitchPreferenceCompat && TextUtils.equals(key, getString(R.string.notifications_key))) {
                 // Get the current state of the switch preference
                 Boolean switchIsOn = sharedPreferences.getBoolean(key, true);
 

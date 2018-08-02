@@ -2,7 +2,6 @@ package com.about.future.spacex;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
@@ -13,7 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.about.future.spacex.utils.ScreenUtils;
@@ -52,8 +50,8 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     ImageView logoSpaceX;
 
     // Set music credits
-    @BindView(R.id.credits)
-    TextView mCredits;
+    @BindView(R.id.song_credits)
+    ImageView mCreditsImageView;
 
     // Volume on/off "buttons"
     @BindView(R.id.volumeOn)
@@ -73,8 +71,6 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
     // This is the gesture detector compat instance
     private GestureDetectorCompat gestureDetectorCompat = null;
-
-    private Typeface conthraxTypeface;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -134,10 +130,6 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         gestureListener.setActivity(this);
         // Create the gesture detector with the gesture listener
         gestureDetectorCompat = new GestureDetectorCompat(this, gestureListener);
-
-        // Set typeface for credits
-        conthraxTypeface = Typeface.createFromAsset(getAssets(), "conthrax_sb.ttf");
-        mCredits.setTypeface(conthraxTypeface);
     }
 
     @Override
@@ -256,7 +248,6 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         mToast.show();
     }
 
-    //TODO: generate credits and message svg image
     private void credits() {
         if (mExoPlayer != null) {
             long position = mExoPlayer.getCurrentPosition();
@@ -264,8 +255,8 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
             if ((position > 35000 && position <= 45000)
                     || (position > 115000 && position <= 145000)
                     || (position > 205000 && position <= 235000)) {
-                mCredits.setVisibility(View.VISIBLE);
-                mCredits.setText(R.string.skip);
+                mCreditsImageView.setVisibility(View.VISIBLE);
+                mCreditsImageView.setImageResource(R.drawable.credits_swipe);
             } else if ((position > 0 && position <= 5000)
                     || (position > 25000 && position <= 35000)
                     || (position > 45000 && position <= 65000)
@@ -274,13 +265,13 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
                     || (position > 195000 && position <= 205000)
                     || (position > 235000 && position <= 255000)
                     || (position > 285000)) {
-                mCredits.setVisibility(View.INVISIBLE);
+                mCreditsImageView.setVisibility(View.INVISIBLE);
             } else if ((position > 5000 && position <= 25000)
                     || (position > 65000 && position <= 95000)
                     || (position > 165000 && position < 195000)
                     || (position > 255000 && position < 285000)) {
-                mCredits.setVisibility(View.VISIBLE);
-                mCredits.setText(R.string.song_credits);
+                mCreditsImageView.setVisibility(View.VISIBLE);
+                mCreditsImageView.setImageResource(R.drawable.credits_artist);
             }
 
             runnable = new Runnable() {

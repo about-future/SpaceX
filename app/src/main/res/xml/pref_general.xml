@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="@string/notifications_key"
-        android:summaryOn="@string/summary_on"
         android:summaryOff="@string/summary_off"
-        android:title="@string/notifications_title"/>
+        android:summaryOn="@string/summary_on"
+        android:title="@string/notifications_title" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="@string/pref_acronyms_key"
+        android:summaryOff="@string/summary_off"
+        android:summaryOn="@string/summary_on"
+        android:title="@string/pref_acronyms_title" />
 
     <ListPreference
         android:defaultValue="@string/pref_units_metric"

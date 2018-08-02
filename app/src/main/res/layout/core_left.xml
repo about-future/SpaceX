@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/left_core_serial_label"
+        style="@style/RocketDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/label_left_booster_serial" />
+
+    <TextView
+        android:id="@+id/left_core_serial"
+        style="@style/RocketDetails.Values"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/left_core_serial_label"
+        tools:text="B1039" />
+
+    <TextView
+        android:id="@+id/left_core_block_label"
+        style="@style/RocketDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/left_core_serial_label"
+        android:text="@string/label_block" />
+
+    <TextView
+        android:id="@+id/left_core_block"
+        style="@style/RocketDetails.Values"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/left_core_block_label"
+        tools:text="4" />
+
+    <TextView
+        android:id="@+id/left_core_reused_label"
+        style="@style/RocketDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/left_core_block_label"
+        android:text="@string/label_reused" />
+
+    <TextView
+        android:id="@+id/left_core_reused"
+        style="@style/RocketDetails.Values"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/left_core_reused_label"
+        tools:text="2" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/left_core_landing_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/left_core_reused_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/left_core_landing_label"
+            style="@style/RocketDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/label_land_successful" />
+
+        <TextView
+            android:id="@+id/left_core_landing"
+            style="@style/RocketDetails.Values"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/left_core_landing_label"
+            tools:text="True" />
+
+        <TextView
+            android:id="@+id/left_core_landing_type_label"
+            style="@style/RocketDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/left_core_landing_label"
+            android:text="@string/label_land_type" />
+
+        <LinearLayout
+            android:id="@+id/left_core_landing_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/left_core_landing_type_label"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/left_core_landing_type"
+                style="@style/RocketDetails.Values"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="RTLS" />
+
+            <TextView
+                android:id="@+id/left_core_landing_type_long"
+                style="@style/RocketDetails.Values.Acronyms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:text="Return To Launch Site" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/left_core_landing_vehicle_label"
+            style="@style/RocketDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/left_core_landing_type_layout"
+            android:text="@string/label_land_vehicle" />
+
+        <LinearLayout
+            android:id="@+id/left_core_landing_vehicle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/left_core_landing_vehicle_label"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/left_core_landing_vehicle"
+                style="@style/RocketDetails.Values"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="LZ-1" />
+
+            <TextView
+                android:id="@+id/left_core_landing_vehicle_long"
+                style="@style/RocketDetails.Values.Acronyms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:text="Landing Zone 1" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

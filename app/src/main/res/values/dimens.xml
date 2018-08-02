@@ -45,6 +45,7 @@
     <dimen name="details_rocket_margin">48dp</dimen>
     <dimen name="details_first_stage_margin_top">24dp</dimen>
     <dimen name="details_second_stage_margin_top">24dp</dimen>
+    <dimen name="details_cores_margin_top">24dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">12dp</dimen>
     <dimen name="fab_margin">16dp</dimen>

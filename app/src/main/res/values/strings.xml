@@ -34,6 +34,9 @@
     <string name="label_unknown">Unknown</string>
     <string name="label_first_stage">First Stage</string>
     <string name="label_core_serial">Core Serial:</string>
+    <string name="label_left_booster_serial">Left Booster Serial:</string>
+    <string name="label_core_booster_serial">Core Booster Serial:</string>
+    <string name="label_right_booster_serial">Right Booster Serial:</string>
     <string name="label_flight">Flight:</string>
     <string name="label_reused">Reused:</string>
     <string name="label_reused_payload">\ (Reused)</string>
@@ -169,6 +172,9 @@
     <string name="pref_units_key" translatable="false">units</string>
     <string name="pref_units_metric" translatable="false">metric</string>
     <string name="pref_units_imperial" translatable="false">imperial</string>
+
+    <string name="pref_acronyms_key" translatable="false">acronyms_key</string>
+    <string name="pref_acronyms_title">Show acronyms meaning</string>
 
     <!-- OTHER PREFERENCE KEYS -->
     <string name="pref_mission_status_key">missions_loaded</string>

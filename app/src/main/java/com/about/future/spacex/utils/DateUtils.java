@@ -16,9 +16,9 @@ public class DateUtils {
         // Date format
         SimpleDateFormat simpleDateFormat;
         if (isMetric) {
-            simpleDateFormat = new SimpleDateFormat("HH:mm, d MMMM yyyy z", Locale.US);
+            simpleDateFormat = new SimpleDateFormat("HH:mm, d MMMM yyyy", Locale.US);
         } else {
-            simpleDateFormat = new SimpleDateFormat("hh:mm a MMMM d, yyyy z", Locale.US);
+            simpleDateFormat = new SimpleDateFormat("MMMM d, yyyy 'at' hh:mm a", Locale.US);
         }
         // Set the timezone reference for formatting
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(TimeZone.getDefault().getID()));
