@@ -174,7 +174,7 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
             if (launchPad.getLocation() != null) {
                 double latitude = launchPad.getLocation().getLatitude();
                 double longitude = launchPad.getLocation().getLongitude();
-                final String locationPadSatelliteImageUrl = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude);
+                final String locationPadSatelliteImageUrl = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, getActivityCast());
 
                 // Set backdrop image as a satellite image of the launch pad
                 Picasso.get()
@@ -198,7 +198,7 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
 
                 // Set launch pad map
                 final String locationPadMapImageUrl = ImageUtils.buildMapThumbnailUrl(
-                        latitude, longitude, 8, "map");
+                        latitude, longitude, 8, "map", getActivityCast());
                 Picasso.get()
                         .load(locationPadMapImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)

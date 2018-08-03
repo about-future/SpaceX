@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.R;
+import com.about.future.spacex.model.mission.MissionMini;
 import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.ScreenUtils;
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 
 public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHolder> {
     private final Context mContext;
-    private List<Mission> mMissions = new ArrayList<Mission>() {};
+    private List<MissionMini> mMissions = new ArrayList<MissionMini>() {};
     private final ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
@@ -56,8 +56,8 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         String missionPatchImagePath = "";
-        if (mMissions.get(position).getLinks() != null && mMissions.get(position).getLinks().getMissionPatchSmall() != null)
-            missionPatchImagePath = mMissions.get(position).getLinks().getMissionPatchSmall();
+        if (!TextUtils.isEmpty(mMissions.get(position).getMissionPatch()))
+            missionPatchImagePath = mMissions.get(position).getMissionPatch();
 
         // If we have a valid image path, try loading it from cache or from web with Picasso
         if (!TextUtils.isEmpty(missionPatchImagePath)) {
@@ -84,10 +84,9 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         } else {
             // Otherwise, don't bother using Picasso and set default_mission_patch image for missionPatchImageView
             try {
-                ImageUtils.setDefaultImage(
+                ImageUtils.setDefaultImage2(
                         holder.missionPatchImageView,
-                        mMissions.get(position).getRocket().getRocketName(),
-                        mMissions.get(position).getRocket().getSecondStage().getPayloads().get(0).getPayloadType());
+                        mMissions.get(position).getRocketName());
             } catch (NullPointerException e) {
                 holder.missionPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
             }
@@ -148,12 +147,12 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         }
     }
 
-    public void setMissions(List<Mission> missions) {
+    public void setMissions(List<MissionMini> missions) {
         mMissions = missions;
         notifyDataSetChanged();
     }
 
-    public List<Mission> getMissions() {
+    public List<MissionMini> getMissions() {
         return mMissions;
     }
 }

@@ -6,13 +6,13 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.about.future.spacex.data.AppDatabase;
-import com.about.future.spacex.model.mission.Mission;
+import com.about.future.spacex.model.mission.MissionMini;
 
 import java.util.List;
 
 public class MissionsViewModel extends AndroidViewModel {
 
-    private LiveData<List<Mission>> missions;
+    private LiveData<List<MissionMini>> missions;
 
     public MissionsViewModel(@NonNull Application application) {
         super(application);
@@ -20,7 +20,7 @@ public class MissionsViewModel extends AndroidViewModel {
         missions = appDatabase.missionDao().loadAllMissions();
     }
 
-    public LiveData<List<Mission>> getMissions() {
+    public LiveData<List<MissionMini>> getMissions() {
         return missions;
     }
 }

@@ -10,14 +10,12 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.utils.SpaceXPreferences;
 
 import static com.about.future.spacex.view.RocketsFragment.ROCKET_ID_KEY;
-import static com.about.future.spacex.view.RocketsFragment.TOTAL_ROCKETS_KEY;
 
 public class RocketDetailsActivity extends AppCompatActivity {
-    private static final int DEFAULT_ROCKET_ID = 1;
-    private int mRocketId = DEFAULT_ROCKET_ID;
-    private int mTotalRockets = DEFAULT_ROCKET_ID;
+    private int mRocketId = 1;
 
     private ViewPager mPager;
     private RocketDetailsActivity.MyPagerAdapter mPagerAdapter;
@@ -29,13 +27,8 @@ public class RocketDetailsActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            if (intent != null) {
-                if (intent.hasExtra(TOTAL_ROCKETS_KEY))
-                    mTotalRockets = intent.getIntExtra(TOTAL_ROCKETS_KEY, 1);
-
-                if (intent.hasExtra(ROCKET_ID_KEY)) {
-                    mRocketId = intent.getIntExtra(ROCKET_ID_KEY, DEFAULT_ROCKET_ID);
-                }
+            if (intent != null && intent.hasExtra(ROCKET_ID_KEY)) {
+                mRocketId = intent.getIntExtra(ROCKET_ID_KEY, 1);
             }
         }
 
@@ -47,7 +40,6 @@ public class RocketDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(TOTAL_ROCKETS_KEY, mTotalRockets);
         outState.putInt(ROCKET_ID_KEY, mRocketId);
         super.onSaveInstanceState(outState);
     }
@@ -55,7 +47,6 @@ public class RocketDetailsActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mRocketId = savedInstanceState.getInt(ROCKET_ID_KEY);
-        mTotalRockets = savedInstanceState.getInt(TOTAL_ROCKETS_KEY);
         mPager.setCurrentItem(mRocketId - 1);
         mPagerAdapter.notifyDataSetChanged();
 
@@ -63,7 +54,7 @@ public class RocketDetailsActivity extends AppCompatActivity {
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
-        public MyPagerAdapter(FragmentManager fm) {
+        MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -79,7 +70,7 @@ public class RocketDetailsActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return mTotalRockets;
+            return SpaceXPreferences.getTotalNumberOfRockets(getApplicationContext());
         }
     }
 }

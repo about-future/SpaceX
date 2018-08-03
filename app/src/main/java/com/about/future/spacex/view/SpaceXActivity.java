@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import com.about.future.spacex.R;
 import com.about.future.spacex.SettingsActivity;
 import com.about.future.spacex.utils.SpaceXPreferences;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.security.ProviderInstaller;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -41,6 +40,10 @@ public class SpaceXActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setTitle("");
+
+        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 22) {
+            upgradeSecurityProvider();
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -78,5 +81,27 @@ public class SpaceXActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Older devices that run on Android API 19 to 22, have the default SSL3 protocol activated
+    // for networking. Because SSL protocol is proven to be very vulnerable, we use this method
+    // to upgrades the security provider and helps the device make use of newer protocols (like TLS)
+    // when connecting to a server.
+    private void upgradeSecurityProvider() {
+        try {
+            ProviderInstaller.installIfNeededAsync(this, new ProviderInstaller.ProviderInstallListener() {
+                @Override
+                public void onProviderInstalled() {
+                    Log.e("SpaceXActivity", "New security provider installed.");
+                }
+
+                @Override
+                public void onProviderInstallFailed(int errorCode, Intent recoveryIntent) {
+                    Log.e("SpaceXActivity", "New security provider install failed.");
+                }
+            });
+        } catch (Exception e) {
+            Log.e("SpaceXActivity", "Unknown issue trying to install a new security provider", e);
+        }
     }
 }

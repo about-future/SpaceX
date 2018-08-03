@@ -52,10 +52,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.about.future.spacex.view.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
-import static com.about.future.spacex.view.LaunchPadsFragment.TOTAL_LAUNCH_PADS_KEY;
 import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
 import static com.about.future.spacex.view.RocketsFragment.ROCKET_ID_KEY;
-import static com.about.future.spacex.view.RocketsFragment.TOTAL_ROCKETS_KEY;
 
 public class MissionDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Mission>> {
 
@@ -359,10 +357,9 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         @Override
                         public void run() {
                             int launchPadId = mDb.launchPadDao().getLaunchPadId(mission.getLaunchSite().getSiteId());
-                            int totalLaunchPads = mDb.launchPadDao().countLaunchPads();
+
                             Intent intent = new Intent(getActivityCast(), LaunchPadDetailsActivity.class);
                             intent.putExtra(LAUNCH_PAD_ID_KEY, launchPadId);
-                            intent.putExtra(TOTAL_LAUNCH_PADS_KEY, totalLaunchPads);
                             startActivity(intent);
                         }
                     });
@@ -959,10 +956,9 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
             @Override
             public void run() {
                 int rocketId = mDb.rocketDao().getRocketId(mRocketTypeTextView.getText().toString());
-                int totalRockets = mDb.rocketDao().countRockets();
+
                 Intent intent = new Intent(getActivityCast(), RocketDetailsActivity.class);
                 intent.putExtra(ROCKET_ID_KEY, rocketId);
-                intent.putExtra(TOTAL_ROCKETS_KEY, totalRockets);
                 startActivity(intent);
             }
         });

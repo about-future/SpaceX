@@ -1,78 +1,62 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_main_content"
     android:layout_width="match_parent"
-    android:layout_height="96dp">
+    android:layout_height="96dp"
+    android:background="@color/colorBackgroundGrey">
+
+    <ImageView
+        android:id="@+id/widget_mission_patch"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/spacing"
+        android:contentDescription="@string/mission_patch"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/default_patch_bfr_small" />
 
     <LinearLayout
-        android:id="@+id/widget_main_content"
-        android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:background="@color/colorBackgroundGrey">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/spacing"
+        android:layout_marginStart="@dimen/spacing"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/widget_mission_patch"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/spacing"
-            android:contentDescription="@string/mission_patch"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/default_patch_bfr_small" />
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/widget_mission_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/spacing"
-            android:layout_marginStart="@dimen/spacing"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:orientation="vertical">
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/title_text_size"
+            tools:text="SES-12" />
 
-            <TextView
-                android:id="@+id/widget_mission_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-condensed"
-                android:maxLines="1"
-                android:textAllCaps="true"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/title_text_size"
-                tools:text="SES-12" />
+        <TextView
+            android:id="@+id/widget_launch_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorGreen"
+            android:textSize="@dimen/subtitle_text_size"
+            tools:text="16:45, 4 August 2018" />
 
-            <TextView
-                android:id="@+id/widget_launch_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorGreen"
-                android:textSize="@dimen/subtitle_text_size"
-                tools:text="16:45, 4 August 2018" />
-
-            <TextView
-                android:id="@+id/widget_time_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorX"
-                android:textSize="@dimen/subtitle_text_size"
-                tools:text="2 days, 12 hours and 15 minutes" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/widget_time_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorX"
+            android:textSize="@dimen/subtitle_text_size"
+            tools:text="2 days, 12 hours and 15 minutes" />
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/empty_widget"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/spacex_landing_droneship"/>
-
-</FrameLayout>
+</LinearLayout>

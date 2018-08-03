@@ -26,6 +26,7 @@ import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.RocketsAdapter;
 import com.about.future.spacex.data.RocketsLoader;
 import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.model.rocket.RocketMini;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.viewmodel.RocketsViewModel;
@@ -40,11 +41,9 @@ public class RocketsFragment extends Fragment implements
 
     private static final int ROCKETS_LOADER_ID = 495;
     public static final String ROCKET_ID_KEY = "rocket_id";
-    public static final String TOTAL_ROCKETS_KEY = "total_rockets";
 
     private AppDatabase mDb;
     private RocketsAdapter mRocketsAdapter;
-    private int mTotalRockets;
 
     @BindView(R.id.swipe_refresh_rockets_list_layout)
     SwipeRefreshLayout mSwipeRefreshRocketsLayout;
@@ -100,12 +99,11 @@ public class RocketsFragment extends Fragment implements
 
     private void setupViewModel() {
         RocketsViewModel rocketsViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
-        rocketsViewModel.getRockets().observe(this, new Observer<List<Rocket>>() {
+        rocketsViewModel.getRockets().observe(this, new Observer<List<RocketMini>>() {
             @Override
-            public void onChanged(@Nullable List<Rocket> rockets) {
+            public void onChanged(@Nullable List<RocketMini> rockets) {
                 if (rockets != null) {
                     mRocketsAdapter.setRockets(rockets);
-                    mTotalRockets = rockets.size();
                 }
             }
         });
@@ -142,7 +140,6 @@ public class RocketsFragment extends Fragment implements
     public void onItemClickListener(int rocketId) {
         Intent rocketDetailsIntent = new Intent(getActivity(), RocketDetailsActivity.class);
         rocketDetailsIntent.putExtra(ROCKET_ID_KEY, rocketId);
-        rocketDetailsIntent.putExtra(TOTAL_ROCKETS_KEY, mTotalRockets);
         startActivity(rocketDetailsIntent);
     }
 
@@ -176,7 +173,8 @@ public class RocketsFragment extends Fragment implements
                         }
                     });
 
-                    setupViewModel();
+                    // Save the total number of rockets
+                    SpaceXPreferences.setTotalNumberOfRockets(getActivityCast(), data.size());
                 }
 
                 // Setup the view model, especially if this is the first time the data is loaded

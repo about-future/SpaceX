@@ -7,13 +7,10 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import com.about.future.spacex.model.launch_pad.LaunchPad;
-import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.retrofit.ApiClient;
 import com.about.future.spacex.retrofit.ApiInterface;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 

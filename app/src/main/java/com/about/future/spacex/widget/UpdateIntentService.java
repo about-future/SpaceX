@@ -45,12 +45,11 @@ public class UpdateIntentService extends IntentService {
             @Override
             public void run() {
                 Mission upcomingMission = mDb.missionDao().findUpcomingMission((new Date().getTime() / 1000));
-                int totalMissions = mDb.missionDao().countMissions();
 
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
                 int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), MissionAppWidget.class));
                 // Update all widgets
-                MissionAppWidget.updateMissionWidgets(getApplicationContext(), appWidgetManager, appWidgetIds, upcomingMission, totalMissions);
+                MissionAppWidget.updateMissionWidgets(getApplicationContext(), appWidgetManager, appWidgetIds, upcomingMission);
             }
         });
     }

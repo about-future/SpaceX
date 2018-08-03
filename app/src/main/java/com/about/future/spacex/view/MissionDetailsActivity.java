@@ -10,15 +10,13 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.utils.SpaceXPreferences;
 
 import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
-import static com.about.future.spacex.view.MissionsFragment.TOTAL_MISSIONS_KEY;
 
 public class MissionDetailsActivity extends AppCompatActivity {
 
-    private static final int DEFAULT_MISSION_NUMBER = 1;
-    private int mMissionNumber = DEFAULT_MISSION_NUMBER;
-    private int mTotalMissions = DEFAULT_MISSION_NUMBER;
+    private int mMissionNumber = 1;
 
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
@@ -30,13 +28,8 @@ public class MissionDetailsActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            if (intent != null) {
-                if (intent.hasExtra(TOTAL_MISSIONS_KEY))
-                    mTotalMissions = intent.getIntExtra(TOTAL_MISSIONS_KEY, DEFAULT_MISSION_NUMBER);
-
-                if (intent.hasExtra(MISSION_NUMBER_KEY)) {
-                    mMissionNumber = intent.getIntExtra(MISSION_NUMBER_KEY, DEFAULT_MISSION_NUMBER);
-                }
+            if (intent != null && intent.hasExtra(MISSION_NUMBER_KEY)) {
+                mMissionNumber = intent.getIntExtra(MISSION_NUMBER_KEY, 1);
             }
 
         }
@@ -49,7 +42,6 @@ public class MissionDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(TOTAL_MISSIONS_KEY, mTotalMissions);
         outState.putInt(MISSION_NUMBER_KEY, mMissionNumber);
         super.onSaveInstanceState(outState);
     }
@@ -57,7 +49,6 @@ public class MissionDetailsActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mMissionNumber = savedInstanceState.getInt(MISSION_NUMBER_KEY);
-        mTotalMissions = savedInstanceState.getInt(TOTAL_MISSIONS_KEY);
         mPager.setCurrentItem(mMissionNumber - 1);
         mPagerAdapter.notifyDataSetChanged();
 
@@ -65,7 +56,7 @@ public class MissionDetailsActivity extends AppCompatActivity {
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
-        public MyPagerAdapter(FragmentManager fm) {
+        MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -81,7 +72,7 @@ public class MissionDetailsActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return mTotalMissions;
+            return SpaceXPreferences.getTotalNumberOfMissions(getApplicationContext());
         }
     }
 }

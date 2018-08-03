@@ -6,13 +6,13 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.about.future.spacex.data.AppDatabase;
-import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.model.rocket.RocketMini;
 
 import java.util.List;
 
 public class RocketsViewModel extends AndroidViewModel {
 
-    private LiveData<List<Rocket>> rockets;
+    private LiveData<List<RocketMini>> rockets;
 
     public RocketsViewModel(@NonNull Application application) {
         super(application);
@@ -20,5 +20,5 @@ public class RocketsViewModel extends AndroidViewModel {
         rockets = appDatabase.rocketDao().loadAllRockets();
     }
 
-    public LiveData<List<Rocket>> getRockets() { return rockets; }
+    public LiveData<List<RocketMini>> getRockets() { return rockets; }
 }

@@ -62,9 +62,9 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
             double latitude = mLaunchPads.get(position).getLocation().getLatitude();
             double longitude = mLaunchPads.get(position).getLocation().getLongitude();
             if (ScreenUtils.isPortraitMode(mContext)) {
-                launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 14, "satellite");
+                launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 14, "satellite", mContext);
             } else {
-                launchPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude);
+                launchPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, mContext);
             }
         }
 

@@ -15,7 +15,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.SpaceXPreferences;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -45,12 +43,9 @@ public class LaunchPadsFragment extends Fragment implements
 
     private static final int LAUNCH_PADS_LOADER_ID = 917;
     public static final String LAUNCH_PAD_ID_KEY = "launch_pad_id";
-    public static final String TOTAL_LAUNCH_PADS_KEY = "total_launch_pads";
 
     private AppDatabase mDb;
-    private List<LaunchPad> mLaunchPads;
     private LaunchPadsAdapter mLaunchPadsAdapter;
-    private int mTotalLaunchPads;
 
     @BindView(R.id.swipe_refresh_launch_pads_list_layout)
     SwipeRefreshLayout mSwipeRefreshLaunchPadsLayout;
@@ -120,9 +115,7 @@ public class LaunchPadsFragment extends Fragment implements
             @Override
             public void onChanged(@Nullable List<LaunchPad> launchPads) {
                 if (launchPads != null) {
-                    mLaunchPads = launchPads;
                     mLaunchPadsAdapter.setLaunchPads(launchPads);
-                    mTotalLaunchPads = launchPads.size();
                 }
             }
         });
@@ -158,7 +151,6 @@ public class LaunchPadsFragment extends Fragment implements
     public void onItemClickListener(int launchPadId) {
         Intent launchPadDetailsIntent = new Intent(getActivity(), LaunchPadDetailsActivity.class);
         launchPadDetailsIntent.putExtra(LAUNCH_PAD_ID_KEY, launchPadId);
-        launchPadDetailsIntent.putExtra(TOTAL_LAUNCH_PADS_KEY, mTotalLaunchPads);
         startActivity(launchPadDetailsIntent);
     }
 
@@ -191,6 +183,9 @@ public class LaunchPadsFragment extends Fragment implements
                             SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
                         }
                     });
+
+                    // Save the total number of launch pads
+                    SpaceXPreferences.setTotalNumberOfLaunchPads(getActivityCast(), data.size());
                 }
 
                 // Setup the view model, especially if this is the first time the data is loaded

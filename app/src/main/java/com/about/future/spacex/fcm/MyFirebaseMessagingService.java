@@ -25,7 +25,6 @@ import java.util.Date;
 import java.util.Map;
 
 import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
-import static com.about.future.spacex.view.MissionsFragment.TOTAL_MISSIONS_KEY;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -46,7 +45,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 public void run() {
                     try {
                         Mission upcomingMission = mDb.missionDao().findUpcomingMission((new Date().getTime() / 1000));
-                        int totalMissions = mDb.missionDao().countMissions();
                         int missionNumber = upcomingMission.getFlightNumber();
 
                         if (TextUtils.equals(remoteMessage.getFrom(), "/topics/updates")) {
@@ -58,21 +56,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                             // Send a notification containing a special message and the necessary
                             // data so the app can open the upcoming mission
-                            sendNotification(getString(R.string.live_webcast), totalMissions, missionNumber);
+                            sendNotification(getString(R.string.live_webcast), missionNumber);
                         } else {
-                            // Send a notification with the received message, add the neccesary data
+                            // Otherwise, it's "/topics/news" case.
+                            // Send a notification with the received message, add the necessary data
                             // so the app can open the upcoming mission
-                            sendNotification(data.get("body"), totalMissions, missionNumber);
+                            sendNotification(data.get("body"), missionNumber);
                         }
                     } catch (NullPointerException e) {
-                        sendNotification(data.get("body"), 0, 0);
+                        sendNotification(data.get("body"), 0);
                     }
                 }
             });
         }
     }
 
-    private void sendNotification(String message, int totalMissions, int missionNumber) {
+    private void sendNotification(String message, int missionNumber) {
         String shortMessage;
 
         // If the message is longer than the max number of characters we want in our
@@ -86,13 +85,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent;
         // If both have value "0", it means we don't have data yet in our database, so any notification
         // that we get, should point to SpaceXActivity
-        if (missionNumber == 0 && totalMissions == 0) {
+        if (missionNumber == 0) {
             intent = new Intent(this, SpaceXActivity.class);
         } else {
             // Otherwise, we do have data in our DB and our intent should point to the correct mission
             intent = new Intent(this, MissionDetailsActivity.class);
             intent.putExtra(MISSION_NUMBER_KEY, missionNumber);
-            intent.putExtra(TOTAL_MISSIONS_KEY, totalMissions);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

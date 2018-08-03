@@ -19,14 +19,12 @@ public interface ApiInterface {
     @GET("launches/all")
     Call<List<Mission>> getMissionDetails(@Query("flight_number") int number);
 
+    /* Left here on purpose.
     @GET("launches/upcoming")
     Call<List<Mission>> getUpcomingMissions();
 
-    @GET("launches/latest")
-    Call<Mission> getLatestMission();
-
     @GET("launches/next")
-    Call<Mission> getNextMission();
+    Call<Mission> getNextMission(); */
 
 
     // Launch Pads Endpoint

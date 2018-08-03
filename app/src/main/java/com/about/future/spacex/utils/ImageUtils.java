@@ -43,23 +43,25 @@ public class ImageUtils {
     /* Build and return the Thumbnail URL for SpaceX launch pad location
      * @param latitude and longitude are used to build the url
      */
-    public static String buildMapThumbnailUrl(double latitude, double longitude, int zoom, String mapType) {
+    public static String buildMapThumbnailUrl(double latitude, double longitude, int zoom, String mapType, Context context) {
         return Uri.parse(MAP_BASE_URL).buildUpon()
                 .appendQueryParameter(CENTER_PARAMETER, String.valueOf(latitude) + "," + String.valueOf(longitude))
                 .appendQueryParameter(ZOOM_PARAMETER, String.valueOf(zoom))
                 .appendQueryParameter(SIZE_PARAMETER, "200x200")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, mapType)
                 .appendQueryParameter(SCALE_PARAMETER, "2")
+                .appendQueryParameter(KEY_PARAMETER, context.getString(R.string.map_api_key))
                 .build().toString();
     }
 
-    public static String buildSatelliteBackdropUrl(double latitude, double longitude) {
+    public static String buildSatelliteBackdropUrl(double latitude, double longitude, Context context) {
         return Uri.parse(MAP_BASE_URL).buildUpon()
                 .appendQueryParameter(CENTER_PARAMETER, String.valueOf(latitude) + "," + String.valueOf(longitude))
                 .appendQueryParameter(ZOOM_PARAMETER, "15")
                 .appendQueryParameter(SIZE_PARAMETER, "600x350")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, "satellite")
                 .appendQueryParameter(SCALE_PARAMETER, "2")
+                .appendQueryParameter(KEY_PARAMETER, context.getString(R.string.map_api_key))
                 .build().toString();
     }
 
@@ -93,6 +95,26 @@ public class ImageUtils {
                 break;
             default:
                 imageView.setImageResource(R.drawable.default_patch_f9_small);
+                break;
+        }
+    }
+
+    public static void setDefaultImage2(ImageView imageView, String rocketName) {
+        switch (rocketName) {
+            case "Falcon 9":
+                imageView.setImageResource(R.drawable.default_patch_dragon_small);
+                break;
+            case "Falcon Heavy":
+                imageView.setImageResource(R.drawable.default_patch_fh_small);
+                break;
+            case "BFR":
+                imageView.setImageResource(R.drawable.default_patch_bfr_small);
+                break;
+            case "Big Falcon Rocket":
+                imageView.setImageResource(R.drawable.default_patch_bfr_small);
+                break;
+            default:
+                imageView.setImageResource(R.drawable.default_patch_dragon_small);
                 break;
         }
     }

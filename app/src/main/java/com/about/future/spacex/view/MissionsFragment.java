@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppExecutors;
+import com.about.future.spacex.model.mission.MissionMini;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.MissionsViewModel;
@@ -44,11 +45,9 @@ public class MissionsFragment extends Fragment implements
 
     private static final int MISSIONS_LOADER_ID = 892;
     public static final String MISSION_NUMBER_KEY = "mission_number";
-    public static final String TOTAL_MISSIONS_KEY = "total_missions";
 
     private AppDatabase mDb;
     private MissionsAdapter mMissionsAdapter;
-    private int mTotalMissions;
 
     @BindView(R.id.swipe_refresh_missions_list_layout)
     SwipeRefreshLayout mSwipeRefreshMissionListLayout;
@@ -114,12 +113,11 @@ public class MissionsFragment extends Fragment implements
 
     private void setupViewModel() {
         MissionsViewModel missionsViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
-        missionsViewModel.getMissions().observe(this, new Observer<List<Mission>>() {
+        missionsViewModel.getMissions().observe(this, new Observer<List<MissionMini>>() {
             @Override
-            public void onChanged(@Nullable List<Mission> missions) {
+            public void onChanged(@Nullable List<MissionMini> missions) {
                 if (missions != null) {
                     mMissionsAdapter.setMissions(missions);
-                    mTotalMissions = missions.size();
                 }
             }
         });
@@ -155,7 +153,6 @@ public class MissionsFragment extends Fragment implements
     public void onItemClickListener(int missionNumber) {
         Intent missionDetailsIntent = new Intent(getActivity(), MissionDetailsActivity.class);
         missionDetailsIntent.putExtra(MISSION_NUMBER_KEY, missionNumber);
-        missionDetailsIntent.putExtra(TOTAL_MISSIONS_KEY, mTotalMissions);
         startActivity(missionDetailsIntent);
     }
 
@@ -188,10 +185,14 @@ public class MissionsFragment extends Fragment implements
                             SpaceXPreferences.setMissionsStatus(getContext(), true);
                         }
                     });
+
+                    // Save the total number of missions
+                    SpaceXPreferences.setTotalNumberOfMissions(getActivityCast(), data.size());
                 }
 
                 // Update widget
                 UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
+
 
                 // Setup the view model, especially if this is the first time the data is loaded
                 setupViewModel();

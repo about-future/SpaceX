@@ -182,6 +182,9 @@
     <string name="pref_rockets_status_key">rockets_loaded</string>
     <string name="pref_launch_pads_thumbnails_date_key">launch_pads_thumbnails_date</string>
     <string name="pref_topic_subscription_status_key">subscribed</string>
+    <string name="pref_total_missions_key">total_missions</string>
+    <string name="pref_total_rockets_key">total_rockets</string>
+    <string name="pref_total_launch_pads_key">total_launch_pads</string>
 
     <!-- Dragon Dimensions -->
     <string name="dragon_height_metric">8.1 m</string>
@@ -192,7 +195,7 @@
     <!-- Widget -->
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
-    <string name="widget_label_no_mission_available">No mission available</string>
-    <string name="widget_label_click_here_to_load">Click here to load all missions!</string>
+    <string name="widget_label_no_mission_available">No mission available!</string>
+    <string name="widget_label_click_here_to_load">Click here to load all missions</string>
 
 </resources>

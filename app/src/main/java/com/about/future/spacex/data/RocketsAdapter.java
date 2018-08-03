@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.model.rocket.RocketMini;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHolder> {
     private final Context mContext;
-    private List<Rocket> mRockets = new ArrayList<Rocket>() {
+    private List<RocketMini> mRockets = new ArrayList<RocketMini>() {
     };
     private final RocketsAdapter.ListItemClickListener mOnClickListener;
 
@@ -104,7 +104,7 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
         }
     }
 
-    public void setRockets(List<Rocket> rockets) {
+    public void setRockets(List<RocketMini> rockets) {
         mRockets = rockets;
         notifyDataSetChanged();
     }
