@@ -104,6 +104,10 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
             // Set green color if mission time is bigger than present time (meaning it's an upcoming mission)
             if (missionDate.getTime() > new Date().getTime()) {
                 holder.launchDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorGreen));
+
+                // Set time left until launch
+                holder.timeLeftTextView.setVisibility(View.VISIBLE);
+                holder.timeLeftTextView.setText(DateUtils.formatTimeLeft(mMissions.get(position).getLaunchDateUnix()));
             } else {
                 // Otherwise, set the default color
                 if (ScreenUtils.isPortraitMode(mContext)) {
@@ -111,6 +115,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
                 } else {
                     holder.launchDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorCardDescription));
                 }
+                holder.timeLeftTextView.setVisibility(View.GONE);
             }
         } else {
             // Otherwise, set text as Unknown
@@ -120,11 +125,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if (mMissions == null) {
-            return 0;
-        }
-        return mMissions.size();
-        //return mMissions != null ? mMissions.size() : 0;
+        return mMissions != null ? mMissions.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -134,6 +135,8 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         TextView missionNameTextView;
         @BindView(R.id.launch_date)
         TextView launchDateTextView;
+        @BindView(R.id.mission_time_left)
+        TextView timeLeftTextView;
 
         ViewHolder(View itemView) {
             super(itemView);

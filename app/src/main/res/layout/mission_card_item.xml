@@ -56,6 +56,16 @@
                 android:textSize="14sp"
                 tools:text="4:45 AM, 4 June 2018" />
 
+            <TextView
+                android:id="@+id/mission_time_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/colorCardDescription"
+                android:textSize="@dimen/subtitle_text_size"
+                tools:text="2 days, 12 hours and 15 minutes" />
+
         </LinearLayout>
 
     </LinearLayout>
