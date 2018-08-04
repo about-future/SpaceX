@@ -7,18 +7,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class SecondStage {
     @SerializedName("engines")
-    private int engines;
+    private final int engines;
     @SerializedName("fuel_amount_tons")
-    private double fuelAmountTons;
+    private final double fuelAmountTons;
     @ColumnInfo(name = "burn_time_sec")
     @SerializedName("burn_time_sec")
-    private int burnTimeSec;
+    private final int burnTimeSec;
     @Embedded(prefix = "thrust_")
     @SerializedName("thrust")
-    private Thrust thrust;
+    private final Thrust thrust;
     @Embedded(prefix = "payloads_")
     @SerializedName("payloads")
-    private Payloads payloads;
+    private final Payloads payloads;
 
     public SecondStage(int engines, double fuelAmountTons, int burnTimeSec, Thrust thrust, Payloads payloads) {
         this.engines = engines;

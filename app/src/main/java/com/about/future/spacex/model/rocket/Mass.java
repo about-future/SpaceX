@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Mass {
     @SerializedName("kg")
-    private int kg;
+    private final int kg;
     @SerializedName("lb")
-    private int lb;
+    private final int lb;
 
     public Mass(int kg, int lb) {
         this.kg = kg;

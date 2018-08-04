@@ -7,22 +7,22 @@ import com.google.gson.annotations.SerializedName;
 public class Core {
     @ColumnInfo(name = "core_serial")
     @SerializedName("core_serial")
-    private String coreSerial;
+    private final String coreSerial;
     @SerializedName("flight")
-    private int flight;
+    private final int flight;
     @SerializedName("block")
-    private int block;
+    private final int block;
     @SerializedName("reused")
-    private boolean reused;
+    private final boolean reused;
     @ColumnInfo(name = "land_success")
     @SerializedName("land_success")
-    private boolean landingSuccess;
+    private final boolean landingSuccess;
     @ColumnInfo(name = "landing_type")
     @SerializedName("landing_type")
-    private String landingType;
+    private final String landingType;
     @ColumnInfo(name = "landing_vehicle")
     @SerializedName("landing_vehicle")
-    private String landingVehicle;
+    private final String landingVehicle;
 
     public Core(String coreSerial, int flight, int block, boolean reused,
                 boolean landingSuccess, String landingType, String landingVehicle) {

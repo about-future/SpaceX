@@ -12,7 +12,7 @@ import java.util.List;
 
 public class LaunchPadsViewModel extends AndroidViewModel{
 
-    private LiveData<List<LaunchPad>> launchPads;
+    private final LiveData<List<LaunchPad>> launchPads;
 
     public LaunchPadsViewModel(@NonNull Application application) {
         super(application);

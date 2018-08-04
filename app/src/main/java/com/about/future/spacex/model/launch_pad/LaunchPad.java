@@ -16,21 +16,21 @@ public class LaunchPad {
     @ColumnInfo(name = "padid")
     private int padId;
     @SerializedName("id")
-    private String id;
+    private final String id;
     @ColumnInfo(name = "full_name")
     @SerializedName("full_name")
-    private String fullName;
+    private final String fullName;
     @SerializedName("status")
-    private String status;
+    private final String status;
     @Embedded
     @SerializedName("location")
-    private Location location;
+    private final Location location;
     @ColumnInfo(name = "vehicles_launched")
     @TypeConverters(VehiclesTypeConverter.class)
     @SerializedName("vehicles_launched")
-    private String[] vehiclesLaunched;
+    private final String[] vehiclesLaunched;
     @SerializedName("details")
-    private String details;
+    private final String details;
 
     public LaunchPad(int padId, String id, String fullName, String status,
                      Location location, String[] vehiclesLaunched, String details) {

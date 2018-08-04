@@ -7,31 +7,31 @@ import com.google.gson.annotations.SerializedName;
 public class OrbitParams {
     @ColumnInfo(name = "reference_system")
     @SerializedName("reference_system")
-    private String referenceSystem;
+    private final String referenceSystem;
     @SerializedName("regime")
-    private String regime;
+    private final String regime;
     @SerializedName("longitude")
-    private double longitude;
+    private final double longitude;
     @ColumnInfo(name = "semi_major_axis_km")
     @SerializedName("semi_major_axis_km")
-    private double semiMajorAxisKm;
+    private final double semiMajorAxisKm;
     @SerializedName("eccentricity")
-    private double eccentricity;
+    private final double eccentricity;
     @ColumnInfo(name = "periapsis_km")
     @SerializedName("periapsis_km")
-    private double periapsisKm;
+    private final double periapsisKm;
     @ColumnInfo(name = "apoapsis_km")
     @SerializedName("apoapsis_km")
-    private double apoapsisKm;
+    private final double apoapsisKm;
     @ColumnInfo(name = "inclination_deg")
     @SerializedName("inclination_deg")
-    private double inclinationDeg;
+    private final double inclinationDeg;
     @ColumnInfo(name = "period_min")
     @SerializedName("period_min")
-    private double periodMin;
+    private final double periodMin;
     @ColumnInfo(name = "lifespan_years")
     @SerializedName("lifespan_years")
-    private int lifespanYears;
+    private final int lifespanYears;
 
     public OrbitParams(String referenceSystem, String regime, double longitude,
                        double semiMajorAxisKm, double eccentricity, double periapsisKm, double apoapsisKm,

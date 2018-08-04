@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Thrust {
     @SerializedName("kN")
-    private int kN;
+    private final int kN;
     @SerializedName("lbf")
-    private int lbf;
+    private final int lbf;
 
     public Thrust(int kN, int lbf) {
         this.kN = kN;

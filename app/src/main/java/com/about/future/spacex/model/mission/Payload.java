@@ -7,25 +7,25 @@ import com.google.gson.annotations.SerializedName;
 public class Payload {
     @ColumnInfo(name = "payload_id")
     @SerializedName("payload_id")
-    private String payloadId;
+    private final String payloadId;
     @SerializedName("reused")
-    private boolean reused;
+    private final boolean reused;
     @SerializedName("customers")
-    private String[] customers;
+    private final String[] customers;
     @ColumnInfo(name = "payload_type")
     @SerializedName("payload_type")
-    private String payloadType;
+    private final String payloadType;
     @ColumnInfo(name = "payload_mass_kg")
     @SerializedName("payload_mass_kg")
-    private double payloadMassKg;
+    private final double payloadMassKg;
     @ColumnInfo(name = "payload_mass_lbs")
     @SerializedName("payload_mass_lbs")
-    private double payloadMassLbs;
+    private final double payloadMassLbs;
     @SerializedName("orbit")
-    private String orbit;
+    private final String orbit;
     @ColumnInfo(name = "orbit_params")
     @SerializedName("orbit_params")
-    private OrbitParams orbitParams;
+    private final OrbitParams orbitParams;
 
     public Payload(String payloadId, boolean reused, String[] customers, String payloadType,
                    double payloadMassKg, double payloadMassLbs, String orbit, OrbitParams orbitParams) {

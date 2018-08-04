@@ -18,56 +18,56 @@ public class Rocket {
     @ColumnInfo(name = "rocketid")
     private int rocketId;
     @SerializedName("id")
-    private String id;
+    private final String id;
     @SerializedName("name")
-    private String name;
+    private final String name;
     @SerializedName("type")
-    private String type;
+    private final String type;
     @SerializedName("active")
-    private boolean active;
+    private final boolean active;
     @SerializedName("stages")
-    private int stages;
+    private final int stages;
     @SerializedName("boosters")
-    private int boosters;
+    private final int boosters;
     @ColumnInfo(name = "cost_per_launch")
     @SerializedName("cost_per_launch")
-    private int costPerLaunch;
+    private final int costPerLaunch;
     @ColumnInfo(name = "success_rate_pct")
     @SerializedName("success_rate_pct")
-    private int successRatePct;
+    private final int successRatePct;
     @ColumnInfo(name = "first_flight")
     @SerializedName("first_flight")
-    private String firstFlight;
+    private final String firstFlight;
     @SerializedName("country")
-    private String country;
+    private final String country;
     @SerializedName("company")
-    private String company;
+    private final String company;
     @Embedded(prefix = "height_")
     @SerializedName("height")
-    private Dimension height;
+    private final Dimension height;
     @Embedded(prefix = "diameter_")
     @SerializedName("diameter")
-    private Dimension diameter;
+    private final Dimension diameter;
     @Embedded
     @SerializedName("mass")
-    private Mass mass;
+    private final Mass mass;
     @TypeConverters(PayloadWeightsTypeConverter.class)
     @SerializedName("payload_weights")
-    private List<PayloadWeights> payloadWeights;
+    private final List<PayloadWeights> payloadWeights;
     @Embedded(prefix = "first_stage_")
     @SerializedName("first_stage")
-    private FirstStage firstStage;
+    private final FirstStage firstStage;
     @Embedded(prefix = "second_stage_")
     @SerializedName("second_stage")
-    private SecondStage secondStage;
+    private final SecondStage secondStage;
     @Embedded(prefix = "engines_")
     @SerializedName("engines")
-    private Engines engines;
+    private final Engines engines;
     @Embedded
     @SerializedName("landing_legs")
-    private LandingLegs landingLegs;
+    private final LandingLegs landingLegs;
     @SerializedName("description")
-    private String description;
+    private final String description;
 
     public Rocket(int rocketId, String id, String name, String type, boolean active, int stages, int boosters,
                   int costPerLaunch, int successRatePct, String firstFlight, String country,

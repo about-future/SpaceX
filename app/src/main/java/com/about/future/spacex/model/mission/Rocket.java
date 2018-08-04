@@ -8,21 +8,21 @@ import com.google.gson.annotations.SerializedName;
 public class Rocket {
     @ColumnInfo(name = "rocket_id")
     @SerializedName("rocket_id")
-    private String rocketId;
+    private final String rocketId;
     @ColumnInfo(name = "rocket_name")
     @SerializedName("rocket_name")
-    private String rocketName;
+    private final String rocketName;
     @ColumnInfo(name = "rocket_type")
     @SerializedName("rocket_type")
-    private String rocketType;
+    private final String rocketType;
     //@ColumnInfo(name = "first_stage")
     @SerializedName("first_stage")
     @Embedded
-    private FirstStage firstStage;
+    private final FirstStage firstStage;
     //@ColumnInfo(name = "second_stage")
     @SerializedName("second_stage")
     @Embedded
-    private SecondStage secondStage;
+    private final SecondStage secondStage;
 
     public Rocket(String rocketId, String rocketName, String rocketType, FirstStage firstStage, SecondStage secondStage) {
         this.rocketId = rocketId;

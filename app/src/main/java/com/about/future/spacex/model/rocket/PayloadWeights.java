@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class PayloadWeights {
     @SerializedName("id")
-    private String id;
+    private final String id;
     @SerializedName("name")
-    private String name;
+    private final String name;
     @SerializedName("kg")
-    private int kg;
+    private final int kg;
     @SerializedName("lb")
-    private int lb;
+    private final int lb;
 
     public PayloadWeights(String id, String name, int kg, int lb) {
         this.id = id;

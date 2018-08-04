@@ -53,7 +53,6 @@ public class ImageUtils {
                 .appendQueryParameter(SIZE_PARAMETER, "200x200")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, mapType)
                 .appendQueryParameter(SCALE_PARAMETER, "2")
-                .appendQueryParameter(KEY_PARAMETER, context.getString(R.string.map_api_key))
                 .build().toString();
     }
 
@@ -67,7 +66,6 @@ public class ImageUtils {
                 .appendQueryParameter(SIZE_PARAMETER, "600x350")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, "satellite")
                 .appendQueryParameter(SCALE_PARAMETER, "2")
-                .appendQueryParameter(KEY_PARAMETER, context.getString(R.string.map_api_key))
                 .build().toString();
     }
 

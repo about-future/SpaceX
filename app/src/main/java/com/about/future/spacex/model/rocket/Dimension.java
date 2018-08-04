@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Dimension {
     @SerializedName("meters")
-    private double meters;
+    private final double meters;
     @SerializedName("feet")
-    private double feet;
+    private final double feet;
 
     public Dimension(double meters, double feet) {
         this.meters = meters;

@@ -5,10 +5,10 @@ import android.arch.persistence.room.ColumnInfo;
 
 public class RocketMini {
     @ColumnInfo(name = "rocketid")
-    private int rocketId;
-    private String id;
-    private String name;
-    private String description;
+    private final int rocketId;
+    private final String id;
+    private final String name;
+    private final String description;
 
     public RocketMini(int rocketId, String id, String name, String description) {
         this.rocketId = rocketId;

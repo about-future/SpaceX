@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class LandingLegs {
     @SerializedName("number")
-    private int number;
+    private final int number;
     @SerializedName("material")
-    private String material;
+    private final String material;
 
     public LandingLegs(int number, String material) {
         this.number = number;

@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class Location {
     @SerializedName("name")
-    private String name;
+    private final String name;
     @SerializedName("region")
-    private String region;
+    private final String region;
     @SerializedName("latitude")
-    private double latitude;
+    private final double latitude;
     @SerializedName("longitude")
-    private double longitude;
+    private final double longitude;
 
     public Location(String name, String region, double latitude, double longitude) {
         this.name = name;

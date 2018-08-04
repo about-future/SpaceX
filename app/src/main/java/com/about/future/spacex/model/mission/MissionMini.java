@@ -4,15 +4,15 @@ import android.arch.persistence.room.ColumnInfo;
 
 public class MissionMini {
     @ColumnInfo(name = "flight_number")
-    private int flightNumber;
+    private final int flightNumber;
     @ColumnInfo(name = "mission_name")
-    private String missionName;
+    private final String missionName;
     @ColumnInfo(name = "launch_date_unix")
-    private long launchDateUnix;
+    private final long launchDateUnix;
     @ColumnInfo(name = "mission_patch_small")
-    private String missionPatch;
+    private final String missionPatch;
     @ColumnInfo(name = "rocket_name")
-    private String rocketName;
+    private final String rocketName;
 
     public MissionMini(int flightNumber, String missionName, long launchDateUnix, String missionPatch, String rocketName) {
         this.flightNumber = flightNumber;

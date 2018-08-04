@@ -8,7 +8,7 @@ import com.about.future.spacex.model.rocket.Rocket;
 
 public class RocketViewModel extends ViewModel {
 
-    private LiveData<Rocket> rocketLiveData;
+    private final LiveData<Rocket> rocketLiveData;
 
     public LiveData<Rocket> getRocketLiveData() { return rocketLiveData; }
 

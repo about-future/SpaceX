@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName;
 public class LaunchSite {
     @ColumnInfo(name = "site_id")
     @SerializedName("site_id")
-    private String siteId;
+    private final String siteId;
     @ColumnInfo(name = "site_name")
     @SerializedName("site_name")
-    private String siteName;
+    private final String siteName;
     @ColumnInfo(name = "site_name_long")
     @SerializedName("site_name_long")
-    private String siteNameLong;
+    private final String siteNameLong;
 
     public LaunchSite(String siteId, String siteName, String siteNameLong) {
         this.siteId = siteId;

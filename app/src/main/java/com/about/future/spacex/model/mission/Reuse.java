@@ -6,17 +6,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class Reuse {
     @SerializedName("core")
-    private boolean core;
+    private final boolean core;
     @ColumnInfo(name = "side_core1")
     @SerializedName("side_core1")
-    private boolean sideCore1;
+    private final boolean sideCore1;
     @ColumnInfo(name = "side_core2")
     @SerializedName("side_core2")
-    private boolean sideCore2;
+    private final boolean sideCore2;
     @SerializedName("fairings")
-    private boolean fairings;
+    private final boolean fairings;
     @SerializedName("capsule")
-    private boolean capsule;
+    private final boolean capsule;
 
     public Reuse (boolean core, boolean sideCore1, boolean sideCore2, boolean fairings, boolean capsule) {
         this.core = core;

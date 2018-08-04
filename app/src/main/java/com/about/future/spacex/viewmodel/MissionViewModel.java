@@ -8,7 +8,7 @@ import com.about.future.spacex.model.mission.Mission;
 
 public class MissionViewModel extends ViewModel {
 
-    private LiveData<Mission> missionLiveData;
+    private final LiveData<Mission> missionLiveData;
 
     public LiveData<Mission> getMissionLiveData() { return missionLiveData; }
 

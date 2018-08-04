@@ -12,7 +12,7 @@ import java.util.List;
 
 public class RocketsViewModel extends AndroidViewModel {
 
-    private LiveData<List<RocketMini>> rockets;
+    private final LiveData<List<RocketMini>> rockets;
 
     public RocketsViewModel(@NonNull Application application) {
         super(application);

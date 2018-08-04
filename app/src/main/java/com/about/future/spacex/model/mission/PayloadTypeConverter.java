@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class PayloadTypeConverter {
-    private static Gson gson = new Gson();
+    private static final Gson gson = new Gson();
     @TypeConverter
     public static List<Payload> stringToList(String data) {
         if (data == null) {

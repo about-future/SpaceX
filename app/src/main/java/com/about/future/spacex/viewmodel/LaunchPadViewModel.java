@@ -8,7 +8,7 @@ import com.about.future.spacex.model.launch_pad.LaunchPad;
 
 public class LaunchPadViewModel extends ViewModel {
 
-    private LiveData<LaunchPad> launchPadLiveData;
+    private final LiveData<LaunchPad> launchPadLiveData;
 
     public LiveData<LaunchPad> getLaunchPadLiveData() { return launchPadLiveData; }
 

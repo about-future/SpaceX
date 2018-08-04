@@ -26,7 +26,6 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        resValue ("string", "map_api_key", keystoreProperties['staticMapApiKey'])
     }
     buildTypes {
         release {

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MissionsViewModel extends AndroidViewModel {
 
-    private LiveData<List<MissionMini>> missions;
+    private final LiveData<List<MissionMini>> missions;
 
     public MissionsViewModel(@NonNull Application application) {
         super(application);
