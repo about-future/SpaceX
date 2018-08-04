@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.utils.SpaceXPreferences;
@@ -56,11 +55,6 @@ public class RocketDetailsActivity extends AppCompatActivity {
     private class MyPagerAdapter extends FragmentPagerAdapter {
         MyPagerAdapter(FragmentManager fm) {
             super(fm);
-        }
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
         }
 
         @Override

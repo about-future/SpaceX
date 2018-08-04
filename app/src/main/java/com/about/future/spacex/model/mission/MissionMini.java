@@ -27,10 +27,4 @@ public class MissionMini {
     public long getLaunchDateUnix() { return launchDateUnix; }
     public String getMissionPatch() { return missionPatch; }
     public String getRocketName() { return rocketName; }
-
-    public void setFlightNumber(int flightNumber) { this.flightNumber = flightNumber; }
-    public void setMissionName(String missionName) { this.missionName = missionName; }
-    public void setLaunchDateUnix(long launchDateUnix) { this.launchDateUnix = launchDateUnix; }
-    public void setMissionPatch(String missionPatch) { this.missionPatch = missionPatch; }
-    public void setRocketName(String rocketName) { this.rocketName = rocketName; }
 }

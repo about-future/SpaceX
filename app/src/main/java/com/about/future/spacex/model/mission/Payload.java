@@ -39,15 +39,6 @@ public class Payload {
         this.orbitParams = orbitParams;
     }
 
-    public void setCustomers(String[] customers) { this.customers = customers; }
-    public void setOrbit(String orbit) { this.orbit = orbit; }
-    public void setOrbitParams(OrbitParams orbitParams) { this.orbitParams = orbitParams; }
-    public void setPayloadId(String payloadId) { this.payloadId = payloadId; }
-    public void setPayloadMassKg(double payloadMassKg) { this.payloadMassKg = payloadMassKg; }
-    public void setPayloadMassLbs(double payloadMassLbs) { this.payloadMassLbs = payloadMassLbs; }
-    public void setPayloadType(String payloadType) { this.payloadType = payloadType; }
-    public void setReused(boolean reused) { this.reused = reused; }
-
     public String[] getCustomers() { return customers; }
     public String getOrbit() { return orbit; }
     public OrbitParams getOrbitParams() { return orbitParams; }

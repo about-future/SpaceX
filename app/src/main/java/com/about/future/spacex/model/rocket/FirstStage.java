@@ -39,11 +39,4 @@ public class FirstStage {
     public int getBurnTimeSec() { return burnTimeSec; }
     public Thrust getThrustSeaLevel() { return thrustSeaLevel; }
     public Thrust getThrustVacuum() { return thrustVacuum; }
-
-    public void setReusable(boolean reusable) { this.reusable = reusable; }
-    public void setEngines(int engines) { this.engines = engines; }
-    public void setFuelAmountTons(double fuelAmountTons) { this.fuelAmountTons = fuelAmountTons; }
-    public void setBurnTimeSec(int burnTimeSec) { this.burnTimeSec = burnTimeSec; }
-    public void setThrustSeaLevel(Thrust thrustSeaLevel) { this.thrustSeaLevel = thrustSeaLevel; }
-    public void setThrustVacuum(Thrust thrustVacuum) { this.thrustVacuum = thrustVacuum; }
 }

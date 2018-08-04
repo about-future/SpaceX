@@ -42,12 +42,4 @@ public class Core {
     public String getLandingVehicle() { return landingVehicle; }
     public boolean isLandingSuccess() { return landingSuccess; }
     public boolean isReused() { return reused; }
-
-    public void setBlock(int block) { this.block = block; }
-    public void setCoreSerial(String coreSerial) { this.coreSerial = coreSerial; }
-    public void setFlight(int flight) { this.flight = flight; }
-    public void setLandingType(String landingType) { this.landingType = landingType; }
-    public void setLandingSuccess(boolean landingSuccess) { this.landingSuccess = landingSuccess; }
-    public void setLandingVehicle(String landingVehicle) { this.landingVehicle = landingVehicle; }
-    public void setReused(boolean reused) { this.reused = reused; }
 }

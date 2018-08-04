@@ -6,9 +6,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
-import android.support.annotation.NonNull;
 
-import com.about.future.spacex.model.mission.CoreTypeConverter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -148,26 +146,4 @@ public class Rocket {
     public Engines getEngines() { return engines; }
     public LandingLegs getLandingLegs() { return landingLegs; }
     public String getDescription() { return description; }
-
-    public void setRocketId(int rocketId) { this.rocketId = rocketId; }
-    public void setId(String id) { this.id = id; }
-    public void setName(String name) { this.name = name; }
-    public void setType(String type) { this.type = type; }
-    public void setActive(boolean active) { this.active = active; }
-    public void setStages(int stages) { this.stages = stages; }
-    public void setBoosters(int boosters) { this.boosters = boosters; }
-    public void setCostPerLaunch(int costPerLaunch) { this.costPerLaunch = costPerLaunch; }
-    public void setSuccessRatePct(int successRatePct) { this.successRatePct = successRatePct; }
-    public void setFirstFlight(String firstFlight) { this.firstFlight = firstFlight; }
-    public void setCompany(String company) { this.company = company; }
-    public void setCountry(String country) { this.country = country; }
-    public void setHeight(Dimension height) { this.height = height; }
-    public void setDiameter(Dimension diameter) { this.diameter = diameter; }
-    public void setMass(Mass mass) { this.mass = mass; }
-    public void setPayloadWeights(List<PayloadWeights> payloadWeights) { this.payloadWeights = payloadWeights; }
-    public void setFirstStage(FirstStage firstStage) { this.firstStage = firstStage; }
-    public void setSecondStage(SecondStage secondStage) { this.secondStage = secondStage; }
-    public void setEngines(Engines engines) { this.engines = engines; }
-    public void setLandingLegs(LandingLegs landingLegs) { this.landingLegs = landingLegs; }
-    public void setDescription(String description) { this.description = description; }
 }

@@ -12,12 +12,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0) {
-            return new MissionsFragment();
-        } else if (position == 1){
-            return new RocketsFragment();
-        } else {
-            return new LaunchPadsFragment();
+        switch (position) {
+            case 0:
+                return new MissionsFragment();
+            case 1:
+                return new RocketsFragment();
+            default:
+                return new LaunchPadsFragment();
         }
     }
 

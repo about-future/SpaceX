@@ -23,9 +23,4 @@ public class PayloadWeights {
     public String getName() { return name; }
     public int getKg() { return kg; }
     public int getLb() { return lb; }
-
-    public void setId(String id) { this.id = id; }
-    public void setName(String name) { this.name = name; }
-    public void setKg(int kg) { this.kg = kg; }
-    public void setLb(int lb) { this.lb = lb; }
 }

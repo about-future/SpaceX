@@ -80,35 +80,17 @@ public class Mission {
     public Mission(){}
 
     public int getFlightNumber() { return flightNumber; }
-    public void setFlightNumber(int flightNumber) { this.flightNumber = flightNumber; }
-
     public String getMissionName() { return missionName; }
-    public void setMissionName(String missionName) { this.missionName = missionName; }
-
     public String getLaunchYear() { return launchYear; }
-    public void setLaunchYear(String launchYear) { this.launchYear = launchYear; }
-
     public long getLaunchDateUnix() { return launchDateUnix; }
-    public void setLaunchDateUnix(long launchDateUnix) { this.launchDateUnix = launchDateUnix; }
-
     public String getLaunchDateUtc() { return launchDateUtc; }
-    public void setLaunchDateUtc(String launchDateUtc) { this.launchDateUtc = launchDateUtc; }
-
     public Rocket getRocket() { return rocket; }
-    public void setRocket(Rocket rocket) { this.rocket = rocket; }
-
     public Reuse getReuse() { return reuse; }
-    public void setReuse(Reuse reuse) { this.reuse = reuse; }
-
     public LaunchSite getLaunchSite() { return launchSite; }
-    public void setLaunchSite(LaunchSite launchSite) { this.launchSite = launchSite; }
-
     public boolean isLaunchSuccess() { return launchSuccess; }
-    public void setLaunchSuccess(boolean launchSuccess) { this.launchSuccess = launchSuccess; }
-
     public Links getLinks() { return links; }
-    public void setLinks(Links links) { this.links = links; }
-
     public String getDetails() { return details; }
-    public void setDetails(String details) { this.details = details; }
+
+    public void setRocket(Rocket rocket) { this.rocket = rocket; }
+    public void setLinks(Links links) { this.links = links; }
 }

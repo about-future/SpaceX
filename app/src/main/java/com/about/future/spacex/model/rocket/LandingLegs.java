@@ -15,7 +15,4 @@ public class LandingLegs {
 
     public int getNumber() { return number; }
     public String getMaterial() { return material; }
-
-    public void setNumber(int number) { this.number = number; }
-    public void setMaterial(String material) { this.material = material; }
 }

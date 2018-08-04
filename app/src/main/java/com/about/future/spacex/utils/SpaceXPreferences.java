@@ -3,12 +3,8 @@ package com.about.future.spacex.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
-import android.util.Log;
 
 import com.about.future.spacex.R;
-
-import java.util.Date;
 
 public class SpaceXPreferences {
 

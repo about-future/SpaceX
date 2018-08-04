@@ -154,8 +154,4 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         mMissions = missions;
         notifyDataSetChanged();
     }
-
-    public List<MissionMini> getMissions() {
-        return mMissions;
-    }
 }

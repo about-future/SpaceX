@@ -3,42 +3,22 @@
 
     <color name="colorPrimary">#005288</color>
     <color name="colorPrimaryDark">#21272B</color>
-    <color name="colorPrimaryDark2">#181C1F</color>
     <color name="colorAccent">#CCAC55</color>
-
-    <color name="colorMainBackground">#181C1F</color>
-    <!--<color name="colorCardBackground">#4B5256</color>-->
-    <color name="colorCardBackground2">#21272B</color>
-    <color name="colorBodyText">#CCCCCC</color>
-    <color name="colorLink">#3569A4</color>
+    <!--<color name="colorBodyText">#CCCCCC</color>-->
     <color name="colorCardBackground">#484848</color>
     <color name="colorCardDescription">#80000000</color>
     <color name="colorGreen">#00AA00</color>
-
     <color name="colorLine">#424242</color>
-
-    <color name="colorBorder">#296CA9</color>
-
     <color name="colorX">#A7A9AC</color>
-    <color name="colorSpaceX">#005288</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorLightX">#AFC8CF</color>
     <color name="colorBlack">#000000</color>
-
-
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorBackgroundGrey">#303030</color>
-    <color name="colorBackgroundGreyDark">#202020</color>
-    <color name="colorSpaceXTranslucid">#CC005288</color>
     <color name="colorBackgroundTransparent">#BB303F8F</color>
     <color name="colorBackground">#303F8F</color> <!-- Before: #303F9F -->
-    <color name="colorBlue">#0000FF</color>
-
     <color name="starColor">#FFFFFF</color>
-    <color name="starShadow">#22000066</color>
-
-    <color name="skipBackgroundColor">#11FFFFFF</color>
-
-    <color name="creditsColor">#80FFFFFF</color>
+    <!--<color name="starShadow">#22000066</color>-->
     <color name="volumeColor">#FFFFFF</color>
+
 </resources>

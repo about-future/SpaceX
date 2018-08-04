@@ -15,7 +15,4 @@ public class Mass {
 
     public int getKg() { return kg; }
     public int getLb() { return lb; }
-
-    public void setKg(int kg) { this.kg = kg; }
-    public void setLb(int lb) { this.lb = lb; }
 }

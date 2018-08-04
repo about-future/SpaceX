@@ -13,11 +13,10 @@ import com.about.future.spacex.R;
 public class StarField extends View {
     private int mWidth;
     private int mHeight;
-    private Paint paint, shadowPaint;
+    private Paint paint;
     private boolean isInit;
-    private int mTotalStars;
     private int mQuarter, mHalf, mThreeQuarters;
-    Star[] stars;
+    private Star[] mStars;
 
     public StarField(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -32,22 +31,21 @@ public class StarField extends View {
         invalidate();
     }
 
-    public void initStarField() {
+    private void initStarField() {
         mWidth = getWidth();
         mHeight = getHeight();
         paint = new Paint();
-        shadowPaint = new Paint();
         isInit = true;
 
-        mTotalStars = Math.min(mWidth, mHeight);
-        stars = new Star[mTotalStars];
+        int totalStars = Math.min(mWidth, mHeight);
+        mStars = new Star[totalStars];
 
-        for (int i = 0; i < stars.length; i++) {
-            stars[i] = new Star(mWidth, mHeight);
+        for (int i = 0; i < mStars.length; i++) {
+            mStars[i] = new Star(mWidth, mHeight);
         }
 
-        mQuarter = mTotalStars / 4;
-        mHalf = mTotalStars / 2;
+        mQuarter = totalStars / 4;
+        mHalf = totalStars / 2;
         mThreeQuarters = 3 * mQuarter;
     }
 
@@ -58,17 +56,17 @@ public class StarField extends View {
         paint.setAntiAlias(true);
 
         for (int i = 0; i < mQuarter; i++) {
-            stars[i].showUpLeft(mWidth, mHeight, canvas, paint);
-            stars[i].update(0.4, mWidth, mHeight);
+            mStars[i].showUpLeft(mWidth, mHeight, canvas, paint);
+            mStars[i].update(0.4, mWidth, mHeight);
 
-            stars[i + mQuarter].showUpRight(mWidth, mHeight, canvas, paint);
-            stars[i + mQuarter].update(0.4, mWidth, mHeight);
+            mStars[i + mQuarter].showUpRight(mWidth, mHeight, canvas, paint);
+            mStars[i + mQuarter].update(0.4, mWidth, mHeight);
 
-            stars[i + mHalf].showDownLeft(mWidth, mHeight, canvas, paint);
-            stars[i + mHalf].update(0.4, mWidth, mHeight);
+            mStars[i + mHalf].showDownLeft(mWidth, mHeight, canvas, paint);
+            mStars[i + mHalf].update(0.4, mWidth, mHeight);
 
-            stars[i + mThreeQuarters].showDownRight(mWidth, mHeight, canvas, paint);
-            stars[i + mThreeQuarters].update(0.4, mWidth, mHeight);
+            mStars[i + mThreeQuarters].showDownRight(mWidth, mHeight, canvas, paint);
+            mStars[i + mThreeQuarters].update(0.4, mWidth, mHeight);
         }
     }
 }

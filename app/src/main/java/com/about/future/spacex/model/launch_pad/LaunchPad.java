@@ -61,12 +61,4 @@ public class LaunchPad {
     public Location getLocation() { return location; }
     public String[] getVehiclesLaunched() { return vehiclesLaunched; }
     public String getStatus() { return status; }
-
-    public void setPadId(int padId) { this.padId = padId; }
-    public void setId(String id) { this.id = id; }
-    public void setDetails(String details) { this.details = details; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-    public void setLocation(Location location) { this.location = location; }
-    public void setVehiclesLaunched(String[] vehiclesLaunched) { this.vehiclesLaunched = vehiclesLaunched; }
-    public void setStatus(String status) { this.status = status; }
 }

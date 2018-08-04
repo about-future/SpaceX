@@ -57,15 +57,4 @@ public class Engines {
     public Thrust getThrustSeaLevel() { return thrustSeaLevel; }
     public Thrust getThrustVacuum() { return thrustVacuum; }
     public double getThrustToWeight() { return thrustToWeight; }
-
-    public void setNumber(int number) { this.number = number; }
-    public void setType(String type) { this.type = type; }
-    public void setVersion(String version) { this.version = version; }
-    public void setLayout(String layout) { this.layout = layout; }
-    public void setEngineLossMax(int engineLossMax) { this.engineLossMax = engineLossMax; }
-    public void setPropellant1(String propellant1) { this.propellant1 = propellant1; }
-    public void setPropellant2(String propellant2) { this.propellant2 = propellant2; }
-    public void setThrustSeaLevel(Thrust thrustSeaLevel) { this.thrustSeaLevel = thrustSeaLevel; }
-    public void setThrustVacuum(Thrust thrustVacuum) { this.thrustVacuum = thrustVacuum; }
-    public void setThrustToWeight(double thrustToWeight) { this.thrustToWeight = thrustToWeight; }
 }

@@ -15,7 +15,4 @@ public class Dimension {
 
     public double getMeters() { return meters; }
     public double getFeet() { return feet; }
-
-    public void setMeters(double meters) { this.meters = meters; }
-    public void setFeet(double feet) { this.feet = feet; }
 }

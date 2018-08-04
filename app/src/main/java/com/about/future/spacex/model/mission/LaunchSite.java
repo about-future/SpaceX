@@ -24,24 +24,10 @@ public class LaunchSite {
     public String getSiteId() {
         return siteId;
     }
-
     public String getSiteName() {
         return siteName;
     }
-
     public String getSiteNameLong() {
         return siteNameLong;
-    }
-
-    public void setSiteId(String siteId) {
-        this.siteId = siteId;
-    }
-
-    public void setSiteName(String siteName) {
-        this.siteName = siteName;
-    }
-
-    public void setSiteNameLong(String siteNameLong) {
-        this.siteNameLong = siteNameLong;
     }
 }

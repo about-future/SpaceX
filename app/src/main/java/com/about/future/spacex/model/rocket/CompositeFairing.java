@@ -19,7 +19,4 @@ public class CompositeFairing {
 
     public Dimension getHeight() { return height; }
     public Dimension getDiameter() { return diameter; }
-
-    public void setHeight(Dimension height) { this.height = height; }
-    public void setDiameter(Dimension diameter) { this.diameter = diameter; }
 }

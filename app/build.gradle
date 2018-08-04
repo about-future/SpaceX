@@ -33,7 +33,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
-            resValue ("string", "map_api_key", keystoreProperties['staticMapApiKey'])
         }
         debug {
             signingConfig signingConfigs.config
@@ -43,15 +42,19 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    def support_version = "27.1.0"
+    def support_version = "27.1.1"
     def room_version = "1.1.1"
     def lifecycle_version = "1.1.1"
+
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation "com.android.support:cardview-v7:$support_version"
     implementation "com.android.support:design:$support_version"
     implementation "com.android.support:recyclerview-v7:$support_version"
     implementation "com.android.support:preference-v7:$support_version"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    // Mandatory library used to cancel appcompat-v7 warning
+    implementation "com.android.support:exifinterface:$support_version"
+
     // Room
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"

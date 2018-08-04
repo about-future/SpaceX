@@ -58,15 +58,4 @@ public class OrbitParams {
     public String getReferenceSystem() { return referenceSystem; }
     public String getRegime() { return regime; }
     public double getSemiMajorAxisKm() { return semiMajorAxisKm; }
-
-    public void setApoapsisKm(double apoapsisKm) { this.apoapsisKm = apoapsisKm; }
-    public void setEccentricity(double eccentricity) { this.eccentricity = eccentricity; }
-    public void setInclinationDeg(double inclinationDeg) { this.inclinationDeg = inclinationDeg; }
-    public void setLifespanYears(int lifespanYears) { this.lifespanYears = lifespanYears; }
-    public void setLongitude(double longitude) { this.longitude = longitude; }
-    public void setPeriapsisKm(double periapsisKm) { this.periapsisKm = periapsisKm; }
-    public void setPeriodMin(double periodMin) { this.periodMin = periodMin; }
-    public void setReferenceSystem(String referenceSystem) { this.referenceSystem = referenceSystem; }
-    public void setRegime(String regime) { this.regime = regime; }
-    public void setSemiMajorAxisKm(double semiMajorAxisKm) { this.semiMajorAxisKm = semiMajorAxisKm; }
 }

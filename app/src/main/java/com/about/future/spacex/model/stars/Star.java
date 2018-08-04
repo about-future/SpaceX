@@ -29,7 +29,6 @@ public class Star {
         float sx = MathUtils.map(this.x / this.z, 1, 0, 0, width / 2);
         float sy = MathUtils.map(this.y / this.z, 1, 0, 0, height / 2);
         float r = MathUtils.map(this.z, 0, width * 2, 6, -30);
-        //paint.setShadowLayer(r*2, 0, 0, Color.BLUE);
         canvas.drawCircle(sx, sy, r, paint);
     }
 
@@ -37,7 +36,6 @@ public class Star {
         float sx = MathUtils.map(this.x / this.z, 0, 1, width / 2, width);
         float sy = MathUtils.map(this.y / this.z, 1, 0, height / 4, height / 2);
         float r = MathUtils.map(this.z, 0, width * 2, 6, -30);
-        //paint.setShadowLayer(r*2, 0, 0, Color.BLUE);
         canvas.drawCircle(sx, sy, r, paint);
     }
 
@@ -45,7 +43,6 @@ public class Star {
         float sx = MathUtils.map(this.x / this.z, 1, 0, 0, width / 2);
         float sy = MathUtils.map(this.y / this.z, 0, 1, height / 2, height);
         float r = MathUtils.map(this.z, 0, width * 2, 6, -30);
-        //paint.setShadowLayer(r*2, 0, 0, Color.BLUE);
         canvas.drawCircle(sx, sy, r, paint);
     }
 
@@ -53,7 +50,6 @@ public class Star {
         float sx = MathUtils.map(this.x / this.z, 0, 1, width / 2, width);
         float sy = MathUtils.map(this.y / this.z, 0, 1, height / 2, height);
         float r = MathUtils.map(this.z, 0, width * 2, 6, -30);
-        //paint.setShadowLayer(r*2, 0, 0, Color.BLUE);
         canvas.drawCircle(sx, sy, r, paint);
     }
 }

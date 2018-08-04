@@ -33,10 +33,4 @@ public class SecondStage {
     public int getBurnTimeSec() { return burnTimeSec; }
     public Thrust getThrust() { return thrust; }
     public Payloads getPayloads() { return payloads; }
-
-    public void setEngines(int engines) { this.engines = engines; }
-    public void setFuelAmountTons(double fuelAmountTons) { this.fuelAmountTons = fuelAmountTons; }
-    public void setBurnTimeSec(int burnTimeSec) { this.burnTimeSec = burnTimeSec; }
-    public void setThrust(Thrust thrust) { this.thrust = thrust; }
-    public void setPayloads(Payloads payloads) { this.payloads = payloads; }
 }

@@ -37,10 +37,4 @@ public class Rocket {
     public String getRocketId() { return rocketId; }
     public String getRocketName() { return rocketName; }
     public String getRocketType() { return rocketType; }
-
-    public void setFirstStage(FirstStage firstStage) { this.firstStage = firstStage; }
-    public void setSecondStage(SecondStage secondStage) { this.secondStage = secondStage; }
-    public void setRocketId(String rocketId) { this.rocketId = rocketId; }
-    public void setRocketName(String rocketName) { this.rocketName = rocketName; }
-    public void setRocketType(String rocketType) { this.rocketType = rocketType; }
 }

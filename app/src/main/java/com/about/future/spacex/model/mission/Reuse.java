@@ -26,18 +26,9 @@ public class Reuse {
         this.capsule = capsule;
     }
 
-    public void setCapsule(boolean capsule) { this.capsule = capsule; }
     public boolean isCapsule() { return capsule; }
-
-    public void setCore(boolean core) { this.core = core; }
     public boolean isCore() { return core; }
-
-    public void setFairings(boolean fairings) { this.fairings = fairings; }
     public boolean isFairings() { return fairings; }
-
-    public void setSideCore1(boolean sideCore1) { this.sideCore1 = sideCore1; }
     public boolean isSideCore1() { return sideCore1; }
-
-    public void setSideCore2(boolean sideCore2) { this.sideCore2 = sideCore2; }
     public boolean isSideCore2() { return sideCore2; }
 }

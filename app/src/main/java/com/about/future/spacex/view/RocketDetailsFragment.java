@@ -106,7 +106,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     @BindView(R.id.first_stage_engines)
     TextView mFirstStageEngines;
     @BindView(R.id.first_stage_engines_type)
-    TextView mFirstStageEndinesType;
+    TextView mFirstStageEnginesType;
     @BindView(R.id.first_stage_fuel_amount)
     TextView mFirstStageFuelAmount;
     @BindView(R.id.first_stage_burn_time)
@@ -544,9 +544,9 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
             // Engines
             mFirstStageEngines.setText(String.valueOf(rocket.getFirstStage().getEngines()));
             // Engine Types
-            mFirstStageEndinesType.setText(TextsUtils.firstLetterUpperCase(rocket.getEngines().getType()));
+            mFirstStageEnginesType.setText(TextsUtils.firstLetterUpperCase(rocket.getEngines().getType()));
             if (!TextUtils.isEmpty(rocket.getEngines().getVersion())) {
-                mFirstStageEndinesType.append(" " + rocket.getEngines().getVersion());
+                mFirstStageEnginesType.append(" " + rocket.getEngines().getVersion());
             }
             // Fuel Amount
             mFirstStageFuelAmount.setText(String.format(getString(R.string.fuel_amount), TextsUtils.formatFuel(rocket.getFirstStage().getFuelAmountTons())));

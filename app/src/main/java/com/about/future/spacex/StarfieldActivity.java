@@ -257,6 +257,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
                     || (position > 205000 && position <= 235000)) {
                 mCreditsImageView.setVisibility(View.VISIBLE);
                 mCreditsImageView.setImageResource(R.drawable.credits_swipe);
+                mCreditsImageView.setContentDescription(getString(R.string.skip));
             } else if ((position > 0 && position <= 5000)
                     || (position > 25000 && position <= 35000)
                     || (position > 45000 && position <= 65000)
@@ -272,6 +273,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
                     || (position > 255000 && position < 285000)) {
                 mCreditsImageView.setVisibility(View.VISIBLE);
                 mCreditsImageView.setImageResource(R.drawable.credits_artist);
+                mCreditsImageView.setContentDescription(getString(R.string.song_credits));
             }
 
             runnable = new Runnable() {

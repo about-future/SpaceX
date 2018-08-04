@@ -15,7 +15,4 @@ public class Thrust {
 
     public int getKN() { return kN; }
     public int getLbf() { return lbf; }
-
-    public void setKN(int kN) { this.kN = kN; }
-    public void setLbf(int lbf) { this.lbf = lbf; }
 }
