@@ -179,4 +179,23 @@
     <string name="widget_label_no_mission_available">No mission available!</string>
     <string name="widget_label_click_here_to_load">Click here to load all missions</string>
 
+    <plurals name="number_of_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+
+    <plurals name="number_of_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+
+    <plurals name="number_of_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <string name="time_left_format_long">%s, %s and %s</string>
+    <string name="time_left_format_medium">%s and %s</string>
+    <string name="time_left_format_short">%s</string>
+
 </resources>

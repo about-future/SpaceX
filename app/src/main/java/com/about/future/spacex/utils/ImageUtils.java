@@ -21,7 +21,6 @@ public class ImageUtils {
     private static final String SIZE_PARAMETER = "size";
     private static final String MAP_TYPE_PARAMETER = "maptype";
     private static final String SCALE_PARAMETER = "scale";
-    private static final String KEY_PARAMETER = "key";
 
     /* Build and return the Thumbnail URL for SpaceX missions
      * @param missionKey is used to build the url

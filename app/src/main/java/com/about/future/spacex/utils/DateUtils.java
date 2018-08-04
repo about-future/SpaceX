@@ -1,6 +1,9 @@
 package com.about.future.spacex.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
+
+import com.about.future.spacex.R;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -10,6 +13,7 @@ import java.util.TimeZone;
 
 public class DateUtils {
 
+    // Format and return the launch date and time, using the preferred system (metric or imperial)
     public static String formatDate(Context context, Date missionDate) {
         boolean isMetric = SpaceXPreferences.isMetric(context);
 
@@ -26,40 +30,36 @@ public class DateUtils {
         return simpleDateFormat.format(missionDate);
     }
 
-    public static String formatTimeLeft(long missionDate) {
+    // Format and return the time left until lunch, using days, hours and minutes
+    public static String formatTimeLeft(Context context, long missionDate) {
+        Resources res = context.getResources();
+
+        // Get the second left since now until launch time
         long seconds = missionDate - (new Date().getTime() / 1000);
+        // Extract days, hours and minutes
         int minutes = (int) ((seconds % 3600) / 60);
         int hours = (int) ((seconds / 3600) % 24);
         int days = (int) (seconds / 24) / 3600;
 
-        String timeFormat = "%d days, %d hours and %d minutes";
-
-        // Format days
-        if (days == 0) {
-            timeFormat = "%d hours and %d minutes";
-        } else if (days == 1) {
-            timeFormat = timeFormat.replace("days", "day");
-        }
-
-        // Format hours
-        if (hours == 0 && days == 0) {
-            timeFormat = "%d minutes";
-        } else if (hours == 1) {
-            timeFormat = timeFormat.replace("hours", "hour");
-        }
-
-        // Format minutes
-        if (minutes == 1) {
-            timeFormat = timeFormat.replace("minutes", "minute");
-        }
-
         // Return final format
         if (days == 0 && hours == 0) {
-            return String.format(Locale.US, timeFormat, minutes);
+            return String.format(
+                    Locale.US,
+                    context.getString(R.string.time_left_format_short),
+                    res.getQuantityString(R.plurals.number_of_minutes, minutes, minutes));
         } else if (days == 0) {
-            return String.format(Locale.US, timeFormat, hours, minutes);
+            return String.format(
+                    Locale.US,
+                    context.getString(R.string.time_left_format_medium),
+                    res.getQuantityString(R.plurals.number_of_hours, hours, hours),
+                    res.getQuantityString(R.plurals.number_of_minutes, minutes, minutes));
         } else {
-            return String.format(Locale.US, timeFormat, days, hours, minutes);
+            return String.format(
+                    Locale.US,
+                    context.getString(R.string.time_left_format_long),
+                    res.getQuantityString(R.plurals.number_of_days, days, days),
+                    res.getQuantityString(R.plurals.number_of_hours, hours, hours),
+                    res.getQuantityString(R.plurals.number_of_minutes, minutes, minutes));
         }
     }
 

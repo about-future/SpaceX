@@ -67,7 +67,7 @@ public class MissionAppWidget extends AppWidgetProvider {
             views.setViewVisibility(R.id.widget_launch_date, View.VISIBLE);
 
             // Set time left until launch in a textview
-            views.setTextViewText(R.id.widget_time_left, DateUtils.formatTimeLeft(upcomingMission.getLaunchDateUnix()));
+            views.setTextViewText(R.id.widget_time_left, DateUtils.formatTimeLeft(context, upcomingMission.getLaunchDateUnix()));
 
             // Create the intent and set extras
             Intent intent = new Intent(context, MissionDetailsActivity.class);

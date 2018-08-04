@@ -107,7 +107,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
 
                 // Set time left until launch
                 holder.timeLeftTextView.setVisibility(View.VISIBLE);
-                holder.timeLeftTextView.setText(DateUtils.formatTimeLeft(mMissions.get(position).getLaunchDateUnix()));
+                holder.timeLeftTextView.setText(DateUtils.formatTimeLeft(mContext, mMissions.get(position).getLaunchDateUnix()));
             } else {
                 // Otherwise, set the default color
                 if (ScreenUtils.isPortraitMode(mContext)) {
