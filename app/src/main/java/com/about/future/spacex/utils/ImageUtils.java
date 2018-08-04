@@ -45,7 +45,10 @@ public class ImageUtils {
      */
     public static String buildMapThumbnailUrl(double latitude, double longitude, int zoom, String mapType, Context context) {
         return Uri.parse(MAP_BASE_URL).buildUpon()
-                .appendQueryParameter(CENTER_PARAMETER, String.valueOf(latitude) + "," + String.valueOf(longitude))
+                .appendQueryParameter(CENTER_PARAMETER, String.format(
+                        context.getString(R.string.location_coordinates),
+                        String.valueOf(latitude),
+                        String.valueOf(longitude)))
                 .appendQueryParameter(ZOOM_PARAMETER, String.valueOf(zoom))
                 .appendQueryParameter(SIZE_PARAMETER, "200x200")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, mapType)
@@ -56,7 +59,10 @@ public class ImageUtils {
 
     public static String buildSatelliteBackdropUrl(double latitude, double longitude, Context context) {
         return Uri.parse(MAP_BASE_URL).buildUpon()
-                .appendQueryParameter(CENTER_PARAMETER, String.valueOf(latitude) + "," + String.valueOf(longitude))
+                .appendQueryParameter(CENTER_PARAMETER, String.format(
+                        context.getString(R.string.location_coordinates),
+                        String.valueOf(latitude),
+                        String.valueOf(longitude)))
                 .appendQueryParameter(ZOOM_PARAMETER, "15")
                 .appendQueryParameter(SIZE_PARAMETER, "600x350")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, "satellite")
@@ -102,7 +108,7 @@ public class ImageUtils {
     public static void setDefaultImage2(ImageView imageView, String rocketName) {
         switch (rocketName) {
             case "Falcon 9":
-                imageView.setImageResource(R.drawable.default_patch_dragon_small);
+                imageView.setImageResource(R.drawable.default_patch_f9_small);
                 break;
             case "Falcon Heavy":
                 imageView.setImageResource(R.drawable.default_patch_fh_small);

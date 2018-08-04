@@ -48,6 +48,7 @@ public class MissionsFragment extends Fragment implements
 
     private AppDatabase mDb;
     private MissionsAdapter mMissionsAdapter;
+    private List<MissionMini> mMissions;
 
     @BindView(R.id.swipe_refresh_missions_list_layout)
     SwipeRefreshLayout mSwipeRefreshMissionListLayout;
@@ -118,6 +119,7 @@ public class MissionsFragment extends Fragment implements
             public void onChanged(@Nullable List<MissionMini> missions) {
                 if (missions != null) {
                     mMissionsAdapter.setMissions(missions);
+                    mMissions = missions;
                 }
             }
         });
@@ -147,6 +149,21 @@ public class MissionsFragment extends Fragment implements
 
     public SpaceXActivity getActivityCast() {
         return (SpaceXActivity) getActivity();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Every time this fragment is resumed, reset the missions list in our adaptor,
+        // so the time left until launch could be recalculated for the upcoming missions and
+        // any changes made on "Units" setting could be reflect here too.
+        if (mMissions != null) {
+            mMissionsAdapter.setMissions(mMissions);
+        }
+
+        // Update widget
+        UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
     }
 
     @Override

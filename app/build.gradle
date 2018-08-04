@@ -33,6 +33,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            resValue ("string", "map_api_key", keystoreProperties['staticMapApiKey'])
         }
         debug {
             signingConfig signingConfigs.config

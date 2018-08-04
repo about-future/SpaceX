@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/separation_line10"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLine" />
+
+    <TextView
+        android:id="@+id/gallery_label"
+        style="@style/Title"
+        android:layout_marginTop="@dimen/spacing"
+        android:text="@string/label_gallery" />
+
+    <ImageView
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gallery_height"
+        android:layout_marginTop="@dimen/spacing"
+        android:contentDescription="@string/sample_image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bfr_gallery" />
+
+</LinearLayout>

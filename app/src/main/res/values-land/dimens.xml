@@ -22,4 +22,5 @@
     <dimen name="details_cores_margin_top">24dp</dimen>
 
     <dimen name="rocket_patch_size">260dp</dimen>
+    <dimen name="gallery_height">340dp</dimen>
 </resources>

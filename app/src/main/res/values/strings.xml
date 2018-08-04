@@ -11,6 +11,7 @@
     <string name="video_play">Play button</string>
     <string name="launch_pad_satellite_view">Launch pad satellite view</string>
     <string name="no_connection_icon">No connection icon</string>
+    <string name="sample_image">Sample image</string>
 
     <!-- Labels -->
     <string name="label_tab_missions">Missions</string>
@@ -52,6 +53,7 @@
     <string name="label_vehicles_launched">Vehicles Launched</string>
     <string name="launch_pad_location">%s, %s</string>
     <string name="label_google">Google</string>
+    <string name="location_coordinates">%s,%s</string>
 
     <!-- Rocket Details -->
     <string name="label_first_flight">First Flight</string>
@@ -93,6 +95,7 @@
     <string name="label_payload_weights">Payload Weights</string>
     <string name="reused_x_times">\ (%s times)</string>
     <string name="reused_1_time">\ (%s time)</string>
+    <string name="label_gallery">Gallery</string>
 
     <!-- Landing types -->
     <string name="label_asds">Autonomous Spaceport Drone Ship</string>

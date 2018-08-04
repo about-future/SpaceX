@@ -74,7 +74,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
                     <ImageView
                         android:id="@+id/rocket_patch"
                         android:layout_width="@dimen/rocket_patch_size"
@@ -137,215 +136,17 @@
                     android:textSize="@dimen/details_body_text_size"
                     tools:text="This is a sample text meant." />
 
-                <android.support.constraint.ConstraintLayout
+                <include
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing">
+                    android:layout_marginTop="@dimen/spacing"
+                    layout="@layout/technical_overview" />
 
-                    <View
-                        android:id="@+id/separation_line6"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorLine" />
-
-                    <TextView
-                        android:id="@+id/overview_label"
-                        style="@style/Title"
-                        android:layout_width="0dp"
-                        android:layout_marginTop="@dimen/spacing"
-                        android:text="@string/label_overview"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <View
-                        android:id="@+id/guide_line2"
-                        android:layout_width="1dp"
-                        android:layout_height="100dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <View
-                        android:id="@+id/separation_line7"
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/colorAccent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/overview_label" />
-
-                    <TextView
-                        android:id="@+id/rocket_height_label"
-                        style="@style/RocketDetails"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/label_rocket_height"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/separation_line7" />
-
-                    <TextView
-                        android:id="@+id/rocket_height"
-                        style="@style/RocketDetails.Values"
-                        android:layout_marginEnd="@dimen/big_spacing"
-                        android:maxLines="2"
-                        android:textAlignment="viewEnd"
-                        app:layout_constraintEnd_toEndOf="@id/guide_line2"
-                        app:layout_constraintTop_toTopOf="@+id/rocket_height_label"
-                        tools:text="70 m" />
-
-                    <TextView
-                        android:id="@+id/rocket_diameter_label"
-                        style="@style/RocketDetails"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/label_rocket_diameter"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rocket_height" />
-
-                    <TextView
-                        android:id="@+id/rocket_diameter"
-                        style="@style/RocketDetails.Values"
-                        android:layout_marginEnd="@dimen/big_spacing"
-                        android:maxLines="2"
-                        android:textAlignment="viewEnd"
-                        app:layout_constraintEnd_toEndOf="@id/guide_line2"
-                        app:layout_constraintTop_toTopOf="@+id/rocket_diameter_label"
-                        tools:text="3.7 m" />
-
-                    <TextView
-                        android:id="@+id/rocket_mass_label"
-                        style="@style/RocketDetails"
-                        android:layout_marginStart="@dimen/big_spacing"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/label_rocket_mass"
-                        app:layout_constraintStart_toStartOf="@id/guide_line2"
-                        app:layout_constraintTop_toBottomOf="@+id/separation_line7" />
-
-                    <TextView
-                        android:id="@+id/rocket_mass"
-                        style="@style/RocketDetails.Values"
-                        android:maxLines="2"
-                        android:textAlignment="viewEnd"
-                        app:layout_constraintEnd_toEndOf="@id/separation_line7"
-                        app:layout_constraintTop_toTopOf="@+id/rocket_mass_label"
-                        tools:text="549,054 kg" />
-
-                    <TextView
-                        android:id="@+id/rocket_stages_label"
-                        style="@style/RocketDetails"
-                        android:layout_marginStart="@dimen/big_spacing"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/label_rocket_stages"
-                        app:layout_constraintStart_toStartOf="@id/guide_line2"
-                        app:layout_constraintTop_toBottomOf="@+id/rocket_mass" />
-
-                    <TextView
-                        android:id="@+id/rocket_stages"
-                        style="@style/RocketDetails.Values"
-                        android:maxLines="2"
-                        android:textAlignment="viewEnd"
-                        app:layout_constraintEnd_toEndOf="@id/separation_line7"
-                        app:layout_constraintTop_toTopOf="@+id/rocket_stages_label"
-                        tools:text="2" />
-
-                    <TextView
-                        android:id="@+id/payload_weights_label"
-                        style="@style/Title"
-                        android:layout_width="0dp"
-                        android:layout_marginTop="36dp"
-                        android:text="@string/label_payload_weights"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/rocket_diameter" />
-
-                    <View
-                        android:id="@+id/separation_line8"
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/colorAccent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/payload_weights_label" />
-
-                    <TextView
-                        android:id="@+id/payload_to_leo_label"
-                        style="@style/RocketDetails"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/label_payload_to_leo"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/separation_line8" />
-
-                    <TextView
-                        android:id="@+id/payload_to_leo"
-                        style="@style/RocketDetails.Values"
-                        android:layout_marginEnd="@dimen/big_spacing"
-                        android:maxLines="2"
-                        android:textAlignment="viewEnd"
-                        app:layout_constraintEnd_toEndOf="@id/guide_line2"
-                        app:layout_constraintTop_toTopOf="@+id/payload_to_leo_label"
-                        tools:text="22,800 kg" />
-
-                    <TextView
-                        android:id="@+id/payload_to_gto_label"
-                        style="@style/RocketDetails"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/label_payload_to_gto"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/payload_to_leo" />
-
-                    <TextView
-                        android:id="@+id/payload_to_gto"
-                        style="@style/RocketDetails.Values"
-                        android:layout_marginEnd="@dimen/big_spacing"
-                        android:maxLines="2"
-                        android:textAlignment="viewEnd"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="@id/guide_line2"
-                        app:layout_constraintTop_toTopOf="@+id/payload_to_gto_label"
-                        tools:text="8,300 kg" />
-
-                    <TextView
-                        android:id="@+id/payload_to_mars_label"
-                        style="@style/RocketDetails"
-                        android:layout_marginStart="@dimen/big_spacing"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/label_payload_to_mars"
-                        android:visibility="invisible"
-                        app:layout_constraintStart_toStartOf="@id/guide_line2"
-                        app:layout_constraintTop_toBottomOf="@+id/separation_line8" />
-
-                    <TextView
-                        android:id="@+id/payload_to_mars"
-                        style="@style/RocketDetails.Values"
-                        android:maxLines="2"
-                        android:textAlignment="viewEnd"
-                        android:visibility="invisible"
-                        app:layout_constraintEnd_toEndOf="@id/separation_line8"
-                        app:layout_constraintTop_toTopOf="@+id/payload_to_mars_label"
-                        tools:text="4,020 kg" />
-
-                    <TextView
-                        android:id="@+id/payload_to_pluto_label"
-                        style="@style/RocketDetails"
-                        android:layout_marginStart="@dimen/big_spacing"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/label_payload_to_pluto"
-                        android:visibility="gone"
-                        app:layout_constraintStart_toStartOf="@id/guide_line2"
-                        app:layout_constraintTop_toBottomOf="@+id/payload_to_mars" />
-
-                    <TextView
-                        android:id="@+id/payload_to_pluto"
-                        style="@style/RocketDetails.Values"
-                        android:maxLines="2"
-                        android:textAlignment="viewEnd"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="@id/separation_line8"
-                        app:layout_constraintTop_toTopOf="@+id/payload_to_pluto_label"
-                        tools:text="3,500 kg" />
-
-                </android.support.constraint.ConstraintLayout>
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing"
+                    layout="@layout/gallery" />
 
                 <LinearLayout
                     android:id="@+id/rocket_details_layout"

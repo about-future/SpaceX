@@ -72,6 +72,11 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     @BindView(R.id.rocket_description)
     TextView mDescriptionTextView;
 
+    // Gallery
+    @BindView(R.id.gallery)
+    ImageView mGalleryImageView;
+
+    // Rocket Image
     @BindView(R.id.rocket_core_image)
     ImageView mCoreImageView;
     @BindView(R.id.rocket_payload_image)
@@ -248,11 +253,12 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
             ConstraintLayout.LayoutParams paramsCore = (ConstraintLayout.LayoutParams) mCoreImageView.getLayoutParams();
             float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
 
-            // Set Backdrop, Rocket Patch & Rocket image, depending on rocket id
+            // Set Backdrop, Rocket Patch, Gallery Sample & Rocket image, depending on rocket id
             switch (rocket.getId()) {
                 case "falcon1":
                     mBackdropImageView.setImageResource(R.drawable.falcon1);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_f1_small);
+                    mGalleryImageView.setImageResource(R.drawable.falcon1_gallery);
                     mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
                     mCoreImageView.setImageResource(R.drawable.core_falcon1);
                     paramsPayload.setMarginEnd(48);
@@ -261,6 +267,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 case "falcon9":
                     mBackdropImageView.setImageResource(R.drawable.falcon9);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
+                    mGalleryImageView.setImageResource(R.drawable.falcon9_gallery);
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.core_block5);
                     paramsPayload.setMarginEnd(48);
@@ -269,6 +276,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 case "falconheavy":
                     mBackdropImageView.setImageResource(R.drawable.falcon_heavy);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
+                    mGalleryImageView.setImageResource(R.drawable.falcon_heavy_backdrop);
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
                     if (ScreenUtils.isPortraitMode(getActivityCast())) {
@@ -282,6 +290,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 case "bfr":
                     mBackdropImageView.setImageResource(R.drawable.bfr1);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_bfr_small);
+                    mGalleryImageView.setImageResource(R.drawable.bfr_gallery);
                     mPayloadImageView.setImageResource(R.drawable.payload_bfr);
                     mCoreImageView.setImageResource(R.drawable.core_bfr);
                     paramsPayload.setMarginEnd(24);
@@ -291,6 +300,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     // Other new type of rocket
                     mBackdropImageView.setImageResource(R.drawable.rocket);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_dragon_small);
+                    mGalleryImageView.setImageResource(R.drawable.rocket);
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.core_block4);
                     paramsPayload.setMarginEnd(48);

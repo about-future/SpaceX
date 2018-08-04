@@ -7,12 +7,13 @@
 
     <ImageView
         android:id="@+id/widget_mission_patch"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/spacing"
+        android:layout_marginStart="8dp"
+        android:padding="8dp"
         android:contentDescription="@string/mission_patch"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         tools:src="@drawable/default_patch_bfr_small" />
 
     <LinearLayout
