@@ -277,15 +277,10 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     mBackdropImageView.setImageResource(R.drawable.falcon_heavy);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
                     mGalleryImageView.setImageResource(R.drawable.falcon_heavy_backdrop);
-                    mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                    mPayloadImageView.setImageResource(R.drawable.payload_fh_satellite);
                     mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
-                    if (ScreenUtils.isPortraitMode(getActivityCast())) {
-                        paramsPayload.setMarginEnd(69);
-                        paramsCore.setMarginEnd(20);
-                    } else {
-                        paramsPayload.setMarginEnd(90);
-                        paramsCore.setMarginEnd(9);
-                    }
+                    paramsPayload.setMarginEnd(20);
+                    paramsCore.setMarginEnd(20);
                     break;
                 case "bfr":
                     mBackdropImageView.setImageResource(R.drawable.bfr1);
@@ -431,7 +426,11 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     if (TextUtils.equals(rocket.getName(), "Falcon 9") || TextUtils.equals(rocket.getName(), "Falcon Heavy")) {
                         if (TextUtils.equals(mPayloadOption.getText().toString(), "Dragon")) {
                             mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
-                            mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                            if (TextUtils.equals(rocket.getName(), "Falcon 9")) {
+                                mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                            } else {
+                                mPayloadImageView.setImageResource(R.drawable.payload_fh_satellite);
+                            }
                             mPayloadOptionLabel.setText(R.string.label_payload_option1);
 
                             // Payload Height
@@ -457,7 +456,11 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                             }
                         } else {
                             mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption1()));
-                            mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
+                            if (TextUtils.equals(rocket.getName(), "Falcon 9")) {
+                                mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
+                            } else {
+                                mPayloadImageView.setImageResource(R.drawable.payload_fh_dragon2);
+                            }
                             mPayloadOptionLabel.setText(R.string.label_payload_option2);
 
                             // Set payload height and diameter

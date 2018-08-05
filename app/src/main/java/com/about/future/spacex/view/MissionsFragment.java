@@ -46,6 +46,12 @@ public class MissionsFragment extends Fragment implements
     private static final int MISSIONS_LOADER_ID = 892;
     public static final String MISSION_NUMBER_KEY = "mission_number";
 
+    private final String MISSIONS_RECYCLER_POSITION_KEY = "missions_recycler_position";
+    private int mMissionsPosition = RecyclerView.NO_POSITION;
+    private int[] mStaggeredPosition;
+    private LinearLayoutManager mLinearLayoutManager;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
+
     private AppDatabase mDb;
     private MissionsAdapter mMissionsAdapter;
     private List<MissionMini> mMissions;
@@ -62,21 +68,25 @@ public class MissionsFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(MISSIONS_RECYCLER_POSITION_KEY)) {
+            mMissionsPosition = savedInstanceState.getInt(MISSIONS_RECYCLER_POSITION_KEY);
+        }
+
         View view = inflater.inflate(R.layout.fragment_missions_list, container, false);
         ButterKnife.bind(this, view);
 
         if (ScreenUtils.isPortraitMode(getActivityCast())) {
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            mMissionsRecyclerView.setLayoutManager(linearLayoutManager);
+            mLinearLayoutManager = new LinearLayoutManager(getContext());
+            mMissionsRecyclerView.setLayoutManager(mLinearLayoutManager);
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                     mMissionsRecyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             mMissionsRecyclerView.addItemDecoration(mDividerItemDecoration);
         } else {
             int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
-            StaggeredGridLayoutManager sglm =
+            mStaggeredGridLayoutManager =
                     new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-            mMissionsRecyclerView.setLayoutManager(sglm);
+            mMissionsRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         }
 
         mMissionsRecyclerView.setHasFixedSize(false);
@@ -120,6 +130,7 @@ public class MissionsFragment extends Fragment implements
                 if (missions != null) {
                     mMissionsAdapter.setMissions(missions);
                     mMissions = missions;
+                    restorePosition();
                 }
             }
         });
@@ -151,6 +162,25 @@ public class MissionsFragment extends Fragment implements
         return (SpaceXActivity) getActivity();
     }
 
+    private void restorePosition() {
+        if (mMissionsPosition == RecyclerView.NO_POSITION) mMissionsPosition = 0;
+        // Scroll the RecyclerView to mPosition
+        mMissionsRecyclerView.scrollToPosition(mMissionsPosition);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        // Save RecyclerView state
+        if (mLinearLayoutManager != null) {
+            mMissionsPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+        } else if (mStaggeredGridLayoutManager != null) {
+            mMissionsPosition = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(mStaggeredPosition)[0];
+        }
+
+        outState.putInt(MISSIONS_RECYCLER_POSITION_KEY, mMissionsPosition);
+        super.onSaveInstanceState(outState);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -160,6 +190,7 @@ public class MissionsFragment extends Fragment implements
         // any changes made on "Units" setting could be reflect here too.
         if (mMissions != null) {
             mMissionsAdapter.setMissions(mMissions);
+            //resumePosition();
         }
 
         // Update widget

@@ -231,8 +231,9 @@
                             android:id="@+id/guide_line"
                             android:layout_width="1dp"
                             android:layout_height="100dp"
-                            app:layout_constraintEnd_toStartOf="@+id/mission_rocket_payload_image"
-                            app:layout_constraintStart_toEndOf="@+id/mission_rocket_payload_image"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.65"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
@@ -241,7 +242,7 @@
                             android:layout_height="1dp"
                             android:layout_marginTop="2dp"
                             android:background="@color/colorAccent"
-                            app:layout_constraintEnd_toStartOf="@+id/mission_rocket_payload_image"
+                            app:layout_constraintEnd_toStartOf="@+id/guide_line"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/payload_label" />
 
@@ -331,7 +332,7 @@
                             android:layout_width="0dp"
                             android:layout_marginTop="@dimen/spacing"
                             android:text="@string/label_second_stage"
-                            app:layout_constraintEnd_toStartOf="@id/mission_rocket_payload_image"
+                            app:layout_constraintEnd_toStartOf="@id/guide_line"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/orbit_layout" />
 
@@ -385,7 +386,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:orientation="vertical"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line55"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/separation_line55">
 

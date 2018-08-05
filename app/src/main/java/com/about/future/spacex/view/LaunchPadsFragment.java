@@ -44,6 +44,12 @@ public class LaunchPadsFragment extends Fragment implements
     private static final int LAUNCH_PADS_LOADER_ID = 917;
     public static final String LAUNCH_PAD_ID_KEY = "launch_pad_id";
 
+    private final String LAUNCH_PADS_RECYCLER_POSITION_KEY = "launch_pads_recycler_position";
+    private int mLaunchPadsPosition = RecyclerView.NO_POSITION;
+    private int[] mStaggeredPosition;
+    private LinearLayoutManager mLinearLayoutManager;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
+
     private AppDatabase mDb;
     private LaunchPadsAdapter mLaunchPadsAdapter;
 
@@ -59,21 +65,25 @@ public class LaunchPadsFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(LAUNCH_PADS_RECYCLER_POSITION_KEY)) {
+            mLaunchPadsPosition = savedInstanceState.getInt(LAUNCH_PADS_RECYCLER_POSITION_KEY);
+        }
+
         View view = inflater.inflate(R.layout.fragment_launch_pads_list, container, false);
         ButterKnife.bind(this, view);
 
         if (ScreenUtils.isPortraitMode(getActivityCast())) {
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            mLaunchPadsRecyclerView.setLayoutManager(linearLayoutManager);
+            mLinearLayoutManager = new LinearLayoutManager(getContext());
+            mLaunchPadsRecyclerView.setLayoutManager(mLinearLayoutManager);
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                     mLaunchPadsRecyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             mLaunchPadsRecyclerView.addItemDecoration(mDividerItemDecoration);
         } else {
             int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
-            StaggeredGridLayoutManager sglm =
+            mStaggeredGridLayoutManager =
                     new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-            mLaunchPadsRecyclerView.setLayoutManager(sglm);
+            mLaunchPadsRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         }
 
         mLaunchPadsRecyclerView.setHasFixedSize(false);
@@ -116,6 +126,7 @@ public class LaunchPadsFragment extends Fragment implements
             public void onChanged(@Nullable List<LaunchPad> launchPads) {
                 if (launchPads != null) {
                     mLaunchPadsAdapter.setLaunchPads(launchPads);
+                    restorePosition();
                 }
             }
         });
@@ -145,6 +156,25 @@ public class LaunchPadsFragment extends Fragment implements
 
     public SpaceXActivity getActivityCast() {
         return (SpaceXActivity) getActivity();
+    }
+
+    private void restorePosition() {
+        if (mLaunchPadsPosition == RecyclerView.NO_POSITION) mLaunchPadsPosition = 0;
+        // Scroll the RecyclerView to mPosition
+        mLaunchPadsRecyclerView.scrollToPosition(mLaunchPadsPosition);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        // Save RecyclerView state
+        if (mLinearLayoutManager != null) {
+            mLaunchPadsPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+        } else if (mStaggeredGridLayoutManager != null) {
+            mLaunchPadsPosition = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(mStaggeredPosition)[0];
+        }
+
+        outState.putInt(LAUNCH_PADS_RECYCLER_POSITION_KEY, mLaunchPadsPosition);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

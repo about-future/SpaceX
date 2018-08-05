@@ -642,7 +642,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 // Set rocket image (payload and core)
                 ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
                 ConstraintLayout.LayoutParams paramsCore = (ConstraintLayout.LayoutParams) mCoreImageView.getLayoutParams();
-                ConstraintLayout.LayoutParams paramsSeparationLine5 = (ConstraintLayout.LayoutParams) mSeparationLine5View.getLayoutParams();
                 float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
 
                 // Depending on the payload type, we can show a different upper image
@@ -665,7 +664,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         paramsCore.setMarginEnd(48);
                         break;
                     case "Falcon 9":
-                        setPayloadImage(payloadType);
+                        setPayloadImage(rocketName, payloadType);
 
                         switch (blockNumber) {
                             case 5:
@@ -680,7 +679,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         paramsCore.setMarginEnd(48);
                         break;
                     case "Falcon Heavy":
-                        setPayloadImage(payloadType);
+                        setPayloadImage(rocketName, payloadType);
 
                         switch (blockNumber) {
                             case 5:
@@ -690,17 +689,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                                 mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
                                 break;
                         }
-
-                        if (ScreenUtils.isPortraitMode(getActivityCast())) {
-                            paramsPayload.setMarginEnd(69);
-                            paramsCore.setMarginEnd(20);
-                            paramsSeparationLine5.setMarginEnd(0);
-                        } else {
-                            paramsPayload.setMarginEnd(90);
-                            paramsCore.setMarginEnd(20);
-                            paramsSeparationLine5.setMarginEnd(70);
-                        }
-
+                        paramsPayload.setMarginEnd(20);
+                        paramsCore.setMarginEnd(20);
                         break;
                     case "BFR":
                         mPayloadImageView.setImageResource(R.drawable.payload_bfr);
@@ -732,7 +722,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
 
                 mPayloadImageView.setLayoutParams(paramsPayload);
                 mCoreImageView.setLayoutParams(paramsCore);
-                mSeparationLine5View.setLayoutParams(paramsSeparationLine5);
 
                 // Set click listener on payload and core images and create an intent for RocketDetailsActivity
                 mPayloadImageView.setOnClickListener(new View.OnClickListener() {
@@ -755,11 +744,15 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         }
     }
 
-    private void setPayloadImage(String payloadType) {
+    private void setPayloadImage(String rocketName, String payloadType) {
         switch (payloadType) {
             case "Satellite":
-                // Falcon 9 with Fairing
-                mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                // Falcon 9 and Falcon Heavy with Fairing
+                if (TextUtils.equals(rocketName, "Falcon Heavy")) {
+                    mPayloadImageView.setImageResource(R.drawable.payload_fh_satellite);
+                } else {
+                    mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                }
                 break;
             case "Dragon Boilerplate":
                 // Falcon 9 with Dragon 1
@@ -774,7 +767,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
                 break;
             default:
-                mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
+                if (TextUtils.equals(rocketName, "Falcon Heavy")) {
+                    mPayloadImageView.setImageResource(R.drawable.payload_fh_dragon2);
+                } else {
+                    mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
+                }
                 break;
         }
     }
