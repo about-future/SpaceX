@@ -30,6 +30,9 @@ satellite images.
 ### Screen Shots
 #### Portrait
 
+Splash Screen |
+--- |
+![Splash Screen](/screenshots/Portrait - Splash Screen.jpg) |
 
 #### Landscape 
 
