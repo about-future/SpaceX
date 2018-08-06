@@ -34,6 +34,23 @@ Splash Screen |
 --- |
 ![Splash Screen](/screenshots/portrait_splash_screen.jpg) |
 
+Main Activity |
+--- |
+![Main Activity](/screenshots/portrait_main_activity.jpg) |
+
+Mission Details |
+--- |
+![Mission Details](/screenshots/portrait_mission.jpg) |
+
+Rocket Details |
+--- |
+![Rocket Details](/screenshots/portrait_rocket.jpg) |
+
+Launch Pad, Settings and Widget |
+--- |
+![Launch Pad](/screenshots/portrait_launchpad_settings_widget.jpg) |
+
+
 
 #### Landscape 
 
