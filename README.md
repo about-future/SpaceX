@@ -17,12 +17,12 @@ live feed and playing a song in the background.
 - Notifies user about the status of an upcoming launch.
 
 ### Libraries Used
-- Support Libraries (AppCompat, CardView, Design, RecyclerView) v27.1.0
+- Support Libraries (AppCompat, CardView, Design, RecyclerView) v27.1.1.
 - Picasso v2.71828 to handle loading and caching images.
 - ButterKnife v8.8.1 for binding views easily.
 - Retrofit v2.4.0 to easily retrieve and serialize JSON files.
 - Room v1.1.1 and LiveData v1.1.1 for easily implementing and solving persistence data.
-- ExoPlayer v2.7.3 for playing easily an audio file.
+- ExoPlayer v2.7.3 for easily playing an audio file.
 - Firebase Messaging v17.0.0 for upcoming launch notifications.
 - Google Static Maps (not a library) but a great service, used for displaying small bits of
 satellite images.
