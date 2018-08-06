@@ -32,7 +32,8 @@ satellite images.
 
 Splash Screen |
 --- |
-![Splash Screen](/screenshots/Portrait - Splash Screen.jpg) |
+![Splash Screen](/screenshots/portrait_splash_screen.jpg) |
+
 
 #### Landscape 
 
