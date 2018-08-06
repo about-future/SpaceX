@@ -2,7 +2,7 @@
 
 ### Description
 
-This app is dedicated to SpaceX Company and to their inspiring work on space exploration. It provides important information about previous and upcoming rocket launches, rocket types
+This android app is dedicated to SpaceX Company and to their inspiring work on space exploration. It provides important information about previous and upcoming rocket launches, rocket types
 and launch sites.
 
 ### Intended User
@@ -51,6 +51,11 @@ Launch Pad, Settings and Widget |
 ![Launch Pad](/screenshots/portrait_launchpad_settings_widget.jpg) |
 
 
-
 #### Landscape 
+Splash Screen |
+--- |
+![Splash Screen](/screenshots/landscape_splash_screen.png) |
 
+Missions | Rockets | Launch Pads |
+--- | --- | --- |
+![Missions](/screenshots/landscape_missions.png) | ![Rockets](/screenshots/landscape_rockets.png) | ![Launch Pads](/screenshots/landscape_launchpads.png) |
