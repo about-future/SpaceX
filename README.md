@@ -59,3 +59,12 @@ Splash Screen |
 Missions | Rockets | Launch Pads |
 --- | --- | --- |
 ![Missions](/screenshots/landscape_missions.png) | ![Rockets](/screenshots/landscape_rockets.png) | ![Launch Pads](/screenshots/landscape_launchpads.png) |
+
+### Videos
+Portrait |
+--- |
+![Portrait](/screenshots/video1533598124.mp4) |
+
+Landscape |
+--- |
+![Landscape](/screenshots/video1533597970.mp4) |
