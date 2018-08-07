@@ -28,34 +28,34 @@ live feed and playing a song in the background.
 satellite images.
 
 ### Screen Shots
+
 #### Portrait
+Splash Screen |
+--- |
+![Splash Screen](/screenshots/portrait_splash_screen.jpg) |
 
-Splash Screen 
---- 
-![Splash Screen](/screenshots/portrait_splash_screen.jpg) 
+Main Activity |
+--- |
+![Main Activity](/screenshots/portrait_main_activity.jpg) |
 
-Main Activity 
---- 
-![Main Activity](/screenshots/portrait_main_activity.jpg) 
+Mission Details |
+--- |
+![Mission Details](/screenshots/portrait_mission.jpg) |
 
-Mission Details 
---- 
-![Mission Details](/screenshots/portrait_mission.jpg) 
+Rocket Details |
+--- |
+![Rocket Details](/screenshots/portrait_rocket.jpg) |
 
-Rocket Details 
---- 
-![Rocket Details](/screenshots/portrait_rocket.jpg) 
-
-Launch Pad, Settings and Widget 
---- 
-![Launch Pad](/screenshots/portrait_launchpad_settings_widget.jpg) 
+Launch Pad, Settings and Widget |
+--- |
+![Launch Pad](/screenshots/portrait_launchpad_settings_widget.jpg) |
 
 
 #### Landscape 
-Splash Screen 
---- 
-![Splash Screen](/screenshots/landscape_splash_screen.png) 
+Splash Screen |
+--- |
+![Splash Screen](/screenshots/landscape_splash_screen.png) |
 
-Missions | Rockets | Launch Pads 
---- | --- | --- 
-![Missions](/screenshots/landscape_missions.png) | ![Rockets](/screenshots/landscape_rockets.png) | ![Launch Pads](/screenshots/landscape_launchpads.png)
+Missions | Rockets | Launch Pads |
+--- | --- | --- |
+![Missions](/screenshots/landscape_missions.png) | ![Rockets](/screenshots/landscape_rockets.png) | ![Launch Pads](/screenshots/landscape_launchpads.png) |
