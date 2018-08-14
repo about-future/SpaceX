@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details_coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.about.future.spacex.view.MissionDetailsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/details_appbar_height"
+        android:background="@android:color/transparent">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:collapsedTitleTextAppearance="@style/Condensed.Small"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginBottom="@dimen/details_title_bottom_margin"
+            app:expandedTitleMarginStart="@dimen/details_inner_horiz_margin"
+            app:expandedTitleTextAppearance="@style/Condensed"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/webcast_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/mission_webcast"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                tools:src="@drawable/video" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/gradient_grey" />
+
+            <ImageView
+                android:id="@+id/webcast_play"
+                android:layout_width="@dimen/details_play_icon"
+                android:layout_height="@dimen/details_play_icon"
+                android:layout_gravity="center"
+                android:contentDescription="@string/video_play"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_play_circle" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="@dimen/spacing"
+                app:elevation="4dp"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/details_inner_horiz_margin"
+                android:layout_marginStart="@dimen/details_inner_horiz_margin"
+                android:layout_marginTop="@dimen/spacing"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/mission_patch_large"
+                        android:layout_width="@dimen/details_patch_size"
+                        android:layout_height="@dimen/details_patch_size"
+                        android:layout_gravity="top"
+                        android:contentDescription="@string/mission_patch"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/default_patch_f9_small" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginStart="@dimen/big_spacing"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/rocket_type_linear_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/touch_selector"
+                            android:orientation="vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingStart="@dimen/spacing">
+
+                            <TextView
+                                android:id="@+id/rocket_type"
+                                style="@style/Title"
+                                tools:text="Falcon 9" />
+
+                            <TextView
+                                android:id="@+id/rocket_type_label"
+                                style="@style/Subtitle"
+                                android:text="@string/label_rocket_type" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/launch_date_linear_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing"
+                            android:background="@drawable/touch_selector"
+                            android:orientation="vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingStart="@dimen/spacing">
+
+                            <TextView
+                                android:id="@+id/launch_date"
+                                style="@style/Title"
+                                tools:text="3:12 PM, 20 Jul 2018" />
+
+                            <TextView
+                                android:id="@+id/launch_date_label"
+                                style="@style/Subtitle"
+                                android:text="@string/label_launch_date" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/launch_site_linear_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing"
+                            android:background="@drawable/touch_selector"
+                            android:orientation="vertical"
+                            android:paddingEnd="0dp"
+                            android:paddingStart="@dimen/spacing">
+
+                            <TextView
+                                android:id="@+id/launch_site_name"
+                                style="@style/Title"
+                                tools:text="CCAFS SLC 40" />
+
+                            <TextView
+                                android:id="@+id/launch_site_label"
+                                style="@style/Subtitle"
+                                android:text="@string/label_launch_site" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/mission_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_body_top_margin"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="@dimen/details_body_text_size"
+                    tools:text="This is a sample text meant." />
+
+                <LinearLayout
+                    android:id="@+id/mission_rocket_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/details_body_top_margin"
+                    android:orientation="vertical">
+
+                    <View
+                        android:id="@+id/separation_line2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLine" />
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing">
+
+                        <ImageView
+                            android:id="@+id/mission_rocket_payload_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/details_rocket_margin"
+                            android:contentDescription="@string/rocket_image"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:src="@drawable/payload_satellite" />
+
+                        <ImageView
+                            android:id="@+id/mission_rocket_core_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/details_rocket_margin"
+                            android:contentDescription="@string/rocket_image"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/mission_rocket_payload_image"
+                            tools:src="@drawable/core_block4" />
+
+                        <TextView
+                            android:id="@+id/payload_label"
+                            style="@style/Title"
+                            android:layout_width="0dp"
+                            android:layout_marginTop="@dimen/spacing"
+                            android:text="@string/label_payload"
+                            app:layout_constraintEnd_toStartOf="@+id/mission_rocket_payload_image"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/mission_rocket_payload_image" />
+
+                        <View
+                            android:id="@+id/guide_line"
+                            android:layout_width="1dp"
+                            android:layout_height="100dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.65"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/separation_line33"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="2dp"
+                            android:background="@color/colorAccent"
+                            app:layout_constraintEnd_toStartOf="@+id/guide_line"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/payload_label" />
+
+                        <TextView
+                            android:id="@+id/payload_id_label"
+                            style="@style/RocketDetails"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/label_id"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/separation_line33" />
+
+                        <TextView
+                            android:id="@+id/payload_id"
+                            style="@style/RocketDetails.Values"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/payload_id_label"
+                            tools:text="Telstar 19V" />
+
+                        <TextView
+                            android:id="@+id/payload_type_label"
+                            style="@style/RocketDetails"
+                            android:text="@string/label_type"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/payload_id_label" />
+
+                        <TextView
+                            android:id="@+id/payload_type"
+                            style="@style/RocketDetails.Values"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/payload_type_label"
+                            tools:text="Satellite" />
+
+                        <TextView
+                            android:id="@+id/payload_mass_label"
+                            style="@style/RocketDetails"
+                            android:text="@string/label_mass"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/payload_type_label" />
+
+                        <TextView
+                            android:id="@+id/payload_mass"
+                            style="@style/RocketDetails.Values"
+                            android:maxLines="2"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/payload_mass_label"
+                            tools:text="2760 kg" />
+
+                        <TextView
+                            android:id="@+id/payload_orbit_label"
+                            style="@style/RocketDetails"
+                            android:text="@string/label_orbit"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/payload_mass" />
+
+                        <LinearLayout
+                            android:id="@+id/orbit_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/payload_orbit_label">
+
+                            <TextView
+                                android:id="@+id/payload_orbit"
+                                style="@style/RocketDetails.Values"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="GTO" />
+
+                            <TextView
+                                android:id="@+id/payload_orbit_long"
+                                style="@style/RocketDetails.Values.Acronyms"
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="Geostationary Transfer Orbit" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/second_stage_label"
+                            style="@style/Title"
+                            android:layout_width="0dp"
+                            android:layout_marginTop="@dimen/spacing"
+                            android:text="@string/label_second_stage"
+                            app:layout_constraintEnd_toStartOf="@id/guide_line"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/orbit_layout" />
+
+                        <View
+                            android:id="@+id/separation_line4"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="2dp"
+                            android:background="@color/colorAccent"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/second_stage_label" />
+
+                        <TextView
+                            android:id="@+id/second_stage_block_label"
+                            style="@style/RocketDetails"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/label_block"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/separation_line4" />
+
+                        <TextView
+                            android:id="@+id/second_stage_block"
+                            style="@style/RocketDetails.Values"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/second_stage_block_label"
+                            tools:text="3" />
+
+                        <TextView
+                            android:id="@+id/first_stage_label"
+                            style="@style/Title"
+                            android:layout_width="0dp"
+                            android:layout_marginTop="@dimen/details_first_stage_margin_top"
+                            android:text="@string/label_first_stage"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/second_stage_block_label" />
+
+                        <View
+                            android:id="@+id/separation_line55"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="2dp"
+                            android:background="@color/colorAccent"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/first_stage_label" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/separation_line55">
+
+                            <include
+                                android:id="@+id/left_core_layout"
+                                layout="@layout/core_left"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/details_cores_margin_top"
+                                android:visibility="gone" />
+
+                            <include
+                                android:id="@+id/central_core_layout"
+                                layout="@layout/core_center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <include
+                                android:id="@+id/right_core_layout"
+                                layout="@layout/core_right"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/details_cores_margin_top"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/separation_line99"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:background="@color/colorLine" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing"
+                    android:layout_marginTop="@dimen/spacing"
+                    android:background="@color/colorTransparent" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</android.support.design.widget.CoordinatorLayout>
