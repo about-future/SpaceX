@@ -12,6 +12,8 @@ public class Payload {
     private final boolean reused;
     @SerializedName("customers")
     private final String[] customers;
+    @SerializedName("nationality")
+    private final String nationality;
     @ColumnInfo(name = "payload_type")
     @SerializedName("payload_type")
     private final String payloadType;
@@ -27,11 +29,12 @@ public class Payload {
     @SerializedName("orbit_params")
     private final OrbitParams orbitParams;
 
-    public Payload(String payloadId, boolean reused, String[] customers, String payloadType,
+    public Payload(String payloadId, boolean reused, String[] customers, String nationality, String payloadType,
                    double payloadMassKg, double payloadMassLbs, String orbit, OrbitParams orbitParams) {
         this.payloadId = payloadId;
         this.reused = reused;
         this.customers = customers;
+        this.nationality =
         this.payloadType = payloadType;
         this.payloadMassKg = payloadMassKg;
         this.payloadMassLbs = payloadMassLbs;
@@ -40,6 +43,7 @@ public class Payload {
     }
 
     public String[] getCustomers() { return customers; }
+    public String getNationality() { return nationality; }
     public String getOrbit() { return orbit; }
     public OrbitParams getOrbitParams() { return orbitParams; }
     public String getPayloadId() { return payloadId; }

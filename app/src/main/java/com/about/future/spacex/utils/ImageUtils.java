@@ -78,13 +78,26 @@ public class ImageUtils {
         return (now - savedDate) >= (30 * 24 * 60 * 60); // 30 days * 24h * 60min * 60sec
     }
 
-    public static void setDefaultImage(ImageView imageView, String rocketName, String payloadType) {
+    public static void setDefaultImage(ImageView imageView, String rocketName, String payloadType, int block) {
         switch (rocketName) {
             case "Falcon 9":
-                if (!TextUtils.isEmpty(payloadType) && TextUtils.equals(payloadType, "Satellite")) {
-                    imageView.setImageResource(R.drawable.default_patch_f9_small);
-                } else {
-                    imageView.setImageResource(R.drawable.default_patch_dragon_small);
+                if (!TextUtils.isEmpty(payloadType)) {
+                    switch (payloadType) {
+                        case "Satellite":
+                            imageView.setImageResource(R.drawable.default_patch_f9_small);
+                            break;
+                        case "Dragon 1.1":
+                            if (block == 5) {
+                                imageView.setImageResource(R.drawable.default_patch_dragon1_b5_small);
+                            } else {
+                                imageView.setImageResource(R.drawable.default_patch_dragon1_b4_small);
+                            }
+                            break;
+                        default:
+                            // case "Crew Dragon"
+                            imageView.setImageResource(R.drawable.default_patch_dragon_small);
+                            break;
+                    }
                 }
                 break;
             case "Falcon Heavy":
@@ -98,26 +111,6 @@ public class ImageUtils {
                 break;
             default:
                 imageView.setImageResource(R.drawable.default_patch_f9_small);
-                break;
-        }
-    }
-
-    public static void setDefaultImage2(ImageView imageView, String rocketName) {
-        switch (rocketName) {
-            case "Falcon 9":
-                imageView.setImageResource(R.drawable.default_patch_f9_small);
-                break;
-            case "Falcon Heavy":
-                imageView.setImageResource(R.drawable.default_patch_fh_small);
-                break;
-            case "BFR":
-                imageView.setImageResource(R.drawable.default_patch_bfr_small);
-                break;
-            case "Big Falcon Rocket":
-                imageView.setImageResource(R.drawable.default_patch_bfr_small);
-                break;
-            default:
-                imageView.setImageResource(R.drawable.default_patch_dragon_small);
                 break;
         }
     }

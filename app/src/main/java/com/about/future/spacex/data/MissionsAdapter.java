@@ -84,9 +84,11 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         } else {
             // Otherwise, don't bother using Picasso and set default_mission_patch image for missionPatchImageView
             try {
-                ImageUtils.setDefaultImage2(
+                ImageUtils.setDefaultImage(
                         holder.missionPatchImageView,
-                        mMissions.get(position).getRocketName());
+                        mMissions.get(position).getRocketName(),
+                        mMissions.get(position).getPayloads().get(0).getPayloadType(),
+                        mMissions.get(position).getBlock());
             } catch (NullPointerException e) {
                 holder.missionPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
             }

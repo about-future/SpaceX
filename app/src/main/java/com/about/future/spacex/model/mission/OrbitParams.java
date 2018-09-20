@@ -31,11 +31,11 @@ public class OrbitParams {
     private final double periodMin;
     @ColumnInfo(name = "lifespan_years")
     @SerializedName("lifespan_years")
-    private final int lifespanYears;
+    private final double lifespanYears;
 
     public OrbitParams(String referenceSystem, String regime, double longitude,
                        double semiMajorAxisKm, double eccentricity, double periapsisKm, double apoapsisKm,
-                       double inclinationDeg, double periodMin, int lifespanYears) {
+                       double inclinationDeg, double periodMin, double lifespanYears) {
         this.apoapsisKm = apoapsisKm;
         this.eccentricity = eccentricity;
         this.inclinationDeg = inclinationDeg;
@@ -51,7 +51,7 @@ public class OrbitParams {
     public double getApoapsisKm() { return apoapsisKm; }
     public double getEccentricity() { return eccentricity; }
     public double getInclinationDeg() { return inclinationDeg; }
-    public int getLifespanYears() { return lifespanYears; }
+    public double getLifespanYears() { return lifespanYears; }
     public double getLongitude() { return longitude; }
     public double getPeriapsisKm() { return periapsisKm; }
     public double getPeriodMin() { return periodMin; }

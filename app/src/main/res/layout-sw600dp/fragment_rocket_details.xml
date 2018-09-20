@@ -173,7 +173,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/details_rocket_margin"
                             android:contentDescription="@string/rocket_image"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitEnd"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:src="@drawable/payload_satellite" />
@@ -184,7 +184,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/details_rocket_margin"
                             android:contentDescription="@string/rocket_image"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitStart"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/rocket_payload_image"
                             tools:src="@drawable/core_block5" />

@@ -337,7 +337,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                     ImageUtils.setDefaultImage(
                             mMissionPatchImageView,
                             mission.getRocket().getRocketName(),
-                            mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType());
+                            mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType(),
+                            mission.getRocket().getFirstStage().getCores().get(0).getBlock());
                 } catch (NullPointerException e) {
                     mMissionPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
                 }

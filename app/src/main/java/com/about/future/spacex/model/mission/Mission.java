@@ -26,6 +26,12 @@ public class Mission {
     @ColumnInfo(name = "launch_date_utc")
     @SerializedName("launch_date_utc")
     private String launchDateUtc;
+    @SerializedName("is_tentative")
+    @ColumnInfo(name = "is_tentative")
+    private boolean isTentative;
+    @SerializedName("tentative_max_precision")
+    @ColumnInfo(name = "tentative_max_precision")
+    private String tentativeMaxPrecision;
     @SerializedName("rocket")
     @Embedded
     private Rocket rocket;
@@ -43,31 +49,40 @@ public class Mission {
     private Links links;
     @SerializedName("details")
     private String details;
+    @SerializedName("upcoming")
+    private boolean upcoming;
+
 
     public Mission(int flightNumber, String missionName, String launchYear, long launchDateUnix,
-                   String launchDateUtc, Rocket rocket, Reuse reuse, LaunchSite launchSite,
-                   boolean launchSuccess, Links links, String details) {
+                   String launchDateUtc, boolean isTentative, String tentativeMaxPrecision,
+                   Rocket rocket, Reuse reuse, LaunchSite launchSite, boolean launchSuccess,
+                   Links links, String details, boolean upcoming) {
         this.flightNumber = flightNumber;
         this.missionName = missionName;
         this.launchYear = launchYear;
         this.launchDateUnix = launchDateUnix;
         this.launchDateUtc = launchDateUtc;
+        this.isTentative = isTentative;
+        this.tentativeMaxPrecision = tentativeMaxPrecision;
         this.rocket = rocket;
         this.reuse = reuse;
         this.launchSite = launchSite;
         this.launchSuccess = launchSuccess;
         this.links = links;
         this.details = details;
+        this.upcoming = upcoming;
     }
 
     @Ignore
-    public Mission(String missionName, String launchYear, long launchDateUnix,
-                   String launchDateUtc, Rocket rocket, Reuse reuse, LaunchSite launchSite, boolean launchSuccess,
-                   Links links, String details) {
+    public Mission(String missionName, String launchYear, long launchDateUnix, String launchDateUtc,
+                   Rocket rocket, boolean isTentative, String tentativeMaxPrecision, Reuse reuse,
+                   LaunchSite launchSite, boolean launchSuccess, Links links, String details, boolean upcoming) {
         this.missionName = missionName;
         this.launchYear = launchYear;
         this.launchDateUnix = launchDateUnix;
         this.launchDateUtc = launchDateUtc;
+        this.isTentative = isTentative;
+        this.tentativeMaxPrecision = tentativeMaxPrecision;
         this.rocket = rocket;
         this.reuse = reuse;
         this.launchSite = launchSite;
@@ -84,12 +99,15 @@ public class Mission {
     public String getLaunchYear() { return launchYear; }
     public long getLaunchDateUnix() { return launchDateUnix; }
     public String getLaunchDateUtc() { return launchDateUtc; }
+    public boolean isTentative() { return isTentative; }
+    public String getTentativeMaxPrecision() { return tentativeMaxPrecision; }
     public Rocket getRocket() { return rocket; }
     public Reuse getReuse() { return reuse; }
     public LaunchSite getLaunchSite() { return launchSite; }
     public boolean isLaunchSuccess() { return launchSuccess; }
     public Links getLinks() { return links; }
     public String getDetails() { return details; }
+    public boolean isUpcoming() { return upcoming; }
 
     public void setRocket(Rocket rocket) { this.rocket = rocket; }
     public void setLinks(Links links) { this.links = links; }
