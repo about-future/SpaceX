@@ -27,4 +27,7 @@ public interface LaunchPadDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateLaunchPad(LaunchPad launchPad);
+
+    @Query("DELETE FROM launch_pads")
+    void deleteAllPads();
 }

@@ -2,6 +2,13 @@
     <string name="app_name">SpaceX</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Notifications -->
+    <string name="channel_name" translatable="false">SpaceX App</string>
+    <string name="channel_description" translatable="false">SpaceX channel description</string>
+    <string name="notification_channel_name">SpaceX Launch Notifications</string>
+    <string name="notification_channel_description">This channel is used to notify you when one a SpaceX launch mission is about to start.</string>
+
+
     <!-- Content description -->
     <string name="spacex_logo">SpaceX logo</string>
     <string name="mission_patch">Mission patch</string>

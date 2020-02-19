@@ -1,7 +1,8 @@
 package com.about.future.spacex.model.launch_pad;
 
-import android.arch.persistence.room.TypeConverter;
 import android.text.TextUtils;
+
+import androidx.room.TypeConverter;
 
 public class VehiclesTypeConverter {
     @TypeConverter

@@ -1,7 +1,6 @@
 package com.about.future.spacex.model.rocket;
 
-
-import android.arch.persistence.room.ColumnInfo;
+import androidx.room.ColumnInfo;
 
 public class RocketMini {
     @ColumnInfo(name = "rocketid")

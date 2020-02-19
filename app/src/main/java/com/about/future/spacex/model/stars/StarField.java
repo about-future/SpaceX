@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.about.future.spacex.R;
 
-
 public class StarField extends View {
     private int mWidth;
     private int mHeight;

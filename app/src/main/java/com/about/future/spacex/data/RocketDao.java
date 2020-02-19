@@ -31,4 +31,7 @@ public interface RocketDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateRocket(Rocket rocket);
+
+    @Query("DELETE FROM rockets")
+    void deleteAllRockets();
 }

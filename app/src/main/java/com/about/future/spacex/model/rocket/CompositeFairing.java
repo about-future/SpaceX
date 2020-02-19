@@ -1,6 +1,6 @@
 package com.about.future.spacex.model.rocket;
 
-import android.arch.persistence.room.Embedded;
+import androidx.room.Embedded;
 
 import com.google.gson.annotations.SerializedName;
 

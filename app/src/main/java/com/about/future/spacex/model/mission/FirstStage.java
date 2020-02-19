@@ -1,7 +1,7 @@
 package com.about.future.spacex.model.mission;
 
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.TypeConverters;
+import androidx.room.Ignore;
+import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
 

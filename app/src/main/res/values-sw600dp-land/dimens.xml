@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="mission_list_column_count">3</integer>
+    <integer name="rocket_list_column_count">3</integer>
+    <dimen name="details_inner_horiz_margin">130dp</dimen>
+    <dimen name="gallery_height">420dp</dimen>
+
+</resources>
