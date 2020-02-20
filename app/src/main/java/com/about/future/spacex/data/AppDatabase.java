@@ -30,7 +30,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return sInstance;
     }
 
-    public abstract MissionDao missionDao();
-    public abstract LaunchPadDao launchPadDao();
-    public abstract RocketDao rocketDao();
+    public abstract MissionsDao missionDao();
+    public abstract LaunchPadsDao launchPadDao();
+    public abstract RocketsDao rocketDao();
 }

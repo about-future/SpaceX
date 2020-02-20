@@ -1,4 +1,4 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -23,14 +23,12 @@ import android.widget.Toast;
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
-import com.about.future.spacex.data.LaunchPadLoader;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.TextsUtils;
-import com.about.future.spacex.viewmodel.LaunchPadViewModel;
-import com.about.future.spacex.viewmodel.LaunchPadViewModelFactory;
+import com.about.future.spacex.ui.LaunchPadDetailsActivity;
 import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -39,7 +37,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.view.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.ui.fragments.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
 
 
 public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<LaunchPad> {

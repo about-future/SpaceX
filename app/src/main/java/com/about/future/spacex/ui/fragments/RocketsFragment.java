@@ -1,18 +1,10 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui.fragments;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +12,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
-import com.about.future.spacex.data.RocketsAdapter;
-import com.about.future.spacex.data.RocketsLoader;
+import com.about.future.spacex.ui.adapters.RocketsAdapter;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.model.rocket.RocketMini;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
-import com.about.future.spacex.viewmodel.RocketsViewModel;
+import com.about.future.spacex.ui.RocketDetailsActivity;
+import com.about.future.spacex.ui.SpaceXActivity;
 
 import java.util.List;
 

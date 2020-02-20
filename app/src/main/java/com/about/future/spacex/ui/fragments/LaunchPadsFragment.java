@@ -1,20 +1,10 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui.fragments;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +12,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.AppDatabase;
-import com.about.future.spacex.data.LaunchPadsAdapter;
-import com.about.future.spacex.data.LaunchPadsLoader;
+import com.about.future.spacex.ui.adapters.LaunchPadsAdapter;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
+import com.about.future.spacex.ui.LaunchPadDetailsActivity;
+import com.about.future.spacex.ui.SpaceXActivity;
 import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.SpaceXPreferences;
@@ -38,8 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LaunchPadsFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<List<LaunchPad>>, LaunchPadsAdapter.ListItemClickListener {
+public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.ListItemClickListener {
 
     private static final int LAUNCH_PADS_LOADER_ID = 917;
     public static final String LAUNCH_PAD_ID_KEY = "launch_pad_id";

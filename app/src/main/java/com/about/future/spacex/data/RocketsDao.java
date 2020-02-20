@@ -1,11 +1,11 @@
 package com.about.future.spacex.data;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+import androidx.room.Update;
 
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.model.rocket.RocketMini;
@@ -13,7 +13,7 @@ import com.about.future.spacex.model.rocket.RocketMini;
 import java.util.List;
 
 @Dao
-public interface RocketDao {
+public interface RocketsDao {
 //    @Query("SELECT * FROM rockets")
 //    LiveData<List<Rocket>> loadAllRockets();
 

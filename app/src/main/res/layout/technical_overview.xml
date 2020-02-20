@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +10,9 @@
         android:id="@+id/separation_line6"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorLine" />
+        android:background="@color/colorLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/overview_label"
@@ -208,4 +211,4 @@
         app:layout_constraintTop_toTopOf="@+id/payload_to_pluto_label"
         tools:text="3,500 kg" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

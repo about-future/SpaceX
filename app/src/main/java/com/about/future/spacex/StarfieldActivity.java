@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -14,9 +12,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
+
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.DetectSwipeGestureListener;
-import com.about.future.spacex.view.SpaceXActivity;
+import com.about.future.spacex.ui.SpaceXActivity;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.PlaybackParameters;
@@ -99,28 +101,22 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         initializePlayer(this);
 
         // Volume on listener
-        volumeOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mExoPlayer != null) {
-                    mExoPlayer.setVolume(0);
-                    volumeOn.setVisibility(View.GONE);
-                    volumeOff.setVisibility(View.VISIBLE);
-                    showToast(getString(R.string.sound_off));
-                }
+        volumeOn.setOnClickListener(view -> {
+            if (mExoPlayer != null) {
+                mExoPlayer.setVolume(0);
+                volumeOn.setVisibility(View.GONE);
+                volumeOff.setVisibility(View.VISIBLE);
+                showToast(getString(R.string.sound_off));
             }
         });
 
         // Volume off listener
-        volumeOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mExoPlayer != null) {
-                    mExoPlayer.setVolume(1);
-                    volumeOn.setVisibility(View.VISIBLE);
-                    volumeOff.setVisibility(View.GONE);
-                    showToast(getString(R.string.sound_on));
-                }
+        volumeOff.setOnClickListener(view -> {
+            if (mExoPlayer != null) {
+                mExoPlayer.setVolume(1);
+                volumeOn.setVisibility(View.VISIBLE);
+                volumeOff.setVisibility(View.GONE);
+                showToast(getString(R.string.sound_on));
             }
         });
 
@@ -220,7 +216,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mAudioPosition = savedInstanceState.getLong(SONG_POSITION, 0);
         mVolumeState = savedInstanceState.getInt(SOUND_ON);
@@ -276,14 +272,11 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
                 mCreditsImageView.setContentDescription(getString(R.string.song_credits));
             }
 
-            runnable = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        credits();
-                    } catch (NullPointerException e) {
-                        Log.v("Credits Exception", "" + e);
-                    }
+            runnable = () -> {
+                try {
+                    credits();
+                } catch (NullPointerException e) {
+                    Log.v("Credits Exception", "" + e);
                 }
             };
             handler.postDelayed(runnable, 5000);

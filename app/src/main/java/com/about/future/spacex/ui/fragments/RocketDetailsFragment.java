@@ -1,4 +1,4 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
-import com.about.future.spacex.data.RocketLoader;
 import com.about.future.spacex.model.rocket.CompositeFairing;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.utils.DateUtils;
@@ -32,8 +31,7 @@ import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.utils.TextsUtils;
-import com.about.future.spacex.viewmodel.RocketViewModel;
-import com.about.future.spacex.viewmodel.RocketViewModelFactory;
+import com.about.future.spacex.ui.RocketDetailsActivity;
 import com.google.gson.Gson;
 
 import java.text.NumberFormat;
@@ -42,7 +40,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.view.RocketsFragment.ROCKET_ID_KEY;
+import static com.about.future.spacex.ui.fragments.RocketsFragment.ROCKET_ID_KEY;
 
 public class RocketDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Rocket> {
     private static final int ROCKET_LOADER_ID = 495835;

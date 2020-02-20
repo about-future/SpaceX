@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -50,7 +51,7 @@
         app:layout_constraintTop_toTopOf="@id/right_core_reused_label"
         tools:text="2" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/right_core_landing_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -68,8 +69,10 @@
         <TextView
             android:id="@+id/right_core_landing"
             style="@style/RocketDetails.Values"
+            android:layout_width="0dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/right_core_landing_label"
             app:layout_constraintTop_toTopOf="@id/right_core_landing_label"
             tools:text="True" />
 
@@ -139,6 +142,6 @@
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

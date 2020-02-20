@@ -16,15 +16,15 @@ import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.model.mission.Links;
 import com.about.future.spacex.model.mission.Mission;
-import com.about.future.spacex.view.MissionDetailsActivity;
-import com.about.future.spacex.view.SpaceXActivity;
+import com.about.future.spacex.ui.MissionDetailsActivity;
+import com.about.future.spacex.ui.SpaceXActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Date;
 import java.util.Map;
 
-import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
+import static com.about.future.spacex.ui.fragments.MissionsFragment.MISSION_NUMBER_KEY;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

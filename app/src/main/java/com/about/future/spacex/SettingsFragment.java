@@ -2,12 +2,13 @@ package com.about.future.spacex;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.preference.SwitchPreferenceCompat;
 import android.text.TextUtils;
+
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.about.future.spacex.widget.UpdateIntentService;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -39,7 +40,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         if (preference != null) {
             if (preference instanceof SwitchPreferenceCompat && TextUtils.equals(key, getString(R.string.notifications_key))) {
                 // Get the current state of the switch preference
-                Boolean switchIsOn = sharedPreferences.getBoolean(key, true);
+                boolean switchIsOn = sharedPreferences.getBoolean(key, true);
 
                 if (switchIsOn) {
                     // Subscribe to this topic

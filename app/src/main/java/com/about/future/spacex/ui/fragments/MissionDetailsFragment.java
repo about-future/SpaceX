@@ -1,4 +1,4 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -31,11 +31,11 @@ import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.utils.TextsUtils;
-import com.about.future.spacex.viewmodel.MissionViewModel;
-import com.about.future.spacex.viewmodel.MissionViewModelFactory;
+import com.about.future.spacex.ui.LaunchPadDetailsActivity;
+import com.about.future.spacex.ui.MissionDetailsActivity;
+import com.about.future.spacex.ui.RocketDetailsActivity;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
-import com.about.future.spacex.data.MissionLoader;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.ScreenUtils;
@@ -51,9 +51,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.view.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
-import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
-import static com.about.future.spacex.view.RocketsFragment.ROCKET_ID_KEY;
+import static com.about.future.spacex.ui.fragments.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.ui.fragments.MissionsFragment.MISSION_NUMBER_KEY;
+import static com.about.future.spacex.ui.fragments.RocketsFragment.ROCKET_ID_KEY;
 
 public class MissionDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Mission>> {
 

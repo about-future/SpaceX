@@ -1,29 +1,33 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.about.future.spacex.R;
-import com.about.future.spacex.utils.SpaceXPreferences;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
-import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
+import com.about.future.spacex.R;
+import com.about.future.spacex.ui.adapters.MyPagerAdapter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.about.future.spacex.ui.fragments.MissionsFragment.MISSION_NUMBER_KEY;
 
 public class MissionDetailsActivity extends AppCompatActivity {
+    @BindView(R.id.mission_pager)
+    ViewPager2 mPager;
 
-    private int mMissionNumber = 1;
-
-    private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
+    private int mMissionNumber = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mission_details);
+        ButterKnife.bind(this);
+
+        //return SpaceXPreferences.getTotalNumberOfMissions(getApplicationContext());
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
@@ -33,9 +37,9 @@ public class MissionDetailsActivity extends AppCompatActivity {
 
         }
 
-        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
         mPager = findViewById(R.id.mission_pager);
-        mPager.setAdapter(mPagerAdapter);
+
         mPager.setCurrentItem(mMissionNumber - 1);
     }
 
@@ -52,21 +56,5 @@ public class MissionDetailsActivity extends AppCompatActivity {
         mPagerAdapter.notifyDataSetChanged();
 
         super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-        MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return MissionDetailsFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            return SpaceXPreferences.getTotalNumberOfMissions(getApplicationContext());
-        }
     }
 }

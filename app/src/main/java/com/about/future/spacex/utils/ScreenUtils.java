@@ -4,12 +4,12 @@ package com.about.future.spacex.utils;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
-import android.support.design.widget.Snackbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.about.future.spacex.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class ScreenUtils {
 

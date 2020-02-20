@@ -14,7 +14,7 @@ import com.about.future.spacex.model.mission.MissionMini;
 import java.util.List;
 
 @Dao
-public interface MissionDao {
+public interface MissionsDao {
     @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads FROM missions ORDER BY launch_date_unix DESC")  //flight_number DESC
     LiveData<List<MissionMini>> loadAllMissions();
 

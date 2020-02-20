@@ -1,34 +1,35 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.about.future.spacex.R;
 import com.about.future.spacex.SettingsActivity;
 import com.about.future.spacex.utils.SpaceXPreferences;
+import com.about.future.spacex.ui.adapters.SectionsPagerAdapter;
 import com.google.android.gms.security.ProviderInstaller;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SpaceXActivity extends AppCompatActivity {
-
     @BindView(R.id.main_toolbar)
     Toolbar toolbar;
     @BindView(R.id.main_tabs)
     TabLayout tabLayout;
     @BindView(R.id.main_pager)
-    ViewPager mViewPager;
+    ViewPager2 mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class SpaceXActivity extends AppCompatActivity {
 
         setTitle("");
 
-        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 22) {
+        if (Build.VERSION.SDK_INT < 22) {
             upgradeSecurityProvider();
         }
 

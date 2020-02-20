@@ -1,8 +1,12 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.about.future.spacex.ui.fragments.LaunchPadsFragment;
+import com.about.future.spacex.ui.fragments.MissionsFragment;
+import com.about.future.spacex.ui.fragments.RocketsFragment;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

@@ -1,26 +1,29 @@
 package com.about.future.spacex.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import com.about.future.spacex.data.AppDatabase;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import com.about.future.spacex.data.Repository;
+import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.mission.MissionMini;
+import com.about.future.spacex.utils.ResultDisplay;
 
 import java.util.List;
 
 public class MissionsViewModel extends AndroidViewModel {
-
-    private final LiveData<List<MissionMini>> missions;
+    private final Repository repository;
 
     public MissionsViewModel(@NonNull Application application) {
         super(application);
-        AppDatabase appDatabase = AppDatabase.getInstance(this.getApplication());
-        missions = appDatabase.missionDao().loadAllMissions();
+        repository = Repository.getInstance(application);
     }
 
-    public LiveData<List<MissionMini>> getMissions() {
-        return missions;
+    public LiveData<ResultDisplay<List<Mission>>> getMissionsFromServer() { return repository.getMissionsFromServer(); }
+    public LiveData<List<MissionMini>> getMissionsFromDb() {
+        return repository.getMissions();
     }
+    public LiveData<Mission> getMissionDetails(int id) { return repository.getMissionDetails(id); }
 }

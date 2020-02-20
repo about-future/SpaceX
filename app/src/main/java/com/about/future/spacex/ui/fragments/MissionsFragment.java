@@ -1,4 +1,4 @@
-package com.about.future.spacex.view;
+package com.about.future.spacex.ui.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -27,11 +27,12 @@ import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.model.mission.MissionMini;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
+import com.about.future.spacex.ui.MissionDetailsActivity;
+import com.about.future.spacex.ui.SpaceXActivity;
 import com.about.future.spacex.viewmodel.MissionsViewModel;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.data.AppDatabase;
-import com.about.future.spacex.data.MissionsAdapter;
-import com.about.future.spacex.data.MissionsLoader;
+import com.about.future.spacex.ui.adapters.MissionsAdapter;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.widget.UpdateIntentService;
 

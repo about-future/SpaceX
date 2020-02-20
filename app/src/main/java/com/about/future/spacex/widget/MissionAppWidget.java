@@ -12,12 +12,12 @@ import android.widget.RemoteViews;
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.utils.DateUtils;
-import com.about.future.spacex.view.MissionDetailsActivity;
-import com.about.future.spacex.view.SpaceXActivity;
+import com.about.future.spacex.ui.MissionDetailsActivity;
+import com.about.future.spacex.ui.SpaceXActivity;
 
 import java.util.Date;
 
-import static com.about.future.spacex.view.MissionsFragment.MISSION_NUMBER_KEY;
+import static com.about.future.spacex.ui.fragments.MissionsFragment.MISSION_NUMBER_KEY;
 
 public class MissionAppWidget extends AppWidgetProvider {
 
