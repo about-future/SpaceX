@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.about.future.spacex.BuildConfig;
 import com.about.future.spacex.R;
 
 import java.util.Date;
@@ -20,6 +21,7 @@ public class ImageUtils {
     private static final String SIZE_PARAMETER = "size";
     private static final String MAP_TYPE_PARAMETER = "maptype";
     private static final String SCALE_PARAMETER = "scale";
+    private static final String API_KEY = "key";
 
     /* Build and return the Thumbnail URL for SpaceX missions
      * @param missionKey is used to build the url
@@ -51,6 +53,7 @@ public class ImageUtils {
                 .appendQueryParameter(SIZE_PARAMETER, "200x200")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, mapType)
                 .appendQueryParameter(SCALE_PARAMETER, "2")
+                .appendQueryParameter(API_KEY, BuildConfig.GoolgeAPIKey)
                 .build().toString();
     }
 
@@ -64,6 +67,7 @@ public class ImageUtils {
                 .appendQueryParameter(SIZE_PARAMETER, "600x350")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, "satellite")
                 .appendQueryParameter(SCALE_PARAMETER, "2")
+                .appendQueryParameter(API_KEY, BuildConfig.GoolgeAPIKey)
                 .build().toString();
     }
 
@@ -73,7 +77,6 @@ public class ImageUtils {
     public static boolean doWeNeedToFetchImagesOnline(Context context) {
         long now = new Date().getTime() / 1000;
         long savedDate = SpaceXPreferences.getLaunchPadsThumbnailsSavingDate(context) / 1000;
-
         return (now - savedDate) >= (30 * 24 * 60 * 60); // 30 days * 24h * 60min * 60sec
     }
 

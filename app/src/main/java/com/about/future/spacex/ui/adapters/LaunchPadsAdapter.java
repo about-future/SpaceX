@@ -3,6 +3,7 @@ package com.about.future.spacex.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
             // If the time difference between NOW and the last time images were loaded is equal or
             // grater than 30 days, reload images from web and reset savedDate value
             if (ImageUtils.doWeNeedToFetchImagesOnline(mContext)) {
+                Log.v("FETCHING", "FROM WEB");
                 // Fetch images
                 Picasso.get()
                         .load(launchPadThumbnailUrl)
@@ -90,6 +92,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
                 if (position == mLaunchPads.size() - 1)
                     SpaceXPreferences.setLaunchPadsThumbnailsSavingDate(mContext, new Date().getTime());
             } else {
+                Log.v("TRY FETCHING", "FROM CACHE");
                 // Otherwise, try loading cached images
                 Picasso.get()
                         .load(launchPadThumbnailPath)
@@ -98,10 +101,12 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
                             @Override
                             public void onSuccess() {
                                 // Yay!
+                                Log.v("FETCHING", "FROM CACHE");
                             }
 
                             @Override
                             public void onError(Exception e) {
+                                Log.v("FETCHING", "FROM WEB");
                                 // Try again online, if cache loading failed and reset savedDate value
                                 Picasso.get()
                                         .load(launchPadThumbnailUrl)

@@ -129,16 +129,16 @@
     <string name="sound_on">Sound on</string>
     <string name="sound_off">Sound off</string>
 
-    <string name="loading_missions">Loading missions&#8230;</string>
+    <string name="loading_missions">Loading launches&#8230;</string>
     <string name="loading_rockets">Loading rockets&#8230;</string>
     <string name="loading_pads">Loading launch pads&#8230;</string>
 
-    <string name="no_mission_available">No missions available</string>
+    <string name="no_launches_available">No launches available</string>
     <string name="no_rocket_available">No rockets available</string>
     <string name="no_pads_available">No launch pads available</string>
 
-    <string name="mission_up_to_date">Mission is up to date!</string>
-    <string name="mission_updated">Mission updated!</string>
+    <string name="mission_up_to_date">Launch is up to date!</string>
+    <string name="mission_updated">Launch updated!</string>
 
     <string name="launch_pad_up_to_date">Launch pad details are up to date!</string>
     <string name="launch_pad_updated">Launch pad updated!</string>
@@ -147,7 +147,7 @@
     <string name="rocket_updated">Rocket updated!</string>
 
     <string name="no_internet">Huston, we have a problem!\nSwipe to retry</string>
-    <string name="unknown_error">Huston, we have a problem!\nSwipe to retry</string>
+    <string name="unknown_error">Elon, we have a problem!\nSwipe to retry?</string>
     <string name="no_connection">No internet connection</string>
 
     <!-- Credits -->
@@ -182,6 +182,9 @@
     <string name="pref_total_missions_key">total_missions</string>
     <string name="pref_total_rockets_key">total_rockets</string>
     <string name="pref_total_launch_pads_key">total_launch_pads</string>
+    <string name="pref_first_load_launches_key">first_load_launches</string>
+    <string name="pref_first_load_rockets_key">first_load_rockets</string>
+    <string name="pref_first_load_pads_key">first_load_pads</string>
 
     <!-- Dragon Dimensions -->
     <string name="dragon_height_metric">8.1 m</string>

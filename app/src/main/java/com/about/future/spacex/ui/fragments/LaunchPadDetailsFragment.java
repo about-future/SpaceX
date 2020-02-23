@@ -3,6 +3,7 @@ package com.about.future.spacex.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,6 +136,7 @@ public class LaunchPadDetailsFragment extends Fragment {
                 double latitude = launchPad.getLocation().getLatitude();
                 double longitude = launchPad.getLocation().getLongitude();
                 final String locationPadSatelliteImageUrl = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, getActivityCast());
+                Log.v("SATELLITE URL", "IS: " + locationPadSatelliteImageUrl);
 
                 // Set backdrop image as a satellite image of the launch pad
                 Picasso.get()
@@ -159,6 +161,8 @@ public class LaunchPadDetailsFragment extends Fragment {
                 // Set launch pad map
                 final String locationPadMapImageUrl = ImageUtils.buildMapThumbnailUrl(
                         latitude, longitude, 8, "map", getActivityCast());
+                Log.v("MAP URL", "IS: " + locationPadSatelliteImageUrl);
+
                 Picasso.get()
                         .load(locationPadMapImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)

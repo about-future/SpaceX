@@ -97,48 +97,47 @@ public class SpaceXPreferences {
         return sp.getBoolean(context.getString(R.string.pref_acronyms_key), false);
     }
 
-    // Set the total number of missions in the list when the list is first time populated
-    // and each time the list is updated
-    public static void setTotalNumberOfMissions(Context context, int totalMissions) {
+
+
+    // Return false if the list of launches was never downloaded before
+    public static boolean getLaunchesFirstLoad(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_launches_key), true);
+    }
+
+    // Set launches first load to true if it's the first time the list of launches is downloaded
+    public static void setLaunchesFirstLoad(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putInt(context.getString(R.string.pref_total_missions_key), totalMissions);
+        editor.putBoolean(context.getString(R.string.pref_first_load_launches_key), status);
         editor.apply();
     }
 
-    // Return the total number of missions
-    public static int getTotalNumberOfMissions(Context context) {
+    // Return false if the list of rockets was never downloaded before
+    public static boolean getRocketsFirstLoad(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getInt(context.getString(R.string.pref_total_missions_key), 1);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_rockets_key), true);
     }
 
-    // Set the total number of rockets in the list when the list is first time populated
-    // and each time the list is updated
-    public static void setTotalNumberOfRockets(Context context, int totalRockets) {
+    // Set rockets first load to true if it's the first time the list of rockets is downloaded
+    public static void setRocketsFirstLoad(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putInt(context.getString(R.string.pref_total_rockets_key), totalRockets);
+        editor.putBoolean(context.getString(R.string.pref_first_load_rockets_key), status);
         editor.apply();
     }
 
-    // Return the total number of rockets
-    public static int getTotalNumberOfRockets(Context context) {
+    // Return false if the list of launch pads was never downloaded before
+    public static boolean getLaunchPadsFirstLoad(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getInt(context.getString(R.string.pref_total_rockets_key), 1);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_pads_key), true);
     }
 
-    // Set the total number of launch pads in the list when the list is first time populated
-    // and each time the list is updated
-    public static void setTotalNumberOfLaunchPads(Context context, int totalLaunchPads) {
+    // Set launch pads first load to true if it's the first time the list of launch pads is downloaded
+    public static void setLaunchPadsFirstLoad(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putInt(context.getString(R.string.pref_total_launch_pads_key), totalLaunchPads);
+        editor.putBoolean(context.getString(R.string.pref_first_load_pads_key), status);
         editor.apply();
-    }
-
-    // Return the total number of rockets
-    public static int getTotalNumberOfLaunchPads(Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getInt(context.getString(R.string.pref_total_launch_pads_key), 1);
     }
 }

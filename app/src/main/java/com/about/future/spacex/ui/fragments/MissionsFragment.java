@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,12 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
     RecyclerView mRecyclerView;
     @BindView(R.id.missions_no_connection_message)
     TextView mNoConnectionMessage;
+    @BindView(R.id.loading_layout)
+    LinearLayout mLoadingLayout;
+    @BindView(R.id.special_error_layout)
+    LinearLayout mErrorLayout;
+    @BindView(R.id.special_error_message)
+    TextView mErrorMessage;
 
     @Nullable
     @Override
@@ -123,6 +130,16 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
         super.onSaveInstanceState(outState);
     }
 
+    //TODO:
+    // 1. resume position upon screen rotation to list and detail layouts
+    // 2. remake Settings layout and activity
+    // 3. add another language or 2
+    // 4. fix mission and rocket details layouts
+    // 5. add gallery to missions and rockets
+    // 6. add more endpoints and maybe change main layout to bottom navigation with 4-5 options
+    // and for launches create 2 lists: upcoming launches and previous launches
+    // 7. fix links to rocket and launch pad called from mission details
+
     @Override
     public void onResume() {
         super.onResume();
@@ -147,12 +164,15 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
         if (SpaceXPreferences.getMissionsStatus(getActivityCast())) {
             // If there is a network connection
             if (NetworkUtils.isConnected(getActivityCast())) {
-                loadingStateUi();
+                //loadingStateUi();
                 getMissionsFromServer();
             } else {
                 // Show connection error
-                //showDialog(getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
-                Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                if (SpaceXPreferences.getLaunchesFirstLoad(getActivityCast())) {
+                    errorStateUi(2);
+                } else {
+                    Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                }
             }
         } else {
             // Otherwise, get them from DB
@@ -172,12 +192,15 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
                         break;
                     case ResultDisplay.STATE_ERROR:
                         // Update UI
-                        errorStateUi(1);
                         if (mSwipeToRefreshLayout != null)
                             mSwipeToRefreshLayout.setRefreshing(false);
 
                         // Show error message
-                        Toast.makeText(getActivityCast(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                        if (SpaceXPreferences.getLaunchesFirstLoad(getActivityCast())) {
+                            errorStateUi(1);
+                        } else {
+                            Toast.makeText(getActivityCast(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case ResultDisplay.STATE_SUCCESS:
                         if (mSwipeToRefreshLayout != null)
@@ -187,13 +210,15 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
 
                         if (missions != null && missions.size() > 0) {
                             SpaceXPreferences.setMissionsStatus(getContext(), false);
+                            SpaceXPreferences.setLaunchesFirstLoad(getActivityCast(), false);
                             getMissionsFromDB();
-
-                            // Save the total number of missions
-                            SpaceXPreferences.setTotalNumberOfMissions(getActivityCast(), missions.size());
                         } else {
                             // Update UI
-                            errorStateUi(0);
+                            if (SpaceXPreferences.getLaunchesFirstLoad(getActivityCast())) {
+                                errorStateUi(0);
+                            } else {
+                                Toast.makeText(getActivityCast(), getString(R.string.no_launches_available), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         break;
@@ -224,21 +249,30 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
 
     private void loadingStateUi() {
         mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.VISIBLE);
-        mNoConnectionMessage.setText(getString(R.string.loading_missions));
+        mNoConnectionMessage.setVisibility(View.GONE);
+        mLoadingLayout.setVisibility(View.VISIBLE);
+        mErrorLayout.setVisibility(View.GONE);
     }
 
     private void errorStateUi(int errorType) {
         mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.INVISIBLE);
+        mLoadingLayout.setVisibility(View.GONE);
+
         switch (errorType) {
             case 0:
-                mNoConnectionMessage.setText(getString(R.string.no_mission_available));
+                mErrorLayout.setVisibility(View.VISIBLE);
+                mErrorMessage.setText(getString(R.string.no_launches_available));
+                mNoConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
-                mNoConnectionMessage.setText(getString(R.string.unknown_error));
+                mErrorLayout.setVisibility(View.VISIBLE);
+                mErrorMessage.setText(getString(R.string.unknown_error));
+                mNoConnectionMessage.setVisibility(View.GONE);
                 break;
             default:
+                mErrorLayout.setVisibility(View.GONE);
+                mNoConnectionMessage.setVisibility(View.VISIBLE);
+                mNoConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
                 mNoConnectionMessage.setText(getString(R.string.no_connection));
                 break;
         }
@@ -247,6 +281,8 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
     private void successStateUi() {
         mRecyclerView.setVisibility(View.VISIBLE);
         mNoConnectionMessage.setVisibility(View.GONE);
+        mLoadingLayout.setVisibility(View.GONE);
+        mErrorLayout.setVisibility(View.GONE);
     }
 
     @Override

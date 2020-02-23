@@ -37,6 +37,10 @@ android {
             signingConfig signingConfigs.config
         }
     }
+    buildTypes.each {
+        it.buildConfigField 'String', 'GoolgeAPIKey', googleStaticMapsKey
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,12 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
     RecyclerView mRecyclerView;
     @BindView(R.id.rockets_no_connection_message)
     TextView mNoConnectionMessage;
+    @BindView(R.id.loading_layout)
+    LinearLayout mLoadingLayout;
+    @BindView(R.id.special_error_layout)
+    LinearLayout mErrorLayout;
+    @BindView(R.id.special_error_message)
+    TextView mErrorMessage;
 
     @Nullable
     @Override
@@ -93,12 +100,15 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
         if (SpaceXPreferences.getRocketsStatus(getActivityCast())) {
             // If there is a network connection
             if (NetworkUtils.isConnected(getActivityCast())) {
-                loadingStateUi();
+                //loadingStateUi();
                 getRocketsFromServer();
             } else {
                 // Show connection error
-                //showDialog(getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
-                Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                if (SpaceXPreferences.getRocketsFirstLoad(getActivityCast())) {
+                    errorStateUi(2);
+                } else {
+                    Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                }
             }
         } else {
             // Otherwise, get them from DB
@@ -118,12 +128,15 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
                         break;
                     case ResultDisplay.STATE_ERROR:
                         // Update UI
-                        errorStateUi(1);
                         if (mSwipeToRefreshLayout != null)
                             mSwipeToRefreshLayout.setRefreshing(false);
 
                         // Show error message
-                        Toast.makeText(getActivityCast(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                        if (SpaceXPreferences.getRocketsFirstLoad(getActivityCast())) {
+                            errorStateUi(1);
+                        } else {
+                            Toast.makeText(getActivityCast(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case ResultDisplay.STATE_SUCCESS:
                         if (mSwipeToRefreshLayout != null)
@@ -133,13 +146,15 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
 
                         if (rockets != null && rockets.size() > 0) {
                             SpaceXPreferences.setRocketsStatus(getContext(), false);
+                            SpaceXPreferences.setRocketsFirstLoad(getActivityCast(), false);
                             getRocketsFromDB();
-
-                            // Save the total number of rockets
-                            SpaceXPreferences.setTotalNumberOfRockets(getActivityCast(), rockets.size());
                         } else {
                             // Update UI
-                            errorStateUi(0);
+                            if (SpaceXPreferences.getRocketsFirstLoad(getActivityCast())) {
+                                errorStateUi(0);
+                            } else {
+                                Toast.makeText(getActivityCast(), getString(R.string.no_rocket_available), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         break;
@@ -160,28 +175,37 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
                 mRocketsAdapter.setRockets(rockets);
             } else {
                 // Update UI
-                errorStateUi(0);
+               errorStateUi(0);
             }
         });
     }
 
     private void loadingStateUi() {
         mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.VISIBLE);
-        mNoConnectionMessage.setText(getString(R.string.loading_rockets));
+        mNoConnectionMessage.setVisibility(View.GONE);
+        mLoadingLayout.setVisibility(View.VISIBLE);
+        mErrorLayout.setVisibility(View.GONE);
     }
 
     private void errorStateUi(int errorType) {
         mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.INVISIBLE);
+        mLoadingLayout.setVisibility(View.GONE);
+
         switch (errorType) {
             case 0:
-                mNoConnectionMessage.setText(getString(R.string.no_rocket_available));
+                mErrorLayout.setVisibility(View.VISIBLE);
+                mErrorMessage.setText(getString(R.string.no_rocket_available));
+                mNoConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
-                mNoConnectionMessage.setText(getString(R.string.unknown_error));
+                mErrorLayout.setVisibility(View.VISIBLE);
+                mErrorMessage.setText(getString(R.string.unknown_error));
+                mNoConnectionMessage.setVisibility(View.GONE);
                 break;
             default:
+                mErrorLayout.setVisibility(View.GONE);
+                mNoConnectionMessage.setVisibility(View.VISIBLE);
+                mNoConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
                 mNoConnectionMessage.setText(getString(R.string.no_connection));
                 break;
         }
@@ -190,6 +214,8 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
     private void successStateUi() {
         mRecyclerView.setVisibility(View.VISIBLE);
         mNoConnectionMessage.setVisibility(View.GONE);
+        mLoadingLayout.setVisibility(View.GONE);
+        mErrorLayout.setVisibility(View.GONE);
     }
 
     @Override

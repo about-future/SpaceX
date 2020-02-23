@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,12 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     RecyclerView mRecyclerView;
     @BindView(R.id.launch_pads_no_connection_message)
     TextView mNoConnectionMessage;
+    @BindView(R.id.loading_layout)
+    LinearLayout mLoadingLayout;
+    @BindView(R.id.special_error_layout)
+    LinearLayout mErrorLayout;
+    @BindView(R.id.special_error_message)
+    TextView mErrorMessage;
 
     @Nullable
     @Override
@@ -134,12 +141,15 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
         if (SpaceXPreferences.getLaunchPadsStatus(getActivityCast())) {
             // If there is a network connection
             if (NetworkUtils.isConnected(getActivityCast())) {
-                loadingStateUi();
+                //loadingStateUi();
                 getLaunchPadsFromServer();
             } else {
                 // Show connection error
-                //showDialog(getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
-                Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                if (SpaceXPreferences.getLaunchPadsFirstLoad(getActivityCast())) {
+                    errorStateUi(2);
+                } else {
+                    Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                }
             }
         } else {
             // Otherwise, get them from DB
@@ -159,12 +169,15 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
                         break;
                     case ResultDisplay.STATE_ERROR:
                         // Update UI
-                        errorStateUi(1);
                         if (mSwipeToRefreshLayout != null)
                             mSwipeToRefreshLayout.setRefreshing(false);
 
                         // Show error message
-                        Toast.makeText(getActivityCast(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                        if (SpaceXPreferences.getLaunchPadsFirstLoad(getActivityCast())) {
+                            errorStateUi(1);
+                        } else {
+                            Toast.makeText(getActivityCast(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case ResultDisplay.STATE_SUCCESS:
                         if (mSwipeToRefreshLayout != null)
@@ -174,13 +187,15 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
 
                         if (launchPads != null && launchPads.size() > 0) {
                             SpaceXPreferences.setLaunchPadsStatus(getContext(), false);
+                            SpaceXPreferences.setLaunchPadsFirstLoad(getActivityCast(), false);
                             getLaunchPadsFromDB();
-
-                            // Save the total number of launch pads
-                            SpaceXPreferences.setTotalNumberOfLaunchPads(getActivityCast(), launchPads.size());
                         } else {
                             // Update UI
-                            errorStateUi(0);
+                            if (SpaceXPreferences.getLaunchPadsFirstLoad(getActivityCast())) {
+                                errorStateUi(0);
+                            } else {
+                                Toast.makeText(getActivityCast(), getString(R.string.no_pads_available), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         break;
@@ -208,21 +223,30 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
 
     private void loadingStateUi() {
         mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.VISIBLE);
-        mNoConnectionMessage.setText(getString(R.string.loading_pads));
+        mNoConnectionMessage.setVisibility(View.GONE);
+        mLoadingLayout.setVisibility(View.VISIBLE);
+        mErrorLayout.setVisibility(View.GONE);
     }
 
     private void errorStateUi(int errorType) {
         mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.INVISIBLE);
+        mLoadingLayout.setVisibility(View.GONE);
+
         switch (errorType) {
             case 0:
-                mNoConnectionMessage.setText(getString(R.string.no_pads_available));
+                mErrorLayout.setVisibility(View.VISIBLE);
+                mErrorMessage.setText(getString(R.string.no_pads_available));
+                mNoConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
-                mNoConnectionMessage.setText(getString(R.string.unknown_error));
+                mErrorLayout.setVisibility(View.VISIBLE);
+                mErrorMessage.setText(getString(R.string.unknown_error));
+                mNoConnectionMessage.setVisibility(View.GONE);
                 break;
             default:
+                mErrorLayout.setVisibility(View.GONE);
+                mNoConnectionMessage.setVisibility(View.VISIBLE);
+                mNoConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
                 mNoConnectionMessage.setText(getString(R.string.no_connection));
                 break;
         }
@@ -231,6 +255,8 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     private void successStateUi() {
         mRecyclerView.setVisibility(View.VISIBLE);
         mNoConnectionMessage.setVisibility(View.GONE);
+        mLoadingLayout.setVisibility(View.GONE);
+        mErrorLayout.setVisibility(View.GONE);
     }
 
     @Override

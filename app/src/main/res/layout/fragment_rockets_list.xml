@@ -29,8 +29,60 @@
         android:drawableTop="@drawable/ic_cloud_off"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center"
-        android:text="@string/no_internet"
+        android:text="@string/no_connection"
         android:textSize="@dimen/details_body_text_size"
         android:visibility="invisible" />
+
+    <LinearLayout
+        android:id="@+id/special_error_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            app:srcCompat="@drawable/ic_spacex_logo_xonly"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/special_error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:text="@string/unknown_error"
+            android:textSize="@dimen/details_body_text_size"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:visibility="invisible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/loading_rockets"
+            android:textSize="@dimen/details_body_text_size" />
+
+    </LinearLayout>
 
 </FrameLayout>
