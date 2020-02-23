@@ -35,26 +35,31 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
             }
         }
 
-        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-        LaunchPadsViewModel viewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
-        viewModel.getLaunchPadsFromDb().observe(this, launchPads -> {
-            if (launchPads != null && launchPads.size() > 0) {
-                pagerAdapter.setLaunchPads(launchPads);
-                mPager.setAdapter(pagerAdapter);
-                mPager.setCurrentItem(mLaunchPadId);
-            }
-        });
+        setupViewPager();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(LAUNCH_PAD_ID_KEY, mLaunchPadId);
+        outState.putInt(LAUNCH_PAD_ID_KEY, mPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mLaunchPadId = savedInstanceState.getInt(LAUNCH_PAD_ID_KEY);
+        setupViewPager();
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    private void setupViewPager() {
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
+        LaunchPadsViewModel viewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
+        viewModel.getLaunchPadsFromDb().observe(this, launchPads -> {
+            if (launchPads != null && launchPads.size() > 0) {
+                pagerAdapter.setLaunchPads(launchPads);
+                mPager.setAdapter(pagerAdapter);
+                mPager.setCurrentItem(mLaunchPadId, false);
+            }
+        });
     }
 }

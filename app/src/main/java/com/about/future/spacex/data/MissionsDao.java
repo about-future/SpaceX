@@ -15,10 +15,10 @@ import java.util.List;
 
 @Dao
 public interface MissionsDao {
-    @Query("SELECT * FROM missions ORDER BY launch_date_unix DESC")
+    @Query("SELECT * FROM missions ORDER BY flight_number ASC")
     LiveData<List<Mission>> loadMissions();
 
-    @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads FROM missions ORDER BY launch_date_unix DESC")  //flight_number DESC
+    @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads FROM missions ORDER BY flight_number DESC")
     LiveData<List<MissionMini>> loadMiniMissions();
 
     @Query("SELECT * FROM missions WHERE flight_number = :flightNumber")

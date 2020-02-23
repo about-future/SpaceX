@@ -154,7 +154,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(getAdapterPosition());
+            mOnClickListener.onItemClickListener(mMissions.get(getAdapterPosition()).getFlightNumber());
         }
     }
 }
