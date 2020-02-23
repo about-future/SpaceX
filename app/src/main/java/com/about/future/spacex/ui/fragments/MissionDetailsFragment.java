@@ -1,21 +1,11 @@
 package com.about.future.spacex.ui.fragments;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.mission.Core;
@@ -34,35 +30,35 @@ import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.ui.LaunchPadDetailsActivity;
 import com.about.future.spacex.ui.MissionDetailsActivity;
 import com.about.future.spacex.ui.RocketDetailsActivity;
-import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.ScreenUtils;
-import com.about.future.spacex.widget.UpdateIntentService;
-import com.google.gson.Gson;
+import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
+import com.about.future.spacex.viewmodel.MissionsViewModel;
+import com.about.future.spacex.viewmodel.RocketsViewModel;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.ui.fragments.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
-import static com.about.future.spacex.ui.fragments.MissionsFragment.MISSION_NUMBER_KEY;
-import static com.about.future.spacex.ui.fragments.RocketsFragment.ROCKET_ID_KEY;
+import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
+import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
 
-public class MissionDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Mission>> {
-
-    private static final int MISSION_LOADER_ID = 89207;
-
-    private AppDatabase mDb;
+public class MissionDetailsFragment extends Fragment {
     private Mission mMission;
     private int mMissionNumber;
     private View mRootView;
+
+    private MissionsViewModel mMissionsViewModel;
+    private LaunchPadsViewModel mLaunchPadsViewModel;
+    private RocketsViewModel mRocketsViewModel;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -150,7 +146,6 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDb = AppDatabase.getInstance(getContext());
 
         if (getArguments() != null && getArguments().containsKey(MISSION_NUMBER_KEY)) {
             mMissionNumber = getArguments().getInt(MISSION_NUMBER_KEY);
@@ -158,9 +153,12 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         setHasOptionsMenu(true);
     }
 
-    public MissionDetailsActivity getActivityCast() {
-        return (MissionDetailsActivity) getActivity();
-    }
+    //TODO: Mission youtube launch thumbnail (check all past missions)
+    // add loading missions, rockets and pads animation, instead of cloud image
+    // fix mission details layouts
+
+    private MissionDetailsActivity getActivityCast() { return (MissionDetailsActivity) getActivity(); }
+    public void setMissionId(int missionId) { mMissionNumber = missionId; }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -175,28 +173,18 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshData();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 3000);
-            }
+        // Init view models
+        mLaunchPadsViewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
+        mRocketsViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
+        mMissionsViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
+        mMissionsViewModel.getMissionDetails(mMissionNumber).observe(this, mission -> {
+            bindViews(mission);
+            mMission = mission;
         });
 
-        MissionViewModelFactory factory = new MissionViewModelFactory(mDb, mMissionNumber);
-        final MissionViewModel viewModel = ViewModelProviders.of(this, factory).get(MissionViewModel.class);
-        viewModel.getMissionLiveData().observe(this, new Observer<Mission>() {
-            @Override
-            public void onChanged(@Nullable Mission mission) {
-                bindViews(mission);
-                mMission = mission;
-            }
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mSwipeRefreshLayout.setRefreshing(false);
+            refreshData();
         });
 
         return mRootView;
@@ -206,7 +194,7 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         // If there is a network connection, refresh data
         if (NetworkUtils.isConnected(getActivityCast())) {
             //Init mission loader
-            getLoaderManager().initLoader(MISSION_LOADER_ID, null, this);
+            Toast.makeText(getActivityCast(), "Mission refresh", Toast.LENGTH_SHORT).show();
         } else {
             // Display connection error message
             Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
@@ -216,6 +204,10 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putInt(MISSION_NUMBER_KEY, mMissionNumber);
+    }
+
+    private void startWebcast(String url) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 
     private void bindViews(final Mission mission) {
@@ -229,18 +221,16 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
             mRootView.animate().alpha(1);
 
             mCollapsingToolbarLayout.setTitle(mission.getMissionName());
-            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getActivityCast().onBackPressed();
-                }
-            });
+            mToolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 
             // Webcast preview and link
             if (mission.getLinks() != null && mission.getLinks().getVideoLink() != null) {
                 final String missionVideoUrl = mission.getLinks().getVideoLink();
-                final String videoKey = missionVideoUrl.substring(missionVideoUrl.indexOf("=") + 1, missionVideoUrl.length());
-                final String sdVideoImageUrl = ImageUtils.buildSdVideoThumbnailUrl(videoKey);
+                final String videoKey = missionVideoUrl.substring(missionVideoUrl.indexOf("=") + 1);
+                Log.v("VIDEO KEY", "IS: " + videoKey);
+
+                final String sdVideoImageUrl = ImageUtils.buildSdVideoThumbnailUrl(mission.getLinks().getYoutubeId());
+                Log.v("VIDEO THUMBNAIL", "IS: " + sdVideoImageUrl);
 
                 Picasso.get()
                         .load(sdVideoImageUrl)
@@ -276,20 +266,10 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         });
 
                 // Set a listener, so we can open each video when the webcast image is clicked
-                mWebcastPreviewImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(missionVideoUrl)));
-                    }
-                });
+                mWebcastPreviewImageView.setOnClickListener(view -> startWebcast(missionVideoUrl));
                 // Set a listener, so we can open each video when the play image is clicked
                 mWebcastPlayButton.setVisibility(View.VISIBLE);
-                mWebcastPlayButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(missionVideoUrl)));
-                    }
-                });
+                mWebcastPlayButton.setOnClickListener(view -> startWebcast(missionVideoUrl));
             } else {
                 // Otherwise, set backdrop image if the is no webcast preview available
                 switch (mission.getRocket().getRocketName()) {
@@ -344,28 +324,15 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 }
             }
 
-            mRocketTypeLinearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    createRocketIntent();
-                }
-            });
+            mRocketTypeLinearLayout.setOnClickListener(view -> createRocketIntent());
 
-            mLaunchSiteLinearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            int launchPadId = mDb.launchPadDao().getLaunchPadId(mission.getLaunchSite().getSiteId());
+            mLaunchSiteLinearLayout.setOnClickListener(view -> AppExecutors.getInstance().diskIO().execute(() -> {
+                int launchPadId = mLaunchPadsViewModel.getLaunchPadId(mission.getLaunchSite().getSiteId());
 
-                            Intent intent = new Intent(getActivityCast(), LaunchPadDetailsActivity.class);
-                            intent.putExtra(LAUNCH_PAD_ID_KEY, launchPadId);
-                            startActivity(intent);
-                        }
-                    });
-                }
-            });
+                Intent intent = new Intent(getActivityCast(), LaunchPadDetailsActivity.class);
+                intent.putExtra(LAUNCH_PAD_ID_KEY, launchPadId);
+                startActivity(intent);
+            }));
 
             // Set launch date
             if (mission.getLaunchDateUnix() > 0) {
@@ -668,6 +635,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         setPayloadImage(rocketName, payloadType);
 
                         switch (blockNumber) {
+                            case 6:
+                                break;
                             case 5:
                                 mCoreImageView.setImageResource(R.drawable.core_block5);
                                 break;
@@ -683,6 +652,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                         setPayloadImage(rocketName, payloadType);
 
                         switch (blockNumber) {
+                            case 6:
+                                break;
                             case 5:
                                 mCoreImageView.setImageResource(R.drawable.falcon_heavy_block5);
                                 break;
@@ -690,16 +661,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                                 mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
                                 break;
                         }
+
                         paramsPayload.setMarginEnd(20);
                         paramsCore.setMarginEnd(20);
                         break;
-                    case "BFR":
-                        mPayloadImageView.setImageResource(R.drawable.payload_bfr);
-                        mCoreImageView.setImageResource(R.drawable.core_bfr);
-                        paramsPayload.setMarginEnd(24);
-                        paramsCore.setMarginEnd(24);
-                        break;
-                    case "Big Falcon Rocket":
+                    case "Starship":
                         mPayloadImageView.setImageResource(R.drawable.payload_bfr);
                         mCoreImageView.setImageResource(R.drawable.core_bfr);
                         paramsPayload.setMarginEnd(24);
@@ -725,18 +691,8 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 mCoreImageView.setLayoutParams(paramsCore);
 
                 // Set click listener on payload and core images and create an intent for RocketDetailsActivity
-                mPayloadImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        createRocketIntent();
-                    }
-                });
-                mCoreImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        createRocketIntent();
-                    }
-                });
+                mPayloadImageView.setOnClickListener(view -> createRocketIntent());
+                mCoreImageView.setOnClickListener(view -> createRocketIntent());
 
             } else {
                 mRootView.findViewById(R.id.rocket_type_label).setVisibility(View.GONE);
@@ -757,11 +713,11 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
                 break;
             case "Dragon Boilerplate":
                 // Falcon 9 with Dragon 1
-                mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
+                //mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
                 break;
             case "Dragon 1.0":
                 // Falcon 9 with Dragon 1.0
-                mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
+                //mPayloadImageView.setImageResource(R.drawable.payload_dragon1);
                 break;
             case "Dragon 1.1":
                 // Falcon 9 with Dragon 1.1
@@ -905,60 +861,13 @@ public class MissionDetailsFragment extends Fragment implements LoaderManager.Lo
         }
     }
 
-    @NonNull
-    @Override
-    public Loader<List<Mission>> onCreateLoader(int loaderId, @Nullable Bundle args) {
-        switch (loaderId) {
-            case MISSION_LOADER_ID:
-                // If the loaded id matches mission loader, return a new missions loader
-                return new MissionLoader(getActivityCast(), mMission.getFlightNumber());
-            default:
-                throw new RuntimeException("Loader Not Implemented: " + loaderId);
-        }
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<List<Mission>> loader, List<Mission> missions) {
-        if (missions != null && missions.size() > 0) {
-            final Mission newMission = missions.get(0);
-
-            String missionAsString1 = new Gson().toJson(newMission);
-            String missionAsString2 = new Gson().toJson(mMission);
-
-            // If the content of the two missions is different, update the DB and
-            // reattach the fragment, so the new values could be displayed in the UI
-            if (!missionAsString1.equals(missionAsString2)) {
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.missionDao().updateMission(newMission);
-                    }
-                });
-                ScreenUtils.snakBarThis(getView(), getString(R.string.mission_updated));
-            } else {
-                ScreenUtils.snakBarThis(getView(), getString(R.string.mission_up_to_date));
-            }
-        }
-
-        // Update widget
-        UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<List<Mission>> loader) {
-        mMission = null;
-    }
-
     private void createRocketIntent() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                int rocketId = mDb.rocketDao().getRocketId(mRocketTypeTextView.getText().toString());
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            int rocketId = mRocketsViewModel.getRocketId(mRocketTypeTextView.getText().toString());
 
-                Intent intent = new Intent(getActivityCast(), RocketDetailsActivity.class);
-                intent.putExtra(ROCKET_ID_KEY, rocketId);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(getActivityCast(), RocketDetailsActivity.class);
+            intent.putExtra(ROCKET_ID_KEY, rocketId);
+            startActivity(intent);
         });
     }
 }

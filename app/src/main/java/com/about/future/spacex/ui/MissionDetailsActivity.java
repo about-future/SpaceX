@@ -4,21 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.ui.adapters.MyPagerAdapter;
+import com.about.future.spacex.ui.fragments.MissionDetailsFragment;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.ui.fragments.MissionsFragment.MISSION_NUMBER_KEY;
+import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
 
 public class MissionDetailsActivity extends AppCompatActivity {
-    @BindView(R.id.mission_pager)
-    ViewPager2 mPager;
+//    @BindView(R.id.mission_pager)
+//    ViewPager2 mPager;
+    //private MyPagerAdapter mPagerAdapter;
 
-    private MyPagerAdapter mPagerAdapter;
     private int mMissionNumber = 1;
 
     @Override
@@ -37,10 +36,17 @@ public class MissionDetailsActivity extends AppCompatActivity {
 
         }
 
-        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-        mPager = findViewById(R.id.mission_pager);
+//        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
+//        mPager = findViewById(R.id.mission_pager);
+//        mPager.setCurrentItem(mMissionNumber - 1);
 
-        mPager.setCurrentItem(mMissionNumber - 1);
+        MissionDetailsFragment fragment = new MissionDetailsFragment();
+        fragment.setMissionId(mMissionNumber);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mission_container, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     @Override
@@ -52,8 +58,8 @@ public class MissionDetailsActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mMissionNumber = savedInstanceState.getInt(MISSION_NUMBER_KEY);
-        mPager.setCurrentItem(mMissionNumber - 1);
-        mPagerAdapter.notifyDataSetChanged();
+        //mPager.setCurrentItem(mMissionNumber - 1);
+        //mPagerAdapter.notifyDataSetChanged();
 
         super.onRestoreInstanceState(savedInstanceState);
     }

@@ -129,6 +129,13 @@
     <string name="sound_on">Sound on</string>
     <string name="sound_off">Sound off</string>
 
+    <string name="loading_missions">Loading missions&#8230;</string>
+    <string name="loading_rockets">Loading rockets&#8230;</string>
+    <string name="loading_pads">Loading launch pads&#8230;</string>
+
+    <string name="no_mission_available">No missions available</string>
+    <string name="no_rocket_available">No rockets available</string>
+    <string name="no_pads_available">No launch pads available</string>
 
     <string name="mission_up_to_date">Mission is up to date!</string>
     <string name="mission_updated">Mission updated!</string>
@@ -140,7 +147,8 @@
     <string name="rocket_updated">Rocket updated!</string>
 
     <string name="no_internet">Huston, we have a problem!\nSwipe to retry</string>
-    <string name="no_connection">Connection unavailable</string>
+    <string name="unknown_error">Huston, we have a problem!\nSwipe to retry</string>
+    <string name="no_connection">No internet connection</string>
 
     <!-- Credits -->
     <string name="song_credits">ARTIST: TEST SHOT STARFISH\nFLIGHT-PROVEN</string>
@@ -162,7 +170,6 @@
     <string name="pref_units_key" translatable="false">units</string>
     <string name="pref_units_metric" translatable="false">metric</string>
     <string name="pref_units_imperial" translatable="false">imperial</string>
-
     <string name="pref_acronyms_key" translatable="false">acronyms_key</string>
     <string name="pref_acronyms_title">Show acronyms meaning</string>
 

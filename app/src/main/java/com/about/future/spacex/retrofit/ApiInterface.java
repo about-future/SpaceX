@@ -9,15 +9,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiInterface {
     // Launches Endpoint
-    @GET("launches/all")
+    @GET("launches")
     Call<List<Mission>> getMissions();
 
-    @GET("launches/all")
-    Call<List<Mission>> getMissionDetails(@Query("flight_number") int number);
+    @GET("launches/{id}")
+    Call<List<Mission>> getMissionDetails(@Path("id") int number);
 
     /* Left here on purpose.
     @GET("launches/upcoming")

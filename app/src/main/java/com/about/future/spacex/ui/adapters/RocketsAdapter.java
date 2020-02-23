@@ -46,8 +46,8 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final RocketsAdapter.ViewHolder holder, int position) {
 
-        if (!TextUtils.isEmpty(mRockets.get(position).getId())) {
-            switch (mRockets.get(position).getId()) {
+        if (!TextUtils.isEmpty(mRockets.get(position).getRocketId())) {
+            switch (mRockets.get(position).getRocketId()) {
                 case "falcon1":
                     holder.rocketImageView.setImageResource(R.drawable.falcon1_small);
                     break;
@@ -57,7 +57,7 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
                 case "falconheavy":
                     holder.rocketImageView.setImageResource(R.drawable.falcon_heavy_small);
                     break;
-                case "bfr":
+                case "starship":
                     holder.rocketImageView.setImageResource(R.drawable.bfr1);
                     break;
                 default:
@@ -101,7 +101,7 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(mRockets.get(getAdapterPosition()).getRocketId());
+            mOnClickListener.onItemClickListener(mRockets.get(getAdapterPosition()).getId());
         }
     }
 

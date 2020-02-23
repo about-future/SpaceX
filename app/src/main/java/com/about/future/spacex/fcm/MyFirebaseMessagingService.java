@@ -1,32 +1,7 @@
 package com.about.future.spacex.fcm;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-import android.text.TextUtils;
-
-import com.about.future.spacex.R;
-import com.about.future.spacex.data.AppDatabase;
-import com.about.future.spacex.data.AppExecutors;
-import com.about.future.spacex.model.mission.Links;
-import com.about.future.spacex.model.mission.Mission;
-import com.about.future.spacex.ui.MissionDetailsActivity;
-import com.about.future.spacex.ui.SpaceXActivity;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
-
-import java.util.Date;
-import java.util.Map;
-
-import static com.about.future.spacex.ui.fragments.MissionsFragment.MISSION_NUMBER_KEY;
-
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public class MyFirebaseMessagingService {
+        /*extends FirebaseMessagingService {
 
     private static final int NOTIFICATION_MAX_CHARACTERS = 45;
     private static final String SPACEX_GROUP_KEY = "spacex_group";
@@ -93,8 +68,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra(MISSION_NUMBER_KEY, missionNumber);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+        this,
+        0 , //Request code
+        intent,
+        PendingIntent.FLAG_ONE_SHOT);
 
 
         String channelId = getString(R.string.default_notification_channel_id);
@@ -126,7 +104,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         if (notificationManager != null) {
-            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+            notificationManager.notify(0 , notificationBuilder.build()); //0 is the ID of notification
         }
-    }
+    }*/
 }

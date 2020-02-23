@@ -1,34 +1,34 @@
 package com.about.future.spacex.ui.adapters;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.about.future.spacex.ui.fragments.LaunchPadsFragment;
-import com.about.future.spacex.ui.fragments.MissionsFragment;
-import com.about.future.spacex.ui.fragments.RocketsFragment;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentStateAdapter {
+    private List<Fragment> fragments = new ArrayList<>();
 
-    public SectionsPagerAdapter(FragmentManager fm) {
-        super(fm);
+    public SectionsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+        super(fragmentManager, lifecycle);
+    }
+
+    public void setFragments(List<Fragment> fragments) {
+        this.fragments = fragments;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+        return fragments.get(position);
     }
 
     @Override
-    public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new MissionsFragment();
-            case 1:
-                return new RocketsFragment();
-            default:
-                return new LaunchPadsFragment();
-        }
-    }
-
-    @Override
-    public int getCount() {
-        // Show 3 total pages.
-        return 3;
+    public int getItemCount() {
+        return fragments.size();
     }
 }

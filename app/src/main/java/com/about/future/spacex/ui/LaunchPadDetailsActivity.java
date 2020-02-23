@@ -4,23 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.ui.adapters.MyPagerAdapter;
+import com.about.future.spacex.ui.fragments.LaunchPadDetailsFragment;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.ui.fragments.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_ID_KEY;
 
 public class LaunchPadDetailsActivity extends AppCompatActivity {
     private int mLaunchPadId = 1;
-
-    @BindView(R.id.launch_pad_pager)
-    ViewPager2 mPager;
-
-    private MyPagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +29,13 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
             }
         }
 
-        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(mLaunchPadId - 1);
+        LaunchPadDetailsFragment fragment = new LaunchPadDetailsFragment();
+        fragment.setLaunchPadId(mLaunchPadId);
+
+        getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.launch_pad_container, fragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
     }
 
     @Override
@@ -49,9 +47,6 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mLaunchPadId = savedInstanceState.getInt(LAUNCH_PAD_ID_KEY);
-        mPager.setCurrentItem(mLaunchPadId - 1);
-        mPagerAdapter.notifyDataSetChanged();
-
         super.onRestoreInstanceState(savedInstanceState);
     }
 }

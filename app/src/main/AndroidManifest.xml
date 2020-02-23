@@ -59,13 +59,13 @@
                 android:value="com.about.future.spacex.ui.SpaceXActivity" />
         </activity>
 
-        <service
+        <!--service
             android:name=".fcm.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
+        </service-->
 
         <activity
             android:name=".SettingsActivity"

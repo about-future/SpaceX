@@ -28,4 +28,6 @@ public class RocketsViewModel extends AndroidViewModel {
     public LiveData<Rocket> getRocketDetails(int id) {
         return repository.getRocketDetails(id);
     }
+    public int getRocketId(String rocket) { return repository.getRocketId(rocket); }
+
 }

@@ -11,7 +11,7 @@ public class SpaceXPreferences {
     // Return true if missions list was downloaded before or false if was never downloaded
     public static boolean getMissionsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(context.getString(R.string.pref_mission_status_key), false);
+        return sp.getBoolean(context.getString(R.string.pref_mission_status_key), true);
     }
 
     // Set missions downloading status to true the first time the app is run and every time
@@ -26,7 +26,7 @@ public class SpaceXPreferences {
     // Return true if launchpads list was downloaded before or false if was never downloaded
     public static boolean getLaunchPadsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(context.getString(R.string.pref_launch_pads_status_key), false);
+        return sp.getBoolean(context.getString(R.string.pref_launch_pads_status_key), true);
     }
 
     // Set launch pads downloading status to true the first time the app is run and every time
@@ -55,7 +55,7 @@ public class SpaceXPreferences {
     // Return true if rockets list was downloaded before or false if was never downloaded
     public static boolean getRocketsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(context.getString(R.string.pref_rockets_status_key), false);
+        return sp.getBoolean(context.getString(R.string.pref_rockets_status_key), true);
     }
 
     // Set rockets downloading status to true the first time the app is run and every time

@@ -1,6 +1,7 @@
 package com.about.future.spacex.data;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -62,6 +63,8 @@ public class Repository {
                     if (response.body() != null) {
                         List<Mission> missions = response.body();
 
+                        Log.v("MISSIONS", "ARE: " + missions.size());
+
                         if (missions.size() > 0) {
                             // Delete old missions from DB
                             deleteAllMissions();
@@ -114,6 +117,11 @@ public class Repository {
                     if (response.body() != null) {
                         List<Rocket> rockets = response.body();
 
+                        Log.v("ROCKETS", "ARE: " + rockets.size());
+                        for (Rocket rocket : rockets) {
+                            Log.v("ROCKET NAME", "IS: " + rocket.getRocketName());
+                        }
+
                         if (rockets.size() > 0) {
                             deleteAllRockets();
                             addRockets(rockets);
@@ -147,6 +155,8 @@ public class Repository {
 
     public LiveData<Rocket> getRocketDetails(int id) { return rocketsDao.loadRocketDetails(id); }
     public LiveData<List<RocketMini>> getRockets() { return rocketsDao.loadAllRockets(); }
+    public int getRocketId(String rocket) { return rocketsDao.getRocketId(rocket); }
+
 
 
 
@@ -163,16 +173,25 @@ public class Repository {
                     if (response.body() != null) {
                         List<LaunchPad> launchPads = response.body();
 
+                        Log.v("LAUNCH PADS RESPONSE", "SUCCESSFUL");
+                        Log.v("LAUNCH PADS", "ARE: " + launchPads.size());
+                        for (LaunchPad launchPad : launchPads) {
+                            Log.v("PAD NAME", "IS: " + launchPad.getFullName());
+                        }
+
                         if (launchPads.size() > 0) {
                             deleteAllLaunchPads();
                             addLaunchPads(launchPads);
                         }
 
                         mLaunchPadsObservable.setValue(ResultDisplay.success(launchPads));
+                    } else {
+                        Log.v("LAUNCH PADS RESPONSE", "SUCCESSFUL, BUT EMPTY");
                     }
                 } else {
                     // Bad API token
                     mLaunchPadsObservable.setValue(ResultDisplay.error(String.valueOf(response.code()), Collections.emptyList()));
+                    Log.v("LAUNCH PADS RESPONSE", "SUCCESSFUL");
                 }
             }
 
@@ -180,6 +199,7 @@ public class Repository {
             public void onFailure(Call<List<LaunchPad>> call, Throwable t) {
                 // Http error
                 mLaunchPadsObservable.setValue(ResultDisplay.error(t.getMessage(), Collections.emptyList()));
+                Log.v("LAUNCH PADS RESPONSE", "FAILED");
             }
         });
 
@@ -196,4 +216,5 @@ public class Repository {
 
     public LiveData<LaunchPad> getLaunchPadDetails(int id) { return launchPadsDao.loadLaunchPadDetails(id); }
     public LiveData<List<LaunchPad>> getLaunchPads() { return launchPadsDao.loadAllLaunchPads(); }
+    public int getLaunchPadId(String pad) { return launchPadsDao.getLaunchPadId(pad); }
 }

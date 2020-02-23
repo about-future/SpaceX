@@ -17,7 +17,7 @@ import com.about.future.spacex.ui.SpaceXActivity;
 
 import java.util.Date;
 
-import static com.about.future.spacex.ui.fragments.MissionsFragment.MISSION_NUMBER_KEY;
+import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
 
 public class MissionAppWidget extends AppWidgetProvider {
 

@@ -11,7 +11,7 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.about.future.spacex.widget.UpdateIntentService;
-import com.google.firebase.messaging.FirebaseMessaging;
+//import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener {
@@ -44,10 +44,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
                 if (switchIsOn) {
                     // Subscribe to this topic
-                    FirebaseMessaging.getInstance().subscribeToTopic(key);
+                    //FirebaseMessaging.getInstance().subscribeToTopic(key);
                 } else {
                     // Otherwise, unsubscribe
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(key);
+                    //FirebaseMessaging.getInstance().unsubscribeFromTopic(key);
                 }
             }
 

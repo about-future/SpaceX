@@ -1,18 +1,7 @@
 package com.about.future.spacex.ui.fragments;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.about.future.spacex.R;
-import com.about.future.spacex.data.AppDatabase;
-import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.model.rocket.CompositeFairing;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.utils.DateUtils;
@@ -32,7 +25,8 @@ import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.ui.RocketDetailsActivity;
-import com.google.gson.Gson;
+import com.about.future.spacex.viewmodel.RocketsViewModel;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -40,16 +34,14 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.ui.fragments.RocketsFragment.ROCKET_ID_KEY;
+import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
 
-public class RocketDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Rocket> {
-    private static final int ROCKET_LOADER_ID = 495835;
-
-    private AppDatabase mDb;
+public class RocketDetailsFragment extends Fragment {
     private Rocket mRocket;
     private int mRocketId;
     private View mRootView;
     private boolean mIsMetric;
+    private RocketsViewModel mViewModel;
 
     @BindView(R.id.rocket_toolbar)
     Toolbar mToolbar;
@@ -158,7 +150,6 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDb = AppDatabase.getInstance(getContext());
 
         if (getArguments() != null && getArguments().containsKey(ROCKET_ID_KEY)) {
             mRocketId = getArguments().getInt(ROCKET_ID_KEY);
@@ -166,9 +157,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
         setHasOptionsMenu(true);
     }
 
-    public RocketDetailsActivity getActivityCast() {
-        return (RocketDetailsActivity) getActivity();
-    }
+    private RocketDetailsActivity getActivityCast() { return (RocketDetailsActivity) getActivity(); }
+    public void setRocketId(int rocketID) { mRocketId = rocketID; }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -183,27 +173,16 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
         mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshData();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 3000);
-            }
+        // Init view model
+        mViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
+        mViewModel.getRocketDetails(mRocketId).observe(this, rocket -> {
+            bindViews(rocket);
+            mRocket = rocket;
         });
 
-        RocketViewModelFactory factory = new RocketViewModelFactory(mDb, mRocketId);
-        final RocketViewModel viewModel = ViewModelProviders.of(this, factory).get(RocketViewModel.class);
-        viewModel.getRocketLiveData().observe(this, new Observer<Rocket>() {
-            @Override
-            public void onChanged(@Nullable Rocket rocket) {
-                bindViews(rocket);
-                mRocket = rocket;
-            }
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mSwipeRefreshLayout.setRefreshing(false);
+            refreshData();
         });
 
         return mRootView;
@@ -212,8 +191,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
     private void refreshData() {
         // If there is a network connection, refresh data
         if (NetworkUtils.isConnected(getActivityCast())) {
-            //Init rocket loader
-            getLoaderManager().initLoader(ROCKET_LOADER_ID, null, this);
+            Toast.makeText(getActivityCast(), "Rocket refresh", Toast.LENGTH_SHORT).show();
         } else {
             // Display connection error message
             Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
@@ -238,13 +216,8 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
             mRootView.animate().alpha(1);
 
             // Title
-            mCollapsingToolbarLayout.setTitle(rocket.getName());
-            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getActivityCast().onBackPressed();
-                }
-            });
+            mCollapsingToolbarLayout.setTitle(rocket.getRocketName());
+            mToolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 
             // Set rocket image (payload and core)
             ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
@@ -252,7 +225,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
             float[] screenSize = ScreenUtils.getScreenSize(getActivityCast());
 
             // Set Backdrop, Rocket Patch, Gallery Sample & Rocket image, depending on rocket id
-            switch (rocket.getId()) {
+            switch (rocket.getRocketId()) {
                 case "falcon1":
                     mBackdropImageView.setImageResource(R.drawable.falcon1);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_f1_small);
@@ -280,7 +253,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                     paramsPayload.setMarginEnd(20);
                     paramsCore.setMarginEnd(20);
                     break;
-                case "bfr":
+                case "starship":
                     mBackdropImageView.setImageResource(R.drawable.bfr1);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_bfr_small);
                     mGalleryImageView.setImageResource(R.drawable.bfr_gallery);
@@ -401,7 +374,7 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
 
             // Second State
             // Payload Options
-            switch (rocket.getName()) {
+            switch (rocket.getRocketName()) {
                 case "Falcon 9":
                     mPayloadOptionLabel.setText(R.string.label_payload_option1);
                     mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
@@ -418,82 +391,76 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
 
             final CompositeFairing payload = rocket.getSecondStage().getPayloads().getCompositeFairing();
 
-            mPayloadImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (TextUtils.equals(rocket.getName(), "Falcon 9") || TextUtils.equals(rocket.getName(), "Falcon Heavy")) {
-                        if (TextUtils.equals(mPayloadOption.getText().toString(), "Dragon")) {
-                            mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
-                            if (TextUtils.equals(rocket.getName(), "Falcon 9")) {
-                                mPayloadImageView.setImageResource(R.drawable.payload_satellite);
-                            } else {
-                                mPayloadImageView.setImageResource(R.drawable.payload_fh_satellite);
-                            }
-                            mPayloadOptionLabel.setText(R.string.label_payload_option1);
+            mPayloadImageView.setOnClickListener(view -> {
+                if (TextUtils.equals(rocket.getRocketName(), "Falcon 9") || TextUtils.equals(rocket.getRocketName(), "Falcon Heavy")) {
+                    if (TextUtils.equals(mPayloadOption.getText().toString(), "Dragon")) {
+                        mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
+                        if (TextUtils.equals(rocket.getRocketName(), "Falcon 9")) {
+                            mPayloadImageView.setImageResource(R.drawable.payload_satellite);
+                        } else {
+                            mPayloadImageView.setImageResource(R.drawable.payload_fh_satellite);
+                        }
+                        mPayloadOptionLabel.setText(R.string.label_payload_option1);
 
-                            // Payload Height
-                            if (payload.getHeight() != null && payload.getHeight().getMeters() > 0) {
-                                if(mIsMetric) {
-                                    mPayloadHeight.setText(String.format(getString(R.string.dimensions_meters), payload.getHeight().getMeters()));
-                                } else {
-                                    mPayloadHeight.setText(String.format(getString(R.string.dimensions_feet), payload.getHeight().getFeet()));
-                                }
+                        // Payload Height
+                        if (payload.getHeight() != null && payload.getHeight().getMeters() > 0) {
+                            if(mIsMetric) {
+                                mPayloadHeight.setText(String.format(getString(R.string.dimensions_meters), payload.getHeight().getMeters()));
                             } else {
-                                mPayloadHeight.setText(getString(R.string.label_unknown));
-                            }
-
-                            // Payload Diameter
-                            if (payload.getDiameter() != null && payload.getDiameter().getMeters() > 0) {
-                                if(mIsMetric) {
-                                    mPayloadDiameter.setText(String.format(getString(R.string.dimensions_meters), payload.getDiameter().getMeters()));
-                                } else {
-                                    mPayloadDiameter.setText(String.format(getString(R.string.dimensions_feet), payload.getDiameter().getFeet()));
-                                }
-                            } else {
-                                mPayloadDiameter.setText(getString(R.string.label_unknown));
+                                mPayloadHeight.setText(String.format(getString(R.string.dimensions_feet), payload.getHeight().getFeet()));
                             }
                         } else {
-                            mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption1()));
-                            if (TextUtils.equals(rocket.getName(), "Falcon 9")) {
-                                mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
-                            } else {
-                                mPayloadImageView.setImageResource(R.drawable.payload_fh_dragon2);
-                            }
-                            mPayloadOptionLabel.setText(R.string.label_payload_option2);
+                            mPayloadHeight.setText(getString(R.string.label_unknown));
+                        }
 
-                            // Set payload height and diameter
+                        // Payload Diameter
+                        if (payload.getDiameter() != null && payload.getDiameter().getMeters() > 0) {
                             if(mIsMetric) {
-                                mPayloadHeight.setText(getString(R.string.dragon_height_metric));
-                                mPayloadDiameter.setText(getString(R.string.dragon_diameter_metric));
+                                mPayloadDiameter.setText(String.format(getString(R.string.dimensions_meters), payload.getDiameter().getMeters()));
                             } else {
-                                mPayloadHeight.setText(getString(R.string.dragon_height_imperial));
-                                mPayloadDiameter.setText(getString(R.string.dragon_diameter_imperial));
+                                mPayloadDiameter.setText(String.format(getString(R.string.dimensions_feet), payload.getDiameter().getFeet()));
                             }
+                        } else {
+                            mPayloadDiameter.setText(getString(R.string.label_unknown));
+                        }
+                    } else {
+                        mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption1()));
+                        if (TextUtils.equals(rocket.getRocketName(), "Falcon 9")) {
+                            mPayloadImageView.setImageResource(R.drawable.payload_dragon2);
+                        } else {
+                            mPayloadImageView.setImageResource(R.drawable.payload_fh_dragon2);
+                        }
+                        mPayloadOptionLabel.setText(R.string.label_payload_option2);
+
+                        // Set payload height and diameter
+                        if(mIsMetric) {
+                            mPayloadHeight.setText(getString(R.string.dragon_height_metric));
+                            mPayloadDiameter.setText(getString(R.string.dragon_diameter_metric));
+                        } else {
+                            mPayloadHeight.setText(getString(R.string.dragon_height_imperial));
+                            mPayloadDiameter.setText(getString(R.string.dragon_diameter_imperial));
                         }
                     }
                 }
             });
 
-            mCoreImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(!mIsCoreSwitched) {
-                        if (TextUtils.equals(rocket.getName(), "Falcon 9")) {
-                            mCoreImageView.setImageResource(R.drawable.core_block4);
-                        }
-                        if (TextUtils.equals(rocket.getName(), "Falcon Heavy")) {
-                            mCoreImageView.setImageResource(R.drawable.falcon_heavy_block5);
-                        }
-                    } else {
-                        if (TextUtils.equals(rocket.getName(), "Falcon 9")) {
-                            mCoreImageView.setImageResource(R.drawable.core_block5);
-                        }
-                        if (TextUtils.equals(rocket.getName(), "Falcon Heavy")) {
-                            mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
-                        }
+            mCoreImageView.setOnClickListener(view -> {
+                if(!mIsCoreSwitched) {
+                    if (TextUtils.equals(rocket.getRocketName(), "Falcon 9")) {
+                        mCoreImageView.setImageResource(R.drawable.core_block4);
                     }
-                    mIsCoreSwitched = !mIsCoreSwitched;
+                    if (TextUtils.equals(rocket.getRocketName(), "Falcon Heavy")) {
+                        mCoreImageView.setImageResource(R.drawable.falcon_heavy_block5);
+                    }
+                } else {
+                    if (TextUtils.equals(rocket.getRocketName(), "Falcon 9")) {
+                        mCoreImageView.setImageResource(R.drawable.core_block5);
+                    }
+                    if (TextUtils.equals(rocket.getRocketName(), "Falcon Heavy")) {
+                        mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
+                    }
                 }
+                mIsCoreSwitched = !mIsCoreSwitched;
             });
 
             // Payload Height
@@ -566,44 +533,5 @@ public class RocketDetailsFragment extends Fragment implements LoaderManager.Loa
                 mFirstStageThrustInVacuum.setText(String.format(getString(R.string.thrust_lbf), TextsUtils.formatThrust(rocket.getFirstStage().getThrustVacuum().getLbf())));
             }
         }
-    }
-
-    @NonNull
-    @Override
-    public Loader<Rocket> onCreateLoader(int loaderId, @Nullable Bundle args) {
-        switch (loaderId) {
-            case ROCKET_LOADER_ID:
-                // If the loaded id matches, return a new rocket loader
-                return new RocketLoader(getActivityCast(), mRocket.getId());
-            default:
-                throw new RuntimeException("Loader Not Implemented: " + loaderId);
-        }
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Rocket> loader, final Rocket rocket) {
-        if (rocket != null) {
-
-            String rocketAsString1 = new Gson().toJson(rocket);
-            String rocketAsString2 = new Gson().toJson(mRocket);
-
-            // If the content of the two rockets is different, update the DB
-            if (!rocketAsString1.equals(rocketAsString2)) {
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.rocketDao().updateRocket(rocket);
-                    }
-                });
-                ScreenUtils.snakBarThis(mRootView, getString(R.string.rocket_updated));
-            } else {
-                ScreenUtils.snakBarThis(mRootView, getString(R.string.rocket_up_to_date));
-            }
-        }
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Rocket> loader) {
-        mRocket = null;
     }
 }

@@ -4,21 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
+import com.about.future.spacex.ui.fragments.LaunchPadDetailsFragment;
+import com.about.future.spacex.ui.fragments.RocketDetailsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.ui.fragments.RocketsFragment.ROCKET_ID_KEY;
+import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
 
 public class RocketDetailsActivity extends AppCompatActivity {
-    @BindView(R.id.rocket_pager)
-    ViewPager2 mPager;
+//    @BindView(R.id.rocket_pager)
+//    ViewPager2 mPager;
+//    private MyPagerAdapter mPagerAdapter;
 
-    private MyPagerAdapter mPagerAdapter;
     private int mRocketId = 1;
 
     @Override
@@ -36,9 +39,17 @@ public class RocketDetailsActivity extends AppCompatActivity {
             }
         }
 
-        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(mRocketId - 1);
+//        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
+//        mPager.setAdapter(mPagerAdapter);
+//        mPager.setCurrentItem(mRocketId - 1);
+
+        RocketDetailsFragment fragment = new RocketDetailsFragment();
+        fragment.setRocketId(mRocketId);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rocket_container, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     @Override
@@ -50,8 +61,8 @@ public class RocketDetailsActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         mRocketId = savedInstanceState.getInt(ROCKET_ID_KEY);
-        mPager.setCurrentItem(mRocketId - 1);
-        mPagerAdapter.notifyDataSetChanged();
+//        mPager.setCurrentItem(mRocketId - 1);
+//        mPagerAdapter.notifyDataSetChanged();
 
         super.onRestoreInstanceState(savedInstanceState);
     }

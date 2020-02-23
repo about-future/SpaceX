@@ -13,13 +13,13 @@ import java.util.List;
 
 @Dao
 public interface LaunchPadsDao {
-    @Query("SELECT * FROM launch_pads ORDER BY padId")
+    @Query("SELECT * FROM launch_pads ORDER BY id")
     LiveData<List<LaunchPad>> loadAllLaunchPads();
 
-    @Query("SELECT * FROM launch_pads WHERE padId = :padId")
+    @Query("SELECT * FROM launch_pads WHERE id = :padId")
     LiveData<LaunchPad> loadLaunchPadDetails(int padId);
 
-    @Query("SELECT padid FROM launch_pads WHERE id = :launchPadId")
+    @Query("SELECT id FROM launch_pads WHERE site_id = :launchPadId")
     int getLaunchPadId(String launchPadId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

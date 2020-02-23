@@ -9,36 +9,49 @@ public class Links {
     @ColumnInfo(name = "mission_patch")
     @SerializedName("mission_patch")
     private String missionPatch;
+
     @ColumnInfo(name = "mission_patch_small")
     @SerializedName("mission_patch_small")
     private String missionPatchSmall;
+
     @ColumnInfo(name = "reddit_campaign")
     @SerializedName("reddit_campaign")
     private String redditCampaign;
+
     @ColumnInfo(name = "reddit_launch")
     @SerializedName("reddit_launch")
     private String redditLaunch;
+
     @ColumnInfo(name = "reddit_recovery")
     @SerializedName("reddit_recovery")
     private String redditRecovery;
+
     @ColumnInfo(name = "reddit_media")
     @SerializedName("reddit_media")
     private String redditMedia;
+
     //@ColumnInfo(name = "")
     @SerializedName("presskit")
     private String presskit;
+
     @ColumnInfo(name = "article_link")
     @SerializedName("article_link")
     private String articleLink;
+
     @SerializedName("wikipedia")
     private String wikipedia;
+
     @ColumnInfo(name = "video_link")
     @SerializedName("video_link")
     private String videoLink;
 
+    @ColumnInfo(name = "youtube_id")
+    @SerializedName("youtube_id")
+    private String youtubeId;
+
     public Links(String missionPatch, String missionPatchSmall, String redditCampaign,
                  String redditLaunch, String redditRecovery, String redditMedia, String presskit,
-                 String articleLink, String wikipedia, String videoLink) {
+                 String articleLink, String wikipedia, String videoLink, String youtubeId) {
         this.missionPatch = missionPatch;
         this.missionPatchSmall = missionPatchSmall;
         this.redditCampaign = redditCampaign;
@@ -49,6 +62,7 @@ public class Links {
         this.articleLink = articleLink;
         this.wikipedia = wikipedia;
         this.videoLink = videoLink;
+        this.youtubeId = youtubeId;
     }
 
     @Ignore
@@ -64,6 +78,7 @@ public class Links {
     public String getRedditRecovery() { return redditRecovery; }
     public String getWikipedia() { return wikipedia; }
     public String getVideoLink() { return videoLink; }
+    public String getYoutubeId() { return youtubeId; }
 
     public void setMissionPatch(String missionPatch) { this.missionPatch = missionPatch; }
     public void setArticleLink(String articleLink) { this.articleLink = articleLink; }
@@ -73,6 +88,7 @@ public class Links {
     public void setRedditLaunch(String redditLaunch) { this.redditLaunch = redditLaunch; }
     public void setRedditMedia(String redditMedia) { this.redditMedia = redditMedia; }
     public void setRedditRecovery(String redditRecovery) { this.redditRecovery = redditRecovery; }
-    public void setVideoLink(String videoLink) { this.videoLink = videoLink; }
     public void setWikipedia(String wikipedia) { this.wikipedia = wikipedia; }
+    public void setVideoLink(String videoLink) { this.videoLink = videoLink; }
+    public void setYoutubeId(String youtubeId) { this.youtubeId = youtubeId; }
 }

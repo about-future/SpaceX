@@ -152,7 +152,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(mLaunchPads.get(getAdapterPosition()).getPadId());
+            mOnClickListener.onItemClickListener(mLaunchPads.get(getAdapterPosition()).getId());
         }
     }
 

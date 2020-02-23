@@ -40,23 +40,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_missions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_tab_missions" />
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:id="@+id/tab_missions"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/label_tab_missions" />-->
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_rockets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_tab_rockets" />
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:id="@+id/tab_rockets"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/label_tab_rockets" />-->
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_launch_pads"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_tab_launch_pads" />
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:id="@+id/tab_launch_pads"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/label_tab_launch_pads" />-->
 
         </com.google.android.material.tabs.TabLayout>
 

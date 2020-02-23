@@ -2,54 +2,46 @@ package com.about.future.spacex.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.data.AppDatabase;
-import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.ui.adapters.RocketsAdapter;
 import com.about.future.spacex.model.rocket.Rocket;
-import com.about.future.spacex.model.rocket.RocketMini;
 import com.about.future.spacex.utils.NetworkUtils;
+import com.about.future.spacex.utils.ResultDisplay;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.ui.RocketDetailsActivity;
 import com.about.future.spacex.ui.SpaceXActivity;
+import com.about.future.spacex.viewmodel.RocketsViewModel;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RocketsFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<List<Rocket>>, RocketsAdapter.ListItemClickListener {
+import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
 
-    private static final int ROCKETS_LOADER_ID = 495;
-    public static final String ROCKET_ID_KEY = "rocket_id";
-
-    private AppDatabase mDb;
+public class RocketsFragment extends Fragment implements RocketsAdapter.ListItemClickListener {
     private RocketsAdapter mRocketsAdapter;
+    private RocketsViewModel mViewModel;
 
     @BindView(R.id.swipe_refresh_rockets_list_layout)
-    SwipeRefreshLayout mSwipeRefreshRocketsLayout;
+    SwipeRefreshLayout mSwipeToRefreshLayout;
     @BindView(R.id.rockets_rv)
-    RecyclerView mRocketsRecyclerView;
-    @BindView(R.id.rockets_no_connection_cloud)
-    ImageView mNoConnectionImageView;
+    RecyclerView mRecyclerView;
     @BindView(R.id.rockets_no_connection_message)
     TextView mNoConnectionMessage;
 
@@ -59,80 +51,145 @@ public class RocketsFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_rockets_list, container, false);
         ButterKnife.bind(this, view);
 
-        int columnCount = getResources().getInteger(R.integer.rocket_list_column_count);
-        StaggeredGridLayoutManager sglm =
-                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-        mRocketsRecyclerView.setLayoutManager(sglm);
-        mRocketsRecyclerView.setHasFixedSize(false);
-        mRocketsAdapter = new RocketsAdapter(getContext(), this);
-        mRocketsRecyclerView.setAdapter(mRocketsAdapter);
+        // Setup RecyclerView and Adaptor
+        setupRecyclerView();
+        // Init view model
+        mViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
 
-        mDb = AppDatabase.getInstance(getContext());
-
-        // If rockets were already loaded once, just query the DB and display them,
-        // otherwise init the loader and get data from server
-        if (SpaceXPreferences.getRocketsStatus(getActivityCast())) {
-            // Load data from DB
-            setupViewModel();
-        } else {
-            // Get data from internet
-            getData();
-        }
-
-        mSwipeRefreshRocketsLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Get data from internet
-                getData();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshRocketsLayout.setRefreshing(false);
-                    }
-                }, 3000);
-            }
+        mSwipeToRefreshLayout.setOnRefreshListener(() -> {
+            mSwipeToRefreshLayout.setRefreshing(false);
+            SpaceXPreferences.setRocketsStatus(getContext(), true);
+            getRockets();
         });
 
         return view;
     }
 
-    private void setupViewModel() {
-        RocketsViewModel rocketsViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
-        rocketsViewModel.getRockets().observe(this, new Observer<List<RocketMini>>() {
-            @Override
-            public void onChanged(@Nullable List<RocketMini> rockets) {
-                if (rockets != null) {
-                    mRocketsAdapter.setRockets(rockets);
+    private void setupRecyclerView() {
+        int columnCount = getResources().getInteger(R.integer.rocket_list_column_count);
+        StaggeredGridLayoutManager sglm =
+                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(sglm);
+        mRecyclerView.setHasFixedSize(false);
+        mRocketsAdapter = new RocketsAdapter(getContext(), this);
+        mRecyclerView.setAdapter(mRocketsAdapter);
+    }
+
+    private SpaceXActivity getActivityCast() {
+        return (SpaceXActivity) getActivity();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getRockets();
+    }
+
+    // If rockets were already loaded once, just query the DB and display them,
+    // otherwise get them from server
+    private void getRockets() {
+        // If a forced download is requested, getRocketsStatus flag is true
+        // and we download all rockets from server
+        if (SpaceXPreferences.getRocketsStatus(getActivityCast())) {
+            // If there is a network connection
+            if (NetworkUtils.isConnected(getActivityCast())) {
+                loadingStateUi();
+                getRocketsFromServer();
+            } else {
+                // Show connection error
+                //showDialog(getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
+                Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Otherwise, get them from DB
+            getRocketsFromDB();
+        }
+    }
+
+    private void getRocketsFromServer() {
+        Log.v("GET ROCKETS", "FROM SERVER");
+
+        mViewModel.getRocketsFromServer().observe(this, checkResultDisplay -> {
+            if (checkResultDisplay != null) {
+                switch (checkResultDisplay.state) {
+                    case ResultDisplay.STATE_LOADING:
+                        // Update UI
+                        loadingStateUi();
+                        break;
+                    case ResultDisplay.STATE_ERROR:
+                        // Update UI
+                        errorStateUi(1);
+                        if (mSwipeToRefreshLayout != null)
+                            mSwipeToRefreshLayout.setRefreshing(false);
+
+                        // Show error message
+                        Toast.makeText(getActivityCast(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                        break;
+                    case ResultDisplay.STATE_SUCCESS:
+                        if (mSwipeToRefreshLayout != null)
+                            mSwipeToRefreshLayout.setRefreshing(false);
+
+                        List<Rocket> rockets = checkResultDisplay.data;
+
+                        if (rockets != null && rockets.size() > 0) {
+                            SpaceXPreferences.setRocketsStatus(getContext(), false);
+                            getRocketsFromDB();
+
+                            // Save the total number of rockets
+                            SpaceXPreferences.setTotalNumberOfRockets(getActivityCast(), rockets.size());
+                        } else {
+                            // Update UI
+                            errorStateUi(0);
+                        }
+
+                        break;
                 }
             }
         });
     }
 
-    private void getData() {
-        // Get of refresh data, if there is a network connection
-        if (NetworkUtils.isConnected(getActivityCast())) {
-            mRocketsRecyclerView.setVisibility(View.VISIBLE);
-            mNoConnectionImageView.setVisibility(View.INVISIBLE);
-            mNoConnectionMessage.setVisibility(View.INVISIBLE);
+    private void getRocketsFromDB() {
+        Log.v("GET ROCKETS", "FROM DB");
 
-            //Init or restart rockets loader
-            getLoaderManager().restartLoader(ROCKETS_LOADER_ID, null, this);
-        } else {
-            // Otherwise, if rockets were loaded before, just display a toast
-            if (SpaceXPreferences.getRocketsStatus(getActivityCast())) {
-                // Display connection error message as a Toast
-                Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+        // Try loading data from DB, if no data was found show empty list
+        mViewModel.getRocketsFromDb().observe(this, rockets -> {
+            if (rockets != null && rockets.size() > 0) {
+                // Update UI
+                successStateUi();
+                // Show data
+                mRocketsAdapter.setRockets(rockets);
             } else {
-                // Otherwise, display a connection error message and a no connection icon
-                mRocketsRecyclerView.setVisibility(View.INVISIBLE);
-                mNoConnectionImageView.setVisibility(View.VISIBLE);
-                mNoConnectionMessage.setVisibility(View.VISIBLE);
+                // Update UI
+                errorStateUi(0);
             }
+        });
+    }
+
+    private void loadingStateUi() {
+        mRecyclerView.setVisibility(View.GONE);
+        mNoConnectionMessage.setVisibility(View.VISIBLE);
+        mNoConnectionMessage.setText(getString(R.string.loading_rockets));
+    }
+
+    private void errorStateUi(int errorType) {
+        mRecyclerView.setVisibility(View.GONE);
+        mNoConnectionMessage.setVisibility(View.INVISIBLE);
+        switch (errorType) {
+            case 0:
+                mNoConnectionMessage.setText(getString(R.string.no_rocket_available));
+                break;
+            case 1:
+                mNoConnectionMessage.setText(getString(R.string.unknown_error));
+                break;
+            default:
+                mNoConnectionMessage.setText(getString(R.string.no_connection));
+                break;
         }
     }
 
-    public SpaceXActivity getActivityCast() {
-        return (SpaceXActivity) getActivity();
+    private void successStateUi() {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mNoConnectionMessage.setVisibility(View.GONE);
     }
 
     @Override
@@ -140,53 +197,5 @@ public class RocketsFragment extends Fragment implements
         Intent rocketDetailsIntent = new Intent(getActivity(), RocketDetailsActivity.class);
         rocketDetailsIntent.putExtra(ROCKET_ID_KEY, rocketId);
         startActivity(rocketDetailsIntent);
-    }
-
-    @NonNull
-    @Override
-    public Loader<List<Rocket>> onCreateLoader(int loaderId, @Nullable Bundle args) {
-        switch (loaderId) {
-            case ROCKETS_LOADER_ID:
-                // If the loaded id matches rocket loader, return a new rocket loader
-                return new RocketsLoader(getActivityCast());
-            default:
-                throw new RuntimeException("Loader Not Implemented: " + loaderId);
-        }
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<List<Rocket>> loader, final List<Rocket> data) {
-        switch (loader.getId()) {
-            case ROCKETS_LOADER_ID:
-                if (data != null && data.size() > 0) {
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            // If data indeed was retrieved, insert launch pads into the DB
-                            mDb.rocketDao().insertRockets(data);
-                            // This loader is activate the first time the activity is open or when
-                            // a swipe to refresh gesture is made. Each time we set the rockets
-                            // status preference to TRUE, so the next time we need to load data,
-                            // the app will opt for loading it from DB
-                            SpaceXPreferences.setRocketsStatus(getContext(), true);
-                        }
-                    });
-
-                    // Save the total number of rockets
-                    SpaceXPreferences.setTotalNumberOfRockets(getActivityCast(), data.size());
-                }
-
-                // Setup the view model, especially if this is the first time the data is loaded
-                setupViewModel();
-
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<List<Rocket>> loader) {
-        mRocketsAdapter.setRockets(null);
     }
 }

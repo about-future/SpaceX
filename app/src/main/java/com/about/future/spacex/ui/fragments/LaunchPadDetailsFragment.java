@@ -1,17 +1,7 @@
 package com.about.future.spacex.ui.fragments;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.about.future.spacex.R;
-import com.about.future.spacex.data.AppDatabase;
-import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.model.launch_pad.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
-import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.ui.LaunchPadDetailsActivity;
-import com.google.gson.Gson;
+import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -37,17 +30,13 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.ui.fragments.LaunchPadsFragment.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_ID_KEY;
 
-
-public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<LaunchPad> {
-
-    private static final int LAUNCH_PAD_LOADER_ID = 917746;
-
-    private AppDatabase mDb;
+public class LaunchPadDetailsFragment extends Fragment {
     private LaunchPad mLaunchPad;
     private int mLaunchPadId;
     private View mRootView;
+    private LaunchPadsViewModel mViewModel;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -83,7 +72,6 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDb = AppDatabase.getInstance(getContext());
 
         if (getArguments() != null && getArguments().containsKey(LAUNCH_PAD_ID_KEY)) {
             mLaunchPadId = getArguments().getInt(LAUNCH_PAD_ID_KEY);
@@ -91,13 +79,11 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
         setHasOptionsMenu(true);
     }
 
-    public LaunchPadDetailsActivity getActivityCast() {
-        return (LaunchPadDetailsActivity) getActivity();
-    }
+    private LaunchPadDetailsActivity getActivityCast() { return (LaunchPadDetailsActivity) getActivity(); }
+    public void setLaunchPadId(int launchPadId) { mLaunchPadId = launchPadId; }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             mLaunchPadId = savedInstanceState.getInt(LAUNCH_PAD_ID_KEY);
         }
@@ -108,28 +94,16 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
         mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshData();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 3000);
-            }
+        // Init view model
+        mViewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
+        mViewModel.getLaunchPadDetails(mLaunchPadId).observe(this, launchPad -> {
+            bindViews(launchPad);
+            mLaunchPad = launchPad;
         });
 
-        LaunchPadViewModelFactory factory = new LaunchPadViewModelFactory(mDb, mLaunchPadId);
-        final LaunchPadViewModel viewModel = ViewModelProviders.of(this, factory).get(LaunchPadViewModel.class);
-        viewModel.getLaunchPadLiveData().observe(this, new Observer<LaunchPad>() {
-            @Override
-            public void onChanged(@Nullable LaunchPad launchPad) {
-                bindViews(launchPad);
-                mLaunchPad = launchPad;
-            }
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mSwipeRefreshLayout.setRefreshing(false);
+            refreshData();
         });
 
         return mRootView;
@@ -138,8 +112,8 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
     private void refreshData() {
         // If there is a network connection, refresh data
         if (NetworkUtils.isConnected(getActivityCast())) {
-            //Init launch pad loader
-            getLoaderManager().initLoader(LAUNCH_PAD_LOADER_ID, null, this);
+            // Refresh date from Server
+            Toast.makeText(getActivityCast(), "Refresh", Toast.LENGTH_SHORT).show();
         } else {
             // Display connection error message
             Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
@@ -162,12 +136,7 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
             mRootView.animate().alpha(1);
 
             mCollapsingToolbarLayout.setTitle(launchPad.getFullName());
-            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getActivityCast().onBackPressed();
-                }
-            });
+            mToolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 
             if (launchPad.getLocation() != null) {
                 double latitude = launchPad.getLocation().getLatitude();
@@ -254,44 +223,5 @@ public class LaunchPadDetailsFragment extends Fragment implements LoaderManager.
                 mLaunchPadDetailsTextView.setVisibility(View.GONE);
             }
         }
-    }
-
-    @NonNull
-    @Override
-    public Loader<LaunchPad> onCreateLoader(int loaderId, @Nullable Bundle args) {
-        switch (loaderId) {
-            case LAUNCH_PAD_LOADER_ID:
-                // If the loaded id matches launch pad loader, return a new launch pad loader
-                return new LaunchPadLoader(getActivityCast(), mLaunchPad.getId());
-            default:
-                throw new RuntimeException("Loader Not Implemented: " + loaderId);
-        }
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<LaunchPad> loader, final LaunchPad launchPad) {
-        if (launchPad != null) {
-
-            String launchPadAsString1 = new Gson().toJson(launchPad);
-            String launchPadAsString2 = new Gson().toJson(mLaunchPad);
-
-            // If the content of the two launch pads is different, update the DB
-            if (!launchPadAsString1.equals(launchPadAsString2)) {
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.launchPadDao().updateLaunchPad(launchPad);
-                    }
-                });
-                ScreenUtils.snakBarThis(mRootView, getString(R.string.launch_pad_updated));
-            } else {
-                ScreenUtils.snakBarThis(mRootView, getString(R.string.launch_pad_up_to_date));
-            }
-        }
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<LaunchPad> loader) {
-        mLaunchPad = null;
     }
 }
