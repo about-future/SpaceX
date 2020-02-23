@@ -4,16 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.ui.fragments.LaunchPadDetailsFragment;
+import com.about.future.spacex.ui.adapters.MyPagerAdapter;
+import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_ID_KEY;
 
 public class LaunchPadDetailsActivity extends AppCompatActivity {
+    @BindView(R.id.launch_pads_pager)
+    ViewPager2 mPager;
+
     private int mLaunchPadId = 1;
 
     @Override
@@ -29,13 +35,15 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
             }
         }
 
-        LaunchPadDetailsFragment fragment = new LaunchPadDetailsFragment();
-        fragment.setLaunchPadId(mLaunchPadId);
-
-        getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.launch_pad_container, fragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .commit();
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
+        LaunchPadsViewModel viewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
+        viewModel.getLaunchPadsFromDb().observe(this, launchPads -> {
+            if (launchPads != null && launchPads.size() > 0) {
+                pagerAdapter.setLaunchPads(launchPads);
+                mPager.setAdapter(pagerAdapter);
+                mPager.setCurrentItem(mLaunchPadId);
+            }
+        });
     }
 
     @Override

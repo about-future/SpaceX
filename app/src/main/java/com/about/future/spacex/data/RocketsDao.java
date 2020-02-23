@@ -14,11 +14,11 @@ import java.util.List;
 
 @Dao
 public interface RocketsDao {
-//    @Query("SELECT * FROM rockets")
-//    LiveData<List<Rocket>> loadAllRockets();
+    @Query("SELECT * FROM rockets")
+    LiveData<List<Rocket>> loadRockets();
 
     @Query("SELECT rocket_id, id, rocket_name, description FROM rockets")
-    LiveData<List<RocketMini>> loadAllRockets();
+    LiveData<List<RocketMini>> loadMiniRockets();
 
     @Query("SELECT * FROM rockets WHERE id = :rocketId")
     LiveData<Rocket> loadRocketDetails(int rocketId);

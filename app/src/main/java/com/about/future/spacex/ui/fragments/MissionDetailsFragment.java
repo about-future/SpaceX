@@ -35,7 +35,6 @@ import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
-import com.about.future.spacex.viewmodel.MissionsViewModel;
 import com.about.future.spacex.viewmodel.RocketsViewModel;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Callback;
@@ -56,7 +55,6 @@ public class MissionDetailsFragment extends Fragment {
     private int mMissionNumber;
     private View mRootView;
 
-    private MissionsViewModel mMissionsViewModel;
     private LaunchPadsViewModel mLaunchPadsViewModel;
     private RocketsViewModel mRocketsViewModel;
 
@@ -158,7 +156,7 @@ public class MissionDetailsFragment extends Fragment {
     // fix mission details layouts
 
     private MissionDetailsActivity getActivityCast() { return (MissionDetailsActivity) getActivity(); }
-    public void setMissionId(int missionId) { mMissionNumber = missionId; }
+    public void setMission(Mission mission) { mMission = mission; }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -176,11 +174,8 @@ public class MissionDetailsFragment extends Fragment {
         // Init view models
         mLaunchPadsViewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
         mRocketsViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
-        mMissionsViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
-        mMissionsViewModel.getMissionDetails(mMissionNumber).observe(this, mission -> {
-            bindViews(mission);
-            mMission = mission;
-        });
+
+        bindViews(mMission);
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(false);

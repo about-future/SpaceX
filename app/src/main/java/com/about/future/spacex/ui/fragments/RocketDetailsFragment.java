@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
@@ -25,7 +24,6 @@ import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.ui.RocketDetailsActivity;
-import com.about.future.spacex.viewmodel.RocketsViewModel;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.text.NumberFormat;
@@ -41,7 +39,6 @@ public class RocketDetailsFragment extends Fragment {
     private int mRocketId;
     private View mRootView;
     private boolean mIsMetric;
-    private RocketsViewModel mViewModel;
 
     @BindView(R.id.rocket_toolbar)
     Toolbar mToolbar;
@@ -158,7 +155,7 @@ public class RocketDetailsFragment extends Fragment {
     }
 
     private RocketDetailsActivity getActivityCast() { return (RocketDetailsActivity) getActivity(); }
-    public void setRocketId(int rocketID) { mRocketId = rocketID; }
+    public void setRocket(Rocket rocket) { mRocket = rocket; }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -173,12 +170,7 @@ public class RocketDetailsFragment extends Fragment {
         mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
 
-        // Init view model
-        mViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
-        mViewModel.getRocketDetails(mRocketId).observe(this, rocket -> {
-            bindViews(rocket);
-            mRocket = rocket;
-        });
+        bindViews(mRocket);
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(false);

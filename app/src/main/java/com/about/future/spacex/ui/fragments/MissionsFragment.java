@@ -206,7 +206,7 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
         Log.v("GET MISSIONS", "FROM DB");
 
         // Try loading data from DB, if no data was found show empty list
-        mViewModel.getMissionsFromDb().observe(this, missions -> {
+        mViewModel.getMiniMissionsFromDb().observe(this, missions -> {
             if (missions != null && missions.size() > 0) {
                 // Update UI
                 successStateUi();
@@ -250,9 +250,9 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
     }
 
     @Override
-    public void onItemClickListener(int missionNumber) {
+    public void onItemClickListener(int selectedMission) {
         Intent missionDetailsIntent = new Intent(getActivity(), MissionDetailsActivity.class);
-        missionDetailsIntent.putExtra(MISSION_NUMBER_KEY, missionNumber);
+        missionDetailsIntent.putExtra(MISSION_NUMBER_KEY, selectedMission);
         startActivity(missionDetailsIntent);
     }
 }

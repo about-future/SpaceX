@@ -33,12 +33,17 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     private final ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
-        void onItemClickListener(int missionSelected);
+        void onItemClickListener(int selectedMission);
     }
 
     public MissionsAdapter(Context context, ListItemClickListener listener) {
         mContext = context;
         mOnClickListener = listener;
+    }
+
+    public void setMissions(List<MissionMini> missions) {
+        mMissions = missions;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -149,12 +154,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(mMissions.get(getAdapterPosition()).getFlightNumber());
+            mOnClickListener.onItemClickListener(getAdapterPosition());
         }
-    }
-
-    public void setMissions(List<MissionMini> missions) {
-        mMissions = missions;
-        notifyDataSetChanged();
     }
 }

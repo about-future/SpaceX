@@ -99,7 +99,8 @@ public class Repository {
     }
 
     public LiveData<Mission> getMissionDetails(int id) { return missionsDao.loadMissionDetails(id); }
-    public LiveData<List<MissionMini>> getMissions() { return missionsDao.loadAllMissions(); }
+    public LiveData<List<Mission>> getMissions() { return missionsDao.loadMissions(); }
+    public LiveData<List<MissionMini>> getMiniMissions() { return missionsDao.loadMiniMissions(); }
     //public Mission getUpcommingMission(long now) { return missionsDao.findUpcomingMission(now); }
 
 
@@ -154,7 +155,8 @@ public class Repository {
     }
 
     public LiveData<Rocket> getRocketDetails(int id) { return rocketsDao.loadRocketDetails(id); }
-    public LiveData<List<RocketMini>> getRockets() { return rocketsDao.loadAllRockets(); }
+    public LiveData<List<RocketMini>> getMiniRockets() { return rocketsDao.loadMiniRockets(); }
+    public LiveData<List<Rocket>> getRockets() { return rocketsDao.loadRockets(); }
     public int getRocketId(String rocket) { return rocketsDao.getRocketId(rocket); }
 
 

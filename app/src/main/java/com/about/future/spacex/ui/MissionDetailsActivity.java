@@ -4,19 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.ui.fragments.MissionDetailsFragment;
+import com.about.future.spacex.ui.adapters.MyPagerAdapter;
+import com.about.future.spacex.viewmodel.MissionsViewModel;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
 
 public class MissionDetailsActivity extends AppCompatActivity {
-//    @BindView(R.id.mission_pager)
-//    ViewPager2 mPager;
-    //private MyPagerAdapter mPagerAdapter;
+    @BindView(R.id.mission_pager)
+    ViewPager2 mPager;
 
     private int mMissionNumber = 1;
 
@@ -26,8 +28,6 @@ public class MissionDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mission_details);
         ButterKnife.bind(this);
 
-        //return SpaceXPreferences.getTotalNumberOfMissions(getApplicationContext());
-
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (intent != null && intent.hasExtra(MISSION_NUMBER_KEY)) {
@@ -36,17 +36,15 @@ public class MissionDetailsActivity extends AppCompatActivity {
 
         }
 
-//        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-//        mPager = findViewById(R.id.mission_pager);
-//        mPager.setCurrentItem(mMissionNumber - 1);
-
-        MissionDetailsFragment fragment = new MissionDetailsFragment();
-        fragment.setMissionId(mMissionNumber);
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.mission_container, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commit();
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
+        MissionsViewModel viewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
+        viewModel.getMissionsFromDb().observe(this, missions -> {
+            if (missions != null && missions.size() > 0) {
+                pagerAdapter.setMissions(missions);
+                mPager.setAdapter(pagerAdapter);
+                mPager.setCurrentItem(mMissionNumber);
+            }
+        });
     }
 
     @Override

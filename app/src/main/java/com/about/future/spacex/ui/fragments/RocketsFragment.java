@@ -152,7 +152,7 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
         Log.v("GET ROCKETS", "FROM DB");
 
         // Try loading data from DB, if no data was found show empty list
-        mViewModel.getRocketsFromDb().observe(this, rockets -> {
+        mViewModel.getMiniRocketsFromDb().observe(this, rockets -> {
             if (rockets != null && rockets.size() > 0) {
                 // Update UI
                 successStateUi();
@@ -193,9 +193,9 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
     }
 
     @Override
-    public void onItemClickListener(int rocketId) {
+    public void onItemClickListener(int selectedRocket) {
         Intent rocketDetailsIntent = new Intent(getActivity(), RocketDetailsActivity.class);
-        rocketDetailsIntent.putExtra(ROCKET_ID_KEY, rocketId);
+        rocketDetailsIntent.putExtra(ROCKET_ID_KEY, selectedRocket);
         startActivity(rocketDetailsIntent);
     }
 }

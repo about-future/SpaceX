@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
-import com.about.future.spacex.ui.fragments.LaunchPadDetailsFragment;
-import com.about.future.spacex.ui.fragments.RocketDetailsFragment;
+import com.about.future.spacex.viewmodel.RocketsViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,9 +17,8 @@ import butterknife.ButterKnife;
 import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
 
 public class RocketDetailsActivity extends AppCompatActivity {
-//    @BindView(R.id.rocket_pager)
-//    ViewPager2 mPager;
-//    private MyPagerAdapter mPagerAdapter;
+    @BindView(R.id.rocket_pager)
+    ViewPager2 mPager;
 
     private int mRocketId = 1;
 
@@ -30,8 +28,6 @@ public class RocketDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rocket_details);
         ButterKnife.bind(this);
 
-        //return SpaceXPreferences.getTotalNumberOfRockets(getApplicationContext());
-
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (intent != null && intent.hasExtra(ROCKET_ID_KEY)) {
@@ -39,17 +35,15 @@ public class RocketDetailsActivity extends AppCompatActivity {
             }
         }
 
-//        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-//        mPager.setAdapter(mPagerAdapter);
-//        mPager.setCurrentItem(mRocketId - 1);
-
-        RocketDetailsFragment fragment = new RocketDetailsFragment();
-        fragment.setRocketId(mRocketId);
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rocket_container, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commit();
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
+        RocketsViewModel viewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
+        viewModel.getRocketsFromDb().observe(this, rockets -> {
+            if (rockets != null && rockets.size() > 0) {
+                pagerAdapter.setRockets(rockets);
+                mPager.setAdapter(pagerAdapter);
+                mPager.setCurrentItem(mRocketId);
+            }
+        });
     }
 
     @Override

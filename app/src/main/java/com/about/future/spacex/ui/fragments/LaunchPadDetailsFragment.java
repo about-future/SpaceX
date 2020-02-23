@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+//import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
@@ -21,7 +21,7 @@ import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.ui.LaunchPadDetailsActivity;
-import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
+//import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -36,7 +36,6 @@ public class LaunchPadDetailsFragment extends Fragment {
     private LaunchPad mLaunchPad;
     private int mLaunchPadId;
     private View mRootView;
-    private LaunchPadsViewModel mViewModel;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -80,7 +79,7 @@ public class LaunchPadDetailsFragment extends Fragment {
     }
 
     private LaunchPadDetailsActivity getActivityCast() { return (LaunchPadDetailsActivity) getActivity(); }
-    public void setLaunchPadId(int launchPadId) { mLaunchPadId = launchPadId; }
+    public void setLaunchPad(LaunchPad launchPad) { mLaunchPad = launchPad; }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,13 +92,7 @@ public class LaunchPadDetailsFragment extends Fragment {
 
         mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
-
-        // Init view model
-        mViewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
-        mViewModel.getLaunchPadDetails(mLaunchPadId).observe(this, launchPad -> {
-            bindViews(launchPad);
-            mLaunchPad = launchPad;
-        });
+        bindViews(mLaunchPad);
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             mSwipeRefreshLayout.setRefreshing(false);
