@@ -258,8 +258,9 @@
                         <TextView
                             android:id="@+id/payload_id"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_width="0dp"
+                            app:layout_constraintEnd_toEndOf="@+id/separation_line33"
+                            app:layout_constraintStart_toEndOf="@+id/payload_id_label"
                             app:layout_constraintTop_toTopOf="@+id/payload_id_label"
                             tools:text="Telstar 19V" />
 
@@ -273,8 +274,9 @@
                         <TextView
                             android:id="@+id/payload_type"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_width="0dp"
+                            app:layout_constraintEnd_toEndOf="@+id/separation_line33"
+                            app:layout_constraintStart_toEndOf="@+id/payload_type_label"
                             app:layout_constraintTop_toTopOf="@id/payload_type_label"
                             tools:text="Satellite" />
 
@@ -289,8 +291,9 @@
                             android:id="@+id/payload_mass"
                             style="@style/RocketDetails.Values"
                             android:maxLines="2"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_width="0dp"
+                            app:layout_constraintEnd_toEndOf="@+id/separation_line33"
+                            app:layout_constraintStart_toEndOf="@+id/payload_mass_label"
                             app:layout_constraintTop_toTopOf="@id/payload_mass_label"
                             tools:text="2760 kg" />
 
@@ -306,22 +309,20 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/separation_line33"
+                            app:layout_constraintStart_toEndOf="@+id/payload_orbit_label"
                             app:layout_constraintTop_toTopOf="@+id/payload_orbit_label">
 
                             <TextView
                                 android:id="@+id/payload_orbit"
                                 style="@style/RocketDetails.Values"
-                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:text="GTO" />
 
                             <TextView
                                 android:id="@+id/payload_orbit_long"
                                 style="@style/RocketDetails.Values.Acronyms"
-                                android:visibility="gone"
-                                android:layout_width="match_parent"
+                                android:visibility="visible"
                                 android:layout_height="wrap_content"
                                 tools:text="Geostationary Transfer Orbit" />
 
@@ -358,8 +359,7 @@
                         <TextView
                             android:id="@+id/second_stage_block"
                             style="@style/RocketDetails.Values"
-                            app:layout_constraintEnd_toEndOf="@id/separation_line33"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/second_stage_block_label"
                             app:layout_constraintTop_toTopOf="@id/second_stage_block_label"
                             tools:text="3" />
 

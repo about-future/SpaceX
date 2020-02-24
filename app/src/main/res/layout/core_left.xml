@@ -16,8 +16,7 @@
     <TextView
         android:id="@+id/left_core_serial"
         style="@style/RocketDetails.Values"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/left_core_serial_label"
         app:layout_constraintTop_toTopOf="@id/left_core_serial_label"
         tools:text="B1039" />
 
@@ -31,8 +30,7 @@
     <TextView
         android:id="@+id/left_core_block"
         style="@style/RocketDetails.Values"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/left_core_block_label"
         app:layout_constraintTop_toTopOf="@id/left_core_block_label"
         tools:text="4" />
 
@@ -46,18 +44,16 @@
     <TextView
         android:id="@+id/left_core_reused"
         style="@style/RocketDetails.Values"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/left_core_reused_label"
         app:layout_constraintTop_toTopOf="@id/left_core_reused_label"
         tools:text="2" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/left_core_landing_layout"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/left_core_reused_label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toBottomOf="@id/left_core_reused_label">
 
         <TextView
             android:id="@+id/left_core_landing_label"
@@ -69,8 +65,7 @@
         <TextView
             android:id="@+id/left_core_landing"
             style="@style/RocketDetails.Values"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/left_core_landing_label"
             app:layout_constraintTop_toTopOf="@id/left_core_landing_label"
             tools:text="True" />
 
@@ -85,8 +80,7 @@
             android:id="@+id/left_core_landing_type_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/left_core_landing_label"
             app:layout_constraintTop_toTopOf="@id/left_core_landing_type_label"
             android:orientation="vertical">
 
@@ -100,7 +94,6 @@
             <TextView
                 android:id="@+id/left_core_landing_type_long"
                 style="@style/RocketDetails.Values.Acronyms"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:text="Return To Launch Site" />
@@ -116,24 +109,21 @@
 
         <LinearLayout
             android:id="@+id/left_core_landing_vehicle_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/left_core_landing_vehicle_label"
             app:layout_constraintTop_toTopOf="@id/left_core_landing_vehicle_label"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/left_core_landing_vehicle"
                 style="@style/RocketDetails.Values"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="LZ-1" />
 
             <TextView
                 android:id="@+id/left_core_landing_vehicle_long"
                 style="@style/RocketDetails.Values.Acronyms"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:text="Landing Zone 1" />
