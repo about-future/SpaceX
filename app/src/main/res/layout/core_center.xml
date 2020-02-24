@@ -50,7 +50,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/central_core_landing_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/core_reused_label">
@@ -78,9 +78,10 @@
 
         <LinearLayout
             android:id="@+id/core_landing_type_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/core_landing_type_label"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/core_landing_type_label"
             android:orientation="vertical">
 
@@ -108,9 +109,10 @@
 
         <LinearLayout
             android:id="@+id/core_landing_vehicle_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/core_landing_vehicle_label"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/core_landing_vehicle_label"
             android:orientation="vertical">
 

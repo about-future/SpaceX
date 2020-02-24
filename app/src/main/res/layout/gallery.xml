@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gallery_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <View
@@ -16,13 +18,20 @@
         android:layout_marginTop="@dimen/spacing"
         android:text="@string/label_gallery" />
 
-    <ImageView
+    <!--ImageView
         android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="@dimen/gallery_height"
         android:layout_marginTop="@dimen/spacing"
         android:contentDescription="@string/sample_image"
         android:scaleType="centerCrop"
-        android:src="@drawable/bfr_gallery" />
+        android:src="@drawable/bfr_gallery" /-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gallery_rv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gallery_height"
+        android:layout_marginTop="@dimen/spacing"
+        tools:listitem="@layout/gallery_list_item"/>
 
 </LinearLayout>

@@ -1,23 +1,31 @@
 package com.about.future.spacex.ui.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.rocket.CompositeFairing;
 import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.ui.adapters.GalleryAdapter;
 import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
@@ -27,6 +35,9 @@ import com.about.future.spacex.ui.RocketDetailsActivity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -34,11 +45,16 @@ import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
 
-public class RocketDetailsFragment extends Fragment {
+public class RocketDetailsFragment extends Fragment implements GalleryAdapter.ListItemClickListener {
     private Rocket mRocket;
     private int mRocketId;
     private View mRootView;
     private boolean mIsMetric;
+
+    private List<String> mGallery = new ArrayList<>();
+    private int mPosition = 0;
+    private Handler mHandler;
+    private Runnable mRunnable;
 
     @BindView(R.id.rocket_toolbar)
     Toolbar mToolbar;
@@ -60,8 +76,10 @@ public class RocketDetailsFragment extends Fragment {
     TextView mDescriptionTextView;
 
     // Gallery
-    @BindView(R.id.gallery)
-    ImageView mGalleryImageView;
+    @BindView(R.id.gallery_layout)
+    LinearLayout mGalleryLayout;
+    @BindView(R.id.gallery_rv)
+    RecyclerView mGalleryRecyclerView;
 
     // Rocket Image
     @BindView(R.id.rocket_core_image)
@@ -131,6 +149,7 @@ public class RocketDetailsFragment extends Fragment {
     TextView mPayloadMassToPlutoLabel;
 
     private boolean mIsCoreSwitched = false;
+    private GalleryAdapter mAdapter;
 
     public RocketDetailsFragment() {
         // Required empty public constructor
@@ -169,7 +188,7 @@ public class RocketDetailsFragment extends Fragment {
 
         mToolbar.setTitle("");
         getActivityCast().setSupportActionBar(mToolbar);
-
+        setupRecyclerView();
         bindViews(mRocket);
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
@@ -193,6 +212,20 @@ public class RocketDetailsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putInt(ROCKET_ID_KEY, mRocketId);
+    }
+
+    // Gallery RecyclerView
+    private void setupRecyclerView() {
+        mGalleryRecyclerView.setHasFixedSize(true);
+        mGalleryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivityCast(), LinearLayoutManager.HORIZONTAL, false));
+        mAdapter = new GalleryAdapter(this);
+        mGalleryRecyclerView.setAdapter(mAdapter);
+
+        // Scrolling one item at the time is done with a SnapHelper
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(mGalleryRecyclerView);
+
+        //populateGallery();
     }
 
     private void bindViews(final Rocket rocket) {
@@ -221,7 +254,7 @@ public class RocketDetailsFragment extends Fragment {
                 case "falcon1":
                     mBackdropImageView.setImageResource(R.drawable.falcon1);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_f1_small);
-                    mGalleryImageView.setImageResource(R.drawable.falcon1_gallery);
+                    //mGalleryImageView.setImageResource(R.drawable.falcon1_gallery);
                     mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
                     mCoreImageView.setImageResource(R.drawable.core_falcon1);
                     paramsPayload.setMarginEnd(48);
@@ -230,7 +263,7 @@ public class RocketDetailsFragment extends Fragment {
                 case "falcon9":
                     mBackdropImageView.setImageResource(R.drawable.falcon9);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
-                    mGalleryImageView.setImageResource(R.drawable.falcon9_gallery);
+                    //mGalleryImageView.setImageResource(R.drawable.falcon9_gallery);
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.core_block5);
                     paramsPayload.setMarginEnd(48);
@@ -239,7 +272,7 @@ public class RocketDetailsFragment extends Fragment {
                 case "falconheavy":
                     mBackdropImageView.setImageResource(R.drawable.falcon_heavy);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
-                    mGalleryImageView.setImageResource(R.drawable.falcon_heavy_backdrop);
+                    //mGalleryImageView.setImageResource(R.drawable.falcon_heavy_backdrop);
                     mPayloadImageView.setImageResource(R.drawable.payload_fh_satellite);
                     mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
                     paramsPayload.setMarginEnd(20);
@@ -248,7 +281,7 @@ public class RocketDetailsFragment extends Fragment {
                 case "starship":
                     mBackdropImageView.setImageResource(R.drawable.bfr1);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_bfr_small);
-                    mGalleryImageView.setImageResource(R.drawable.bfr_gallery);
+                    //mGalleryImageView.setImageResource(R.drawable.bfr_gallery);
                     mPayloadImageView.setImageResource(R.drawable.payload_bfr);
                     mCoreImageView.setImageResource(R.drawable.core_bfr);
                     paramsPayload.setMarginEnd(24);
@@ -258,12 +291,27 @@ public class RocketDetailsFragment extends Fragment {
                     // Other new type of rocket
                     mBackdropImageView.setImageResource(R.drawable.rocket);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_dragon_small);
-                    mGalleryImageView.setImageResource(R.drawable.rocket);
+                    //mGalleryImageView.setImageResource(R.drawable.rocket);
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.core_block4);
                     paramsPayload.setMarginEnd(48);
                     paramsCore.setMarginEnd(48);
                     break;
+            }
+
+            // Set rocket gallery
+            if (rocket.getFlickrImages() != null) {
+                mGallery = new ArrayList<>(Arrays.asList(rocket.getFlickrImages()));
+                mAdapter.setGallery(mGallery);
+                mGalleryLayout.setVisibility(View.VISIBLE);
+
+                //if (mNewsList != null) {
+                    mHandler = null;
+                    mHandler = new Handler();
+                    animateGallery();
+                //}
+            } else {
+                mGalleryLayout.setVisibility(View.GONE);
             }
 
             // We will set the payload/core image height to be equal to:
@@ -523,6 +571,62 @@ public class RocketDetailsFragment extends Fragment {
             } else {
                 mFirstStageThrustAtSeaLevel.setText(String.format(getString(R.string.thrust_lbf), TextsUtils.formatThrust(rocket.getFirstStage().getThrustSeaLevel().getLbf())));
                 mFirstStageThrustInVacuum.setText(String.format(getString(R.string.thrust_lbf), TextsUtils.formatThrust(rocket.getFirstStage().getThrustVacuum().getLbf())));
+            }
+        }
+    }
+
+    private void animateGallery() {
+        mRunnable = () -> {
+            mGalleryRecyclerView.scrollToPosition(mPosition);
+            if (mPosition + 1 < mGallery.size())
+                mPosition++;
+            else
+                mPosition = 0;
+            try {
+                animateGallery();
+            } catch (Exception e) {
+                Log.v("EXCEPTION", "IS: " + e.toString());
+            }
+        };
+        mHandler.postDelayed(mRunnable, 5000);
+    }
+
+    @Override
+    public void onItemClickListener(int buttonId, String imageUrl, int position) {
+        if (buttonId == R.id.previous_iv) {
+            if (position - 1 >= 0) {
+                mPosition = position - 1;
+            } else {
+                mPosition = mGallery.size() - 1;
+            }
+            mGalleryRecyclerView.scrollToPosition(mPosition);
+        } else if (buttonId == R.id.next_iv) {
+            if (position + 1 <= mGallery.size() - 1) {
+                mPosition = position + 1;
+            } else {
+                mPosition = 0;
+            }
+            mGalleryRecyclerView.scrollToPosition(mPosition);
+        //} else {
+            // TODO: Image was clicked, we can zoom it or something
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mHandler.removeCallbacks(mRunnable);
+        mHandler = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mGallery != null && mGalleryRecyclerView != null) {
+            if (mHandler == null) {
+                mHandler = new Handler();
+                animateGallery();
             }
         }
     }

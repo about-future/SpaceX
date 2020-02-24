@@ -76,6 +76,7 @@
     </style>
 
     <style name="RocketDetails.Values.Acronyms" parent="RocketDetails.Values">
+<!--        <item name="android:layout_width">match_parent</item>-->
         <item name="android:textColor">@color/colorAccent</item>
         <!--<item name="android:textSize">13sp</item>-->
     </style>
