@@ -13,14 +13,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.fcm.SpaceXWorker;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ResultDisplay;
 import com.about.future.spacex.utils.ScreenUtils;
@@ -33,6 +39,7 @@ import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.widget.UpdateIntentService;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,6 +89,13 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
             SpaceXPreferences.setMissionsStatus(getContext(), true);
             getMissions();
         });
+
+        /*PeriodicWorkRequest downloadLaunchesWorkRequest = new PeriodicWorkRequest
+                .Builder(SpaceXWorker.class, 5000, TimeUnit.MILLISECONDS)
+                .setInitialDelay(1000, TimeUnit.MILLISECONDS)
+                .build();
+        WorkManager.getInstance(getActivityCast()).enqueue(downloadLaunchesWorkRequest);*/
+
 
         return view;
     }
@@ -155,6 +169,16 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
 
         // Update widget
         UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
+
+        OneTimeWorkRequest showMess = new OneTimeWorkRequest.Builder(SpaceXWorker.class).build();
+        WorkManager.getInstance(getActivityCast()).enqueue(showMess);
+
+        WorkManager.getInstance(getActivityCast()).getWorkInfosByTagLiveData(showMess.getId().toString()).observe(this, workInfos -> {
+            for (WorkInfo workInfo : workInfos) {
+                String status = workInfo.getState().name();
+                Log.v("WORK MANAGER", "STATE IS: " + status);
+            }
+        });
     }
 
     // If missions were already loaded once, just query the DB and display them,
