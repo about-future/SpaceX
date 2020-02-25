@@ -36,6 +36,7 @@
     <dimen name="details_second_stage_margin_top">24dp</dimen>
     <dimen name="details_cores_margin_top">24dp</dimen>
     <dimen name="rocket_details_width">140dp</dimen>
+    <dimen name="mission_details_width">140dp</dimen>
 
     <!-- Rocket Details -->
     <dimen name="rocket_patch_size">180dp</dimen>

@@ -147,6 +147,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing"
+                    android:visibility="gone"
                     layout="@layout/gallery" />
 
                 <LinearLayout
@@ -229,8 +230,9 @@
                         <TextView
                             android:id="@+id/payload_option"
                             style="@style/RocketDetails.Values"
+                            android:layout_marginStart="0dp"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/payload_option_label"
                             app:layout_constraintTop_toTopOf="@+id/payload_option_label"
                             tools:text="Composite Fairing" />
 
@@ -246,7 +248,7 @@
                             style="@style/RocketDetails.Values"
                             android:maxLines="2"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/payload_height_label"
                             app:layout_constraintTop_toTopOf="@id/payload_height_label"
                             tools:text="13.1 m" />
 
@@ -262,7 +264,7 @@
                             style="@style/RocketDetails.Values"
                             android:maxLines="2"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/payload_diameter_label"
                             app:layout_constraintTop_toTopOf="@id/payload_diameter_label"
                             tools:text="5.2 m" />
 
@@ -298,7 +300,7 @@
                             android:id="@+id/second_stage_engines"
                             style="@style/RocketDetails.Values"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/second_stage_engines_label"
                             app:layout_constraintTop_toTopOf="@id/second_stage_engines_label"
                             tools:text="6" />
 
@@ -314,7 +316,7 @@
                             android:id="@+id/second_stage_fuel_amount"
                             style="@style/RocketDetails.Values"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/second_stage_fuel_amount_label"
                             app:layout_constraintTop_toTopOf="@id/second_stage_fuel_amount_label"
                             tools:text="1100 tons" />
 
@@ -330,7 +332,7 @@
                             android:id="@+id/second_stage_burn_time"
                             style="@style/RocketDetails.Values"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/second_stage_burn_time_label"
                             app:layout_constraintTop_toTopOf="@id/second_stage_burn_time_label"
                             tools:text="397 sec" />
 
@@ -347,7 +349,7 @@
                             style="@style/RocketDetails.Values"
                             android:maxLines="2"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/second_stage_thrust_label"
                             app:layout_constraintTop_toTopOf="@id/second_stage_thrust_label"
                             tools:text="934 kN" />
 
@@ -382,7 +384,7 @@
                             android:id="@+id/first_stage_engines"
                             style="@style/RocketDetails.Values"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/first_stage_engines_label"
                             app:layout_constraintTop_toTopOf="@id/first_stage_engines_label"
                             tools:text="6" />
 
@@ -398,7 +400,7 @@
                             android:id="@+id/first_stage_engines_type"
                             style="@style/RocketDetails.Values"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/first_stage_engines_type_label"
                             app:layout_constraintTop_toTopOf="@id/first_stage_engines_type_label"
                             tools:text="Merlin" />
 
@@ -414,7 +416,7 @@
                             android:id="@+id/first_stage_fuel_amount"
                             style="@style/RocketDetails.Values"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/first_stage_fuel_amount_label"
                             app:layout_constraintTop_toTopOf="@id/first_stage_fuel_amount_label"
                             tools:text="1100 tons" />
 
@@ -430,7 +432,7 @@
                             android:id="@+id/first_stage_burn_time"
                             style="@style/RocketDetails.Values"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/first_stage_burn_time_label"
                             app:layout_constraintTop_toTopOf="@id/first_stage_burn_time_label"
                             tools:text="397 sec" />
 
@@ -447,7 +449,7 @@
                             style="@style/RocketDetails.Values"
                             android:maxLines="2"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/first_stage_thrust_at_sea_level_label"
                             app:layout_constraintTop_toTopOf="@id/first_stage_thrust_at_sea_level_label"
                             tools:text="7,607 kN" />
 
@@ -464,7 +466,7 @@
                             style="@style/RocketDetails.Values"
                             android:maxLines="2"
                             app:layout_constraintEnd_toEndOf="@id/separation_line3"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/first_stage_thrust_in_vacuum_label"
                             app:layout_constraintTop_toTopOf="@id/first_stage_thrust_in_vacuum_label"
                             tools:text="8,227 kN" />
 

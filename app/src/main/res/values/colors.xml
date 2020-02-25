@@ -15,6 +15,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorBackgroundGrey">#303030</color>
+    <color name="colorBackgroundGreyTranslucid">#BB303030</color>
     <color name="colorBackgroundTransparent">#BB303F8F</color>
     <color name="colorBackground">#303F8F</color> <!-- Before: #303F9F -->
     <color name="starColor">#FFFFFF</color>

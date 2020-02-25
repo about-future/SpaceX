@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/left_core_serial_label"
-        style="@style/RocketDetails"
+        style="@style/MissionDetails"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/label_left_booster_serial" />
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/left_core_block_label"
-        style="@style/RocketDetails"
+        style="@style/MissionDetails"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/left_core_serial_label"
         android:text="@string/label_block" />
@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/left_core_reused_label"
-        style="@style/RocketDetails"
+        style="@style/MissionDetails"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/left_core_block_label"
         android:text="@string/label_reused" />
@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/left_core_landing_label"
-            style="@style/RocketDetails"
+            style="@style/MissionDetails"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/label_land_successful" />
@@ -71,7 +71,7 @@
 
         <TextView
             android:id="@+id/left_core_landing_type_label"
-            style="@style/RocketDetails"
+            style="@style/MissionDetails"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/left_core_landing_label"
             android:text="@string/label_land_type" />
@@ -102,7 +102,7 @@
 
         <TextView
             android:id="@+id/left_core_landing_vehicle_label"
-            style="@style/RocketDetails"
+            style="@style/MissionDetails"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/left_core_landing_type_layout"
             android:text="@string/label_land_vehicle" />

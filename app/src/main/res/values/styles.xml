@@ -60,20 +60,34 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-    <style name="RocketDetails">
-        <item name="android:layout_width">@dimen/rocket_details_width</item>
+    <style name="MissionDetails">
+        <item name="android:layout_width">@dimen/mission_details_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:textSize">@dimen/details_body_text_size</item>
     </style>
 
-    <style name="RocketDetails.Values" parent="RocketDetails">
+    <style name="RocketDetails" parent="MissionDetails">
+        <item name="android:layout_width">@dimen/rocket_details_width</item>
+    </style>
+
+    <style name="MissionDetails.Values" parent="MissionDetails">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">0dp</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
     </style>
+
+    <style name="RocketDetails.Values" parent="RocketDetails">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+
 
     <style name="RocketDetails.Values.Acronyms" parent="RocketDetails.Values">
 <!--        <item name="android:layout_width">match_parent</item>-->
