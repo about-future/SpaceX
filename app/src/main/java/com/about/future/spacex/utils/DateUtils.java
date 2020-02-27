@@ -78,4 +78,13 @@ public class DateUtils {
 
         return simpleDateReformat.format(date);
     }
+
+    // Long format and return the date
+    public static String getFullDate(long dateLong) {
+        Date date = new Date(dateLong);
+        // Date format
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.US);
+
+        return simpleDateFormat.format(date);
+    }
 }

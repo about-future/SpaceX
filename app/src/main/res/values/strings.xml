@@ -185,6 +185,7 @@
     <string name="pref_first_load_launches_key">first_load_launches</string>
     <string name="pref_first_load_rockets_key">first_load_rockets</string>
     <string name="pref_first_load_pads_key">first_load_pads</string>
+    <string name="pref_download_date_key">download_date</string>
 
     <!-- Dragon Dimensions -->
     <string name="dragon_height_metric">8.1 m</string>

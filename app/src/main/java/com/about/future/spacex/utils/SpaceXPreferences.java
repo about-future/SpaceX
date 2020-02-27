@@ -140,4 +140,18 @@ public class SpaceXPreferences {
         editor.putBoolean(context.getString(R.string.pref_first_load_pads_key), status);
         editor.apply();
     }
+
+
+
+    public static String getDownloadDate(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(context.getString(R.string.pref_download_date_key), "");
+    }
+
+    public static void setDownloadDate(Context context, String date) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(context.getString(R.string.pref_download_date_key), date);
+        editor.apply();
+    }
 }

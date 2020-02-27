@@ -12,7 +12,10 @@ import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.MissionsDao;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.retrofit.ApiManager;
+import com.about.future.spacex.utils.DateUtils;
+import com.about.future.spacex.utils.SpaceXPreferences;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,44 +34,48 @@ public class SpaceXWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        //Looper.prepare();
-        //Toast.makeText(getApplicationContext(), "Worker test toast", Toast.LENGTH_SHORT).show();
+        String date = SpaceXPreferences.getDownloadDate(getApplicationContext());
+        String now = DateUtils.getFullDate(new Date().getTime());
+        if (date.equals("")) {
+            SpaceXPreferences.setDownloadDate(getApplicationContext(), now);
+        } else {
+            SpaceXPreferences.setDownloadDate(getApplicationContext(), date.concat("\n").concat(now));
+        }
 
+        //if (NetworkUtils.isConnected(getApplicationContext())) {
+            ApiManager.getInstance().getMissions(new Callback<List<Mission>>() {
+                @Override
+                public void onResponse(Call<List<Mission>> call, Response<List<Mission>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            List<Mission> missions = response.body();
 
-        ApiManager.getInstance().getMissions(new Callback<List<Mission>>() {
-            @Override
-            public void onResponse(Call<List<Mission>> call, Response<List<Mission>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        List<Mission> missions = response.body();
+                            Log.v("WORKER MISSIONS", "ARE: " + missions.size());
 
-                        Log.v("WORKER MISSIONS", "ARE: " + missions.size());
-
-                        if (missions.size() > 0) {
-                            deleteAllMissions(); // Delete old missions from DB
-                            addMissions(missions);
+                            if (missions.size() > 0) {
+                                deleteAllMissions(); // Delete old missions from DB
+                                addMissions(missions);
+                            }
                         }
+                    } else {
+                        // Bad API token
+                        Log.v("WORKER MISSIONS", "ARE: NULL");
                     }
-                } else {
-                    // Bad API token
-                    Log.v("WORKER MISSIONS", "ARE: NULL");
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Mission>> call, Throwable t) {
-                // Http error
-                Log.v("WORKER MISSIONS", "FAILED");
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Mission>> call, Throwable t) {
+                    // Http error
+                    Log.v("WORKER MISSIONS", "FAILED");
+                }
+            });
 
-        //SpaceXPreferences.setMissionsStatus(getApplicationContext(), true);
-        //Log.v("MISSION STATUS", "IS: " + SpaceXPreferences.getMissionsStatus(getApplicationContext()));
-        Log.v("SpaceX Worker", "is doing it's thing!");
+            Log.v("SpaceX Worker", "is doing it's thing!");
 
-        //Looper.loop();
-
-        return Result.success();
+            return Result.success();
+//        } else {
+//            return Result.failure();
+//        }
     }
 
     private void deleteAllMissions() {

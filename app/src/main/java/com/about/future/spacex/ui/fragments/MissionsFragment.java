@@ -20,6 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkInfo;
@@ -27,6 +30,7 @@ import androidx.work.WorkManager;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.fcm.SpaceXWorker;
+import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ResultDisplay;
 import com.about.future.spacex.utils.ScreenUtils;
@@ -38,6 +42,7 @@ import com.about.future.spacex.ui.adapters.MissionsAdapter;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.widget.UpdateIntentService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -90,12 +95,42 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
             getMissions();
         });
 
-        /*PeriodicWorkRequest downloadLaunchesWorkRequest = new PeriodicWorkRequest
-                .Builder(SpaceXWorker.class, 5000, TimeUnit.MILLISECONDS)
-                .setInitialDelay(1000, TimeUnit.MILLISECONDS)
+        Constraints constraints = new Constraints
+                .Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                //.setRequiredNetworkType(NetworkType.UNMETERED)
+                //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
                 .build();
-        WorkManager.getInstance(getActivityCast()).enqueue(downloadLaunchesWorkRequest);*/
 
+        PeriodicWorkRequest downloadLaunchesWorkRequest = new PeriodicWorkRequest
+                .Builder(SpaceXWorker.class, 1, TimeUnit.HOURS)
+                //.setInitialDelay(1, TimeUnit.HOURS)
+                .addTag("missions")
+                .setConstraints(constraints)
+                .build();
+
+        WorkManager.getInstance(getActivityCast()).enqueueUniquePeriodicWork(
+                "missions",
+                ExistingPeriodicWorkPolicy.KEEP ,
+                downloadLaunchesWorkRequest);
+
+        /*WorkManager.getInstance(getActivityCast()).getWorkInfosByTagLiveData(downloadLaunchesWorkRequest.getId().toString()).observe(this, workInfos -> {
+            for (WorkInfo workInfo : workInfos) {
+                String status = workInfo.getState().name();
+                Log.v("WORK MANAGER", "STATE IS: " + status);
+            }
+        });*/
+
+        /*String date = SpaceXPreferences.getDownloadDate(getActivityCast());
+        String now = DateUtils.getFullDate(new Date().getTime());
+        if (date.equals("")) {
+            SpaceXPreferences.setDownloadDate(getActivityCast(), now);
+        } else {
+            SpaceXPreferences.setDownloadDate(getActivityCast(), date.concat("\n").concat(now));
+        }*/
+
+        //SpaceXPreferences.setDownloadDate(getActivityCast(), "");
+        Log.v("DATE", "IS: " + SpaceXPreferences.getDownloadDate(getActivityCast()));
 
         return view;
     }
@@ -170,7 +205,7 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
         // Update widget
         UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
 
-        OneTimeWorkRequest showMess = new OneTimeWorkRequest.Builder(SpaceXWorker.class).build();
+        /*OneTimeWorkRequest showMess = new OneTimeWorkRequest.Builder(SpaceXWorker.class).build();
         WorkManager.getInstance(getActivityCast()).enqueue(showMess);
 
         WorkManager.getInstance(getActivityCast()).getWorkInfosByTagLiveData(showMess.getId().toString()).observe(this, workInfos -> {
@@ -178,7 +213,7 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
                 String status = workInfo.getState().name();
                 Log.v("WORK MANAGER", "STATE IS: " + status);
             }
-        });
+        });*/
     }
 
     // If missions were already loaded once, just query the DB and display them,
