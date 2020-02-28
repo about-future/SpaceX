@@ -259,10 +259,11 @@
                             android:id="@+id/payload_id"
                             style="@style/RocketDetails.Values"
                             android:layout_width="0dp"
+                            android:ellipsize="end"
                             app:layout_constraintEnd_toEndOf="@+id/separation_line33"
                             app:layout_constraintStart_toEndOf="@+id/payload_id_label"
                             app:layout_constraintTop_toTopOf="@+id/payload_id_label"
-                            tools:text="Telstar 19V" />
+                            tools:text="Telstar 19V DVR Static" />
 
                         <TextView
                             android:id="@+id/payload_type_label"
@@ -316,13 +317,17 @@
                             <TextView
                                 android:id="@+id/payload_orbit"
                                 style="@style/RocketDetails.Values"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:text="GTO" />
 
                             <TextView
                                 android:id="@+id/payload_orbit_long"
-                                style="@style/RocketDetails.Values.Acronyms"
-                                android:visibility="visible"
+                                style="@style/MissionDetailsDetails.Values.Acronyms"
+                                android:visibility="gone"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 tools:text="Geostationary Transfer Orbit" />
 

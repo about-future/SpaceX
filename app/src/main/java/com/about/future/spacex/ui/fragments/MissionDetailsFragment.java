@@ -353,7 +353,7 @@ public class MissionDetailsFragment extends Fragment {
             if (mission.getRocket() != null) {
                 Payload firstPayload = null;
                 Core centralCore = null;
-                boolean showAcronymsMeaning = SpaceXPreferences.showAcronymMeaning(getActivityCast());
+                boolean showAcronymsMeaning = SpaceXPreferences.getAcronymsStatus(getActivityCast());
 
                 // Rocket name
                 String rocketName = mission.getRocket().getRocketName();

@@ -158,7 +158,9 @@
     <!-- Notifications -->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="notifications_key" translatable="false">news</string>
-    <string name="notifications_title">Notifications</string>
+<!--    <string name="notifications_title">Notifications</string>-->
+    <string name="pref_notifications_title">Notifications</string>
+    <string name="pref_notifications_summary">Receive a notification when a launch webcast is live.</string>
     <string name="updates_key" translatable="false">updates</string>
     <string name="summary_on">Enabled</string>
     <string name="summary_off">Disabled</string>
@@ -168,10 +170,16 @@
     <string name="pref_units_label_metric">Metric</string>
     <string name="pref_units_label_imperial">Imperial</string>
     <string name="pref_units_key" translatable="false">units</string>
+    <string-array name="units">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
     <string name="pref_units_metric" translatable="false">metric</string>
     <string name="pref_units_imperial" translatable="false">imperial</string>
-    <string name="pref_acronyms_key" translatable="false">acronyms_key</string>
+    <string name="dialog_cancel">Cancel</string>
+
     <string name="pref_acronyms_title">Show acronyms meaning</string>
+    <string name="pref_acronyms_key" translatable="false">acronyms_key</string>
 
     <!-- OTHER PREFERENCE KEYS -->
     <string name="pref_mission_status_key">missions_loaded</string>

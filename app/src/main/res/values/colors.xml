@@ -21,5 +21,10 @@
     <color name="starColor">#FFFFFF</color>
     <!--<color name="starShadow">#22000066</color>-->
     <color name="volumeColor">#FFFFFF</color>
+    <color name="colorWhiteTranslucent">#33FFFFFF</color>
+
+    <color name="colorNotificationIcon">#b2e66e</color>
+    <color name="colorAcronymIcon">#f6d6Be</color>
+    <color name="colorUnitsIcon">#79B8DF</color>
 
 </resources>

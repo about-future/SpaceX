@@ -69,7 +69,7 @@ public class SpaceXActivity extends AppCompatActivity {
             // Subscribe to topics
             //FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.updates_key));
             //FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.notifications_key));
-            SpaceXPreferences.setTopicSubscriptionStatus(this);
+            SpaceXPreferences.setTopicSubscriptionStatus(this, true);
         }
     }
 

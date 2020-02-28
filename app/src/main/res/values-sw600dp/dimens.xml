@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="spacing_half">12dp</dimen>
     <dimen name="spacing">24dp</dimen>
     <dimen name="big_spacing">60dp</dimen>
     <dimen name="vertical_margin">24dp</dimen>
-
     <dimen name="card_margin">12dp</dimen>
+    <dimen name="settings_icon">36dp</dimen>
 
     <integer name="mission_list_column_count">3</integer>
     <integer name="rocket_list_column_count">2</integer>

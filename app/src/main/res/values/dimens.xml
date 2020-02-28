@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="spacing_half">8dp</dimen>
     <dimen name="spacing">16dp</dimen>
     <dimen name="big_spacing">20dp</dimen>
     <dimen name="vertical_margin">16dp</dimen>
-    <dimen name="icon">48dp</dimen>
-
     <dimen name="card_margin">8dp</dimen>
+    <dimen name="icon">48dp</dimen>
+    <dimen name="settings_icon">24dp</dimen>
 
     <!-- Starfield Activity -->
     <dimen name="volume_margin">24dp</dimen>

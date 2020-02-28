@@ -14,4 +14,10 @@ public class Constants {
 
     public static final String ROCKET_ID_KEY = "rocket_id";
 
+    public static final String UNIT_METRIC = "metric";
+    public static final String UNIT_IMPERIAL = "imperial";
+
+    public static final String ACRONYMS_ON = "Enabled";
+    public static final String ACRONYMS_OFF = "Disabled";
+
 }

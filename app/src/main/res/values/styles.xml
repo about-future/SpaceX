@@ -87,12 +87,27 @@
         <item name="android:maxLines">1</item>
     </style>
 
-
+    <style name="MissionDetailsDetails.Values.Acronyms" parent="MissionDetails.Values">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
 
     <style name="RocketDetails.Values.Acronyms" parent="RocketDetails.Values">
 <!--        <item name="android:layout_width">match_parent</item>-->
         <item name="android:textColor">@color/colorAccent</item>
         <!--<item name="android:textSize">13sp</item>-->
+    </style>
+
+    <style name="PreferenceLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="PreferenceLabel.Hint" parent="PreferenceLabel">
+        <item name="android:textSize">14sp</item>
+        <item name="android:alpha">0.7</item>
     </style>
 
 </resources>

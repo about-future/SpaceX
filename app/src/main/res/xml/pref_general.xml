@@ -8,7 +8,7 @@
         android:key="@string/notifications_key"
         android:summaryOff="@string/summary_off"
         android:summaryOn="@string/summary_on"
-        android:title="@string/notifications_title" />
+        android:title="@string/pref_notifications_title" />
 
     <SwitchPreference
         android:defaultValue="false"

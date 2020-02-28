@@ -68,10 +68,10 @@ public class SpaceXPreferences {
     }
 
     // Set true if the user was subscribed to firebase topics
-    public static void setTopicSubscriptionStatus(Context context) {
+    public static void setTopicSubscriptionStatus(Context context, boolean value) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(context.getString(R.string.pref_topic_subscription_status_key), true);
+        editor.putBoolean(context.getString(R.string.pref_topic_subscription_status_key), value);
         editor.apply();
     }
 
@@ -92,10 +92,12 @@ public class SpaceXPreferences {
     }
 
     // Return true if show acronym meaning preference is enabled or false if it's disabled
-    public static boolean showAcronymMeaning(Context context) {
+    /*public static boolean showAcronymMeaning(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(context.getString(R.string.pref_acronyms_key), false);
-    }
+    }*/
+
+
 
 
 
@@ -142,7 +144,6 @@ public class SpaceXPreferences {
     }
 
 
-
     public static String getDownloadDate(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(context.getString(R.string.pref_download_date_key), "");
@@ -152,6 +153,31 @@ public class SpaceXPreferences {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(context.getString(R.string.pref_download_date_key), date);
+        editor.apply();
+    }
+
+    // Settings Preferences
+    public static boolean getAcronymsStatus(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_acronyms_key), false);
+    }
+
+    public static void setAcronymsStatus(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_acronyms_key), status);
+        editor.apply();
+    }
+
+    public static String getUnits(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(context.getString(R.string.pref_units_key), "");
+    }
+
+    public static void setUnits(Context context, String selectedUnit) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(context.getString(R.string.pref_units_key), selectedUnit);
         editor.apply();
     }
 }

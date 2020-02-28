@@ -1,6 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_settings"
-    android:name="com.about.future.spacex.SettingsFragment"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/settings_notifications_cardview"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/spacing_half"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_marginEnd="@dimen/spacing_half"
+            android:layout_marginBottom="@dimen/spacing"
+            app:cardCornerRadius="@dimen/spacing"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/notifications_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="@dimen/spacing"
+                android:background="@drawable/selector_settings_item"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/settings_notifications_icon"
+                    android:layout_width="@dimen/settings_icon"
+                    android:layout_height="@dimen/settings_icon"
+                    android:layout_marginStart="@dimen/spacing"
+                    android:alpha="1"
+                    app:layout_constraintBottom_toBottomOf="@id/settings_notifications_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/settings_notifications_description"
+                    app:srcCompat="@drawable/ic_notifications"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:id="@+id/settings_notifications_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing"
+                    android:layout_marginEnd="@dimen/spacing"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@id/settings_notifications_switch"
+                    app:layout_constraintStart_toEndOf="@id/settings_notifications_icon"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/notifications_label"
+                        style="@style/PreferenceLabel"
+                        android:text="@string/pref_notifications_title" />
+
+                    <TextView
+                        android:id="@+id/notifications_hint"
+                        style="@style/PreferenceLabel.Hint"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:text="@string/pref_notifications_summary" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/settings_notifications_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_constraintBottom_toBottomOf="@id/settings_notifications_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/settings_notifications_description" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/settings_acronyms_cardview"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/spacing_half"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_marginEnd="@dimen/spacing_half"
+            android:layout_marginBottom="@dimen/spacing"
+            app:cardCornerRadius="@dimen/spacing"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_notifications_cardview">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/acronyms_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="@dimen/spacing"
+                android:background="@drawable/selector_settings_item"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/settings_acronyms_icon"
+                    android:layout_width="@dimen/settings_icon"
+                    android:layout_height="@dimen/settings_icon"
+                    android:layout_marginStart="@dimen/spacing"
+                    android:alpha="1"
+                    app:layout_constraintBottom_toBottomOf="@id/settings_acronyms_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/settings_acronyms_description"
+                    app:srcCompat="@drawable/ic_acronyms"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:id="@+id/settings_acronyms_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing"
+                    android:layout_marginEnd="@dimen/spacing"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@id/settings_acronyms_switch"
+                    app:layout_constraintStart_toEndOf="@+id/settings_acronyms_icon"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/acronyms_label"
+                        style="@style/PreferenceLabel"
+                        android:text="@string/pref_acronyms_title" />
+
+                    <TextView
+                        android:id="@+id/acronyms_hint"
+                        style="@style/PreferenceLabel.Hint"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:text="@string/summary_off" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/settings_acronyms_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_constraintBottom_toBottomOf="@id/settings_acronyms_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/settings_acronyms_description" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/settings_units_cardview"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/spacing_half"
+            android:layout_marginTop="@dimen/spacing"
+            android:layout_marginEnd="@dimen/spacing_half"
+            android:layout_marginBottom="@dimen/spacing"
+            app:cardCornerRadius="@dimen/spacing"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settings_acronyms_cardview">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/units_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="@dimen/spacing"
+                android:background="@drawable/selector_settings_item"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/settings_units_icon"
+                    android:layout_width="@dimen/settings_icon"
+                    android:layout_height="@dimen/settings_icon"
+                    android:layout_marginStart="@dimen/spacing"
+                    android:alpha="1"
+                    app:layout_constraintBottom_toBottomOf="@id/settings_units_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/settings_units_description"
+                    app:srcCompat="@drawable/ic_ruler"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:id="@+id/settings_units_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing"
+                    android:layout_marginEnd="@dimen/spacing"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/settings_units_icon"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/units_label"
+                        style="@style/PreferenceLabel"
+                        android:text="@string/pref_units_label" />
+
+                    <TextView
+                        android:id="@+id/units_hint"
+                        style="@style/PreferenceLabel.Hint"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:text="@string/pref_units_label_metric" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

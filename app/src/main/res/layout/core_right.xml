@@ -88,12 +88,14 @@
             <TextView
                 android:id="@+id/right_core_landing_type"
                 style="@style/RocketDetails.Values"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="RTLS" />
 
             <TextView
                 android:id="@+id/right_core_landing_type_long"
                 style="@style/RocketDetails.Values.Acronyms"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:text="Return To Launch Site" />
@@ -119,12 +121,14 @@
             <TextView
                 android:id="@+id/right_core_landing_vehicle"
                 style="@style/RocketDetails.Values"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="LZ-1" />
 
             <TextView
                 android:id="@+id/right_core_landing_vehicle_long"
                 style="@style/RocketDetails.Values.Acronyms"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:text="Landing Zone 1" />
