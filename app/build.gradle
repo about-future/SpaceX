@@ -38,7 +38,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'GoolgeAPIKey', googleStaticMapsKey
+        it.buildConfigField 'String', 'GoolgeAPIKey', keystoreProperties['googleStaticMapsKey']
     }
 
     compileOptions {

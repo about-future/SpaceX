@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.ExistingWorkPolicy;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
@@ -102,24 +103,31 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
                 //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
                 .build();
 
-        PeriodicWorkRequest downloadLaunchesWorkRequest = new PeriodicWorkRequest
+        /*PeriodicWorkRequest downloadLaunchesWorkRequest = new PeriodicWorkRequest
                 .Builder(SpaceXWorker.class, 1, TimeUnit.HOURS)
                 //.setInitialDelay(1, TimeUnit.HOURS)
                 .addTag("missions")
-                .setConstraints(constraints)
+                //.setConstraints(constraints)
                 .build();
 
         WorkManager.getInstance(getActivityCast()).enqueueUniquePeriodicWork(
                 "missions",
                 ExistingPeriodicWorkPolicy.KEEP ,
-                downloadLaunchesWorkRequest);
+                downloadLaunchesWorkRequest);*/
 
-        /*WorkManager.getInstance(getActivityCast()).getWorkInfosByTagLiveData(downloadLaunchesWorkRequest.getId().toString()).observe(this, workInfos -> {
-            for (WorkInfo workInfo : workInfos) {
-                String status = workInfo.getState().name();
-                Log.v("WORK MANAGER", "STATE IS: " + status);
-            }
-        });*/
+        if (SpaceXPreferences.getLaunchesFirstLoad(getActivityCast())) {
+            OneTimeWorkRequest downloadMissions = new OneTimeWorkRequest
+                    .Builder(SpaceXWorker.class)
+                    .setConstraints(constraints)
+                    .setInitialDelay(5, TimeUnit.MINUTES)
+                    .build();
+
+            WorkManager.getInstance(getActivityCast()).enqueueUniqueWork(
+                    "missionsWork",
+                    ExistingWorkPolicy.KEEP,
+                    downloadMissions
+            );
+        }
 
         /*String date = SpaceXPreferences.getDownloadDate(getActivityCast());
         String now = DateUtils.getFullDate(new Date().getTime());

@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -17,6 +21,7 @@ import com.about.future.spacex.utils.SpaceXPreferences;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,40 +47,50 @@ public class SpaceXWorker extends Worker {
             SpaceXPreferences.setDownloadDate(getApplicationContext(), date.concat("\n").concat(now));
         }
 
-        //if (NetworkUtils.isConnected(getApplicationContext())) {
-            ApiManager.getInstance().getMissions(new Callback<List<Mission>>() {
-                @Override
-                public void onResponse(Call<List<Mission>> call, Response<List<Mission>> response) {
-                    if (response.isSuccessful()) {
-                        if (response.body() != null) {
-                            List<Mission> missions = response.body();
+        ApiManager.getInstance().getMissions(new Callback<List<Mission>>() {
+            @Override
+            public void onResponse(Call<List<Mission>> call, Response<List<Mission>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        List<Mission> missions = response.body();
 
-                            Log.v("WORKER MISSIONS", "ARE: " + missions.size());
+                        Log.v("WORKER MISSIONS", "ARE: " + missions.size());
 
-                            if (missions.size() > 0) {
-                                deleteAllMissions(); // Delete old missions from DB
-                                addMissions(missions);
-                            }
+                        if (missions.size() > 0) {
+                            deleteAllMissions(); // Delete old missions from DB
+                            addMissions(missions);
                         }
-                    } else {
-                        // Bad API token
-                        Log.v("WORKER MISSIONS", "ARE: NULL");
                     }
+                } else {
+                    // Bad API token
+                    Log.v("WORKER MISSIONS", "ARE: NULL");
                 }
+            }
 
-                @Override
-                public void onFailure(Call<List<Mission>> call, Throwable t) {
-                    // Http error
-                    Log.v("WORKER MISSIONS", "FAILED");
-                }
-            });
+            @Override
+            public void onFailure(Call<List<Mission>> call, Throwable t) {
+                // Http error
+                Log.v("WORKER MISSIONS", "FAILED");
+            }
+        });
 
-            Log.v("SpaceX Worker", "is doing it's thing!");
+        Log.v("SpaceX Worker", "is doing it's thing!");
 
-            return Result.success();
-//        } else {
-//            return Result.failure();
-//        }
+        Constraints constraints = new Constraints
+                .Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                //.setRequiredNetworkType(NetworkType.UNMETERED)
+                //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
+                .build();
+
+        OneTimeWorkRequest downloadMissions = new OneTimeWorkRequest
+                .Builder(SpaceXWorker.class)
+                .setConstraints(constraints)
+                .setInitialDelay(15, TimeUnit.MINUTES)
+                .build();
+        WorkManager.getInstance(getApplicationContext()).enqueue(downloadMissions);
+
+        return Result.success();
     }
 
     private void deleteAllMissions() {
