@@ -2,7 +2,6 @@ package com.about.future.spacex.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,12 +16,14 @@ import butterknife.ButterKnife;
 
 //import static com.about.future.spacex.utils.Constants.PAGER_ID_KEY;
 import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
+import static com.about.future.spacex.utils.Constants.ROCKET_PAGE_NUMBER_KEY;
 
 public class RocketDetailsActivity extends AppCompatActivity {
     @BindView(R.id.rocket_pager)
     ViewPager2 mPager;
 
-    private int mRocketId = 1;
+    private int mPageNumber = -1; //1
+    private String mRocketId = "falcon9";
     //private int mPageSelected = -1;
 
     @Override
@@ -34,7 +35,7 @@ public class RocketDetailsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (intent != null && intent.hasExtra(ROCKET_ID_KEY)) {
-                mRocketId = intent.getIntExtra(ROCKET_ID_KEY, 1);
+                mRocketId = intent.getStringExtra(ROCKET_ID_KEY);
             }
         }
 
@@ -43,13 +44,13 @@ public class RocketDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(ROCKET_ID_KEY, mPager.getCurrentItem());
+        outState.putInt(ROCKET_PAGE_NUMBER_KEY, mPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        mRocketId = savedInstanceState.getInt(ROCKET_ID_KEY);
+        mPageNumber = savedInstanceState.getInt(ROCKET_PAGE_NUMBER_KEY);
         setupViewPager();
         super.onRestoreInstanceState(savedInstanceState);
     }
@@ -61,7 +62,17 @@ public class RocketDetailsActivity extends AppCompatActivity {
             if (rockets != null && rockets.size() > 0) {
                 pagerAdapter.setRockets(rockets);
                 mPager.setAdapter(pagerAdapter);
-                mPager.setCurrentItem(mRocketId, false);
+
+                if (mPageNumber > -1) {
+                    mPager.setCurrentItem(mPageNumber, false);
+                } else {
+                    for (int i = 0; i < rockets.size(); i++) {
+                        if (mRocketId.equals(rockets.get(i).getRocketId())) {
+                            mPager.setCurrentItem(i, false);
+                            break;
+                        }
+                    }
+                }
             }
         });
     }

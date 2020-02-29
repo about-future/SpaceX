@@ -219,7 +219,7 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
     }
 
     @Override
-    public void onItemClickListener(int selectedRocket) {
+    public void onItemClickListener(String selectedRocket) {
         Intent rocketDetailsIntent = new Intent(getActivity(), RocketDetailsActivity.class);
         rocketDetailsIntent.putExtra(ROCKET_ID_KEY, selectedRocket);
         startActivity(rocketDetailsIntent);

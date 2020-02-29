@@ -15,12 +15,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_PAGE_NUMBER_KEY;
 
 public class LaunchPadDetailsActivity extends AppCompatActivity {
     @BindView(R.id.launch_pads_pager)
     ViewPager2 mPager;
 
-    private int mLaunchPadId = 1;
+    private int mPageNumber = -1;
+    private String mLaunchPadId = "ksc_lc_39a";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (intent != null && intent.hasExtra(LAUNCH_PAD_ID_KEY)) {
-                mLaunchPadId = intent.getIntExtra(LAUNCH_PAD_ID_KEY, 1);
+                mLaunchPadId = intent.getStringExtra(LAUNCH_PAD_ID_KEY);
             }
         }
 
@@ -40,13 +42,13 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(LAUNCH_PAD_ID_KEY, mPager.getCurrentItem());
+        outState.putInt(LAUNCH_PAD_PAGE_NUMBER_KEY, mPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        mLaunchPadId = savedInstanceState.getInt(LAUNCH_PAD_ID_KEY);
+        mPageNumber = savedInstanceState.getInt(LAUNCH_PAD_PAGE_NUMBER_KEY);
         setupViewPager();
         super.onRestoreInstanceState(savedInstanceState);
     }
@@ -58,7 +60,17 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
             if (launchPads != null && launchPads.size() > 0) {
                 pagerAdapter.setLaunchPads(launchPads);
                 mPager.setAdapter(pagerAdapter);
-                mPager.setCurrentItem(mLaunchPadId, false);
+
+                if (mPageNumber > -1) {
+                    mPager.setCurrentItem(mPageNumber, false);
+                } else {
+                    for (int i = 0; i < launchPads.size(); i++) {
+                        if (mLaunchPadId.equals(launchPads.get(i).getSiteId())) {
+                            mPager.setCurrentItem(i, false);
+                            break;
+                        }
+                    }
+                }
             }
         });
     }

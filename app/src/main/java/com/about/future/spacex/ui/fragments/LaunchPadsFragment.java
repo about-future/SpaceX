@@ -260,7 +260,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     }
 
     @Override
-    public void onItemClickListener(int selectedLaunchPad) {
+    public void onItemClickListener(String selectedLaunchPad) {
         Intent launchPadDetailsIntent = new Intent(getActivity(), LaunchPadDetailsActivity.class);
         launchPadDetailsIntent.putExtra(LAUNCH_PAD_ID_KEY, selectedLaunchPad);
         startActivity(launchPadDetailsIntent);

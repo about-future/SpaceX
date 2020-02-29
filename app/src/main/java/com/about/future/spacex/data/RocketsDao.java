@@ -23,8 +23,8 @@ public interface RocketsDao {
     @Query("SELECT * FROM rockets WHERE id = :rocketId")
     LiveData<Rocket> loadRocketDetails(int rocketId);
 
-    @Query("SELECT id FROM rockets WHERE rocket_name = :rocketName")
-    int getRocketId(String rocketName);
+    @Query("SELECT rocket_id FROM rockets WHERE rocket_name = :rocketName")
+    String getRocketId(String rocketName);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertRockets(List<Rocket> rockets);

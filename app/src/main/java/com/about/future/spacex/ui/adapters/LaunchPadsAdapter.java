@@ -34,7 +34,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
     private final ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
-        void onItemClickListener(int selectedLaunchPad);
+        void onItemClickListener(String selectedLaunchPad);
     }
 
     public LaunchPadsAdapter(Context context, ListItemClickListener listener) {
@@ -162,7 +162,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(getAdapterPosition());
+            mOnClickListener.onItemClickListener(mLaunchPads.get(getAdapterPosition()).getSiteId());
         }
     }
 }

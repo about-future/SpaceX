@@ -151,10 +151,6 @@ public class MissionDetailsFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-    //TODO: Mission youtube launch thumbnail (check all past missions)
-    // add loading missions, rockets and pads animation, instead of cloud image
-    // fix mission details layouts
-
     private MissionDetailsActivity getActivityCast() { return (MissionDetailsActivity) getActivity(); }
     public void setMission(Mission mission) { mMission = mission; }
 
@@ -321,13 +317,15 @@ public class MissionDetailsFragment extends Fragment {
 
             mRocketTypeLinearLayout.setOnClickListener(view -> createRocketIntent());
 
-            mLaunchSiteLinearLayout.setOnClickListener(view -> AppExecutors.getInstance().diskIO().execute(() -> {
-                int launchPadId = mLaunchPadsViewModel.getLaunchPadId(mission.getLaunchSite().getSiteId());
+            mLaunchSiteLinearLayout.setOnClickListener(view -> {
+//                AppExecutors.getInstance().diskIO().execute(() -> {
+//                    int launchPadId = mLaunchPadsViewModel.getLaunchPadId(mission.getLaunchSite().getSiteId());
 
-                Intent intent = new Intent(getActivityCast(), LaunchPadDetailsActivity.class);
-                intent.putExtra(LAUNCH_PAD_ID_KEY, launchPadId);
-                startActivity(intent);
-            }));
+                    Intent intent = new Intent(getActivityCast(), LaunchPadDetailsActivity.class);
+                    intent.putExtra(LAUNCH_PAD_ID_KEY, mission.getLaunchSite().getSiteId());
+                    startActivity(intent);
+                //});
+            });
 
             // Set launch date
             if (mission.getLaunchDateUnix() > 0) {
@@ -748,6 +746,9 @@ public class MissionDetailsFragment extends Fragment {
             case "LEO":
                 view.setText(getString(R.string.label_orbit_leo));
                 break;
+            case "VLEO":
+                view.setText(getString(R.string.label_orbit_vleo));
+                break;
             case "LOI":
                 view.setText(getString(R.string.label_orbit_loi));
                 break;
@@ -858,7 +859,7 @@ public class MissionDetailsFragment extends Fragment {
 
     private void createRocketIntent() {
         AppExecutors.getInstance().diskIO().execute(() -> {
-            int rocketId = mRocketsViewModel.getRocketId(mRocketTypeTextView.getText().toString());
+            String rocketId = mRocketsViewModel.getRocketId(mRocketTypeTextView.getText().toString());
 
             Intent intent = new Intent(getActivityCast(), RocketDetailsActivity.class);
             intent.putExtra(ROCKET_ID_KEY, rocketId);

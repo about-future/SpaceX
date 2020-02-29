@@ -111,6 +111,7 @@
     <string name="label_orbit_gto">Geostationary Transfer Orbit</string>
     <string name="label_orbit_heo">High Earth Orbit</string>
     <string name="label_orbit_leo">Low Earth Orbit</string>
+    <string name="label_orbit_vleo">Very Low Earth Orbit</string>
     <string name="label_orbit_loi">Lunar Orbit Insertion</string>
     <string name="label_orbit_meo">Medium Earth Orbit</string>
     <string name="label_orbit_moi">Mars Orbit Insertion</string>

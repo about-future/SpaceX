@@ -10,9 +10,11 @@ public class Constants {
     public static final String PAGER_POSITION_KEY = "pager_position";
 
     public static final String LAUNCH_PAD_ID_KEY = "launch_pad_id";
+    public static final String LAUNCH_PAD_PAGE_NUMBER_KEY = "launch_pad_page_number";
     public static final String LAUNCH_PADS_RECYCLER_POSITION_KEY = "launch_pads_recycler_position";
 
     public static final String ROCKET_ID_KEY = "rocket_id";
+    public static final String ROCKET_PAGE_NUMBER_KEY = "rocket_page_number";
 
     public static final String UNIT_METRIC = "metric";
     public static final String UNIT_IMPERIAL = "imperial";
