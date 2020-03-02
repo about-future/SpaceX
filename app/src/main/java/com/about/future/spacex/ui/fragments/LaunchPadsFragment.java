@@ -214,6 +214,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
                 successStateUi();
                 // Show data
                 mLaunchPadsAdapter.setLaunchPads(launchPads);
+                restorePosition();
             } else {
                 // Update UI
                 errorStateUi(0);

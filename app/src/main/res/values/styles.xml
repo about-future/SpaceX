@@ -24,6 +24,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar3" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorTransparent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowFullscreen">true</item>
+        <item name="statusBarBackground">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 
     <!-- Activity Big Title Style -->

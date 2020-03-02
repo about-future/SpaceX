@@ -318,13 +318,9 @@ public class MissionDetailsFragment extends Fragment {
             mRocketTypeLinearLayout.setOnClickListener(view -> createRocketIntent());
 
             mLaunchSiteLinearLayout.setOnClickListener(view -> {
-//                AppExecutors.getInstance().diskIO().execute(() -> {
-//                    int launchPadId = mLaunchPadsViewModel.getLaunchPadId(mission.getLaunchSite().getSiteId());
-
                     Intent intent = new Intent(getActivityCast(), LaunchPadDetailsActivity.class);
                     intent.putExtra(LAUNCH_PAD_ID_KEY, mission.getLaunchSite().getSiteId());
                     startActivity(intent);
-                //});
             });
 
             // Set launch date

@@ -1,9 +1,13 @@
 package com.about.future.spacex.fcm;
 
+import android.app.Notification;
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
@@ -11,6 +15,7 @@ import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.about.future.spacex.R;
 import com.about.future.spacex.data.AppDatabase;
 import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.data.MissionsDao;
@@ -26,6 +31,8 @@ import java.util.concurrent.TimeUnit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.about.future.spacex.utils.Constants.CHANNEL_ID;
 
 public class SpaceXWorker extends Worker {
     private final MissionsDao missionsDao;
@@ -76,16 +83,18 @@ public class SpaceXWorker extends Worker {
 
         Log.v("SpaceX Worker", "is doing it's thing!");
 
-        Constraints constraints = new Constraints
-                .Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                //.setRequiredNetworkType(NetworkType.UNMETERED)
-                //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
-                .build();
+        createNotification(getApplicationContext());
+
+//        Constraints constraints = new Constraints
+//                .Builder()
+//                .setRequiredNetworkType(NetworkType.CONNECTED)
+//                //.setRequiredNetworkType(NetworkType.UNMETERED)
+//                //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
+//                .build();
 
         OneTimeWorkRequest downloadMissions = new OneTimeWorkRequest
                 .Builder(SpaceXWorker.class)
-                .setConstraints(constraints)
+                //.setConstraints(constraints)
                 .setInitialDelay(15, TimeUnit.MINUTES)
                 .build();
         WorkManager.getInstance(getApplicationContext()).enqueue(downloadMissions);
@@ -99,5 +108,24 @@ public class SpaceXWorker extends Worker {
 
     private void addMissions(List<Mission> missions) {
         AppExecutors.getInstance().diskIO().execute(() -> missionsDao.insertMissions(missions));
+    }
+
+    private static void createNotification(Context context) {
+        String notificationTitle = "SpaceX";
+        String notificationMessage = "Lista de lansari a fost actualizata.";
+        int id = 1;
+
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_spacex_logo_xonly)  // TODO: Poate trebuie iconita sa fie cu alb!
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationMessage)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify(id, notification);
     }
 }

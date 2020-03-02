@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,17 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.Constraints;
-import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.fcm.SpaceXWorker;
-import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ResultDisplay;
 import com.about.future.spacex.utils.ScreenUtils;
@@ -43,7 +38,6 @@ import com.about.future.spacex.ui.adapters.MissionsAdapter;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.widget.UpdateIntentService;
 
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -96,37 +90,23 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
             getMissions();
         });
 
-        Constraints constraints = new Constraints
-                .Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                //.setRequiredNetworkType(NetworkType.UNMETERED)
-                //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
-                .build();
-
-        /*PeriodicWorkRequest downloadLaunchesWorkRequest = new PeriodicWorkRequest
-                .Builder(SpaceXWorker.class, 1, TimeUnit.HOURS)
-                //.setInitialDelay(1, TimeUnit.HOURS)
-                .addTag("missions")
-                //.setConstraints(constraints)
-                .build();
-
-        WorkManager.getInstance(getActivityCast()).enqueueUniquePeriodicWork(
-                "missions",
-                ExistingPeriodicWorkPolicy.KEEP ,
-                downloadLaunchesWorkRequest);*/
+//        Constraints constraints = new Constraints
+//                .Builder()
+//                .setRequiredNetworkType(NetworkType.CONNECTED)
+//                //.setRequiredNetworkType(NetworkType.UNMETERED)
+//                //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
+//                .build();
 
         if (SpaceXPreferences.getLaunchesFirstLoad(getActivityCast())) {
+            Log.v("FIRST", "LOAD");
+
             OneTimeWorkRequest downloadMissions = new OneTimeWorkRequest
                     .Builder(SpaceXWorker.class)
-                    .setConstraints(constraints)
-                    .setInitialDelay(5, TimeUnit.MINUTES)
+                    //.setConstraints(constraints)
+                    .setInitialDelay(1, TimeUnit.MINUTES)
                     .build();
 
-            WorkManager.getInstance(getActivityCast()).enqueueUniqueWork(
-                    "missionsWork",
-                    ExistingWorkPolicy.KEEP,
-                    downloadMissions
-            );
+            WorkManager.getInstance(getActivityCast()).enqueue(downloadMissions);
         }
 
         /*String date = SpaceXPreferences.getDownloadDate(getActivityCast());
@@ -167,7 +147,6 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
         return (SpaceXActivity) getActivity();
     }
 
-    //TODO: Use this or implement a better one
     private void restorePosition() {
         if (mMissionsPosition == RecyclerView.NO_POSITION) mMissionsPosition = 0;
         // Scroll the RecyclerView to mPosition
@@ -188,14 +167,11 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
     }
 
     //TODO:
-    // 1. resume position upon screen rotation to list and detail layouts
-    // 2. remake Settings layout and activity
     // 3. add another language or 2
-    // 4. fix mission and rocket details layouts
-    // 5. add gallery to missions and rockets
+    // 4. fix rocket details layouts
+    // 5. add gallery to missions
     // 6. add more endpoints and maybe change main layout to bottom navigation with 4-5 options
     // and for launches create 2 lists: upcoming launches and previous launches
-    // 7. fix links to rocket and launch pad called from mission details
 
     @Override
     public void onResume() {
@@ -248,8 +224,6 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
     }
 
     private void getMissionsFromServer() {
-        Log.v("GET MISSIONS", "FROM SERVER");
-
         mViewModel.getMissionsFromServer().observe(this, checkResultDisplay -> {
             if (checkResultDisplay != null) {
                 switch (checkResultDisplay.state) {
@@ -295,8 +269,6 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
     }
 
     private void getMissionsFromDB() {
-        Log.v("GET MISSIONS", "FROM DB");
-
         // Try loading data from DB, if no data was found show empty list
         mViewModel.getMiniMissionsFromDb().observe(this, missions -> {
             if (missions != null && missions.size() > 0) {
@@ -304,6 +276,7 @@ public class MissionsFragment extends Fragment implements MissionsAdapter.ListIt
                 successStateUi();
                 // Show data
                 mMissionsAdapter.setMissions(missions);
+                restorePosition();
 
                 // Update widget
                 UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
