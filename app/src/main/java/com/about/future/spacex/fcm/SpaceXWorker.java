@@ -85,17 +85,17 @@ public class SpaceXWorker extends Worker {
 
         createNotification(getApplicationContext());
 
-//        Constraints constraints = new Constraints
-//                .Builder()
-//                .setRequiredNetworkType(NetworkType.CONNECTED)
-//                //.setRequiredNetworkType(NetworkType.UNMETERED)
-//                //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
-//                .build();
+        Constraints constraints = new Constraints
+                .Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                //.setRequiredNetworkType(NetworkType.UNMETERED)
+                //.setRequiredNetworkType(NetworkType.NOT_ROAMING)
+                .build();
 
         OneTimeWorkRequest downloadMissions = new OneTimeWorkRequest
                 .Builder(SpaceXWorker.class)
-                //.setConstraints(constraints)
-                .setInitialDelay(15, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .setInitialDelay(24, TimeUnit.HOURS)
                 .build();
         WorkManager.getInstance(getApplicationContext()).enqueue(downloadMissions);
 

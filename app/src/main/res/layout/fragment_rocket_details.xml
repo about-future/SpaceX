@@ -44,6 +44,7 @@
                 android:id="@+id/rocket_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="@dimen/status_bar_height"
                 app:contentInsetStart="@dimen/spacing"
                 app:elevation="4dp"
                 app:layout_collapseMode="pin"

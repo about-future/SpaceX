@@ -3,17 +3,14 @@ package com.about.future.spacex.ui;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -22,10 +19,12 @@ import com.about.future.spacex.SettingsActivity;
 import com.about.future.spacex.ui.fragments.LaunchPadsFragment;
 import com.about.future.spacex.ui.fragments.MissionsFragment;
 import com.about.future.spacex.ui.fragments.RocketsFragment;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.ui.adapters.SectionsPagerAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -35,32 +34,38 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SpaceXActivity extends AppCompatActivity {
+import static com.about.future.spacex.utils.Constants.NAV_ID_KEY;
+
+public class SpaceXActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationView;
     @BindView(R.id.main_toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.main_app_bar)
     AppBarLayout mAppBarLayout;
+    @BindView(R.id.main_collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolberLayout;
     @BindView(R.id.main_tabs)
     TabLayout mTabLayout;
     @BindView(R.id.main_pager)
     ViewPager2 mViewPager;
 
-    @BindView(R.id.main_collapsing_toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolberLayout;
+    private int mNavId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window w = getWindow();
-        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        setContentView(R.layout.activity_space_x);
+        ScreenUtils.makeStatusBarTransparent(getWindow());
+        setContentView(R.layout.activity_space_x3);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
         setTitle("");
 
         // Create the adapter that will return a fragment for each sections of the activity
-        setupTabLayoutAndPager();
+        setupLaunchesPager();
 
         // If the app runs for the first time, set subscriptions to updates and notifications topics
         if (!SpaceXPreferences.getTopicSubscriptionStatus(this)) {
@@ -70,24 +75,23 @@ public class SpaceXActivity extends AppCompatActivity {
             SpaceXPreferences.setTopicSubscriptionStatus(this, true);
         }
 
-        //mCollapsingToolberLayout
-//        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                float percentage = ((float) Math.abs(verticalOffset) / appBarLayout.getTotalScrollRange());
-//                Log.v("Percetage", "is: " + percentage);
-//
-//                if (percentage >= 0.655) {
-//                    mTabLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-//                } else {
-//                    mTabLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundGrey));
-//                }
-//                //fadedView.setAlpha(percentage);
-//            }
-//        });
+        setupNavigation();
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(NAV_ID_KEY)) {
+            mNavId = savedInstanceState.getInt(NAV_ID_KEY, 0);
+            recreateTabsAndPager();
+        } else {
+            setupLaunchesPager();
+        }
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(NAV_ID_KEY, mNavId);
+    }
+
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -104,32 +108,59 @@ public class SpaceXActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // Older devices that run on Android API 19 to 22, have the default SSL3 protocol activated
-    // for networking. Because SSL protocol is proven to be very vulnerable, we use this method
-    // to upgrades the security provider and helps the device make use of newer protocols (like TLS)
-    // when connecting to a server.
-    /*private void upgradeSecurityProvider() {
-        try {
-            ProviderInstaller.installIfNeededAsync(this, new ProviderInstaller.ProviderInstallListener() {
-                @Override
-                public void onProviderInstalled() {
-                    Log.e("SpaceXActivity", "New security provider installed.");
-                }
-
-                @Override
-                public void onProviderInstallFailed(int errorCode, Intent recoveryIntent) {
-                    Log.e("SpaceXActivity", "New security provider install failed.");
-                }
-            });
-        } catch (Exception e) {
-            Log.e("SpaceXActivity", "Unknown issue trying to install a new security provider", e);
-        }
     }*/
 
-    private void setupTabLayoutAndPager2() {
-        /*FragmentManager fragmentManager = getFragmentManager();
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        switch (item.getItemId()) {
+            case R.id.nav_launches:
+                if (mNavId != 0) {
+                    mNavId = 0;
+                    setupLaunchesPager();
+                }
+                break;
+            case R.id.nav_rockets:
+                if (mNavId != 1) {
+                    mNavId = 1;
+                    setupRocketsPager();
+                }
+                break;
+            case R.id.nav_pads:
+                if (mNavId != 2) {
+                    mNavId = 2;
+                    //setupPadssPager();
+                }
+                break;
+            case R.id.nav_company:
+                if (mNavId != 3) {
+                    mNavId = 3;
+                    //setupHistory();
+                }
+                break;
+            case R.id.nav_media:
+                if (mNavId != 4) {
+                    mNavId = 4;
+                    //setupWhatIsHotPager();
+                }
+                break;
+            case R.id.nav_notifications:
+                if (mNavId != 5) {
+                    mNavId = 5;
+                    //setupNotifications();
+                }
+                break;
+            default: //case R.id.nav_settings:
+                startActivity(new Intent(SpaceXActivity.this, SettingsActivity.class));
+                mNavId = 6;
+        }
+
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void setupRocketsPager() {
+        FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager != null) {
             // Create an adapter that knows which fragment should be shown on each page
             SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), getLifecycle());
@@ -185,12 +216,10 @@ public class SpaceXActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
-        });*/
+        });
     }
 
-
-
-    private void setupTabLayoutAndPager() {
+    private void setupLaunchesPager() {
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager != null) {
             // Create an adapter that knows which fragment should be shown on each page
@@ -249,27 +278,65 @@ public class SpaceXActivity extends AppCompatActivity {
         });
     }
 
-
-
-
+    private void recreateTabsAndPager() {
+        switch (mNavId) {
+            /*case 0:
+                setupLaunchesPager();
+                break;*/
+            case 1:
+                setupRocketsPager();
+                break;
+            case 2:
+                //setupPadsPager();
+                break;
+            case 3:
+                //setupHistory();
+                break;
+            case 4:
+                //setupWhatIsHotPager();
+                break;
+            case 5:
+                //setupNotifications();
+                break;
+            default:
+                setupLaunchesPager();
+                break;
+        }
+    }
 
     @Override
     public void onBackPressed() {
-        ViewPager2 viewPager = findViewById(R.id.main_pager);
-        if (viewPager != null) {
-            switch (viewPager.getCurrentItem()) {
-                case 2:
-                    viewPager.setCurrentItem(1, true);
-                    break;
-                case 1:
-                    viewPager.setCurrentItem(0, true);
-                    break;
-                default:
-                    super.onBackPressed();
-                    break;
-            }
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            ViewPager2 viewPager = findViewById(R.id.main_pager);
+            if (viewPager != null) {
+                switch (viewPager.getCurrentItem()) {
+                    case 2:
+                        viewPager.setCurrentItem(1, true);
+                        break;
+                    case 1:
+                        viewPager.setCurrentItem(0, true);
+                        break;
+                    default:
+                        super.onBackPressed();
+                        break;
+                }
+            } else {
+                super.onBackPressed();
+            }
         }
+    }
+
+    private void setupNavigation() {
+        setSupportActionBar(mToolbar);
+        mToolbar.setOnClickListener(v -> mAppBarLayout.setExpanded(true));
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 }

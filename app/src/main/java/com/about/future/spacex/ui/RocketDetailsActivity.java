@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
+import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.RocketsViewModel;
 
 import butterknife.BindView;
@@ -29,6 +30,7 @@ public class RocketDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ScreenUtils.makeStatusBarTransparent(getWindow());
         setContentView(R.layout.activity_rocket_details);
         ButterKnife.bind(this);
 

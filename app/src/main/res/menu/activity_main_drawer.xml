@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="nav_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_launches"
+            android:icon="@drawable/ic_rocket_launch"
+            android:title="@string/label_nav_launches" />
+        <item
+            android:id="@+id/nav_rockets"
+            android:icon="@drawable/ic_rocket_launch"
+            android:title="@string/label_nav_vehicles" />
+        <item
+            android:id="@+id/nav_pads"
+            android:icon="@drawable/ic_launch_pads"
+            android:title="@string/label_nav_pads" />
+    </group>
+
+    <item android:title="@string/label_nav_about_spacex">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_company"
+                    android:icon="@drawable/ic_spacex_logo_xonly"
+                    android:title="@string/label_nav_company" />
+                <item
+                    android:id="@+id/nav_history"
+                    android:icon="@drawable/ic_history"
+                    android:title="@string/label_nav_history" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/label_nav_settings_notifications">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_media"
+                    android:icon="@drawable/ic_whatshot"
+                    android:title="@string/label_nav_media" />
+                <item
+                    android:id="@+id/nav_notifications"
+                    android:icon="@drawable/ic_notifications"
+                    android:title="@string/label_nav_notifications" />
+
+            </group>
+
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/label_nav_settings" />
+        </menu>
+    </item>
+
+<!--    <item>-->
+<!--        <menu>-->
+<!--            <item-->
+<!--                android:id="@+id/nav_logout"-->
+<!--                android:icon="@drawable/ic_lock"-->
+<!--                android:title="@string/action_logout" />-->
+<!--        </menu>-->
+<!--    </item>-->
+
+</menu>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@style/Theme.AppCompat">
@@ -11,32 +11,36 @@
     </style>
 
     <!-- FullScreen Style -->
-    <style name="AppTheme.FullScreen" parent="@style/Theme.AppCompat">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="AppTheme.FullScreen" parent="@style/Theme.AppCompat.NoActionBar">
+<!--        <item name="android:windowActionBar">false</item>-->
+<!--        <item name="android:windowNoTitle">true</item>-->
         <item name="android:windowFullscreen">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="android:navigationBarColor">@color/colorTransparent</item>
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
     </style>
 
     <!-- NoActionBar Style -->
     <style name="AppTheme.NoActionBar" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:fitsSystemWindows">false</item>
+
+<!--        <item name="statusBarBackground">@android:color/transparent</item>-->
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+<!--        -->
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="android:navigationBarColor">@color/colorBackgroundGrey</item>
+
     </style>
 
-    <style name="AppTheme.NoActionBar3" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorTransparent</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
+    <style name="AppTheme.NoStatusBar" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
-        <item name="statusBarBackground">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
+       <item name="android:navigationBarColor">@color/colorBackgroundGrey</item>
     </style>
 
     <!-- Activity Big Title Style -->

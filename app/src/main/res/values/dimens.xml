@@ -7,6 +7,7 @@
     <dimen name="card_margin">8dp</dimen>
     <dimen name="icon">48dp</dimen>
     <dimen name="settings_icon">24dp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
 
     <!-- Starfield Activity -->
     <dimen name="volume_margin">24dp</dimen>
@@ -42,5 +43,10 @@
     <!-- Rocket Details -->
     <dimen name="rocket_patch_size">180dp</dimen>
     <dimen name="gallery_height">240dp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
 
 </resources>

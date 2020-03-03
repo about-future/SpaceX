@@ -6,7 +6,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context="com.about.future.spacex.ui.SpaceXActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -40,7 +40,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/gradient_grey" />
@@ -66,7 +66,6 @@
                     android:id="@+id/spacex_logo_iv"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-
                     android:contentDescription="@string/app_name"
                     android:scaleType="fitStart"
                     app:srcCompat="@drawable/ic_spacex_logo" />

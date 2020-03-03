@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -40,7 +42,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StarfieldActivity extends AppCompatActivity implements Player.EventListener {
-
     private static final String SONG_POSITION = "seek_position";
     private static final String SOUND_ON = "sound_on";
 
@@ -77,6 +78,8 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_starfield);
 
         // Bind the views

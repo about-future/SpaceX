@@ -21,9 +21,28 @@
     <string name="sample_image">Sample image</string>
 
     <!-- Labels -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="label_nav_launches">Launches</string>
+    <string name="label_nav_vehicles">Vehicless</string>
+    <string name="label_nav_pads">Pads</string>
+
+    <string name="label_nav_about_spacex">About SpaceX</string>
+    <string name="label_nav_company">Company</string>
+    <string name="label_nav_history">History</string>
+    <string name="label_nav_settings_notifications">Settings &amp; Notifications</string>
+    <string name="label_nav_media">What\'s Hot</string>
+    <string name="label_nav_notifications">Notifications</string>
+    <string name="label_nav_settings">Settings</string>
+
     <string name="label_tab_missions">Missions</string>
+    <string name="label_tab_upcoming">Upcoming</string>
+    <string name="label_tab_past">Past</string>
     <string name="label_tab_rockets">Rockets</string>
+    <string name="label_tab_cores">Cores</string>
+    <string name="label_tab_capsules">Capsules</string>
     <string name="label_tab_launch_pads">Launch Pads</string>
+    <string name="label_tab_landing_pads">Landing Pads</string>
 
     <string name="label_launch_date">Launch Date</string>
     <string name="label_rocket_type">Rocket Type</string>

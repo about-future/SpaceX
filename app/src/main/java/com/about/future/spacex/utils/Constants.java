@@ -26,4 +26,5 @@ public class Constants {
     public static final String ACRONYMS_ON = "Enabled";
     public static final String ACRONYMS_OFF = "Disabled";
 
+    public static final String NAV_ID_KEY = "nav_id_key";
 }
