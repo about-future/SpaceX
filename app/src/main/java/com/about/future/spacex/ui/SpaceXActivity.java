@@ -15,10 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.SettingsActivity;
 import com.about.future.spacex.ui.fragments.LaunchPadsFragment;
 import com.about.future.spacex.ui.fragments.MissionsFragment;
+import com.about.future.spacex.ui.fragments.PastMissionsFragment;
 import com.about.future.spacex.ui.fragments.RocketsFragment;
+import com.about.future.spacex.ui.fragments.UpcomingMissionsFragment;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.ui.adapters.SectionsPagerAdapter;
@@ -227,8 +228,8 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
 
             // Set fragment into PagerAdapter
             List<Fragment> fragments = new ArrayList<>();
-            fragments.add(new MissionsFragment());
-            fragments.add(new RocketsFragment());
+            fragments.add(new UpcomingMissionsFragment());
+            fragments.add(new PastMissionsFragment());
             pagerAdapter.setFragments(fragments);
 
             mViewPager.invalidate();

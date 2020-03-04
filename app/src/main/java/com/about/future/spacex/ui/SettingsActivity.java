@@ -1,4 +1,4 @@
-package com.about.future.spacex;
+package com.about.future.spacex.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.about.future.spacex.R;
 import com.about.future.spacex.utils.Constants;
 import com.about.future.spacex.utils.SpaceXPreferences;
 

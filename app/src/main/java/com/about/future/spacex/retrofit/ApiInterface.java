@@ -15,6 +15,12 @@ public interface ApiInterface {
     @GET("launches")
     Call<List<Mission>> getMissions();
 
+    //@GET("upcoming")
+    //Call<List<Upcoming>> getUpcomingMissions();
+
+    //@GET("past")
+    //Call<List<Past>> getPastMissions();
+
     @GET("launches/{id}")
     Call<List<Mission>> getMissionDetails(@Path("id") int number);
 

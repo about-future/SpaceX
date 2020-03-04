@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme.FullScreen"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".StarfieldActivity">
+        <activity android:name=".ui.StarfieldActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,7 +74,7 @@
         </service-->
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ui.SpaceXActivity"
             android:theme="@style/AppTheme">

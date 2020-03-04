@@ -5,7 +5,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import com.about.future.spacex.ui.SpaceXActivity;
-import com.about.future.spacex.StarfieldActivity;
+import com.about.future.spacex.ui.StarfieldActivity;
 
 public class DetectSwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
     // Source activity

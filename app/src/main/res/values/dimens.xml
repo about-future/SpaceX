@@ -10,8 +10,10 @@
     <dimen name="status_bar_height">24dp</dimen>
 
     <!-- Starfield Activity -->
-    <dimen name="volume_margin">24dp</dimen>
-    <dimen name="music_credits_margin">24dp</dimen>
+    <dimen name="volume_margin_end">8dp</dimen>
+    <dimen name="volume_margin_bottom">48dp</dimen>
+    <dimen name="music_credits_margin_start">24dp</dimen>
+    <dimen name="music_credits_margin_bottom">48dp</dimen>
 
     <!-- SpaceX Activity -->
     <dimen name="appbar_padding_top">8dp</dimen>

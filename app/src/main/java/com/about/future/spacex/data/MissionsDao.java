@@ -21,6 +21,18 @@ public interface MissionsDao {
     @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads FROM missions ORDER BY flight_number DESC")
     LiveData<List<MissionMini>> loadMiniMissions();
 
+    @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads " +
+            "FROM missions " +
+            "WHERE launch_date_unix > :now " +
+            "ORDER BY launch_date_unix ASC")
+    LiveData<List<MissionMini>> loadUpcomingMiniMissions(long now);
+
+    @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads " +
+            "FROM missions " +
+            "WHERE launch_date_unix <= :now " +
+            "ORDER BY launch_date_unix DESC")
+    LiveData<List<MissionMini>> loadPastMiniMissions(long now);
+
     @Query("SELECT * FROM missions WHERE flight_number = :flightNumber")
     LiveData<Mission> loadMissionDetails(int flightNumber);
 

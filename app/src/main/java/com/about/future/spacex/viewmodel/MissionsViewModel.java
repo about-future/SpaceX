@@ -23,6 +23,10 @@ public class MissionsViewModel extends AndroidViewModel {
 
     public LiveData<ResultDisplay<List<Mission>>> getMissionsFromServer() { return repository.getMissionsFromServer(); }
     public LiveData<List<Mission>> getMissionsFromDb() { return repository.getMissions(); }
+
     public LiveData<List<MissionMini>> getMiniMissionsFromDb() { return repository.getMiniMissions(); }
+    public LiveData<List<MissionMini>> getUpcomingMissionsFromDb(long now) { return repository.getUpcomingMissions(now); }
+    public LiveData<List<MissionMini>> getPastMissionsFromDb(long now) { return repository.getPastMissions(now); }
+
     public LiveData<Mission> getMissionDetails(int id) { return repository.getMissionDetails(id); }
 }

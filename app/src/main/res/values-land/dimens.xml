@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Starfield Activity -->
+    <dimen name="volume_margin_end">36dp</dimen>
+    <dimen name="volume_margin_bottom">16dp</dimen>
+    <dimen name="music_credits_margin_start">36dp</dimen>
+    <dimen name="music_credits_margin_bottom">24dp</dimen>
+
     <!-- SpaceX Activity -->
     <dimen name="title_text_size">18sp</dimen>
     <dimen name="subtitle_text_size">14sp</dimen>

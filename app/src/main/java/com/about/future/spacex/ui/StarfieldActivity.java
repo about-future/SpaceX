@@ -1,4 +1,4 @@
-package com.about.future.spacex;
+package com.about.future.spacex.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -18,9 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.ActivityStarfieldBinding;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.DetectSwipeGestureListener;
-import com.about.future.spacex.ui.SpaceXActivity;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.PlaybackParameters;
@@ -33,34 +33,13 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class StarfieldActivity extends AppCompatActivity implements Player.EventListener {
     private static final String SONG_POSITION = "seek_position";
     private static final String SOUND_ON = "sound_on";
-
-    @BindView(R.id.playerView)
-    PlayerView mPlayerView;
-    @BindView(R.id.starfield)
-    View starFieldView;
-    @BindView(R.id.logoSpaceX)
-    ImageView logoSpaceX;
-
-    // Set music credits
-    @BindView(R.id.song_credits)
-    ImageView mCreditsImageView;
-
-    // Volume on/off "buttons"
-    @BindView(R.id.volumeOn)
-    ImageView volumeOn;
-    @BindView(R.id.volumeOff)
-    ImageView volumeOff;
 
     private SimpleExoPlayer mExoPlayer;
     private long mAudioPosition;
@@ -75,18 +54,18 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     // This is the gesture detector compat instance
     private GestureDetectorCompat gestureDetectorCompat = null;
 
+    private ActivityStarfieldBinding binding;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        setContentView(R.layout.activity_starfield);
-
-        // Bind the views
-        ButterKnife.bind(this);
+        binding = ActivityStarfieldBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Set the layer type of starfield, so that the shadows of the stars are visible
-        starFieldView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        binding.starfield.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         // Prepare params for SpaceX logo
         // Logo width is 74% of screen width and logo height is 12.5% of width logo
@@ -98,27 +77,27 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         // Left margin is 18.75% of screen width, the rest are 0
         layoutParams.setMargins((int) (ScreenUtils.getScreenWidhtInPixels(this) * 0.1875), 0, 0, 0);
         // Set params for SpaceX logo
-        logoSpaceX.setLayoutParams(layoutParams);
+        binding.logoSpaceX.setLayoutParams(layoutParams);
 
         //handler = new Handler();
         initializePlayer(this);
 
         // Volume on listener
-        volumeOn.setOnClickListener(view -> {
+        binding.volumeOn.setOnClickListener(view -> {
             if (mExoPlayer != null) {
                 mExoPlayer.setVolume(0);
-                volumeOn.setVisibility(View.GONE);
-                volumeOff.setVisibility(View.VISIBLE);
+                binding.volumeOn.setVisibility(View.GONE);
+                binding.volumeOff.setVisibility(View.VISIBLE);
                 showToast(getString(R.string.sound_off));
             }
         });
 
         // Volume off listener
-        volumeOff.setOnClickListener(view -> {
+        binding.volumeOff.setOnClickListener(view -> {
             if (mExoPlayer != null) {
                 mExoPlayer.setVolume(1);
-                volumeOn.setVisibility(View.VISIBLE);
-                volumeOff.setVisibility(View.GONE);
+                binding.volumeOn.setVisibility(View.VISIBLE);
+                binding.volumeOff.setVisibility(View.GONE);
                 showToast(getString(R.string.sound_on));
             }
         });
@@ -144,7 +123,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
-            mPlayerView.setPlayer(mExoPlayer);
+            binding.playerView.setPlayer(mExoPlayer);
 
             // Set the ExoPlayer.EventListener to this activity.
             mExoPlayer.addListener(this);
@@ -194,7 +173,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
 
         if (mExoPlayer != null) {
             mAudioPosition = mExoPlayer.getCurrentPosition();
-            mVolumeState = volumeOn.getVisibility();
+            mVolumeState = binding.volumeOn.getVisibility();
             releasePlayer();
             handler.removeCallbacks(runnable);
         }
@@ -213,7 +192,7 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putLong(SONG_POSITION, mAudioPosition);
-        outState.putInt(SOUND_ON, volumeOn.getVisibility());
+        outState.putInt(SOUND_ON, binding.volumeOn.getVisibility());
 
         super.onSaveInstanceState(outState);
     }
@@ -230,12 +209,12 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         // Restore volume status (on or off)
         if (mVolumeState == View.GONE) {
             mExoPlayer.setVolume(0);
-            volumeOn.setVisibility(View.GONE);
-            volumeOff.setVisibility(View.VISIBLE);
+            binding.volumeOn.setVisibility(View.GONE);
+            binding.volumeOff.setVisibility(View.VISIBLE);
         } else {
             mExoPlayer.setVolume(1);
-            volumeOn.setVisibility(View.VISIBLE);
-            volumeOff.setVisibility(View.GONE);
+            binding.volumeOn.setVisibility(View.VISIBLE);
+            binding.volumeOff.setVisibility(View.GONE);
         }
     }
 
@@ -254,9 +233,9 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
             if ((position > 35000 && position <= 45000)
                     || (position > 115000 && position <= 145000)
                     || (position > 205000 && position <= 235000)) {
-                mCreditsImageView.setVisibility(View.VISIBLE);
-                mCreditsImageView.setImageResource(R.drawable.credits_swipe);
-                mCreditsImageView.setContentDescription(getString(R.string.skip));
+                binding.songCredits.setVisibility(View.VISIBLE);
+                binding.songCredits.setImageResource(R.drawable.credits_swipe);
+                binding.songCredits.setContentDescription(getString(R.string.skip));
             } else if ((position > 0 && position <= 5000)
                     || (position > 25000 && position <= 35000)
                     || (position > 45000 && position <= 65000)
@@ -265,14 +244,14 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
                     || (position > 195000 && position <= 205000)
                     || (position > 235000 && position <= 255000)
                     || (position > 285000)) {
-                mCreditsImageView.setVisibility(View.INVISIBLE);
+                binding.songCredits.setVisibility(View.INVISIBLE);
             } else if ((position > 5000 && position <= 25000)
                     || (position > 65000 && position <= 95000)
                     || (position > 165000 && position < 195000)
                     || (position > 255000 && position < 285000)) {
-                mCreditsImageView.setVisibility(View.VISIBLE);
-                mCreditsImageView.setImageResource(R.drawable.credits_artist);
-                mCreditsImageView.setContentDescription(getString(R.string.song_credits));
+                binding.songCredits.setVisibility(View.VISIBLE);
+                binding.songCredits.setImageResource(R.drawable.credits_artist);
+                binding.songCredits.setContentDescription(getString(R.string.song_credits));
             }
 
             runnable = () -> {

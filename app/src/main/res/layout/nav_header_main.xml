@@ -15,29 +15,29 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="214dp"
-        android:layout_height="82dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:contentDescription="@string/spacex_logo"
         app:srcCompat="@drawable/ic_spacex_logo_xonly" />
 
-    <TextView
-        android:id="@+id/nav_header_responsabil_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:text="By About Future" />
+<!--    <TextView-->
+<!--        android:id="@+id/nav_header_responsabil_tv"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="sans-serif-condensed"-->
+<!--        android:paddingTop="@dimen/nav_header_vertical_spacing"-->
+<!--        android:textColor="@color/colorPrimary"-->
+<!--        android:textSize="20sp"-->
+<!--        android:text="By About Future" />-->
 
-    <TextView
-        android:id="@+id/nav_header_organizatie_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:textColor="@color/colorBlack"
-        android:alpha="0.5"
-        android:text="about.future@gmail.com" />
+<!--    <TextView-->
+<!--        android:id="@+id/nav_header_organizatie_tv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="sans-serif-condensed"-->
+<!--        android:textColor="@color/colorBlack"-->
+<!--        android:alpha="0.5"-->
+<!--        android:text="about.future@gmail.com" />-->
 
 </LinearLayout>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    tools:context="com.about.future.spacex.StarfieldActivity">
+    tools:context="com.about.future.spacex.ui.StarfieldActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -63,8 +63,8 @@
         android:id="@+id/volumeOn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/volume_margin"
-        android:layout_marginEnd="@dimen/volume_margin"
+        android:layout_marginBottom="@dimen/volume_margin_bottom"
+        android:layout_marginEnd="@dimen/volume_margin_end"
         android:contentDescription="@string/sound_on"
         android:padding="@dimen/vertical_margin"
         android:visibility="visible"
@@ -76,8 +76,8 @@
         android:id="@+id/volumeOff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/volume_margin"
-        android:layout_marginEnd="@dimen/volume_margin"
+        android:layout_marginBottom="@dimen/volume_margin_bottom"
+        android:layout_marginEnd="@dimen/volume_margin_end"
         android:contentDescription="@string/sound_off"
         android:padding="@dimen/vertical_margin"
         android:visibility="gone"
@@ -95,7 +95,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:visibility="invisible"
-        android:layout_marginStart="@dimen/music_credits_margin"
-        android:layout_marginBottom="@dimen/music_credits_margin"/>
+        android:layout_marginStart="@dimen/music_credits_margin_start"
+        android:layout_marginBottom="@dimen/music_credits_margin_bottom"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

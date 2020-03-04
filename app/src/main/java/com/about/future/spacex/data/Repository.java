@@ -101,9 +101,8 @@ public class Repository {
     public LiveData<Mission> getMissionDetails(int id) { return missionsDao.loadMissionDetails(id); }
     public LiveData<List<Mission>> getMissions() { return missionsDao.loadMissions(); }
     public LiveData<List<MissionMini>> getMiniMissions() { return missionsDao.loadMiniMissions(); }
-    //public Mission getUpcommingMission(long now) { return missionsDao.findUpcomingMission(now); }
-
-
+    public LiveData<List<MissionMini>> getUpcomingMissions(long now) { return missionsDao.loadUpcomingMiniMissions(now); }
+    public LiveData<List<MissionMini>> getPastMissions(long now) { return missionsDao.loadPastMiniMissions(now); }
 
 
     // Rockets

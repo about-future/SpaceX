@@ -11,9 +11,11 @@
     <integer name="rocket_list_column_count">2</integer>
 
     <!-- Starfield Activity -->
-    <dimen name="volume_margin">64dp</dimen>
+    <dimen name="volume_margin_end">64dp</dimen>
+    <dimen name="volume_margin_bottom">48dp</dimen>
     <!--<dimen name="music_credits_font_size">12sp</dimen>-->
-    <dimen name="music_credits_margin">64dp</dimen>
+    <dimen name="music_credits_margin_start">64dp</dimen>
+    <dimen name="music_credits_margin_bottom">64dp</dimen>
 
     <!-- SpaceX Activity -->
     <integer name="rocket_height_subtraction">160</integer>
