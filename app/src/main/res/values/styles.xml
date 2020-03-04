@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="@style/Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
@@ -39,6 +39,10 @@
     </style>
 
     <style name="AppTheme.NoStatusBar" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
         <item name="android:windowFullscreen">true</item>
        <item name="android:navigationBarColor">@color/colorBackgroundGrey</item>
     </style>

@@ -29,7 +29,7 @@
         <activity
             android:name=".ui.SpaceXActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoStatusBar">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -41,7 +41,7 @@
             android:name=".ui.MissionDetailsActivity"
             android:exported="true"
             android:parentActivityName=".ui.SpaceXActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoStatusBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.about.future.spacex.ui.SpaceXActivity" />
@@ -50,7 +50,7 @@
         <activity
             android:name=".ui.RocketDetailsActivity"
             android:parentActivityName=".ui.SpaceXActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoStatusBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.about.future.spacex.ui.SpaceXActivity" />
