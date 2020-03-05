@@ -1,7 +1,8 @@
 package com.about.future.spacex.retrofit;
 
 import com.about.future.spacex.model.mission.Mission;
-import com.about.future.spacex.model.launch_pad.LaunchPad;
+import com.about.future.spacex.model.pads.LandingPad;
+import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.rocket.Rocket;
 
 import java.util.List;
@@ -38,6 +39,14 @@ public interface ApiInterface {
 
     @GET("launchpads/{id}")
     Call<LaunchPad> getLaunchPad(@Path("id") String id);
+
+
+    // Landing Pads Endpoint
+    @GET("landpads")
+    Call<List<LandingPad>> getLandingPads();
+
+    @GET("landpads/{id}")
+    Call<LandingPad> getLandingPad(@Path("id") String id);
 
 
     // Rocket Data Endpoint

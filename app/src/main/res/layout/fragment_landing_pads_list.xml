@@ -8,14 +8,14 @@
     tools:context="com.about.future.spacex.ui.SpaceXActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_launch_pads_list_layout"
+        android:id="@+id/swipe_refresh_landing_pads_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/launch_pads_rv"
+            android:id="@+id/landing_pads_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/pad_list_item"/>
@@ -23,7 +23,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
-        android:id="@+id/launch_pads_no_connection_message"
+        android:id="@+id/landing_pads_no_connection_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="sans-serif-condensed"
-            android:text="@string/loading_launch_pads"
+            android:text="@string/loading_landing_pads"
             android:textSize="@dimen/details_body_text_size" />
 
     </LinearLayout>

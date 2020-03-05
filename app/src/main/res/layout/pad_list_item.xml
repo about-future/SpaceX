@@ -8,7 +8,7 @@
     android:background="@drawable/touch_selector">
 
     <ImageView
-        android:id="@+id/launch_pad_thumbnail"
+        android:id="@+id/pad_thumbnail"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="@dimen/spacing"
@@ -25,13 +25,13 @@
         android:layout_marginEnd="@dimen/spacing"
         android:layout_marginStart="@dimen/spacing"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/launch_pad_thumbnail"
+        app:layout_constraintBottom_toTopOf="@id/pad_thumbnail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/launch_pad_thumbnail"
-        app:layout_constraintTop_toBottomOf="@id/launch_pad_thumbnail">
+        app:layout_constraintStart_toEndOf="@id/pad_thumbnail"
+        app:layout_constraintTop_toBottomOf="@id/pad_thumbnail">
 
         <TextView
-            android:id="@+id/launch_pad_full_name"
+            android:id="@+id/pad_full_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -43,7 +43,7 @@
             tools:text="Kennedy Space Center Historic Launch Complex 39A" />
 
         <TextView
-            android:id="@+id/launch_pad_location"
+            android:id="@+id/pad_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"

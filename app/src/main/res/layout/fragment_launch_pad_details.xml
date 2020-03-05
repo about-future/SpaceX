@@ -119,7 +119,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/launch_pad_location"
+                            android:id="@+id/pad_location"
                             style="@style/Title"
                             android:maxLines="2"
                             tools:text="Cape Canaveral, Florida, United States of America" />

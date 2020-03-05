@@ -1,7 +1,8 @@
 package com.about.future.spacex.retrofit;
 
 import com.about.future.spacex.App;
-import com.about.future.spacex.model.launch_pad.LaunchPad;
+import com.about.future.spacex.model.pads.LandingPad;
+import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.rocket.Rocket;
 
@@ -83,6 +84,8 @@ public class ApiManager {
         return sApiManager;
     }
 
+
+
     public void getMissions(Callback<List<Mission>> callback) {
         Call<List<Mission>> response = sApiInterfaceForced.getMissions();
         response.enqueue(callback);
@@ -92,6 +95,8 @@ public class ApiManager {
         Call<List<Mission>> response = sApiInterfaceForced.getMissionDetails(number);
         response.enqueue(callback);
     }
+
+
 
     public void getRockets(Callback<List<Rocket>> callback) {
         Call<List<Rocket>> response = sApiInterfaceForced.getRockets();
@@ -103,6 +108,8 @@ public class ApiManager {
         response.enqueue(callback);
     }
 
+
+
     public void getLaunchPads(Callback<List<LaunchPad>> callback) {
         Call<List<LaunchPad>> response = sApiInterfaceForced.getLaunchPads();
         response.enqueue(callback);
@@ -112,4 +119,20 @@ public class ApiManager {
         Call<LaunchPad> response = sApiInterfaceForced.getLaunchPad(padId);
         response.enqueue(callback);
     }
+
+
+
+    public void getLandingPads(Callback<List<LandingPad>> callback) {
+        Call<List<LandingPad>> response = sApiInterfaceForced.getLandingPads();
+        response.enqueue(callback);
+    }
+
+    public void getLandingPad(String padId, Callback<LandingPad> callback) {
+        Call<LandingPad> response = sApiInterfaceForced.getLandingPad(padId);
+        response.enqueue(callback);
+    }
+
+
+
+    //
 }

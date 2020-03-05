@@ -151,11 +151,13 @@
 
     <string name="loading_missions">Loading launches&#8230;</string>
     <string name="loading_rockets">Loading rockets&#8230;</string>
-    <string name="loading_pads">Loading launch pads&#8230;</string>
+    <string name="loading_launch_pads">Loading launch pads&#8230;</string>
+    <string name="loading_landing_pads">Loading landing pads&#8230;</string>
 
     <string name="no_launches_available">No launches available</string>
     <string name="no_rocket_available">No rockets available</string>
-    <string name="no_pads_available">No launch pads available</string>
+    <string name="no_launch_pads_available">No launch pads available</string>
+    <string name="no_landing_pads_available">No landing pads available</string>
 
     <string name="mission_up_to_date">Launch is up to date!</string>
     <string name="mission_updated">Launch updated!</string>
@@ -204,8 +206,10 @@
     <!-- OTHER PREFERENCE KEYS -->
     <string name="pref_mission_status_key">missions_loaded</string>
     <string name="pref_launch_pads_status_key">launch_pads_loaded</string>
+    <string name="pref_landing_pads_status_key">landing_pads_loaded</string>
     <string name="pref_rockets_status_key">rockets_loaded</string>
     <string name="pref_launch_pads_thumbnails_date_key">launch_pads_thumbnails_date</string>
+    <string name="pref_landing_pads_thumbnails_date_key">landing_pads_thumbnails_date</string>
     <string name="pref_topic_subscription_status_key">subscribed</string>
     <string name="pref_total_missions_key">total_missions</string>
     <string name="pref_total_rockets_key">total_rockets</string>
@@ -213,6 +217,7 @@
     <string name="pref_first_load_launches_key">first_load_launches</string>
     <string name="pref_first_load_rockets_key">first_load_rockets</string>
     <string name="pref_first_load_pads_key">first_load_pads</string>
+    <string name="pref_first_load_landing_pads_key">first_load_landing_pads</string>
     <string name="pref_download_date_key">download_date</string>
 
     <!-- Dragon Dimensions -->

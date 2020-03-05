@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.model.launch_pad.LaunchPad;
+import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.TextsUtils;
@@ -46,7 +46,7 @@ public class LaunchPadDetailsFragment extends Fragment {
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.launch_pad_satellite_view)
     ImageView mLaunchPadSatelliteImageView;
-    @BindView(R.id.launch_pad_location)
+    @BindView(R.id.pad_location)
     TextView mLaunchPadLocationTextView;
     @BindView(R.id.launch_pad_status)
     TextView mLaunchPadStatusTextView;

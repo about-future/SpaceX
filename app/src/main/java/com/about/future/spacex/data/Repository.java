@@ -6,7 +6,8 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.about.future.spacex.model.launch_pad.LaunchPad;
+import com.about.future.spacex.model.pads.LandingPad;
+import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.mission.MissionMini;
 import com.about.future.spacex.model.rocket.Rocket;
@@ -26,16 +27,19 @@ public class Repository {
     private final MissionsDao missionsDao;
     private final RocketsDao rocketsDao;
     private final LaunchPadsDao launchPadsDao;
+    private final LandingPadsDao landingPadsDao;
 
     private MutableLiveData<ResultDisplay<List<Mission>>> mMissionsObservable;
     private MutableLiveData<ResultDisplay<List<Rocket>>> mRocketsObservable;
     private MutableLiveData<ResultDisplay<List<LaunchPad>>> mLaunchPadsObservable;
+    private MutableLiveData<ResultDisplay<List<LandingPad>>> mLandingPadsObservable;
 
     private Repository(final Application application) {
         AppDatabase appDatabase = AppDatabase.getInstance(application);
         missionsDao = appDatabase.missionDao();
         rocketsDao = appDatabase.rocketDao();
         launchPadsDao = appDatabase.launchPadDao();
+        landingPadsDao = appDatabase.landingPadDao();
     }
 
     public static Repository getInstance(final Application application) {
@@ -105,6 +109,8 @@ public class Repository {
     public LiveData<List<MissionMini>> getPastMissions(long now) { return missionsDao.loadPastMiniMissions(now); }
 
 
+
+
     // Rockets
     public LiveData<ResultDisplay<List<Rocket>>> getRocketsFromServer() {
         mRocketsObservable = new MutableLiveData<>();
@@ -157,7 +163,6 @@ public class Repository {
     public LiveData<List<RocketMini>> getMiniRockets() { return rocketsDao.loadMiniRockets(); }
     public LiveData<List<Rocket>> getRockets() { return rocketsDao.loadRockets(); }
     public String getRocketId(String rocket) { return rocketsDao.getRocketId(rocket); }
-
 
 
 
@@ -218,4 +223,65 @@ public class Repository {
     public LiveData<LaunchPad> getLaunchPadDetails(int id) { return launchPadsDao.loadLaunchPadDetails(id); }
     public LiveData<List<LaunchPad>> getLaunchPads() { return launchPadsDao.loadAllLaunchPads(); }
     public int getLaunchPadId(String pad) { return launchPadsDao.getLaunchPadId(pad); }
+
+
+
+
+
+    // Launch Pads
+    public LiveData<ResultDisplay<List<LandingPad>>> getLandingPadsFromServer() {
+        mLandingPadsObservable = new MutableLiveData<>();
+        mLandingPadsObservable.setValue(ResultDisplay.loading(Collections.emptyList()));
+
+        ApiManager.getInstance().getLandingPads(new Callback<List<LandingPad>>() {
+            @Override
+            public void onResponse(Call<List<LandingPad>> call, Response<List<LandingPad>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        List<LandingPad> landingPads = response.body();
+
+                        Log.v("LANDING PADS RESPONSE", "SUCCESSFUL");
+                        Log.v("LANDING PADS", "ARE: " + landingPads.size());
+                        for (LandingPad landingPad : landingPads) {
+                            Log.v("PAD NAME", "IS: " + landingPad.getFullName());
+                        }
+
+                        if (landingPads.size() > 0) {
+                            deleteAllLandingPads();
+                            addLandingPads(landingPads);
+                        }
+
+                        mLandingPadsObservable.setValue(ResultDisplay.success(landingPads));
+                    } else {
+                        Log.v("LANDING PADS RESPONSE", "SUCCESSFUL, BUT EMPTY");
+                    }
+                } else {
+                    // Bad API token
+                    mLandingPadsObservable.setValue(ResultDisplay.error(String.valueOf(response.code()), Collections.emptyList()));
+                    Log.v("LANDING PADS RESPONSE", "SUCCESSFUL");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LandingPad>> call, Throwable t) {
+                // Http error
+                mLaunchPadsObservable.setValue(ResultDisplay.error(t.getMessage(), Collections.emptyList()));
+                Log.v("LANDING PADS RESPONSE", "FAILED");
+            }
+        });
+
+        return mLandingPadsObservable;
+    }
+
+    private void deleteAllLandingPads() {
+        AppExecutors.getInstance().diskIO().execute(landingPadsDao::deleteAllPads);
+    }
+
+    private void addLandingPads(List<LandingPad> landingPads) {
+        AppExecutors.getInstance().diskIO().execute(() -> landingPadsDao.insertLandingPads(landingPads));
+    }
+
+    public LiveData<LandingPad> getLandingPadDetails(String id) { return landingPadsDao.loadLandingPadDetails(id); }
+    public LiveData<List<LandingPad>> getLandingPads() { return landingPadsDao.loadAllLandingPads(); }
+    public int getLandingPadId(String pad) { return landingPadsDao.getLandingPadId(pad); }
 }

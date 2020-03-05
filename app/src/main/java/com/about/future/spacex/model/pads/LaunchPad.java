@@ -1,4 +1,4 @@
-package com.about.future.spacex.model.launch_pad;
+package com.about.future.spacex.model.pads;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;

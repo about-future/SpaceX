@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.about.future.spacex.model.launch_pad.LaunchPad;
+import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.ui.fragments.LaunchPadDetailsFragment;

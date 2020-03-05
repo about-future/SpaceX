@@ -1,6 +1,5 @@
 package com.about.future.spacex.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,37 +20,35 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.ui.adapters.LaunchPadsAdapter;
+import com.about.future.spacex.model.pads.LandingPad;
+import com.about.future.spacex.ui.SpaceXActivity;
+import com.about.future.spacex.ui.adapters.LandingPadsAdapter;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ResultDisplay;
 import com.about.future.spacex.utils.ScreenUtils;
-import com.about.future.spacex.ui.LaunchPadDetailsActivity;
-import com.about.future.spacex.ui.SpaceXActivity;
-import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
-import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.utils.SpaceXPreferences;
+import com.about.future.spacex.viewmodel.LandingPadsViewModel;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.utils.Constants.LAUNCH_PADS_RECYCLER_POSITION_KEY;
-import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_ID_KEY;
+import static com.about.future.spacex.utils.Constants.LANDING_PADS_RECYCLER_POSITION_KEY;
 
-public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.ListItemClickListener {
-    private int mLaunchPadsPosition = RecyclerView.NO_POSITION;
+public class LandingPadsFragment extends Fragment implements LandingPadsAdapter.ListItemClickListener {
+    private int mLandingPadsPosition = RecyclerView.NO_POSITION;
     private int[] mStaggeredPosition;
     private LinearLayoutManager mLinearLayoutManager;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
-    private LaunchPadsAdapter mLaunchPadsAdapter;
-    private LaunchPadsViewModel mViewModel;
+    private LandingPadsAdapter mLandingPadsAdapter;
+    private LandingPadsViewModel mViewModel;
 
-    @BindView(R.id.swipe_refresh_launch_pads_list_layout)
+    @BindView(R.id.swipe_refresh_landing_pads_list_layout)
     SwipeRefreshLayout mSwipeToRefreshLayout;
-    @BindView(R.id.launch_pads_rv)
+    @BindView(R.id.landing_pads_rv)
     RecyclerView mRecyclerView;
-    @BindView(R.id.launch_pads_no_connection_message)
+    @BindView(R.id.landing_pads_no_connection_message)
     TextView mNoConnectionMessage;
     @BindView(R.id.loading_layout)
     LinearLayout mLoadingLayout;
@@ -63,22 +60,22 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null && savedInstanceState.containsKey(LAUNCH_PADS_RECYCLER_POSITION_KEY)) {
-            mLaunchPadsPosition = savedInstanceState.getInt(LAUNCH_PADS_RECYCLER_POSITION_KEY);
+        if (savedInstanceState != null && savedInstanceState.containsKey(LANDING_PADS_RECYCLER_POSITION_KEY)) {
+            mLandingPadsPosition = savedInstanceState.getInt(LANDING_PADS_RECYCLER_POSITION_KEY);
         }
 
-        View view = inflater.inflate(R.layout.fragment_launch_pads_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_landing_pads_list, container, false);
         ButterKnife.bind(this, view);
 
         // Setup RecyclerView and Adaptor
         setupRecyclerView();
         // Init view model
-        mViewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(LandingPadsViewModel.class);
 
         mSwipeToRefreshLayout.setOnRefreshListener(() -> {
             mSwipeToRefreshLayout.setRefreshing(false);
-            SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
-            getLaunchPads();
+            SpaceXPreferences.setLandingPadsStatus(getContext(), true);
+            getLandingPads();
         });
 
         return view;
@@ -100,8 +97,8 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
         }
 
         mRecyclerView.setHasFixedSize(false);
-        mLaunchPadsAdapter = new LaunchPadsAdapter(getContext(), this);
-        mRecyclerView.setAdapter(mLaunchPadsAdapter);
+        mLandingPadsAdapter = new LandingPadsAdapter(getContext(), this);
+        mRecyclerView.setAdapter(mLandingPadsAdapter);
     }
 
     private SpaceXActivity getActivityCast() {
@@ -109,43 +106,43 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     }
 
     private void restorePosition() {
-        if (mLaunchPadsPosition == RecyclerView.NO_POSITION) mLaunchPadsPosition = 0;
+        if (mLandingPadsPosition == RecyclerView.NO_POSITION) mLandingPadsPosition = 0;
         // Scroll the RecyclerView to mPosition
-        mRecyclerView.scrollToPosition(mLaunchPadsPosition);
+        mRecyclerView.scrollToPosition(mLandingPadsPosition);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         // Save RecyclerView state
         if (mLinearLayoutManager != null) {
-            mLaunchPadsPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+            mLandingPadsPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
         } else if (mStaggeredGridLayoutManager != null) {
-            mLaunchPadsPosition = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(mStaggeredPosition)[0];
+            mLandingPadsPosition = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(mStaggeredPosition)[0];
         }
 
-        outState.putInt(LAUNCH_PADS_RECYCLER_POSITION_KEY, mLaunchPadsPosition);
+        outState.putInt(LANDING_PADS_RECYCLER_POSITION_KEY, mLandingPadsPosition);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getLaunchPads();
+        getLandingPads();
     }
 
-    // If launch pads were already loaded once, just query the DB and display them,
+    // If landing pads were already loaded once, just query the DB and display them,
     // otherwise get them from server
-    private void getLaunchPads() {
-        // If a forced download is requested, getLaunchPadsStatus flag is true
-        // and we download all launch pads from server
-        if (SpaceXPreferences.getLaunchPadsStatus(getActivityCast())) {
+    private void getLandingPads() {
+        // If a forced download is requested, getLandingPadsStatus flag is true
+        // and we download all landing pads from server
+        if (SpaceXPreferences.getLandingPadsStatus(getActivityCast())) {
             // If there is a network connection
             if (NetworkUtils.isConnected(getActivityCast())) {
                 //loadingStateUi();
-                getLaunchPadsFromServer();
+                getLandingPadsFromServer();
             } else {
                 // Show connection error
-                if (SpaceXPreferences.getLaunchPadsFirstLoad(getActivityCast())) {
+                if (SpaceXPreferences.getLandingPadsFirstLoad(getActivityCast())) {
                     errorStateUi(2);
                 } else {
                     Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
@@ -153,14 +150,14 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
             }
         } else {
             // Otherwise, get them from DB
-            getLaunchPadsFromDB();
+            getLandingPadsFromDB();
         }
     }
 
-    private void getLaunchPadsFromServer() {
+    private void getLandingPadsFromServer() {
         Log.v("GET PADS", "FROM SERVER");
 
-        mViewModel.getLaunchPadsFromServer().observe(this, checkResultDisplay -> {
+        mViewModel.getLandingPadsFromServer().observe(this, checkResultDisplay -> {
             if (checkResultDisplay != null) {
                 switch (checkResultDisplay.state) {
                     case ResultDisplay.STATE_LOADING:
@@ -173,7 +170,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
                             mSwipeToRefreshLayout.setRefreshing(false);
 
                         // Show error message
-                        if (SpaceXPreferences.getLaunchPadsFirstLoad(getActivityCast())) {
+                        if (SpaceXPreferences.getLandingPadsFirstLoad(getActivityCast())) {
                             errorStateUi(1);
                         } else {
                             Toast.makeText(getActivityCast(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
@@ -183,18 +180,18 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
                         if (mSwipeToRefreshLayout != null)
                             mSwipeToRefreshLayout.setRefreshing(false);
 
-                        List<LaunchPad> launchPads = checkResultDisplay.data;
+                        List<LandingPad> landingPads = checkResultDisplay.data;
 
-                        if (launchPads != null && launchPads.size() > 0) {
-                            SpaceXPreferences.setLaunchPadsStatus(getContext(), false);
-                            SpaceXPreferences.setLaunchPadsFirstLoad(getActivityCast(), false);
-                            getLaunchPadsFromDB();
+                        if (landingPads != null && landingPads.size() > 0) {
+                            SpaceXPreferences.setLandingPadsStatus(getContext(), false);
+                            SpaceXPreferences.setLandingPadsFirstLoad(getActivityCast(), false);
+                            getLandingPadsFromDB();
                         } else {
                             // Update UI
-                            if (SpaceXPreferences.getLaunchPadsFirstLoad(getActivityCast())) {
+                            if (SpaceXPreferences.getLandingPadsFirstLoad(getActivityCast())) {
                                 errorStateUi(0);
                             } else {
-                                Toast.makeText(getActivityCast(), getString(R.string.no_launch_pads_available), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivityCast(), getString(R.string.no_landing_pads_available), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -204,16 +201,16 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
         });
     }
 
-    private void getLaunchPadsFromDB() {
+    private void getLandingPadsFromDB() {
         Log.v("GET PADS", "FROM DB");
 
         // Try loading data from DB, if no data was found show empty list
-        mViewModel.getLaunchPadsFromDb().observe(this, launchPads -> {
-            if (launchPads != null && launchPads.size() > 0) {
+        mViewModel.getLandingPadsFromDb().observe(this, landingPads -> {
+            if (landingPads != null && landingPads.size() > 0) {
                 // Update UI
                 successStateUi();
                 // Show data
-                mLaunchPadsAdapter.setLaunchPads(launchPads);
+                mLandingPadsAdapter.setLandingPads(landingPads);
                 restorePosition();
             } else {
                 // Update UI
@@ -236,7 +233,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
         switch (errorType) {
             case 0:
                 mErrorLayout.setVisibility(View.VISIBLE);
-                mErrorMessage.setText(getString(R.string.no_launch_pads_available));
+                mErrorMessage.setText(getString(R.string.no_landing_pads_available));
                 mNoConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
@@ -261,9 +258,9 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     }
 
     @Override
-    public void onItemClickListener(String selectedLaunchPad) {
-        Intent launchPadDetailsIntent = new Intent(getActivity(), LaunchPadDetailsActivity.class);
-        launchPadDetailsIntent.putExtra(LAUNCH_PAD_ID_KEY, selectedLaunchPad);
-        startActivity(launchPadDetailsIntent);
+    public void onItemClickListener(String selectedLandingPad) {
+        //Intent landingPadDetailsIntent = new Intent(getActivity(), LandingPadDetailsActivity.class);
+        //landingPadDetailsIntent.putExtra(LAUNCH_PAD_ID_KEY, selectedLandingPad);
+        //startActivity(landingPadDetailsIntent);
     }
 }

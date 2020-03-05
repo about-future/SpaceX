@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.about.future.spacex.data.Repository;
-import com.about.future.spacex.model.launch_pad.LaunchPad;
+import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.utils.ResultDisplay;
 
 import java.util.List;

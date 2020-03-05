@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.ui.fragments.LandingPadsFragment;
 import com.about.future.spacex.ui.fragments.LaunchPadsFragment;
 import com.about.future.spacex.ui.fragments.MissionsFragment;
 import com.about.future.spacex.ui.fragments.PastMissionsFragment;
@@ -130,7 +131,7 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
             case R.id.nav_pads:
                 if (mNavId != 2) {
                     mNavId = 2;
-                    //setupPadssPager();
+                    setupPadsPager();
                 }
                 break;
             case R.id.nav_company:
@@ -279,6 +280,65 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
         });
     }
 
+    private void setupPadsPager() {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager != null) {
+            // Create an adapter that knows which fragment should be shown on each page
+            SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), getLifecycle());
+
+            // Set fragment into PagerAdapter
+            List<Fragment> fragments = new ArrayList<>();
+            fragments.add(new LaunchPadsFragment());
+            fragments.add(new LandingPadsFragment());
+            pagerAdapter.setFragments(fragments);
+
+            mViewPager.invalidate();
+
+            // Set the adapter onto the view pager
+            mViewPager.setAdapter(pagerAdapter);
+        }
+
+        // Set Listeners for PagerAdapter and TabLayout
+        new TabLayoutMediator(mTabLayout, mViewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    //tab.setIcon(R.drawable.ic_traffic);
+                    tab.setText("Launch Pads");
+                    break;
+                case 1:
+                    //tab.setIcon(R.drawable.ic_history);
+                    tab.setText("Landing Pads");
+                    break;
+//                default:
+//                    //tab.setIcon(R.drawable.ic_history);
+//                    tab.setText(getString(R.string.label_tab_launch_pads));
+            }
+        }).attach();
+
+        // Starting with the second tab, set each tab icon color as faded
+        for (int i = 1; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            if (tab != null && tab.getIcon() != null) tab.getIcon().setAlpha(100);
+        }
+
+        // Set listener for setting the correct search hint
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getIcon() != null) tab.getIcon().setAlpha(255);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if (tab.getIcon() != null) tab.getIcon().setAlpha(100);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+    }
+
     private void recreateTabsAndPager() {
         switch (mNavId) {
             /*case 0:
@@ -288,7 +348,7 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
                 setupRocketsPager();
                 break;
             case 2:
-                //setupPadsPager();
+                setupPadsPager();
                 break;
             case 3:
                 //setupHistory();

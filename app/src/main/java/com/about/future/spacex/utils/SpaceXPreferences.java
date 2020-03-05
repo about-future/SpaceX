@@ -23,6 +23,23 @@ public class SpaceXPreferences {
         editor.apply();
     }
 
+    // Return false if the list of launches was never downloaded before
+    public static boolean getLaunchesFirstLoad(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_launches_key), true);
+    }
+
+    // Set launches first load to true if it's the first time the list of launches is downloaded
+    public static void setLaunchesFirstLoad(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_first_load_launches_key), status);
+        editor.apply();
+    }
+
+
+
+
     // Return true if launchpads list was downloaded before or false if was never downloaded
     public static boolean getLaunchPadsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -52,6 +69,23 @@ public class SpaceXPreferences {
         editor.apply();
     }
 
+    // Return false if the list of launch pads was never downloaded before
+    public static boolean getLaunchPadsFirstLoad(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_pads_key), true);
+    }
+
+    // Set launch pads first load to true if it's the first time the list of launch pads is downloaded
+    public static void setLaunchPadsFirstLoad(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_first_load_pads_key), status);
+        editor.apply();
+    }
+
+
+
+
     // Return true if rockets list was downloaded before or false if was never downloaded
     public static boolean getRocketsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -66,6 +100,23 @@ public class SpaceXPreferences {
         editor.putBoolean(context.getString(R.string.pref_rockets_status_key), status);
         editor.apply();
     }
+
+    // Return false if the list of rockets was never downloaded before
+    public static boolean getRocketsFirstLoad(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_rockets_key), true);
+    }
+
+    // Set rockets first load to true if it's the first time the list of rockets is downloaded
+    public static void setRocketsFirstLoad(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_first_load_rockets_key), status);
+        editor.apply();
+    }
+
+
+
 
     // Set true if the user was subscribed to firebase topics
     public static void setTopicSubscriptionStatus(Context context, boolean value) {
@@ -100,48 +151,49 @@ public class SpaceXPreferences {
 
 
 
-
-    // Return false if the list of launches was never downloaded before
-    public static boolean getLaunchesFirstLoad(Context context) {
+    // Return true if landing pads list was downloaded before or false if was never downloaded
+    public static boolean getLandingPadsStatus(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(context.getString(R.string.pref_first_load_launches_key), true);
+        return sp.getBoolean(context.getString(R.string.pref_landing_pads_status_key), true);
     }
 
-    // Set launches first load to true if it's the first time the list of launches is downloaded
-    public static void setLaunchesFirstLoad(Context context, boolean status) {
+    // Set landing pads downloading status to true the first time the app is run and every time
+    // the list of missions is refreshed
+    public static void setLandingPadsStatus(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(context.getString(R.string.pref_first_load_launches_key), status);
+        editor.putBoolean(context.getString(R.string.pref_landing_pads_status_key), status);
         editor.apply();
     }
 
-    // Return false if the list of rockets was never downloaded before
-    public static boolean getRocketsFirstLoad(Context context) {
+    // Return the date when landing pads thumbnails was first downloaded
+    public static long getLandingPadsThumbnailsSavingDate(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(context.getString(R.string.pref_first_load_rockets_key), true);
+        return sp.getLong(context.getString(R.string.pref_landing_pads_thumbnails_date_key), 1530000000);
     }
 
-    // Set rockets first load to true if it's the first time the list of rockets is downloaded
-    public static void setRocketsFirstLoad(Context context, boolean status) {
+    // Set the date when thumbnails were downloaded
+    public static void setLandingPadsThumbnailsSavingDate(Context context, long saveDate) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(context.getString(R.string.pref_first_load_rockets_key), status);
+        editor.putLong(context.getString(R.string.pref_landing_pads_thumbnails_date_key), saveDate);
         editor.apply();
     }
 
-    // Return false if the list of launch pads was never downloaded before
-    public static boolean getLaunchPadsFirstLoad(Context context) {
+    // Return false if the list of landing pads was never downloaded before
+    public static boolean getLandingPadsFirstLoad(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(context.getString(R.string.pref_first_load_pads_key), true);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_landing_pads_key), true);
     }
 
-    // Set launch pads first load to true if it's the first time the list of launch pads is downloaded
-    public static void setLaunchPadsFirstLoad(Context context, boolean status) {
+    // Set landing pads first load to true if it's the first time the list of landing pads is downloaded
+    public static void setLandingPadsFirstLoad(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(context.getString(R.string.pref_first_load_pads_key), status);
+        editor.putBoolean(context.getString(R.string.pref_first_load_landing_pads_key), status);
         editor.apply();
     }
+
 
 
     public static String getDownloadDate(Context context) {
