@@ -32,4 +32,9 @@ public class Constants {
     public static final String ACRONYMS_OFF = "Disabled";
 
     public static final String NAV_ID_KEY = "nav_id_key";
+
+    public static final String OCISLY_BIG = "https://live.staticflickr.com/297/18610429514_8026e46b40_b.jpg";
+    public static final String OCISLY_SMALL = "https://live.staticflickr.com/297/18610429514_8026e46b40_n.jpg";
+    public static final String JRTI_BIG = "https://live.staticflickr.com/8689/17127808431_5ccfd017cd_b.jpg";
+    public static final String JRTI_SMALL = "https://live.staticflickr.com/8689/17127808431_5ccfd017cd_n.jpg";
 }

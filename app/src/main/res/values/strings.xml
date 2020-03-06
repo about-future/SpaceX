@@ -13,10 +13,12 @@
     <string name="spacex_logo">SpaceX logo</string>
     <string name="mission_patch">Mission patch</string>
     <string name="rocket_image">Rocket image</string>
+    <string name="map_sample">Map sample</string>
     <!--<string name="action_share">Share</string>-->
     <string name="mission_webcast">Mission webcast preview</string>
     <string name="video_play">Play button</string>
     <string name="launch_pad_satellite_view">Launch pad satellite view</string>
+    <string name="landing_pad_satellite_view">Landing pad satellite view</string>
     <string name="no_connection_icon">No connection icon</string>
     <string name="sample_image">Sample image</string>
 
@@ -64,7 +66,7 @@
     <string name="label_reused_payload">\ (Reused)</string>
     <string name="label_land_successful">Landing Successful:</string>
     <string name="label_land_type">Landing Type:</string>
-    <string name="label_land_vehicle">Landing Vehicle:</string>
+    <string name="label_land_pad">Landing Pad:</string>
     <string name="label_no">No</string>
     <string name="label_yes">Yes</string>
 
@@ -75,6 +77,18 @@
     <string name="launch_pad_location">%s, %s</string>
     <string name="label_google">Google</string>
     <string name="location_coordinates">%s,%s</string>
+
+    <!-- Landing Pad Details -->
+    <string name="landing_pad_location">%s, %s</string>
+    <string name="label_vehicles_landed">Vehicles Landed</string>
+    <string name="label_attempted_landings">Attempted Landings:</string>
+    <string name="label_successful_landings">Very Super Successful Landings:</string>
+    <string name="label_landing_type">Landing Type</string>
+    <string name="asds">Autonomous Spaceport Drone Ship</string>
+    <string name="rtls">Return To Launch Site</string>
+    <string name="wiki_page">See Wikipedia page for more details.</string>
+    <string name="label_stats">Landing Stats</string>
+
 
     <!-- Rocket Details -->
     <string name="label_first_flight">First Flight</string>

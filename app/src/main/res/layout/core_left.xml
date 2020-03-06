@@ -107,7 +107,7 @@
             style="@style/MissionDetails"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/left_core_landing_type_layout"
-            android:text="@string/label_land_vehicle" />
+            android:text="@string/label_land_pad" />
 
         <LinearLayout
             android:id="@+id/left_core_landing_vehicle_layout"

@@ -28,6 +28,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.about.future.spacex.utils.Constants.JRTI_BIG;
+import static com.about.future.spacex.utils.Constants.JRTI_SMALL;
+import static com.about.future.spacex.utils.Constants.OCISLY_BIG;
+import static com.about.future.spacex.utils.Constants.OCISLY_SMALL;
+
 public class LandingPadsAdapter extends RecyclerView.Adapter<LandingPadsAdapter.ViewHolder> {
     private final Context mContext;
     private List<LandingPad> mLandingPads = new ArrayList<LandingPad>() {};
@@ -68,10 +73,29 @@ public class LandingPadsAdapter extends RecyclerView.Adapter<LandingPadsAdapter.
         if (mLandingPads.get(position).getLocation() != null) {
             double latitude = mLandingPads.get(position).getLocation().getLatitude();
             double longitude = mLandingPads.get(position).getLocation().getLongitude();
+
             if (ScreenUtils.isPortraitMode(mContext)) {
-                landingPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 14, "satellite", mContext);
+                switch (mLandingPads.get(position).getId()) {
+                    case "OCISLY":
+                        landingPadThumbnailPath = OCISLY_SMALL;
+                        break;
+                    case "JRTI":
+                        landingPadThumbnailPath = JRTI_SMALL;
+                        break;
+                    default:
+                        landingPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 15, "satellite", mContext);
+                }
             } else {
-                landingPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, mContext);
+                switch (mLandingPads.get(position).getId()) {
+                    case "OCISLY":
+                        landingPadThumbnailPath = OCISLY_BIG;
+                        break;
+                    case "JRTI":
+                        landingPadThumbnailPath = JRTI_BIG;
+                        break;
+                    default:
+                        landingPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, 17, mContext);
+                }
             }
         }
 

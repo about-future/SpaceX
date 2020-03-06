@@ -135,7 +135,7 @@ public class LaunchPadDetailsFragment extends Fragment {
             if (launchPad.getLocation() != null) {
                 double latitude = launchPad.getLocation().getLatitude();
                 double longitude = launchPad.getLocation().getLongitude();
-                final String locationPadSatelliteImageUrl = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, getActivityCast());
+                final String locationPadSatelliteImageUrl = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, 14, getActivityCast());
                 Log.v("SATELLITE URL", "IS: " + locationPadSatelliteImageUrl);
 
                 // Set backdrop image as a satellite image of the launch pad

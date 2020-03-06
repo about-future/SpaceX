@@ -57,13 +57,13 @@ public class ImageUtils {
                 .build().toString();
     }
 
-    public static String buildSatelliteBackdropUrl(double latitude, double longitude, Context context) {
+    public static String buildSatelliteBackdropUrl(double latitude, double longitude, int zoom, Context context) {
         return Uri.parse(MAP_BASE_URL).buildUpon()
                 .appendQueryParameter(CENTER_PARAMETER, String.format(
                         context.getString(R.string.location_coordinates),
                         String.valueOf(latitude),
                         String.valueOf(longitude)))
-                .appendQueryParameter(ZOOM_PARAMETER, "15")
+                .appendQueryParameter(ZOOM_PARAMETER, String.valueOf(zoom))
                 .appendQueryParameter(SIZE_PARAMETER, "600x350")
                 .appendQueryParameter(MAP_TYPE_PARAMETER, "satellite")
                 .appendQueryParameter(SCALE_PARAMETER, "2")

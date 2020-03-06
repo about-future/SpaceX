@@ -105,7 +105,7 @@
         <TextView
             android:id="@+id/right_core_landing_vehicle_label"
             style="@style/MissionDetails"
-            android:text="@string/label_land_vehicle"
+            android:text="@string/label_land_pad"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/right_core_landing_type_layout" />
 

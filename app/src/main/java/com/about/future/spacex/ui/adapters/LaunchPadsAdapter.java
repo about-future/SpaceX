@@ -71,7 +71,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
             if (ScreenUtils.isPortraitMode(mContext)) {
                 launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 14, "satellite", mContext);
             } else {
-                launchPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, mContext);
+                launchPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, 14, mContext);
             }
         }
 

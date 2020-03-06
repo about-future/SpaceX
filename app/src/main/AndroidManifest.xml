@@ -65,6 +65,15 @@
                 android:value="com.about.future.spacex.ui.SpaceXActivity" />
         </activity>
 
+        <activity
+            android:name=".ui.LandingPadDetailsActivity"
+            android:parentActivityName=".ui.SpaceXActivity"
+            android:theme="@style/AppTheme.NoStatusBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.about.future.spacex.ui.SpaceXActivity" />
+        </activity>
+
         <!--service
             android:name=".fcm.MyFirebaseMessagingService"
             android:exported="false">

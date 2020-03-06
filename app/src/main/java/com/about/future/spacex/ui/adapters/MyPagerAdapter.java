@@ -6,9 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.about.future.spacex.model.pads.LandingPad;
 import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.ui.fragments.LandingPadDetailsFragment;
 import com.about.future.spacex.ui.fragments.LaunchPadDetailsFragment;
 import com.about.future.spacex.ui.fragments.MissionDetailsFragment;
 import com.about.future.spacex.ui.fragments.RocketDetailsFragment;
@@ -20,6 +22,7 @@ public class MyPagerAdapter extends FragmentStateAdapter {
     private List<Mission> missions = new ArrayList<>();
     private List<Rocket> rockets = new ArrayList<>();
     private List<LaunchPad> launchPads = new ArrayList<>();
+    private List<LandingPad> landingPads = new ArrayList<>();
 
     public MyPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
@@ -40,6 +43,11 @@ public class MyPagerAdapter extends FragmentStateAdapter {
         notifyDataSetChanged();
     }
 
+    public void setLandingPads(List<LandingPad> landingPads) {
+        this.landingPads = landingPads;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
@@ -51,9 +59,13 @@ public class MyPagerAdapter extends FragmentStateAdapter {
             RocketDetailsFragment fragment = new RocketDetailsFragment();
             fragment.setRocket(rockets.get(position));
             return fragment;
-        } else {
+        } else if (launchPads != null && launchPads.size() > 0) {
             LaunchPadDetailsFragment fragment = new LaunchPadDetailsFragment();
             fragment.setLaunchPad(launchPads.get(position));
+            return fragment;
+        } else {
+            LandingPadDetailsFragment fragment = new LandingPadDetailsFragment();
+            fragment.setLandingPad(landingPads.get(position));
             return fragment;
         }
     }
@@ -64,8 +76,10 @@ public class MyPagerAdapter extends FragmentStateAdapter {
             return missions.size();
         } else if (rockets != null && rockets.size() > 0) {
             return rockets.size();
-        } else {
+        } else if (launchPads != null && launchPads.size() > 0) {
             return launchPads.size();
+        } else {
+            return landingPads.size();
         }
     }
 }

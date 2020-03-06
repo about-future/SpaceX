@@ -1,5 +1,6 @@
 package com.about.future.spacex.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.pads.LandingPad;
+import com.about.future.spacex.ui.LandingPadDetailsActivity;
 import com.about.future.spacex.ui.SpaceXActivity;
 import com.about.future.spacex.ui.adapters.LandingPadsAdapter;
 import com.about.future.spacex.utils.NetworkUtils;
@@ -35,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.LANDING_PADS_RECYCLER_POSITION_KEY;
+import static com.about.future.spacex.utils.Constants.LANDING_PAD_ID_KEY;
 
 public class LandingPadsFragment extends Fragment implements LandingPadsAdapter.ListItemClickListener {
     private int mLandingPadsPosition = RecyclerView.NO_POSITION;
@@ -259,8 +262,8 @@ public class LandingPadsFragment extends Fragment implements LandingPadsAdapter.
 
     @Override
     public void onItemClickListener(String selectedLandingPad) {
-        //Intent landingPadDetailsIntent = new Intent(getActivity(), LandingPadDetailsActivity.class);
-        //landingPadDetailsIntent.putExtra(LAUNCH_PAD_ID_KEY, selectedLandingPad);
-        //startActivity(landingPadDetailsIntent);
+        Intent landingPadDetailsIntent = new Intent(getActivity(), LandingPadDetailsActivity.class);
+        landingPadDetailsIntent.putExtra(LANDING_PAD_ID_KEY, selectedLandingPad);
+        startActivity(landingPadDetailsIntent);
     }
 }
