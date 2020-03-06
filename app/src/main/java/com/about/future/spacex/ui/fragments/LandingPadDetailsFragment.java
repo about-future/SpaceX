@@ -9,13 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.databinding.FragmentLandingPadDetailsBinding;
@@ -25,13 +21,9 @@ import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.utils.TextsUtils;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.JRTI_BIG;
 import static com.about.future.spacex.utils.Constants.LANDING_PAD_ID_KEY;
@@ -42,32 +34,7 @@ public class LandingPadDetailsFragment extends Fragment {
     private int mLandingPadId;
     private View mRootView;
 
-    /*@BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @BindView(R.id.landing_pad_view)
-    ImageView mLandingPadSatelliteImageView;
-    @BindView(R.id.landing_pad_map)
-    ImageView mLandingPadMapImageView;
-    @BindView(R.id.pad_location)
-    TextView mLandingPadLocationTextView;
-    @BindView(R.id.landing_pad_status)
-    TextView mLandingPadStatusTextView;
-    @BindView(R.id.landing_type)
-    TextView mLandingTypeTextView;
-    @BindView(R.id.landing_pad_details)
-    TextView mLandingPadDetailsTextView;
-    @BindView(R.id.landing_pad_wiki)
-    TextView mWikiPageTextView;
-    @BindView(R.id.attempted_landings)
-    TextView mAttemptedLandingsTextView;
-    @BindView(R.id.successful_landings)
-    TextView mSuccessfulLandingsTextView;*/
-
-    FragmentLandingPadDetailsBinding binding;
+    private FragmentLandingPadDetailsBinding binding;
 
     public LandingPadDetailsFragment() {
         // Required empty public constructor
@@ -94,18 +61,6 @@ public class LandingPadDetailsFragment extends Fragment {
 
         binding = FragmentLandingPadDetailsBinding.inflate(inflater, container, false);
         mRootView = binding.getRoot();
-
-        //mRootView = inflater.inflate(R.layout.fragment_landing_pad_details, container, false);
-        //ButterKnife.bind(this, mRootView);
-
-        /*mToolbar.setTitle("");
-        getActivityCast().setSupportActionBar(mToolbar);
-        bindViews(mLandingPad);
-
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mSwipeRefreshLayout.setRefreshing(false);
-            refreshData();
-        });*/
 
         binding.toolbar.setTitle("");
         getActivityCast().setSupportActionBar(binding.toolbar);
@@ -163,13 +118,18 @@ public class LandingPadDetailsFragment extends Fragment {
                 switch (landingPad.getId()) {
                     case "OCISLY":
                         locationPadSatelliteImageUrl = OCISLY_BIG;
+                        binding.googleText.setVisibility(View.GONE);
+                        binding.googleTextShadow.setVisibility(View.GONE);
                         break;
                     case "JRTI":
                         locationPadSatelliteImageUrl = JRTI_BIG;
+                        binding.googleText.setVisibility(View.GONE);
+                        binding.googleTextShadow.setVisibility(View.GONE);
                         break;
                     default:
                         locationPadSatelliteImageUrl = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, 16, getActivityCast());
-
+                        binding.googleText.setVisibility(View.VISIBLE);
+                        binding.googleTextShadow.setVisibility(View.VISIBLE);
                 }
 
                 Log.v("SATELLITE URL", "IS: " + locationPadSatelliteImageUrl);
@@ -177,7 +137,7 @@ public class LandingPadDetailsFragment extends Fragment {
                 Picasso.get()
                         .load(locationPadSatelliteImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(mLandingPadSatelliteImageView, new Callback() {
+                        .into(binding.landingPadBackdrop, new Callback() {
                             @Override
                             public void onSuccess() {
                                 // Yay!
@@ -189,7 +149,7 @@ public class LandingPadDetailsFragment extends Fragment {
                                 Picasso.get()
                                         .load(locationPadSatelliteImageUrl)
                                         .error(R.drawable.staticmap)
-                                        .into(mLandingPadSatelliteImageView);
+                                        .into(binding.landingPadBackdrop);
                             }
                         });
 
@@ -201,7 +161,7 @@ public class LandingPadDetailsFragment extends Fragment {
                 Picasso.get()
                         .load(locationPadMapImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(mLandingPadMapImageView, new Callback() {
+                        .into(binding.landingPadMap, new Callback() {
                             @Override
                             public void onSuccess() {
                                 // Yay!
@@ -213,60 +173,60 @@ public class LandingPadDetailsFragment extends Fragment {
                                 Picasso.get()
                                         .load(locationPadMapImageUrl)
                                         .error(R.drawable.empty_map)
-                                        .into(mLandingPadMapImageView);
+                                        .into(binding.landingPadMap);
                             }
                         });
 
                 // Landing pad location
                 if (!TextUtils.isEmpty(landingPad.getLocation().getName()) &&
                         !TextUtils.isEmpty(landingPad.getLocation().getRegion())) {
-                    mLandingPadLocationTextView.setText(
+                    binding.padLocation.setText(
                             String.format(getString(R.string.landing_pad_location),
                                     landingPad.getLocation().getName(),
                                     landingPad.getLocation().getRegion()));
                 } else {
-                    mLandingPadLocationTextView.setText(getString(R.string.label_unknown));
+                    binding.padLocation.setText(getString(R.string.label_unknown));
                 }
 
             } else {
-                mLandingPadSatelliteImageView.setImageResource(R.drawable.staticmap);
-                mLandingPadMapImageView.setImageResource(R.drawable.empty_map);
-                mLandingPadLocationTextView.setText(getString(R.string.label_unknown));
+                binding.landingPadBackdrop.setImageResource(R.drawable.staticmap);
+                binding.landingPadMap.setImageResource(R.drawable.empty_map);
+                binding.padLocation.setText(getString(R.string.label_unknown));
             }
 
             // Landing pad status
             if (!TextUtils.isEmpty(landingPad.getStatus())) {
-                mLandingPadStatusTextView.setText(TextsUtils.firstLetterUpperCase(landingPad.getStatus()));
+                binding.landingPadStatus.setText(TextsUtils.firstLetterUpperCase(landingPad.getStatus()));
             } else {
-                mLandingPadStatusTextView.setText(getString(R.string.label_unknown));
+                binding.landingPadStatus.setText(getString(R.string.label_unknown));
             }
 
             // Landing Type
             if (SpaceXPreferences.getAcronymsStatus(getActivityCast())) {
                 if (landingPad.getLandingType().equals("ASDS")) {
-                    mLandingTypeTextView.setText(getString(R.string.asds));
+                    binding.landingType.setText(getString(R.string.asds));
                 } else {
-                    mLandingTypeTextView.setText(getString(R.string.rtls));
+                    binding.landingType.setText(getString(R.string.rtls));
                 }
             } else {
-                mLandingTypeTextView.setText(landingPad.getLandingType().toUpperCase());
+                binding.landingType.setText(landingPad.getLandingType().toUpperCase());
             }
 
             // Landing Stats
-            mAttemptedLandingsTextView.setText(String.valueOf(landingPad.getAttemptedLandings()));
-            mSuccessfulLandingsTextView.setText(String.valueOf(landingPad.getSuccessfulLandings()));
+            binding.attemptedLandings.setText(String.valueOf(landingPad.getAttemptedLandings()));
+            binding.successfulLandings.setText(String.valueOf(landingPad.getSuccessfulLandings()));
 
             // Landing pad details
             if (!TextUtils.isEmpty(landingPad.getDetails())) {
-                mLandingPadDetailsTextView.setText(landingPad.getDetails());
+                binding.landingPadDetails.setText(landingPad.getDetails());
             } else {
-                mLandingPadDetailsTextView.setVisibility(View.GONE);
+                binding.landingPadDetails.setVisibility(View.GONE);
             }
 
             // Wiki Page
             if (!TextUtils.isEmpty(landingPad.getWikipedia())) {
-                mWikiPageTextView.setVisibility(View.VISIBLE);
-                mWikiPageTextView.setOnClickListener(view -> {
+                binding.landingPadWiki.setVisibility(View.VISIBLE);
+                binding.landingPadWiki.setOnClickListener(view -> {
                     Uri webpage = Uri.parse(landingPad.getWikipedia());
                     Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                     if (intent.resolveActivity(getActivityCast().getPackageManager()) != null) {
@@ -274,7 +234,7 @@ public class LandingPadDetailsFragment extends Fragment {
                     }
                 });
             } else {
-                mWikiPageTextView.setVisibility(View.GONE);
+                binding.landingPadWiki.setVisibility(View.GONE);
             }
         }
     }
