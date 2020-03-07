@@ -28,8 +28,9 @@ public class Constants {
     public static final String CORE_PAGE_NUMBER_KEY = "core_page_number";
     public static final String CORE_RECYCLER_POSITION_KEY = "core_recycler_position";
 
-
-
+    public static final String CAPSULE_SERIAL_KEY = "capsule_serial";
+    public static final String CAPSULE_PAGE_NUMBER_KEY = "capsule_page_number";
+    public static final String CAPSULE_RECYCLER_POSITION_KEY = "capsule_recycler_position";
 
     public static final String UNIT_METRIC = "metric";
     public static final String UNIT_IMPERIAL = "imperial";
@@ -43,4 +44,16 @@ public class Constants {
     public static final String OCISLY_SMALL = "https://live.staticflickr.com/297/18610429514_8026e46b40_n.jpg";
     public static final String JRTI_BIG = "https://live.staticflickr.com/8689/17127808431_5ccfd017cd_b.jpg";
     public static final String JRTI_SMALL = "https://live.staticflickr.com/8689/17127808431_5ccfd017cd_n.jpg";
+
+    public static final String BLOCK3_SMALL = "https://live.staticflickr.com/735/32312416415_c43dfebed8_q.jpg";
+    public static final String BLOCK3_MEDIUM = "https://live.staticflickr.com/293/32312415025_6841e30bf1_z.jpg";
+    public static final String BLOCK5_SMALL = "https://live.staticflickr.com/903/28197547888_2d732f67d2_q.jpg";
+    public static final String BLOCK5_MEDIUM = "https://live.staticflickr.com/4875/32040173278_575f896455_z.jpg";
+
+    public static final String DRAGON1_SMALL = "https://live.staticflickr.com/1685/26309783565_731c01117f_q.jpg";
+    public static final String DRAGON1_MEDIUM = "https://live.staticflickr.com/1685/26309783565_731c01117f_q.jpg";
+    public static final String DRAGON2_SMALL = "https://live.staticflickr.com/7647/16581815487_6d56cb32e1_q.jpg";
+    public static final String DRAGON2_MEDIUM = "https://live.staticflickr.com/7647/16581815487_6d56cb32e1_z.jpg"; //https://live.staticflickr.com/7899/39684491043_df8ffdd658_z.jpg
+
+
 }

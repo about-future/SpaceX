@@ -14,6 +14,9 @@
     <string name="mission_patch">Mission patch</string>
     <string name="rocket_image">Rocket image</string>
     <string name="map_sample">Map sample</string>
+    <string name="core_image">Core image</string>
+    <string name="capsule_image">Capsule image</string>
+
     <!--<string name="action_share">Share</string>-->
     <string name="mission_webcast">Mission webcast preview</string>
     <string name="video_play">Play button</string>
@@ -45,6 +48,7 @@
     <string name="label_tab_capsules">Capsules</string>
     <string name="label_tab_launch_pads">Launch Pads</string>
     <string name="label_tab_landing_pads">Landing Pads</string>
+
 
     <string name="label_launch_date">Launch Date</string>
     <string name="label_rocket_type">Rocket Type</string>
@@ -88,6 +92,13 @@
     <string name="rtls">Return To Launch Site</string>
     <string name="wiki_page">See Wikipedia page for more details.</string>
     <string name="label_stats">Landing Stats</string>
+
+    <!-- Core Details -->
+    <string name="no_core_details">No details available yet.</string>
+
+
+    <!-- Capsule Details -->
+    <string name="no_capsule_details">No details available yet.</string>
 
 
     <!-- Rocket Details -->
@@ -167,11 +178,15 @@
     <string name="loading_rockets">Loading rockets&#8230;</string>
     <string name="loading_launch_pads">Loading launch pads&#8230;</string>
     <string name="loading_landing_pads">Loading landing pads&#8230;</string>
+    <string name="loading_cores">Loading cores&#8230;</string>
+    <string name="loading_capsules">Loading capsules&#8230;</string>
 
     <string name="no_launches_available">No launches available</string>
     <string name="no_rocket_available">No rockets available</string>
     <string name="no_launch_pads_available">No launch pads available</string>
     <string name="no_landing_pads_available">No landing pads available</string>
+    <string name="no_cores_available">No cores available</string>
+    <string name="no_capsules_available">No capsules available</string>
 
     <string name="mission_up_to_date">Launch is up to date!</string>
     <string name="mission_updated">Launch updated!</string>
@@ -221,6 +236,8 @@
     <string name="pref_mission_status_key">missions_loaded</string>
     <string name="pref_launch_pads_status_key">launch_pads_loaded</string>
     <string name="pref_landing_pads_status_key">landing_pads_loaded</string>
+    <string name="pref_cores_status_key">cores_loaded</string>
+    <string name="pref_capsules_status_key">capsules_loaded</string>
     <string name="pref_rockets_status_key">rockets_loaded</string>
     <string name="pref_launch_pads_thumbnails_date_key">launch_pads_thumbnails_date</string>
     <string name="pref_landing_pads_thumbnails_date_key">landing_pads_thumbnails_date</string>
@@ -232,6 +249,8 @@
     <string name="pref_first_load_rockets_key">first_load_rockets</string>
     <string name="pref_first_load_pads_key">first_load_pads</string>
     <string name="pref_first_load_landing_pads_key">first_load_landing_pads</string>
+    <string name="pref_first_load_cores_key">first_load_cores</string>
+    <string name="pref_first_load_capsules_key">first_load_capsules</string>
     <string name="pref_download_date_key">download_date</string>
 
     <!-- Dragon Dimensions -->

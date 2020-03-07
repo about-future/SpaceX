@@ -6,9 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.about.future.spacex.model.core.Core;
 import com.about.future.spacex.model.pads.LandingPad;
 import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.mission.Mission;
+import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.ui.fragments.LandingPadDetailsFragment;
 import com.about.future.spacex.ui.fragments.LaunchPadDetailsFragment;
@@ -23,6 +25,8 @@ public class MyPagerAdapter extends FragmentStateAdapter {
     private List<Rocket> rockets = new ArrayList<>();
     private List<LaunchPad> launchPads = new ArrayList<>();
     private List<LandingPad> landingPads = new ArrayList<>();
+    private List<Core> cores = new ArrayList<>();
+    private List<Capsule> capsules = new ArrayList<>();
 
     public MyPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
@@ -48,6 +52,17 @@ public class MyPagerAdapter extends FragmentStateAdapter {
         notifyDataSetChanged();
     }
 
+    public void setCores(List<Core> cores) {
+        this.cores = cores;
+        notifyDataSetChanged();
+    }
+
+    public void setCapsules(List<Capsule> capsules) {
+        this.capsules = capsules;
+        notifyDataSetChanged();
+    }
+
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
@@ -63,9 +78,17 @@ public class MyPagerAdapter extends FragmentStateAdapter {
             LaunchPadDetailsFragment fragment = new LaunchPadDetailsFragment();
             fragment.setLaunchPad(launchPads.get(position));
             return fragment;
-        } else {
+        } else if (landingPads != null && landingPads.size() > 0) {
             LandingPadDetailsFragment fragment = new LandingPadDetailsFragment();
             fragment.setLandingPad(landingPads.get(position));
+            return fragment;
+        } else if (cores != null && cores.size() > 0) {
+            CoreDetailsFragment fragment = new CoreDetailsFragment();
+            fragment.setCore(cores.get(position));
+            return fragment;
+        } else {
+            CapsuleDetailsFragment fragment = new CapsuleDetailsFragment();
+            fragment.setCapsule(capsules.get(position));
             return fragment;
         }
     }
@@ -78,8 +101,14 @@ public class MyPagerAdapter extends FragmentStateAdapter {
             return rockets.size();
         } else if (launchPads != null && launchPads.size() > 0) {
             return launchPads.size();
-        } else {
+        } else if (landingPads != null && landingPads.size() > 0) {
             return landingPads.size();
+        } else if (cores != null && cores.size() > 0) {
+            return cores.size();
+        } else if (capsules != null && capsules.size() > 0) {
+            return capsules.size();
+        } else {
+            return 0;
         }
     }
 }

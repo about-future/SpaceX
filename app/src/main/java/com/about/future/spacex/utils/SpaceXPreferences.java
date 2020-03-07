@@ -47,7 +47,7 @@ public class SpaceXPreferences {
     }
 
     // Set launch pads downloading status to true the first time the app is run and every time
-    // the list of missions is refreshed
+    // the list of launch pads is refreshed
     public static void setLaunchPadsStatus(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
@@ -93,7 +93,7 @@ public class SpaceXPreferences {
     }
 
     // Set rockets downloading status to true the first time the app is run and every time
-    // the list of missions is refreshed
+    // the list of rockets is refreshed
     public static void setRocketsStatus(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
@@ -158,7 +158,7 @@ public class SpaceXPreferences {
     }
 
     // Set landing pads downloading status to true the first time the app is run and every time
-    // the list of missions is refreshed
+    // the list of landing pads is refreshed
     public static void setLandingPadsStatus(Context context, boolean status) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
@@ -230,6 +230,68 @@ public class SpaceXPreferences {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(context.getString(R.string.pref_units_key), selectedUnit);
+        editor.apply();
+    }
+
+
+
+    // Return true if cores list was downloaded before or false if was never downloaded
+    public static boolean getCoresStatus(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_cores_status_key), true);
+    }
+
+    // Set cores downloading status to true the first time the app is run and every time
+    // the list of cores is refreshed
+    public static void setCoresStatus(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_cores_status_key), status);
+        editor.apply();
+    }
+
+    // Return false if the list of cores was never downloaded before
+    public static boolean getCoresFirstLoad(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_cores_key), true);
+    }
+
+    // Set cores first load to true if it's the first time the list of cores is downloaded
+    public static void setCoresFirstLoad(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_first_load_cores_key), status);
+        editor.apply();
+    }
+
+
+
+    // Return true if capsules list was downloaded before or false if was never downloaded
+    public static boolean getCapsulesStatus(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_capsules_status_key), true);
+    }
+
+    // Set capsules downloading status to true the first time the app is run and every time
+    // the list of capsules is refreshed
+    public static void setCapsulesStatus(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_capsules_status_key), status);
+        editor.apply();
+    }
+
+    // Return false if the list of capsules was never downloaded before
+    public static boolean getCapsulesFirstLoad(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(context.getString(R.string.pref_first_load_capsules_key), true);
+    }
+
+    // Set capsules first load to true if it's the first time the list of capsules is downloaded
+    public static void setCapsulesFirstLoad(Context context, boolean status) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(context.getString(R.string.pref_first_load_capsules_key), status);
         editor.apply();
     }
 }
