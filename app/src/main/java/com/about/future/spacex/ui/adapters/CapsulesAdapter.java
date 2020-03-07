@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.databinding.CardItemCapsuleBinding;
-import com.about.future.spacex.databinding.CardItemCoreBinding;
 import com.about.future.spacex.databinding.ListItemCapsuleBinding;
-import com.about.future.spacex.databinding.ListItemCoreBinding;
-import com.about.future.spacex.model.core.Core;
 import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.squareup.picasso.Callback;
@@ -26,10 +23,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.about.future.spacex.utils.Constants.BLOCK3_MEDIUM;
-import static com.about.future.spacex.utils.Constants.BLOCK3_SMALL;
-import static com.about.future.spacex.utils.Constants.BLOCK5_MEDIUM;
-import static com.about.future.spacex.utils.Constants.BLOCK5_SMALL;
+import static com.about.future.spacex.utils.Constants.DRAGON1_MEDIUM;
+import static com.about.future.spacex.utils.Constants.DRAGON1_SMALL;
+import static com.about.future.spacex.utils.Constants.DRAGON2_MEDIUM;
+import static com.about.future.spacex.utils.Constants.DRAGON2_SMALL;
 
 public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHolder> {
     private final Context mContext;
@@ -91,42 +88,42 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
             if (ScreenUtils.isPortraitMode(mContext)) {
                 switch (capsule.getCapsuleId()) {
                     case "dragon1":
-                        imagePath = BLOCK3_SMALL;
+                        imagePath = DRAGON1_SMALL;
                         break;
                     case "dragon2":
-                        imagePath = BLOCK5_SMALL;
+                        imagePath = DRAGON2_SMALL;
                         break;
                     default:
                         imagePath = ""; //ImageUtils.buildMapThumbnailUrl(latitude, longitude, 15, "satellite", mContext);
                 }
 
-                setImage(imagePath, listBinding.coreThumbnail);
+                setImage(imagePath, listBinding.capsuleThumbnail);
 
-                listBinding.coreSerial.setText(core.getCoreSerial());
-                if (core.getDetails() != null && !core.getDetails().equals("")) {
-                    listBinding.coreDetails.setText(core.getDetails());
+                listBinding.capsuleSerial.setText(capsule.getCapsuleSerial());
+                if (capsule.getDetails() != null && !capsule.getDetails().equals("")) {
+                    listBinding.capsuleDetails.setText(capsule.getDetails());
                 } else {
-                    listBinding.coreDetails.setText(mContext.getString(R.string.no_core_details));
+                    listBinding.capsuleDetails.setText(mContext.getString(R.string.no_core_details));
                 }
             } else {
-                switch (core.getBlock()) {
-                    case 3:
-                        imagePath = BLOCK3_MEDIUM;
+                switch (capsule.getCapsuleId()) {
+                    case "dragon1":
+                        imagePath = DRAGON1_MEDIUM;
                         break;
-                    case 5:
-                        imagePath = BLOCK5_MEDIUM;
+                    case "dragon2":
+                        imagePath = DRAGON2_MEDIUM;
                         break;
                     default:
                         imagePath = "";
                 }
 
-                setImage(imagePath, cardBinding.coreThumbnail);
+                setImage(imagePath, cardBinding.capsuleThumbnail);
 
-                cardBinding.coreSerial.setText(core.getCoreSerial());
-                if (core.getDetails() != null && !core.getDetails().equals("")) {
-                    cardBinding.coreDetails.setText(core.getDetails());
+                cardBinding.capsuleSerial.setText(capsule.getCapsuleSerial());
+                if (capsule.getDetails() != null && !capsule.getDetails().equals("")) {
+                    cardBinding.capsuleDetails.setText(capsule.getDetails());
                 } else {
-                    cardBinding.coreDetails.setText(mContext.getString(R.string.no_core_details));
+                    cardBinding.capsuleDetails.setText(mContext.getString(R.string.no_core_details));
                 }
             }
         }
@@ -162,7 +159,7 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(mCapsules.get(getAdapterPosition()).getCoreSerial());
+            mOnClickListener.onItemClickListener(mCapsules.get(getAdapterPosition()).getCapsuleSerial());
         }
     }
 }
