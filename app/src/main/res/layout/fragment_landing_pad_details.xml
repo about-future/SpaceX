@@ -202,6 +202,7 @@
                     android:layout_marginTop="2dp"
                     android:background="@color/colorAccent" />
 
+                <!-- TODO: finish implementing layout for landing stats -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/central_core_landing_layout"
                     android:layout_width="match_parent"
@@ -215,38 +216,98 @@
                         android:orientation="vertical"
                         app:layout_constraintGuide_percent="0.5" />
 
-                    <TextView
-                        android:id="@+id/attempted_landings_label"
-                        style="@style/MissionDetails"
-                        android:layout_width="wrap_content"
-                        android:text="@string/label_attempted_landings"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginEnd="@dimen/spacing"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="@+id/guide_line">
 
-                    <TextView
-                        android:id="@+id/attempted_landings"
-                        style="@style/RocketDetails.Values"
-                        android:layout_marginStart="@dimen/spacing_half"
-                        app:layout_constraintStart_toEndOf="@id/attempted_landings_label"
-                        app:layout_constraintTop_toTopOf="@id/attempted_landings_label"
-                        tools:text="9" />
+                        <TextView
+                            android:id="@+id/attempted_landings_label"
+                            style="@style/MissionDetails"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="@string/label_attempted_landings"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:gravity="start" />
 
-                    <TextView
-                        android:id="@+id/successful_landings_label"
-                        style="@style/MissionDetails"
-                        android:layout_width="wrap_content"
-                        android:layout_marginStart="@dimen/spacing"
-                        android:text="@string/label_successful_landings"
+                        <TextView
+                            android:id="@+id/attempted_landings"
+                            style="@style/RocketDetails.Values"
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_half"
+                            tools:text="9" />
+
+                    </LinearLayout>
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/attempted_landings_label"-->
+<!--                        style="@style/MissionDetails"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:text="@string/label_attempted_landings"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/attempted_landings"-->
+<!--                        style="@style/RocketDetails.Values"-->
+<!--                        android:layout_marginStart="@dimen/spacing_half"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/attempted_landings_label"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/attempted_landings_label"-->
+<!--                        tools:text="9" />-->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="@+id/guide_line"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/successful_landings"
-                        style="@style/RocketDetails.Values"
-                        android:layout_marginStart="@dimen/spacing_half"
-                        app:layout_constraintStart_toEndOf="@id/successful_landings_label"
-                        app:layout_constraintTop_toTopOf="@id/successful_landings_label"
-                        tools:text="8" />
+                        <TextView
+                            android:id="@+id/successful_landings_label"
+                            style="@style/MissionDetails"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="@dimen/spacing"
+                            android:text="@string/label_successful_landings"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:gravity="start" />
+
+                        <TextView
+                            android:id="@+id/successful_landings"
+                            style="@style/RocketDetails.Values"
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_half"
+                            tools:text="8" />
+
+                    </LinearLayout>
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/successful_landings_label"-->
+<!--                        style="@style/MissionDetails"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_marginStart="@dimen/spacing"-->
+<!--                        android:layout_marginEnd="@dimen/spacing_half"-->
+<!--                        android:text="@string/label_successful_landings"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:ellipsize="end"-->
+<!--                        android:gravity="start"-->
+<!--                        app:layout_constraintStart_toStartOf="@+id/guide_line"-->
+<!--                        app:layout_constraintEnd_toStartOf="@+id/successful_landings"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/successful_landings"-->
+<!--                        style="@style/RocketDetails.Values"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        tools:text="8" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

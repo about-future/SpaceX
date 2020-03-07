@@ -82,7 +82,7 @@
     <string name="landing_pad_location">%s, %s</string>
     <string name="label_vehicles_landed">Vehicles Landed</string>
     <string name="label_attempted_landings">Attempted Landings:</string>
-    <string name="label_successful_landings">Very Super Successful Landings:</string>
+    <string name="label_successful_landings">Successful Landings:</string>
     <string name="label_landing_type">Landing Type</string>
     <string name="asds">Autonomous Spaceport Drone Ship</string>
     <string name="rtls">Return To Launch Site</string>
