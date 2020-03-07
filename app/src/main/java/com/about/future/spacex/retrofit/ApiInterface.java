@@ -1,8 +1,10 @@
 package com.about.future.spacex.retrofit;
 
+import com.about.future.spacex.model.core.Core;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.pads.LandingPad;
 import com.about.future.spacex.model.pads.LaunchPad;
+import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.model.rocket.Rocket;
 
 import java.util.List;
@@ -55,4 +57,10 @@ public interface ApiInterface {
 
     @GET("rockets/{rocket_id}")
     Call<Rocket> getRocket(@Path("rocket_id") String rocketId);
+
+    @GET("cores")
+    Call<List<Core>> getCores();
+
+    @GET("capsules")
+    Call<List<Capsule>> getCapsules();
 }

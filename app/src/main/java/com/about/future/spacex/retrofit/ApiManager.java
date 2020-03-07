@@ -1,9 +1,11 @@
 package com.about.future.spacex.retrofit;
 
 import com.about.future.spacex.App;
+import com.about.future.spacex.model.core.Core;
 import com.about.future.spacex.model.pads.LandingPad;
 import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.mission.Mission;
+import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.model.rocket.Rocket;
 
 import java.io.File;
@@ -133,6 +135,13 @@ public class ApiManager {
     }
 
 
+    public void getCores(Callback<List<Core>> callback) {
+        Call<List<Core>> response = sApiInterfaceForced.getCores();
+        response.enqueue(callback);
+    }
 
-    //
+    public void getCapsules(Callback<List<Capsule>> callback) {
+        Call<List<Capsule>> response = sApiInterfaceForced.getCapsules();
+        response.enqueue(callback);
+    }
 }

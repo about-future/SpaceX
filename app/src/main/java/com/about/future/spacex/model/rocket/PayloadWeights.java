@@ -5,10 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class PayloadWeights {
     @SerializedName("id")
     private final String id;
+
     @SerializedName("name")
     private final String name;
+
     @SerializedName("kg")
     private final int kg;
+
     @SerializedName("lb")
     private final int lb;
 

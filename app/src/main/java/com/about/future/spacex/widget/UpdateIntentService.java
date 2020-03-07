@@ -44,7 +44,7 @@ public class UpdateIntentService extends IntentService {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                Mission upcomingMission = mDb.missionDao().findUpcomingMission((new Date().getTime() / 1000));
+                Mission upcomingMission = mDb.missionsDao().findUpcomingMission((new Date().getTime() / 1000));
 
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
                 int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), MissionAppWidget.class));

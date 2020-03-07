@@ -40,7 +40,7 @@ public class SpaceXWorker extends Worker {
     public SpaceXWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
-        missionsDao = appDatabase.missionDao();
+        missionsDao = appDatabase.missionsDao();
     }
 
     @NonNull

@@ -6,10 +6,12 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.about.future.spacex.model.core.Core;
 import com.about.future.spacex.model.pads.LandingPad;
 import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.mission.MissionMini;
+import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.model.rocket.RocketMini;
 import com.about.future.spacex.retrofit.ApiManager;
@@ -28,18 +30,24 @@ public class Repository {
     private final RocketsDao rocketsDao;
     private final LaunchPadsDao launchPadsDao;
     private final LandingPadsDao landingPadsDao;
+    private final CoresDao coresDao;
+    private final CapsulesDao capsulesDao;
 
     private MutableLiveData<ResultDisplay<List<Mission>>> mMissionsObservable;
     private MutableLiveData<ResultDisplay<List<Rocket>>> mRocketsObservable;
     private MutableLiveData<ResultDisplay<List<LaunchPad>>> mLaunchPadsObservable;
     private MutableLiveData<ResultDisplay<List<LandingPad>>> mLandingPadsObservable;
+    private MutableLiveData<ResultDisplay<List<Core>>> mCoresObservable;
+    private MutableLiveData<ResultDisplay<List<Capsule>>> mCapsulesObservable;
 
     private Repository(final Application application) {
         AppDatabase appDatabase = AppDatabase.getInstance(application);
-        missionsDao = appDatabase.missionDao();
-        rocketsDao = appDatabase.rocketDao();
-        launchPadsDao = appDatabase.launchPadDao();
-        landingPadsDao = appDatabase.landingPadDao();
+        missionsDao = appDatabase.missionsDao();
+        rocketsDao = appDatabase.rocketsDao();
+        launchPadsDao = appDatabase.launchPadsDao();
+        landingPadsDao = appDatabase.landingPadsDao();
+        coresDao = appDatabase.coresDao();
+        capsulesDao = appDatabase.capsulesDao();
     }
 
     public static Repository getInstance(final Application application) {
@@ -52,6 +60,7 @@ public class Repository {
         }
         return sInstance;
     }
+
 
 
 
@@ -227,8 +236,7 @@ public class Repository {
 
 
 
-
-    // Launch Pads
+    // Landing Pads
     public LiveData<ResultDisplay<List<LandingPad>>> getLandingPadsFromServer() {
         mLandingPadsObservable = new MutableLiveData<>();
         mLandingPadsObservable.setValue(ResultDisplay.loading(Collections.emptyList()));
@@ -284,4 +292,122 @@ public class Repository {
     public LiveData<LandingPad> getLandingPadDetails(String id) { return landingPadsDao.loadLandingPadDetails(id); }
     public LiveData<List<LandingPad>> getLandingPads() { return landingPadsDao.loadAllLandingPads(); }
     public int getLandingPadId(String pad) { return landingPadsDao.getLandingPadId(pad); }
+
+
+
+
+    // Cores
+    public LiveData<ResultDisplay<List<Core>>> getCoresFromServer() {
+        mCoresObservable = new MutableLiveData<>();
+        mCoresObservable.setValue(ResultDisplay.loading(Collections.emptyList()));
+
+        ApiManager.getInstance().getCores(new Callback<List<Core>>() {
+            @Override
+            public void onResponse(Call<List<Core>> call, Response<List<Core>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        List<Core> cores = response.body();
+
+                        Log.v("CORES RESPONSE", "SUCCESSFUL");
+                        Log.v("CORES", "ARE: " + cores.size());
+                        for (Core core : cores) {
+                            Log.v("CORE SERIAL", "IS: " + core.getCoreSerial());
+                        }
+
+                        if (cores.size() > 0) {
+                            deleteAllCores();
+                            addCores(cores);
+                        }
+
+                        mCoresObservable.setValue(ResultDisplay.success(cores));
+                    } else {
+                        Log.v("CORES RESPONSE", "SUCCESSFUL, BUT EMPTY");
+                    }
+                } else {
+                    // Bad API token
+                    mCoresObservable.setValue(ResultDisplay.error(String.valueOf(response.code()), Collections.emptyList()));
+                    Log.v("CORES RESPONSE", "SUCCESSFUL");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Core>> call, Throwable t) {
+                // Http error
+                mLaunchPadsObservable.setValue(ResultDisplay.error(t.getMessage(), Collections.emptyList()));
+                Log.v("CORES RESPONSE", "FAILED");
+            }
+        });
+
+        return mCoresObservable;
+    }
+
+    private void deleteAllCores() {
+        AppExecutors.getInstance().diskIO().execute(coresDao::deleteAllCors);
+    }
+
+    private void addCores(List<Core> cores) {
+        AppExecutors.getInstance().diskIO().execute(() -> coresDao.insertCore(cores));
+    }
+
+    public LiveData<Core> getCoreDetails(String id) { return coresDao.loadCoreDetails(id); }
+    public LiveData<List<Core>> getCores() { return coresDao.loadAllCores(); }
+
+
+
+
+    // Capsules
+    public LiveData<ResultDisplay<List<Capsule>>> getCapsulesFromServer() {
+        mCapsulesObservable = new MutableLiveData<>();
+        mCapsulesObservable.setValue(ResultDisplay.loading(Collections.emptyList()));
+
+        ApiManager.getInstance().getCapsules(new Callback<List<Capsule>>() {
+            @Override
+            public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        List<Capsule> capsules = response.body();
+
+                        Log.v("CAPSULES RESPONSE", "SUCCESSFUL");
+                        Log.v("CAPSULES", "ARE: " + capsules.size());
+                        for (Capsule capsule : capsules) {
+                            Log.v("CORE SERIAL", "IS: " + capsule.getCapsuleSerial());
+                        }
+
+                        if (capsules.size() > 0) {
+                            deleteAllCapsules();
+                            addCapsules(capsules);
+                        }
+
+                        mCapsulesObservable.setValue(ResultDisplay.success(capsules));
+                    } else {
+                        Log.v("CAPSULES RESPONSE", "SUCCESSFUL, BUT EMPTY");
+                    }
+                } else {
+                    // Bad API token
+                    mCapsulesObservable.setValue(ResultDisplay.error(String.valueOf(response.code()), Collections.emptyList()));
+                    Log.v("CAPSULES RESPONSE", "SUCCESSFUL");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Capsule>> call, Throwable t) {
+                // Http error
+                mLaunchPadsObservable.setValue(ResultDisplay.error(t.getMessage(), Collections.emptyList()));
+                Log.v("CAPSULES RESPONSE", "FAILED");
+            }
+        });
+
+        return mCapsulesObservable;
+    }
+
+    private void deleteAllCapsules() {
+        AppExecutors.getInstance().diskIO().execute(capsulesDao::deleteAllCapsules);
+    }
+
+    private void addCapsules(List<Capsule> capsules) {
+        AppExecutors.getInstance().diskIO().execute(() -> capsulesDao.insertCapsule(capsules));
+    }
+
+    public LiveData<Capsule> getCapsuleDetails(String id) { return capsulesDao.loadCapsuleDetails(id); }
+    public LiveData<List<Capsule>> getCapsules() { return capsulesDao.loadAllCapsules(); }
 }
