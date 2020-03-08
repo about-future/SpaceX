@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.databinding.CardItemCapsuleBinding;
-import com.about.future.spacex.databinding.ListItemCapsuleBinding;
 import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.squareup.picasso.Callback;
@@ -22,6 +21,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.DRAGON1_MEDIUM;
 import static com.about.future.spacex.utils.Constants.DRAGON1_SMALL;
@@ -33,8 +35,8 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
     private List<Capsule> mCapsules = new ArrayList<Capsule>() {};
     private final ListItemClickListener mOnClickListener;
 
-    private ListItemCapsuleBinding listBinding;
-    private CardItemCapsuleBinding cardBinding;
+    //private ListItemCapsuleBinding listBinding;
+    //private CardItemCapsuleBinding cardBinding;
 
     public interface ListItemClickListener {
         void onItemClickListener(String selectedLaunchPad);
@@ -54,15 +56,21 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
     @Override
     public CapsulesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        if (ScreenUtils.isPortraitMode(mContext)) {
+        /*if (ScreenUtils.isPortraitMode(mContext)) {
             listBinding = ListItemCapsuleBinding.inflate(LayoutInflater.from(parent.getContext()));
             view = listBinding.getRoot();
         } else {
             cardBinding = CardItemCapsuleBinding.inflate(LayoutInflater.from(parent.getContext()));
             view = cardBinding.getRoot();
         }
-        view.setFocusable(false);
+        view.setFocusable(false);*/
 
+        if (ScreenUtils.isPortraitMode(mContext)) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_capsule, parent, false);
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.card_item_capsule, parent, false);
+        }
+        view.setFocusable(false);
         return new ViewHolder(view);
     }
 
@@ -77,8 +85,16 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.capsule_thumbnail)
+        ImageView capsuleThumbnail;
+        @BindView(R.id.capsule_serial)
+        TextView capsuleSerialTextView;
+        @BindView(R.id.capsule_details)
+        TextView capsuleDetailsTextView;
+
         ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
@@ -97,13 +113,13 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
                         imagePath = ""; //ImageUtils.buildMapThumbnailUrl(latitude, longitude, 15, "satellite", mContext);
                 }
 
-                setImage(imagePath, listBinding.capsuleThumbnail);
+                setImage(imagePath, capsuleThumbnail);
 
-                listBinding.capsuleSerial.setText(capsule.getCapsuleSerial());
+                capsuleSerialTextView.setText(capsule.getCapsuleSerial());
                 if (capsule.getDetails() != null && !capsule.getDetails().equals("")) {
-                    listBinding.capsuleDetails.setText(capsule.getDetails());
+                    capsuleDetailsTextView.setText(capsule.getDetails());
                 } else {
-                    listBinding.capsuleDetails.setText(mContext.getString(R.string.no_core_details));
+                    capsuleDetailsTextView.setText(mContext.getString(R.string.no_capsule_details));
                 }
             } else {
                 switch (capsule.getCapsuleId()) {
@@ -117,13 +133,13 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
                         imagePath = "";
                 }
 
-                setImage(imagePath, cardBinding.capsuleThumbnail);
+                setImage(imagePath, capsuleThumbnail);
 
-                cardBinding.capsuleSerial.setText(capsule.getCapsuleSerial());
+                capsuleSerialTextView.setText(capsule.getCapsuleSerial());
                 if (capsule.getDetails() != null && !capsule.getDetails().equals("")) {
-                    cardBinding.capsuleDetails.setText(capsule.getDetails());
+                    capsuleDetailsTextView.setText(capsule.getDetails());
                 } else {
-                    cardBinding.capsuleDetails.setText(mContext.getString(R.string.no_core_details));
+                    capsuleDetailsTextView.setText(mContext.getString(R.string.no_capsule_details));
                 }
             }
         }

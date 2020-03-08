@@ -12,6 +12,8 @@ import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.model.rocket.Rocket;
+import com.about.future.spacex.ui.fragments.CapsuleDetailsFragment;
+import com.about.future.spacex.ui.fragments.CoreDetailsFragment;
 import com.about.future.spacex.ui.fragments.LandingPadDetailsFragment;
 import com.about.future.spacex.ui.fragments.LaunchPadDetailsFragment;
 import com.about.future.spacex.ui.fragments.MissionDetailsFragment;

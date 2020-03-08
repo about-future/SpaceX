@@ -15,9 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.ui.fragments.CapsulesFragment;
+import com.about.future.spacex.ui.fragments.CoresFragment;
 import com.about.future.spacex.ui.fragments.LandingPadsFragment;
 import com.about.future.spacex.ui.fragments.LaunchPadsFragment;
-import com.about.future.spacex.ui.fragments.MissionsFragment;
 import com.about.future.spacex.ui.fragments.PastMissionsFragment;
 import com.about.future.spacex.ui.fragments.RocketsFragment;
 import com.about.future.spacex.ui.fragments.UpcomingMissionsFragment;
@@ -169,9 +170,9 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
 
             // Set fragment into PagerAdapter
             List<Fragment> fragments = new ArrayList<>();
-            fragments.add(new MissionsFragment());
             fragments.add(new RocketsFragment());
-            fragments.add(new LaunchPadsFragment());
+            fragments.add(new CoresFragment());
+            fragments.add(new CapsulesFragment());
             pagerAdapter.setFragments(fragments);
 
             mViewPager.invalidate();
@@ -184,16 +185,13 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
         new TabLayoutMediator(mTabLayout, mViewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    //tab.setIcon(R.drawable.ic_traffic);
-                    tab.setText(getString(R.string.label_tab_missions));
-                    break;
-                case 1:
-                    //tab.setIcon(R.drawable.ic_history);
                     tab.setText(getString(R.string.label_tab_rockets));
                     break;
+                case 1:
+                    tab.setText(getString(R.string.label_tab_cores));
+                    break;
                 default:
-                    //tab.setIcon(R.drawable.ic_history);
-                    tab.setText(getString(R.string.label_tab_launch_pads));
+                    tab.setText(getString(R.string.label_tab_capsules));
             }
         }).attach();
 

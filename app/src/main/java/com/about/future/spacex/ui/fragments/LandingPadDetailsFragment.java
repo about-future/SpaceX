@@ -36,9 +36,7 @@ public class LandingPadDetailsFragment extends Fragment {
 
     private FragmentLandingPadDetailsBinding binding;
 
-    public LandingPadDetailsFragment() {
-        // Required empty public constructor
-    }
+    public LandingPadDetailsFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

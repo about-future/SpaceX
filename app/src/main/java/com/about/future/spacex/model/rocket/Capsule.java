@@ -15,6 +15,7 @@ import java.util.List;
 
 @Entity(tableName = "capsules")
 public class Capsule {
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = "capsule_serial")
     @SerializedName("capsule_serial")

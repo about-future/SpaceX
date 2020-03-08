@@ -18,51 +18,51 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.databinding.FragmentCoresBinding;
-import com.about.future.spacex.model.core.Core;
-import com.about.future.spacex.ui.CoreDetailsActivity;
+import com.about.future.spacex.databinding.FragmentCapsulesBinding;
+import com.about.future.spacex.model.rocket.Capsule;
+import com.about.future.spacex.ui.CapsuleDetailsActivity;
 import com.about.future.spacex.ui.SpaceXActivity;
-import com.about.future.spacex.ui.adapters.CoresAdapter;
+import com.about.future.spacex.ui.adapters.CapsulesAdapter;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ResultDisplay;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
-import com.about.future.spacex.viewmodel.CoresViewModel;
+import com.about.future.spacex.viewmodel.CapsulesViewModel;
 
 import java.util.List;
 
-import static com.about.future.spacex.utils.Constants.CORE_RECYCLER_POSITION_KEY;
-import static com.about.future.spacex.utils.Constants.CORE_SERIAL_KEY;
+import static com.about.future.spacex.utils.Constants.CAPSULE_RECYCLER_POSITION_KEY;
+import static com.about.future.spacex.utils.Constants.CAPSULE_SERIAL_KEY;
 
-public class CoresFragment extends Fragment implements CoresAdapter.ListItemClickListener {
-    private int mCoresPosition = RecyclerView.NO_POSITION;
+public class CapsulesFragment extends Fragment implements CapsulesAdapter.ListItemClickListener {
+    private int mCapsulesPosition = RecyclerView.NO_POSITION;
     private int[] mStaggeredPosition;
     private LinearLayoutManager mLinearLayoutManager;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
-    private CoresAdapter mAdapter;
-    private CoresViewModel mViewModel;
-    private FragmentCoresBinding binding;
+    private CapsulesAdapter mAdapter;
+    private CapsulesViewModel mViewModel;
+    private FragmentCapsulesBinding binding;
     private View mRootView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null && savedInstanceState.containsKey(CORE_RECYCLER_POSITION_KEY)) {
-            mCoresPosition = savedInstanceState.getInt(CORE_RECYCLER_POSITION_KEY);
+        if (savedInstanceState != null && savedInstanceState.containsKey(CAPSULE_RECYCLER_POSITION_KEY)) {
+            mCapsulesPosition = savedInstanceState.getInt(CAPSULE_RECYCLER_POSITION_KEY);
         }
 
-        binding = FragmentCoresBinding.inflate(inflater, container, false);
+        binding = FragmentCapsulesBinding.inflate(inflater, container, false);
         mRootView = binding.getRoot();
 
         // Setup RecyclerView and Adaptor
         setupRecyclerView();
         // Init view model
-        mViewModel = ViewModelProviders.of(this).get(CoresViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(CapsulesViewModel.class);
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
             binding.swipeRefreshLayout.setRefreshing(false);
-            SpaceXPreferences.setCoresStatus(getContext(), true);
-            getCores();
+            SpaceXPreferences.setCapsulesStatus(getContext(), true);
+            getCapsules();
         });
 
         return mRootView;
@@ -77,21 +77,21 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     private void setupRecyclerView() {
         if (ScreenUtils.isPortraitMode(getActivityCast())) {
             mLinearLayoutManager = new LinearLayoutManager(getContext());
-            binding.coresRecyclerView.setLayoutManager(mLinearLayoutManager);
+            binding.capsulesRecyclerView.setLayoutManager(mLinearLayoutManager);
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                    binding.coresRecyclerView.getContext(),
+                    binding.capsulesRecyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
-            binding.coresRecyclerView.addItemDecoration(mDividerItemDecoration);
+            binding.capsulesRecyclerView.addItemDecoration(mDividerItemDecoration);
         } else {
             int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
             mStaggeredGridLayoutManager =
                     new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-            binding.coresRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+            binding.capsulesRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         }
 
-        binding.coresRecyclerView.setHasFixedSize(false);
-        mAdapter = new CoresAdapter(getContext(), this);
-        binding.coresRecyclerView.setAdapter(mAdapter);
+        binding.capsulesRecyclerView.setHasFixedSize(false);
+        mAdapter = new CapsulesAdapter(getContext(), this);
+        binding.capsulesRecyclerView.setAdapter(mAdapter);
     }
 
     private SpaceXActivity getActivityCast() {
@@ -99,43 +99,43 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     }
 
     private void restorePosition() {
-        if (mCoresPosition == RecyclerView.NO_POSITION) mCoresPosition = 0;
+        if (mCapsulesPosition == RecyclerView.NO_POSITION) mCapsulesPosition = 0;
         // Scroll the RecyclerView to mPosition
-        binding.coresRecyclerView.scrollToPosition(mCoresPosition);
+        binding.capsulesRecyclerView.scrollToPosition(mCapsulesPosition);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         // Save RecyclerView state
         if (mLinearLayoutManager != null) {
-            mCoresPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+            mCapsulesPosition = mLinearLayoutManager.findFirstVisibleItemPosition();
         } else if (mStaggeredGridLayoutManager != null) {
-            mCoresPosition = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(mStaggeredPosition)[0];
+            mCapsulesPosition = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(mStaggeredPosition)[0];
         }
 
-        outState.putInt(CORE_RECYCLER_POSITION_KEY, mCoresPosition);
+        outState.putInt(CAPSULE_RECYCLER_POSITION_KEY, mCapsulesPosition);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getCores();
+        getCapsules();
     }
 
-    // If cores were already loaded once, just query the DB and display them,
+    // If capsules were already loaded once, just query the DB and display them,
     // otherwise get them from server
-    private void getCores() {
+    private void getCapsules() {
         // If a forced download is requested, getCoresStatus flag is true
         // and we download all landing pads from server
-        if (SpaceXPreferences.getCoresStatus(getActivityCast())) {
+        if (SpaceXPreferences.getCapsulesStatus(getActivityCast())) {
             // If there is a network connection
             if (NetworkUtils.isConnected(getActivityCast())) {
                 //loadingStateUi();
-                getCoresFromServer();
+                getCapsulesFromServer();
             } else {
                 // Show connection error
-                if (SpaceXPreferences.getCoresFirstLoad(getActivityCast())) {
+                if (SpaceXPreferences.getCapsulesFirstLoad(getActivityCast())) {
                     errorStateUi(2);
                 } else {
                     Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
@@ -143,14 +143,14 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
             }
         } else {
             // Otherwise, get them from DB
-            getCoresFromDB();
+            getCapsulesFromDB();
         }
     }
 
-    private void getCoresFromServer() {
+    private void getCapsulesFromServer() {
         Log.v("GET CORES", "FROM SERVER");
 
-        mViewModel.getCoresFromServer().observe(this, checkResultDisplay -> {
+        mViewModel.getCapsulesFromServer().observe(this, checkResultDisplay -> {
             if (checkResultDisplay != null) {
                 switch (checkResultDisplay.state) {
                     case ResultDisplay.STATE_LOADING:
@@ -171,18 +171,18 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
                     case ResultDisplay.STATE_SUCCESS:
                         binding.swipeRefreshLayout.setRefreshing(false);
 
-                        List<Core> cores = checkResultDisplay.data;
+                        List<Capsule> capsules = checkResultDisplay.data;
 
-                        if (cores != null && cores.size() > 0) {
-                            SpaceXPreferences.setCoresStatus(getContext(), false);
-                            SpaceXPreferences.setCoresFirstLoad(getActivityCast(), false);
-                            getCoresFromDB();
+                        if (capsules != null && capsules.size() > 0) {
+                            SpaceXPreferences.setCapsulesStatus(getContext(), false);
+                            SpaceXPreferences.setCapsulesFirstLoad(getActivityCast(), false);
+                            getCapsulesFromDB();
                         } else {
                             // Update UI
-                            if (SpaceXPreferences.getCoresFirstLoad(getActivityCast())) {
+                            if (SpaceXPreferences.getCapsulesFirstLoad(getActivityCast())) {
                                 errorStateUi(0);
                             } else {
-                                Toast.makeText(getActivityCast(), getString(R.string.no_cores_available), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivityCast(), getString(R.string.no_capsules_available), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -192,16 +192,16 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
         });
     }
 
-    private void getCoresFromDB() {
-        Log.v("GET CORES", "FROM DB");
+    private void getCapsulesFromDB() {
+        Log.v("GET CAPSULES", "FROM DB");
 
         // Try loading data from DB, if no data was found show empty list
-        mViewModel.getCoresFromDb().observe(this, cores -> {
-            if (cores != null && cores.size() > 0) {
+        mViewModel.getCapsulesFromDb().observe(this, capsules -> {
+            if (capsules != null && capsules.size() > 0) {
                 // Update UI
                 successStateUi();
                 // Show data
-                mAdapter.setCores(cores);
+                mAdapter.setCapsules(capsules);
                 restorePosition();
             } else {
                 // Update UI
@@ -211,20 +211,20 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     }
 
     private void loadingStateUi() {
-        binding.coresRecyclerView.setVisibility(View.GONE);
+        binding.capsulesRecyclerView.setVisibility(View.GONE);
         binding.noConnectionMessage.setVisibility(View.GONE);
         binding.loadingLayout.setVisibility(View.VISIBLE);
         binding.specialErrorLayout.setVisibility(View.GONE);
     }
 
     private void errorStateUi(int errorType) {
-        binding.coresRecyclerView.setVisibility(View.GONE);
+        binding.capsulesRecyclerView.setVisibility(View.GONE);
         binding.loadingLayout.setVisibility(View.GONE);
 
         switch (errorType) {
             case 0:
                 binding.specialErrorLayout.setVisibility(View.VISIBLE);
-                binding.specialErrorMessage.setText(getString(R.string.no_cores_available));
+                binding.specialErrorMessage.setText(getString(R.string.no_capsules_available));
                 binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
@@ -242,16 +242,16 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     }
 
     private void successStateUi() {
-        binding.coresRecyclerView.setVisibility(View.VISIBLE);
+        binding.capsulesRecyclerView.setVisibility(View.VISIBLE);
         binding.noConnectionMessage.setVisibility(View.GONE);
         binding.loadingLayout.setVisibility(View.GONE);
         binding.specialErrorLayout.setVisibility(View.GONE);
     }
 
     @Override
-    public void onItemClickListener(String selectedCore) {
-        Intent intent = new Intent(getActivity(), CoreDetailsActivity.class);
-        intent.putExtra(CORE_SERIAL_KEY, selectedCore);
+    public void onItemClickListener(String selectedCapsule) {
+        Intent intent = new Intent(getActivity(), CapsuleDetailsActivity.class);
+        intent.putExtra(CAPSULE_SERIAL_KEY, selectedCapsule);
         startActivity(intent);
     }
 }

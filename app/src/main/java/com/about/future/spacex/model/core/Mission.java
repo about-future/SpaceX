@@ -7,9 +7,9 @@ public class Mission {
     private String name;
 
     @SerializedName("flight")
-    private String flight;
+    private int flight;
 
-    public Mission(String name, String flight) {
+    public Mission(String name, int flight) {
         this.name = name;
         this.flight = flight;
     }
@@ -17,6 +17,6 @@ public class Mission {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getFlight() { return flight; }
-    public void setFlight(String flight) { this.flight = flight; }
+    public int getFlight() { return flight; }
+    public void setFlight(int flight) { this.flight = flight; }
 }

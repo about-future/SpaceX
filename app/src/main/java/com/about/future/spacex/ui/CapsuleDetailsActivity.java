@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.about.future.spacex.databinding.ActivityCapsuleDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
 import com.about.future.spacex.viewmodel.CapsulesViewModel;
-import com.about.future.spacex.viewmodel.LandingPadsViewModel;
 
 import static com.about.future.spacex.utils.Constants.CAPSULE_PAGE_NUMBER_KEY;
 import static com.about.future.spacex.utils.Constants.CAPSULE_SERIAL_KEY;

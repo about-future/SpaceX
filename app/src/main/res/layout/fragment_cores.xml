@@ -2,20 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pads_list_layout"
+    android:id="@+id/cores_list_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.about.future.spacex.ui.SpaceXActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_cores_layout"
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cores_rv"
+            android:id="@+id/cores_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/pad_list_item"/>
@@ -23,7 +23,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
-        android:id="@+id/cores_no_connection_message"
+        android:id="@+id/no_connection_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

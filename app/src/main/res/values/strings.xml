@@ -93,12 +93,35 @@
     <string name="wiki_page">See Wikipedia page for more details.</string>
     <string name="label_stats">Landing Stats</string>
 
+
     <!-- Core Details -->
     <string name="no_core_details">No details available yet.</string>
+    <string name="label_block_type">Block</string>
+    <string name="label_core_stats">Stats</string>
+    <string name="label_rtls_attempts">RTLS Attempts</string>
+    <string name="label_rtls_landings">RTLS Landings</string>
+    <string name="label_asds_attempts">ASDS Attempts</string>
+    <string name="label_asds_landings">ASDS Landings</string>
+    <string name="format_block_type">Block %s</string>
+    <string name="format_attempts_landings">%s / %s</string>
+    <string name="label_false">False</string>
+    <string name="label_true">True</string>
 
 
     <!-- Capsule Details -->
     <string name="no_capsule_details">No details available yet.</string>
+    <string name="label_capsule_type">Type</string>
+    <string name="label_original_launch">Original Launch</string>
+    <string name="label_capsule_stats">Stats</string>
+    <string name="label_landings">Landings</string>
+    <string name="label_reuse_count">Reuse Count</string>
+    <string name="label_capsule_missions">Missions</string>
+    <string name="label_water_landings">Water Landing</string>
+    <string name="status_active">Active</string>
+    <string name="status_retired">Retired</string>
+    <string name="status_destroyed">Destroyed</string>
+    <string name="status_lost">Lost</string>
+    <string name="status_unknown">Unknown</string>
 
 
     <!-- Rocket Details -->

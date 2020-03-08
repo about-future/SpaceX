@@ -9,11 +9,9 @@ import androidx.lifecycle.ViewModelProviders;
 import com.about.future.spacex.databinding.ActivityCoreDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
 import com.about.future.spacex.viewmodel.CoresViewModel;
-import com.about.future.spacex.viewmodel.LandingPadsViewModel;
 
 import static com.about.future.spacex.utils.Constants.CORE_PAGE_NUMBER_KEY;
 import static com.about.future.spacex.utils.Constants.CORE_SERIAL_KEY;
-import static com.about.future.spacex.utils.Constants.LANDING_PAD_PAGE_NUMBER_KEY;
 
 public class CoreDetailsActivity extends AppCompatActivity {
     private ActivityCoreDetailsBinding binding;

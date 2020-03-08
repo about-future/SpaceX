@@ -20,7 +20,7 @@ public class CapsulesViewModel extends AndroidViewModel {
         repository = Repository.getInstance(application);
     }
 
-    public LiveData<ResultDisplay<List<Capsule>>> getCoresFromServer() { return repository.getCapsulesFromServer(); }
+    public LiveData<ResultDisplay<List<Capsule>>> getCapsulesFromServer() { return repository.getCapsulesFromServer(); }
     public LiveData<List<Capsule>> getCapsulesFromDb() {
         return repository.getCapsules();
     }

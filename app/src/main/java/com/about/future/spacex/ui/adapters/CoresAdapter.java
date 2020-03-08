@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.about.future.spacex.utils.Constants.BLOCK3_MEDIUM;
 import static com.about.future.spacex.utils.Constants.BLOCK3_SMALL;
 import static com.about.future.spacex.utils.Constants.BLOCK5_MEDIUM;
@@ -33,9 +37,8 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
     private List<Core> mCores = new ArrayList<Core>() {};
     private final ListItemClickListener mOnClickListener;
 
-    private ListItemCoreBinding listBinding;
-    private CardItemCoreBinding cardBinding;
-
+    //private ListItemCoreBinding listBinding;
+    //private CardItemCoreBinding cardBinding;
 
     public interface ListItemClickListener {
         void onItemClickListener(String selectedLaunchPad);
@@ -56,6 +59,15 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
     public CoresAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (ScreenUtils.isPortraitMode(mContext)) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_core, parent, false);
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.card_item_core, parent, false);
+        }
+        view.setFocusable(false);
+        return new ViewHolder(view);
+
+        /*View view;
+        if (ScreenUtils.isPortraitMode(mContext)) {
             listBinding = ListItemCoreBinding.inflate(LayoutInflater.from(parent.getContext()));
             view = listBinding.getRoot();
         } else {
@@ -64,7 +76,7 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
         }
         view.setFocusable(false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view);*/
     }
 
     @Override
@@ -78,8 +90,16 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.core_thumbnail)
+        ImageView coreThumbnail;
+        @BindView(R.id.core_serial)
+        TextView coreSerialTextView;
+        @BindView(R.id.core_details)
+        TextView coreDetailsTextView;
+
         ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
@@ -98,13 +118,13 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
                         imagePath = ""; //ImageUtils.buildMapThumbnailUrl(latitude, longitude, 15, "satellite", mContext);
                 }
 
-                setImage(imagePath, listBinding.coreThumbnail);
+                setImage(imagePath, coreThumbnail);
 
-                listBinding.coreSerial.setText(core.getCoreSerial());
+                coreSerialTextView.setText(core.getCoreSerial());
                 if (core.getDetails() != null && !core.getDetails().equals("")) {
-                    listBinding.coreDetails.setText(core.getDetails());
+                    coreDetailsTextView.setText(core.getDetails());
                 } else {
-                    listBinding.coreDetails.setText(mContext.getString(R.string.no_core_details));
+                    coreDetailsTextView.setText(mContext.getString(R.string.no_core_details));
                 }
             } else {
                 switch (core.getBlock()) {
@@ -118,13 +138,13 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
                         imagePath = "";
                 }
 
-                setImage(imagePath, cardBinding.coreThumbnail);
+                setImage(imagePath, coreThumbnail);
 
-                cardBinding.coreSerial.setText(core.getCoreSerial());
+                coreSerialTextView.setText(core.getCoreSerial());
                 if (core.getDetails() != null && !core.getDetails().equals("")) {
-                    cardBinding.coreDetails.setText(core.getDetails());
+                    coreDetailsTextView.setText(core.getDetails());
                 } else {
-                    cardBinding.coreDetails.setText(mContext.getString(R.string.no_core_details));
+                    coreDetailsTextView.setText(mContext.getString(R.string.no_core_details));
                 }
             }
         }

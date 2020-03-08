@@ -55,5 +55,10 @@ public class Constants {
     public static final String DRAGON2_SMALL = "https://live.staticflickr.com/7647/16581815487_6d56cb32e1_q.jpg";
     public static final String DRAGON2_MEDIUM = "https://live.staticflickr.com/7647/16581815487_6d56cb32e1_z.jpg"; //https://live.staticflickr.com/7899/39684491043_df8ffdd658_z.jpg
 
+    public static final String ACTIVE = "active";
+    public static final String RETIRED = "retired";
+    public static final String DESTROYED = "destroyed";
+    public static final String LOST = "lost";
+    public static final String UNKNOWN = "unknown";
 
 }
