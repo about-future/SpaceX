@@ -14,10 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.databinding.FragmentCoreDetailsBinding;
 import com.about.future.spacex.model.core.Core;
-import com.about.future.spacex.model.mission.MissionMini;
 import com.about.future.spacex.ui.CoreDetailsActivity;
 import com.about.future.spacex.ui.adapters.MissionsAdapter;
 import com.about.future.spacex.utils.NetworkUtils;
@@ -27,68 +25,44 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import static com.about.future.spacex.utils.Constants.ACTIVE;
 import static com.about.future.spacex.utils.Constants.BLOCK3_MEDIUM;
 import static com.about.future.spacex.utils.Constants.BLOCK3_SMALL;
 import static com.about.future.spacex.utils.Constants.BLOCK5_MEDIUM;
 import static com.about.future.spacex.utils.Constants.BLOCK5_SMALL;
-import static com.about.future.spacex.utils.Constants.CORE_SERIAL_KEY;
 import static com.about.future.spacex.utils.Constants.DESTROYED;
 import static com.about.future.spacex.utils.Constants.LOST;
 import static com.about.future.spacex.utils.Constants.RETIRED;
 
 public class CoreDetailsFragment extends Fragment implements MissionsAdapter.ListItemClickListener {
     private Core mCore;
-    private String mCoreSerial;
-    private View mRootView;
-
     private MissionsViewModel mViewModel;
-    private int[] mStaggeredPosition;
-    private LinearLayoutManager mLinearLayoutManager;
-    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private MissionsAdapter mMissionsAdapter;
-
     private FragmentCoreDetailsBinding binding;
 
     public CoreDetailsFragment() { }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null && getArguments().containsKey(CORE_SERIAL_KEY)) {
-            mCoreSerial = getArguments().getString(CORE_SERIAL_KEY);
-        }
-        setHasOptionsMenu(true);
-    }
 
     private CoreDetailsActivity getActivityCast() { return (CoreDetailsActivity) getActivity(); }
     public void setCore(Core core) { mCore = core; }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mCoreSerial = savedInstanceState.getString(CORE_SERIAL_KEY);
-        }
-
         binding = FragmentCoreDetailsBinding.inflate(inflater, container, false);
-        mRootView = binding.getRoot();
+        View rootView = binding.getRoot();
 
         binding.toolbar.setTitle("");
         getActivityCast().setSupportActionBar(binding.toolbar);
         bindViews(mCore);
 
         mViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
-        getMissions();
+        if (mCore != null) getMissions();
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
             binding.swipeRefreshLayout.setRefreshing(false);
             refreshData();
         });
 
-        return mRootView;
+        return rootView;
     }
 
     @Override
@@ -108,21 +82,8 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString(CORE_SERIAL_KEY, mCoreSerial);
-    }
-
     private void bindViews(Core core) {
-        if (mRootView == null) {
-            return;
-        }
-
         if (core != null) {
-            mRootView.setAlpha(0);
-            mRootView.setVisibility(View.VISIBLE);
-            mRootView.animate().alpha(1);
-
             binding.collapsingToolbarLayout.setTitle(core.getCoreSerial());
             binding.toolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 
@@ -222,8 +183,6 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
                 binding.coreDetails.setVisibility(View.GONE);
             }
 
-            //TODO: init RV and Adapter, show missions
-
             binding.rtlsLandings.setText(String.format(
                     getString(R.string.format_attempts_landings),
                     String.valueOf(core.getRtlsAttempts()),
@@ -248,20 +207,20 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
 
     private void setupRecyclerView() {
         if (ScreenUtils.isPortraitMode(getActivityCast())) {
-            mLinearLayoutManager = new LinearLayoutManager(getContext());
-            binding.missionsRecyclerView.setLayoutManager(mLinearLayoutManager);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            binding.missionsRecyclerView.setLayoutManager(linearLayoutManager);
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                     binding.missionsRecyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             binding.missionsRecyclerView.addItemDecoration(mDividerItemDecoration);
         } else {
             int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
-            mStaggeredGridLayoutManager =
+            StaggeredGridLayoutManager staggeredGridLayoutManager =
                     new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-            binding.missionsRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+            binding.missionsRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         }
 
-        binding.missionsRecyclerView.setHasFixedSize(false);  //TODO: Maybe it has to be true
+        binding.missionsRecyclerView.setHasFixedSize(true);
         mMissionsAdapter = new MissionsAdapter(getContext(), this);
         binding.missionsRecyclerView.setAdapter(mMissionsAdapter);
     }
@@ -276,13 +235,13 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
             setupRecyclerView();
 
             // Try loading data from DB, if no data was found show empty list
-            AppExecutors.getInstance().diskIO().execute(() -> {
-                List<MissionMini> missions = mViewModel.getMiniMissions(flights);
+            mViewModel.getMiniMissions(flights).observe(this, missions -> {
                 if (missions != null && missions.size() > 0) {
                     binding.missionsRecyclerView.setVisibility(View.VISIBLE);
                     mMissionsAdapter.setMissions(missions);
                 }
             });
+
         } else {
             binding.missionsLabel.setVisibility(View.GONE);
             binding.separationLine2.setVisibility(View.GONE);

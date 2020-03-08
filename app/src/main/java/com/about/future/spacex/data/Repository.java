@@ -117,15 +117,8 @@ public class Repository {
     public LiveData<List<MissionMini>> getMiniMissions() { return missionsDao.loadMiniMissions(); }
     public LiveData<List<MissionMini>> getUpcomingMissions(long now) { return missionsDao.loadUpcomingMiniMissions(now); }
     public LiveData<List<MissionMini>> getPastMissions(long now) { return missionsDao.loadPastMiniMissions(now); }
-
-    private MissionMini getMiniMission(int id) { return missionsDao.loadMiniMission(id); }
-    public List<MissionMini> getMiniMissions(int[] flights) {
-        List<MissionMini> missions = new ArrayList<>();
-        for (int flight : flights) {
-            missions.add(getMiniMission(flight));
-        }
-
-        return missions;
+    public LiveData<List<MissionMini>> getMiniMissions(int[] flights) {
+        return missionsDao.loadMiniMissions(flights);
     }
 
 

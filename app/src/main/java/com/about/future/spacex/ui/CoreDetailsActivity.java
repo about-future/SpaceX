@@ -5,25 +5,30 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.about.future.spacex.databinding.ActivityCoreDetailsBinding;
+import com.about.future.spacex.R;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
 import com.about.future.spacex.viewmodel.CoresViewModel;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.CORE_PAGE_NUMBER_KEY;
 import static com.about.future.spacex.utils.Constants.CORE_SERIAL_KEY;
 
 public class CoreDetailsActivity extends AppCompatActivity {
-    private ActivityCoreDetailsBinding binding;
+    @BindView(R.id.cores_pager)
+    ViewPager2 mPager;
 
-    private int mPageNumber = -1;
     private String mCoreSerial = "Merlin1A";
+    private int mPagerPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCoreDetailsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_core_details);
+        ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
@@ -37,14 +42,17 @@ public class CoreDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(CORE_PAGE_NUMBER_KEY, binding.coresPager.getCurrentItem());
+        outState.putString(CORE_SERIAL_KEY, mCoreSerial);
+        outState.putInt(CORE_PAGE_NUMBER_KEY, mPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        mPageNumber = savedInstanceState.getInt(CORE_PAGE_NUMBER_KEY);
+        mPagerPosition = savedInstanceState.getInt(CORE_PAGE_NUMBER_KEY);
+        mCoreSerial = savedInstanceState.getString(CORE_SERIAL_KEY);
         setupViewPager();
+
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -54,14 +62,14 @@ public class CoreDetailsActivity extends AppCompatActivity {
         viewModel.getCoresFromDb().observe(this, cores -> {
             if (cores != null && cores.size() > 0) {
                 pagerAdapter.setCores(cores);
-                binding.coresPager.setAdapter(pagerAdapter);
+                mPager.setAdapter(pagerAdapter);
 
-                if (mPageNumber > -1) {
-                    binding.coresPager.setCurrentItem(mPageNumber, false);
+                if (mPagerPosition > -1) {
+                    mPager.setCurrentItem(mPagerPosition, false);
                 } else {
                     for (int i = 0; i < cores.size(); i++) {
                         if (mCoreSerial.equals(cores.get(i).getCoreSerial())) {
-                            binding.coresPager.setCurrentItem(i, false);
+                            mPager.setCurrentItem(i, false);
                             break;
                         }
                     }

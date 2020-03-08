@@ -2,6 +2,7 @@ package com.about.future.spacex.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.about.future.spacex.R;
-import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.databinding.FragmentCapsuleDetailsBinding;
-import com.about.future.spacex.model.mission.MissionMini;
 import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.ui.CapsuleDetailsActivity;
 import com.about.future.spacex.ui.adapters.MissionsAdapter;
@@ -27,10 +26,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
 
 import static com.about.future.spacex.utils.Constants.ACTIVE;
-import static com.about.future.spacex.utils.Constants.CAPSULE_SERIAL_KEY;
 import static com.about.future.spacex.utils.Constants.DESTROYED;
 import static com.about.future.spacex.utils.Constants.DRAGON1_MEDIUM;
 import static com.about.future.spacex.utils.Constants.DRAGON1_SMALL;
@@ -41,56 +38,33 @@ import static com.about.future.spacex.utils.Constants.RETIRED;
 
 public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.ListItemClickListener {
     private Capsule mCapsule;
-    private String mCapsuleSerial;
-    private View mRootView;
-
     private MissionsViewModel mViewModel;
-    private int[] mStaggeredPosition;
-    private LinearLayoutManager mLinearLayoutManager;
-    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private MissionsAdapter mMissionsAdapter;
-
     private FragmentCapsuleDetailsBinding binding;
 
     public CapsuleDetailsFragment() { }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null && getArguments().containsKey(CAPSULE_SERIAL_KEY)) {
-            mCapsuleSerial = getArguments().getString(CAPSULE_SERIAL_KEY);
-        }
-        setHasOptionsMenu(true);
-    }
-
     private CapsuleDetailsActivity getActivityCast() { return (CapsuleDetailsActivity) getActivity(); }
     public void setCapsule(Capsule capsule) { mCapsule = capsule; }
 
-    //TODO: get capsule from ViewModel using it's serial number
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mCapsuleSerial = savedInstanceState.getString(CAPSULE_SERIAL_KEY);
-        }
-
         binding = FragmentCapsuleDetailsBinding.inflate(inflater, container, false);
-        mRootView = binding.getRoot();
+        View rootView = binding.getRoot();
 
         binding.toolbar.setTitle("");
         getActivityCast().setSupportActionBar(binding.toolbar);
         bindViews(mCapsule);
 
         mViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
-        getMissions();
+        if (mCapsule != null) getMissions();
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {
             binding.swipeRefreshLayout.setRefreshing(false);
             refreshData();
         });
 
-        return mRootView;
+        return rootView;
     }
 
     @Override
@@ -110,21 +84,8 @@ public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString(CAPSULE_SERIAL_KEY, mCapsuleSerial);
-    }
-
     private void bindViews(Capsule capsule) {
-        if (mRootView == null) {
-            return;
-        }
-
         if (capsule != null) {
-            mRootView.setAlpha(0);
-            mRootView.setVisibility(View.VISIBLE);
-            mRootView.animate().alpha(1);
-
             binding.collapsingToolbarLayout.setTitle(capsule.getCapsuleSerial());
             binding.toolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 
@@ -220,8 +181,6 @@ public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.
                 binding.capsuleDetails.setVisibility(View.GONE);
             }
 
-            //TODO: init RV and Adapter, show missions
-
             binding.landings.setText(String.valueOf(capsule.getLandings()));
             binding.reuseCount.setText(String.valueOf(capsule.getReuseCount()));
         }
@@ -229,20 +188,20 @@ public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.
 
     private void setupRecyclerView() {
         if (ScreenUtils.isPortraitMode(getActivityCast())) {
-            mLinearLayoutManager = new LinearLayoutManager(getContext());
-            binding.missionsRecyclerView.setLayoutManager(mLinearLayoutManager);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            binding.missionsRecyclerView.setLayoutManager(linearLayoutManager);
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                     binding.missionsRecyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             binding.missionsRecyclerView.addItemDecoration(mDividerItemDecoration);
         } else {
             int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
-            mStaggeredGridLayoutManager =
+            StaggeredGridLayoutManager staggeredGridLayoutManager =
                     new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-            binding.missionsRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+            binding.missionsRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         }
 
-        binding.missionsRecyclerView.setHasFixedSize(false);  //TODO: Maybe it has to be true
+        binding.missionsRecyclerView.setHasFixedSize(true);
         mMissionsAdapter = new MissionsAdapter(getContext(), this);
         binding.missionsRecyclerView.setAdapter(mMissionsAdapter);
     }
@@ -257,10 +216,10 @@ public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.
             setupRecyclerView();
 
             // Try loading data from DB, if no data was found show empty list
-            AppExecutors.getInstance().diskIO().execute(() -> {
-                List<MissionMini> missions = mViewModel.getMiniMissions(flights);
+            mViewModel.getMiniMissions(flights).observe(this, missions -> {
+                Log.v("CAPSULE MISSIONS", "FROM DB!");
                 if (missions != null && missions.size() > 0) {
-                    binding.missionsRecyclerView.setVisibility(View.VISIBLE);
+                    //binding.missionsRecyclerView.setVisibility(View.VISIBLE);
                     mMissionsAdapter.setMissions(missions);
                 }
             });
