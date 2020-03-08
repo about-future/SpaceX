@@ -32,6 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/gallery_height"
         android:layout_marginTop="@dimen/spacing"
-        tools:listitem="@layout/gallery_list_item"/>
+        tools:listitem="@layout/list_item_gallery"/>
 
 </LinearLayout>

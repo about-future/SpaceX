@@ -51,9 +51,9 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (ScreenUtils.isPortraitMode(mContext)) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.mission_list_item, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_mission, parent, false);
         } else {
-            view = LayoutInflater.from(mContext).inflate(R.layout.mission_card_item, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.card_item_mission, parent, false);
         }
         view.setFocusable(false);
         return new ViewHolder(view);

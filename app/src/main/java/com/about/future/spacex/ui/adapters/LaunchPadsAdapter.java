@@ -52,9 +52,9 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
     public LaunchPadsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (ScreenUtils.isPortraitMode(mContext)) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.pad_list_item, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_pad, parent, false);
         } else {
-            view = LayoutInflater.from(mContext).inflate(R.layout.pad_card_item, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.card_item_pad, parent, false);
         }
         view.setFocusable(false);
         return new LaunchPadsAdapter.ViewHolder(view);

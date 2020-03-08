@@ -168,7 +168,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing"
-                    tools:listitem="@layout/mission_list_item" />
+                    tools:listitem="@layout/list_item_mission" />
 
                 <TextView
                     android:id="@+id/missions_label"

@@ -43,7 +43,7 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
     @NonNull
     @Override
     public RocketsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.rocket_card_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.card_item_rocket, parent, false);
         view.setFocusable(false);
         return new RocketsAdapter.ViewHolder(view);
     }
