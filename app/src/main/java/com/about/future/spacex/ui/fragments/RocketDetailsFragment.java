@@ -151,9 +151,7 @@ public class RocketDetailsFragment extends Fragment implements GalleryAdapter.Li
     private boolean mIsCoreSwitched = false;
     private GalleryAdapter mAdapter;
 
-    public RocketDetailsFragment() {
-        // Required empty public constructor
-    }
+    public RocketDetailsFragment() { }
 
     public static RocketDetailsFragment newInstance(int rocketId) {
         RocketDetailsFragment fragment = new RocketDetailsFragment();

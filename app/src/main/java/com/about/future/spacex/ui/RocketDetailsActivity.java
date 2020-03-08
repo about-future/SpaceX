@@ -5,34 +5,26 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.ActivityMissionDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.RocketsViewModel;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-//import static com.about.future.spacex.utils.Constants.PAGER_ID_KEY;
 import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
 import static com.about.future.spacex.utils.Constants.ROCKET_PAGE_NUMBER_KEY;
 
 public class RocketDetailsActivity extends AppCompatActivity {
-    @BindView(R.id.rocket_pager)
-    ViewPager2 mPager;
-
-    private int mPageNumber = -1; //1
+    private int mPageNumber = -1;
     private String mRocketId = "falcon9";
-    //private int mPageSelected = -1;
+    private ActivityMissionDetailsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ScreenUtils.makeStatusBarTransparent(getWindow());
-        setContentView(R.layout.activity_rocket_details);
-        ButterKnife.bind(this);
+        binding = ActivityMissionDetailsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
@@ -46,7 +38,7 @@ public class RocketDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(ROCKET_PAGE_NUMBER_KEY, mPager.getCurrentItem());
+        outState.putInt(ROCKET_PAGE_NUMBER_KEY, binding.viewPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
 
@@ -63,14 +55,14 @@ public class RocketDetailsActivity extends AppCompatActivity {
         viewModel.getRocketsFromDb().observe(this, rockets -> {
             if (rockets != null && rockets.size() > 0) {
                 pagerAdapter.setRockets(rockets);
-                mPager.setAdapter(pagerAdapter);
+                binding.viewPager.setAdapter(pagerAdapter);
 
                 if (mPageNumber > -1) {
-                    mPager.setCurrentItem(mPageNumber, false);
+                    binding.viewPager.setCurrentItem(mPageNumber, false);
                 } else {
                     for (int i = 0; i < rockets.size(); i++) {
                         if (mRocketId.equals(rockets.get(i).getRocketId())) {
-                            mPager.setCurrentItem(i, false);
+                            binding.viewPager.setCurrentItem(i, false);
                             break;
                         }
                     }

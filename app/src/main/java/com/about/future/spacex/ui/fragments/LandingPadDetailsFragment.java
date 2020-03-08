@@ -26,39 +26,21 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import static com.about.future.spacex.utils.Constants.JRTI_BIG;
-import static com.about.future.spacex.utils.Constants.LANDING_PAD_ID_KEY;
 import static com.about.future.spacex.utils.Constants.OCISLY_BIG;
 
 public class LandingPadDetailsFragment extends Fragment {
     private LandingPad mLandingPad;
-    private int mLandingPadId;
-    private View mRootView;
-
     private FragmentLandingPadDetailsBinding binding;
 
     public LandingPadDetailsFragment() { }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null && getArguments().containsKey(LANDING_PAD_ID_KEY)) {
-            mLandingPadId = getArguments().getInt(LANDING_PAD_ID_KEY);
-        }
-        setHasOptionsMenu(true);
-    }
 
     private LandingPadDetailsActivity getActivityCast() { return (LandingPadDetailsActivity) getActivity(); }
     public void setLandingPad(LandingPad landingPad) { mLandingPad = landingPad; }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mLandingPadId = savedInstanceState.getInt(LANDING_PAD_ID_KEY);
-        }
-
         binding = FragmentLandingPadDetailsBinding.inflate(inflater, container, false);
-        mRootView = binding.getRoot();
+        View rootView = binding.getRoot();
 
         binding.toolbar.setTitle("");
         getActivityCast().setSupportActionBar(binding.toolbar);
@@ -69,7 +51,7 @@ public class LandingPadDetailsFragment extends Fragment {
             refreshData();
         });
 
-        return mRootView;
+        return rootView;
     }
 
     @Override
@@ -89,21 +71,8 @@ public class LandingPadDetailsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(LANDING_PAD_ID_KEY, mLandingPadId);
-    }
-
     private void bindViews(LandingPad landingPad) {
-        if (mRootView == null) {
-            return;
-        }
-
         if (landingPad != null) {
-            mRootView.setAlpha(0);
-            mRootView.setVisibility(View.VISIBLE);
-            mRootView.animate().alpha(1);
-
             binding.collapsingToolbarLayout.setTitle(landingPad.getFullName());
             binding.toolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 

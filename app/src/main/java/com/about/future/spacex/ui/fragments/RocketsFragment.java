@@ -4,21 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.FragmentRocketsBinding;
 import com.about.future.spacex.ui.adapters.RocketsAdapter;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.utils.NetworkUtils;
@@ -30,56 +26,47 @@ import com.about.future.spacex.viewmodel.RocketsViewModel;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static com.about.future.spacex.utils.Constants.ROCKET_ID_KEY;
 
 public class RocketsFragment extends Fragment implements RocketsAdapter.ListItemClickListener {
     private RocketsAdapter mRocketsAdapter;
     private RocketsViewModel mViewModel;
-
-    @BindView(R.id.swipe_refresh_rockets_list_layout)
-    SwipeRefreshLayout mSwipeToRefreshLayout;
-    @BindView(R.id.rockets_rv)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.rockets_no_connection_message)
-    TextView mNoConnectionMessage;
-    @BindView(R.id.loading_layout)
-    LinearLayout mLoadingLayout;
-    @BindView(R.id.special_error_layout)
-    LinearLayout mErrorLayout;
-    @BindView(R.id.special_error_message)
-    TextView mErrorMessage;
+    private FragmentRocketsBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rockets_list, container, false);
-        ButterKnife.bind(this, view);
+        binding = FragmentRocketsBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         // Setup RecyclerView and Adaptor
         setupRecyclerView();
         // Init view model
         mViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
 
-        mSwipeToRefreshLayout.setOnRefreshListener(() -> {
-            mSwipeToRefreshLayout.setRefreshing(false);
+        binding.swipeToRefreshLayout.setOnRefreshListener(() -> {
+            binding.swipeToRefreshLayout.setRefreshing(false);
             SpaceXPreferences.setRocketsStatus(getContext(), true);
             getRockets();
         });
 
-        return view;
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     private void setupRecyclerView() {
         int columnCount = getResources().getInteger(R.integer.rocket_list_column_count);
         StaggeredGridLayoutManager sglm =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(sglm);
-        mRecyclerView.setHasFixedSize(false);
+        binding.recyclerView.setLayoutManager(sglm);
+        binding.recyclerView.setHasFixedSize(false);
         mRocketsAdapter = new RocketsAdapter(getContext(), this);
-        mRecyclerView.setAdapter(mRocketsAdapter);
+        binding.recyclerView.setAdapter(mRocketsAdapter);
     }
 
     private SpaceXActivity getActivityCast() {
@@ -117,8 +104,6 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
     }
 
     private void getRocketsFromServer() {
-        Log.v("GET ROCKETS", "FROM SERVER");
-
         mViewModel.getRocketsFromServer().observe(this, checkResultDisplay -> {
             if (checkResultDisplay != null) {
                 switch (checkResultDisplay.state) {
@@ -128,8 +113,7 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
                         break;
                     case ResultDisplay.STATE_ERROR:
                         // Update UI
-                        if (mSwipeToRefreshLayout != null)
-                            mSwipeToRefreshLayout.setRefreshing(false);
+                        binding.swipeToRefreshLayout.setRefreshing(false);
 
                         // Show error message
                         if (SpaceXPreferences.getRocketsFirstLoad(getActivityCast())) {
@@ -139,8 +123,7 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
                         }
                         break;
                     case ResultDisplay.STATE_SUCCESS:
-                        if (mSwipeToRefreshLayout != null)
-                            mSwipeToRefreshLayout.setRefreshing(false);
+                        binding.swipeToRefreshLayout.setRefreshing(false);
 
                         List<Rocket> rockets = checkResultDisplay.data;
 
@@ -164,8 +147,6 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
     }
 
     private void getRocketsFromDB() {
-        Log.v("GET ROCKETS", "FROM DB");
-
         // Try loading data from DB, if no data was found show empty list
         mViewModel.getMiniRocketsFromDb().observe(this, rockets -> {
             if (rockets != null && rockets.size() > 0) {
@@ -181,41 +162,41 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
     }
 
     private void loadingStateUi() {
-        mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.VISIBLE);
-        mErrorLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.GONE);
+        binding.noConnectionMessage.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.VISIBLE);
+        binding.errorLayout.setVisibility(View.GONE);
     }
 
     private void errorStateUi(int errorType) {
-        mRecyclerView.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.GONE);
 
         switch (errorType) {
             case 0:
-                mErrorLayout.setVisibility(View.VISIBLE);
-                mErrorMessage.setText(getString(R.string.no_rocket_available));
-                mNoConnectionMessage.setVisibility(View.GONE);
+                binding.errorLayout.setVisibility(View.VISIBLE);
+                binding.errorMessage.setText(getString(R.string.no_rocket_available));
+                binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
-                mErrorLayout.setVisibility(View.VISIBLE);
-                mErrorMessage.setText(getString(R.string.unknown_error));
-                mNoConnectionMessage.setVisibility(View.GONE);
+                binding.errorLayout.setVisibility(View.VISIBLE);
+                binding.errorMessage.setText(getString(R.string.unknown_error));
+                binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             default:
-                mErrorLayout.setVisibility(View.GONE);
-                mNoConnectionMessage.setVisibility(View.VISIBLE);
-                mNoConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
-                mNoConnectionMessage.setText(getString(R.string.no_connection));
+                binding.errorLayout.setVisibility(View.GONE);
+                binding.noConnectionMessage.setVisibility(View.VISIBLE);
+                binding.noConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
+                binding.noConnectionMessage.setText(getString(R.string.no_connection));
                 break;
         }
     }
 
     private void successStateUi() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mNoConnectionMessage.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.GONE);
-        mErrorLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.noConnectionMessage.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.GONE);
+        binding.errorLayout.setVisibility(View.GONE);
     }
 
     @Override

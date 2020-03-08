@@ -7,100 +7,51 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-//import androidx.lifecycle.ViewModelProviders;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.FragmentLaunchPadDetailsBinding;
 import com.about.future.spacex.model.pads.LaunchPad;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.ui.LaunchPadDetailsActivity;
-//import com.about.future.spacex.viewmodel.LaunchPadsViewModel;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_ID_KEY;
-
 public class LaunchPadDetailsFragment extends Fragment {
     private LaunchPad mLaunchPad;
-    private int mLaunchPadId;
-    private View mRootView;
+    private FragmentLaunchPadDetailsBinding binding;
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @BindView(R.id.launch_pad_satellite_view)
-    ImageView mLaunchPadSatelliteImageView;
-    @BindView(R.id.pad_location)
-    TextView mLaunchPadLocationTextView;
-    @BindView(R.id.launch_pad_status)
-    TextView mLaunchPadStatusTextView;
-    @BindView(R.id.launch_pad_map)
-    ImageView mLaunchPadMapImageView;
-    @BindView(R.id.launched_vehicles)
-    TextView mLaunchedVehiclesTextView;
-    @BindView(R.id.launch_pad_details)
-    TextView mLaunchPadDetailsTextView;
-
-    public LaunchPadDetailsFragment() {
-        // Required empty public constructor
-    }
-
-    public static LaunchPadDetailsFragment newInstance(int launchPadId) {
-        LaunchPadDetailsFragment fragment = new LaunchPadDetailsFragment();
-        Bundle arguments = new Bundle();
-        arguments.putInt(LAUNCH_PAD_ID_KEY, launchPadId);
-        fragment.setArguments(arguments);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null && getArguments().containsKey(LAUNCH_PAD_ID_KEY)) {
-            mLaunchPadId = getArguments().getInt(LAUNCH_PAD_ID_KEY);
-        }
-        setHasOptionsMenu(true);
-    }
+    public LaunchPadDetailsFragment() { }
 
     private LaunchPadDetailsActivity getActivityCast() { return (LaunchPadDetailsActivity) getActivity(); }
     public void setLaunchPad(LaunchPad launchPad) { mLaunchPad = launchPad; }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mLaunchPadId = savedInstanceState.getInt(LAUNCH_PAD_ID_KEY);
-        }
+        binding = FragmentLaunchPadDetailsBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
-        mRootView = inflater.inflate(R.layout.fragment_launch_pad_details, container, false);
-        ButterKnife.bind(this, mRootView);
-
-        mToolbar.setTitle("");
-        getActivityCast().setSupportActionBar(mToolbar);
+        binding.toolbar.setTitle("");
+        getActivityCast().setSupportActionBar(binding.toolbar);
         bindViews(mLaunchPad);
 
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mSwipeRefreshLayout.setRefreshing(false);
+        binding.swipeToRefreshLayout.setOnRefreshListener(() -> {
+            binding.swipeToRefreshLayout.setRefreshing(false);
             refreshData();
         });
 
-        return mRootView;
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     private void refreshData() {
@@ -114,23 +65,10 @@ public class LaunchPadDetailsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(LAUNCH_PAD_ID_KEY, mLaunchPadId);
-    }
-
     private void bindViews(LaunchPad launchPad) {
-        if (mRootView == null) {
-            return;
-        }
-
         if (launchPad != null) {
-            mRootView.setAlpha(0);
-            mRootView.setVisibility(View.VISIBLE);
-            mRootView.animate().alpha(1);
-
-            mCollapsingToolbarLayout.setTitle(launchPad.getFullName());
-            mToolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
+            binding.collapsingToolbarLayout.setTitle(launchPad.getFullName());
+            binding.toolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 
             if (launchPad.getLocation() != null) {
                 double latitude = launchPad.getLocation().getLatitude();
@@ -142,7 +80,7 @@ public class LaunchPadDetailsFragment extends Fragment {
                 Picasso.get()
                         .load(locationPadSatelliteImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(mLaunchPadSatelliteImageView, new Callback() {
+                        .into(binding.satelliteViewBackdrop, new Callback() {
                             @Override
                             public void onSuccess() {
                                 // Yay!
@@ -154,7 +92,7 @@ public class LaunchPadDetailsFragment extends Fragment {
                                 Picasso.get()
                                         .load(locationPadSatelliteImageUrl)
                                         .error(R.drawable.staticmap)
-                                        .into(mLaunchPadSatelliteImageView);
+                                        .into(binding.satelliteViewBackdrop);
                             }
                         });
 
@@ -166,7 +104,7 @@ public class LaunchPadDetailsFragment extends Fragment {
                 Picasso.get()
                         .load(locationPadMapImageUrl)
                         .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(mLaunchPadMapImageView, new Callback() {
+                        .into(binding.launchPadMap, new Callback() {
                             @Override
                             public void onSuccess() {
                                 // Yay!
@@ -178,46 +116,46 @@ public class LaunchPadDetailsFragment extends Fragment {
                                 Picasso.get()
                                         .load(locationPadMapImageUrl)
                                         .error(R.drawable.empty_map)
-                                        .into(mLaunchPadMapImageView);
+                                        .into(binding.launchPadMap);
                             }
                         });
 
                 // Launch pad location
                 if (!TextUtils.isEmpty(launchPad.getLocation().getName()) &&
                         !TextUtils.isEmpty(launchPad.getLocation().getRegion())) {
-                    mLaunchPadLocationTextView.setText(
+                    binding.padLocation.setText(
                             String.format(getString(R.string.launch_pad_location),
                                     launchPad.getLocation().getName(),
                                     launchPad.getLocation().getRegion()));
                 } else {
-                    mLaunchPadLocationTextView.setText(getString(R.string.label_unknown));
+                    binding.padLocation.setText(getString(R.string.label_unknown));
                 }
 
             } else {
-                mLaunchPadSatelliteImageView.setImageResource(R.drawable.staticmap);
-                mLaunchPadMapImageView.setImageResource(R.drawable.empty_map);
-                mLaunchPadLocationTextView.setText(getString(R.string.label_unknown));
+                binding.satelliteViewBackdrop.setImageResource(R.drawable.staticmap);
+                binding.launchPadMap.setImageResource(R.drawable.empty_map);
+                binding.padLocation.setText(getString(R.string.label_unknown));
             }
 
             // Launch pad status
             if (!TextUtils.isEmpty(launchPad.getStatus())) {
-                mLaunchPadStatusTextView.setText(TextsUtils.firstLetterUpperCase(launchPad.getStatus()));
+                binding.launchPadStatus.setText(TextsUtils.firstLetterUpperCase(launchPad.getStatus()));
             } else {
-                mLaunchPadStatusTextView.setText(getString(R.string.label_unknown));
+                binding.launchPadStatus.setText(getString(R.string.label_unknown));
             }
 
             // Launched vehicles
             if (launchPad.getVehiclesLaunched().length != 0) {
-                mLaunchedVehiclesTextView.setText(TextUtils.join(", ", launchPad.getVehiclesLaunched()));
+                binding.launchedVehicles.setText(TextUtils.join(", ", launchPad.getVehiclesLaunched()));
             } else {
-                mLaunchPadStatusTextView.setText(getString(R.string.label_unknown));
+                binding.launchedVehicles.setText(getString(R.string.label_unknown));
             }
 
             // Launch pad details
             if (!TextUtils.isEmpty(launchPad.getDetails())) {
-                mLaunchPadDetailsTextView.setText(launchPad.getDetails());
+                binding.launchPadDetails.setText(launchPad.getDetails());
             } else {
-                mLaunchPadDetailsTextView.setVisibility(View.GONE);
+                binding.launchPadDetails.setVisibility(View.GONE);
             }
         }
     }

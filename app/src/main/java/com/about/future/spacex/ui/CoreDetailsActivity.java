@@ -5,30 +5,24 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.ActivityCoreDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
 import com.about.future.spacex.viewmodel.CoresViewModel;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.about.future.spacex.utils.Constants.CORE_PAGE_NUMBER_KEY;
 import static com.about.future.spacex.utils.Constants.CORE_SERIAL_KEY;
 
 public class CoreDetailsActivity extends AppCompatActivity {
-    @BindView(R.id.cores_pager)
-    ViewPager2 mPager;
-
     private String mCoreSerial = "Merlin1A";
     private int mPagerPosition = -1;
+    private ActivityCoreDetailsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_core_details);
-        ButterKnife.bind(this);
+        binding = ActivityCoreDetailsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
@@ -43,7 +37,7 @@ public class CoreDetailsActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(CORE_SERIAL_KEY, mCoreSerial);
-        outState.putInt(CORE_PAGE_NUMBER_KEY, mPager.getCurrentItem());
+        outState.putInt(CORE_PAGE_NUMBER_KEY, binding.viewPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
 
@@ -62,14 +56,14 @@ public class CoreDetailsActivity extends AppCompatActivity {
         viewModel.getCoresFromDb().observe(this, cores -> {
             if (cores != null && cores.size() > 0) {
                 pagerAdapter.setCores(cores);
-                mPager.setAdapter(pagerAdapter);
+                binding.viewPager.setAdapter(pagerAdapter);
 
                 if (mPagerPosition > -1) {
-                    mPager.setCurrentItem(mPagerPosition, false);
+                    binding.viewPager.setCurrentItem(mPagerPosition, false);
                 } else {
                     for (int i = 0; i < cores.size(); i++) {
                         if (mCoreSerial.equals(cores.get(i).getCoreSerial())) {
-                            mPager.setCurrentItem(i, false);
+                            binding.viewPager.setCurrentItem(i, false);
                             break;
                         }
                     }

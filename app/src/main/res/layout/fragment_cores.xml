@@ -8,14 +8,14 @@
     tools:context="com.about.future.spacex.ui.SpaceXActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+        android:id="@+id/swipe_to_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cores_recycler_view"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/pad_list_item"/>
@@ -35,7 +35,7 @@
         android:visibility="invisible" />
 
     <LinearLayout
-        android:id="@+id/special_error_layout"
+        android:id="@+id/error_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -51,7 +51,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/special_error_message"
+            android:id="@+id/error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

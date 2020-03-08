@@ -148,8 +148,6 @@ public class CapsulesFragment extends Fragment implements CapsulesAdapter.ListIt
     }
 
     private void getCapsulesFromServer() {
-        Log.v("GET CORES", "FROM SERVER");
-
         mViewModel.getCapsulesFromServer().observe(this, checkResultDisplay -> {
             if (checkResultDisplay != null) {
                 switch (checkResultDisplay.state) {
@@ -193,8 +191,6 @@ public class CapsulesFragment extends Fragment implements CapsulesAdapter.ListIt
     }
 
     private void getCapsulesFromDB() {
-        Log.v("GET CAPSULES", "FROM DB");
-
         // Try loading data from DB, if no data was found show empty list
         mViewModel.getCapsulesFromDb().observe(this, capsules -> {
             if (capsules != null && capsules.size() > 0) {

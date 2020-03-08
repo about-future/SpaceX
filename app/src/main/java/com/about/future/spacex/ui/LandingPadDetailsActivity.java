@@ -10,16 +10,11 @@ import com.about.future.spacex.databinding.ActivityLandingPadDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
 import com.about.future.spacex.viewmodel.LandingPadsViewModel;
 
-
 import static com.about.future.spacex.utils.Constants.LANDING_PAD_ID_KEY;
 import static com.about.future.spacex.utils.Constants.LANDING_PAD_PAGE_NUMBER_KEY;
 
 public class LandingPadDetailsActivity extends AppCompatActivity {
-//    @BindView(R.id.launch_pads_pager)
-//    ViewPager2 mPager;
-
     private ActivityLandingPadDetailsBinding binding;
-
     private int mPageNumber = -1;
     private String mLaunchPadId = "LZ-1";
 
@@ -29,9 +24,6 @@ public class LandingPadDetailsActivity extends AppCompatActivity {
         //ScreenUtils.makeStatusBarTransparent(getWindow());
         binding = ActivityLandingPadDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        //setContentView(R.layout.activity_launch_pad_details);
-        //ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();

@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -18,11 +16,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.FragmentMissionsBinding;
 import com.about.future.spacex.fcm.SpaceXWorker;
 import com.about.future.spacex.model.mission.Mission;
 import com.about.future.spacex.ui.MissionDetailsActivity;
@@ -40,9 +38,6 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static com.about.future.spacex.utils.Constants.MISSIONS_RECYCLER_POSITION_KEY;
 import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
 
@@ -53,19 +48,7 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private MissionsAdapter mMissionsAdapter;
     private MissionsViewModel mViewModel;
-
-    @BindView(R.id.swipe_refresh_missions_list_layout)
-    SwipeRefreshLayout mSwipeToRefreshLayout;
-    @BindView(R.id.missions_rv)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.missions_no_connection_message)
-    TextView mNoConnectionMessage;
-    @BindView(R.id.loading_layout)
-    LinearLayout mLoadingLayout;
-    @BindView(R.id.special_error_layout)
-    LinearLayout mErrorLayout;
-    @BindView(R.id.special_error_message)
-    TextView mErrorMessage;
+    private FragmentMissionsBinding binding;
 
     @Nullable
     @Override
@@ -74,8 +57,8 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
             mMissionsPosition = savedInstanceState.getInt(MISSIONS_RECYCLER_POSITION_KEY);
         }
 
-        View view = inflater.inflate(R.layout.fragment_missions_list, container, false);
-        ButterKnife.bind(this, view);
+        binding = FragmentMissionsBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         // Setup RecyclerView and Adaptor
         setupRecyclerView();
@@ -83,10 +66,10 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
         // Init view model
         mViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
 
-        mSwipeToRefreshLayout.setOnRefreshListener(() -> {
-            mSwipeToRefreshLayout.setRefreshing(false);
+        binding.swipeToRefreshLayout.setOnRefreshListener(() -> {
+            binding.swipeToRefreshLayout.setRefreshing(false);
             SpaceXPreferences.setMissionsStatus(getContext(), true);
-            getMissions();
+            getUpcomingMissions();
         });
 
 //        Constraints constraints = new Constraints
@@ -97,8 +80,6 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
 //                .build();
 
         if (SpaceXPreferences.getLaunchesFirstLoad(getActivityCast())) {
-            Log.v("FIRST", "LOAD");
-
             OneTimeWorkRequest downloadMissions = new OneTimeWorkRequest
                     .Builder(SpaceXWorker.class)
                     //.setConstraints(constraints)
@@ -107,39 +88,36 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
 
             WorkManager.getInstance(getActivityCast()).enqueue(downloadMissions);
         }
-
-        /*String date = SpaceXPreferences.getDownloadDate(getActivityCast());
-        String now = DateUtils.getFullDate(new Date().getTime());
-        if (date.equals("")) {
-            SpaceXPreferences.setDownloadDate(getActivityCast(), now);
-        } else {
-            SpaceXPreferences.setDownloadDate(getActivityCast(), date.concat("\n").concat(now));
-        }*/
-
-        //SpaceXPreferences.setDownloadDate(getActivityCast(), "");
+        
         Log.v("DATE", "IS: " + SpaceXPreferences.getDownloadDate(getActivityCast()));
 
-        return view;
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     private void setupRecyclerView() {
         if (ScreenUtils.isPortraitMode(getActivityCast())) {
             mLinearLayoutManager = new LinearLayoutManager(getContext());
-            mRecyclerView.setLayoutManager(mLinearLayoutManager);
+            binding.recyclerView.setLayoutManager(mLinearLayoutManager);
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                    mRecyclerView.getContext(),
+                    binding.recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
-            mRecyclerView.addItemDecoration(mDividerItemDecoration);
+            binding.recyclerView.addItemDecoration(mDividerItemDecoration);
         } else {
             int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
             mStaggeredGridLayoutManager =
                     new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-            mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+            binding.recyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         }
 
-        mRecyclerView.setHasFixedSize(false);  //TODO: Maybe it has to be true
+        binding.recyclerView.setHasFixedSize(false);  //TODO: Maybe it has to be true
         mMissionsAdapter = new MissionsAdapter(getContext(), this);
-        mRecyclerView.setAdapter(mMissionsAdapter);
+        binding.recyclerView.setAdapter(mMissionsAdapter);
     }
 
     private SpaceXActivity getActivityCast() {
@@ -149,7 +127,7 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
     private void restorePosition() {
         if (mMissionsPosition == RecyclerView.NO_POSITION) mMissionsPosition = 0;
         // Scroll the RecyclerView to mPosition
-        mRecyclerView.scrollToPosition(mMissionsPosition);
+        binding.recyclerView.scrollToPosition(mMissionsPosition);
     }
 
     @Override
@@ -169,8 +147,7 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
     // 3. add another language or 2
     // 4. fix rocket details layouts
     // 5. add gallery to missions
-    // 6. add more endpoints and maybe change main layout to bottom navigation with 4-5 options
-    // and for launches create 2 lists: upcoming launches and previous launches
+    // 6. change main layout to bottom navigation with 4-5 options
 
     @Override
     public void onResume() {
@@ -179,29 +156,15 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
         // Every time this fragment is resumed, reset the missions list in our adaptor,
         // so the time left until launch could be recalculated for the upcoming missions and
         // any changes made on "Units" setting could be reflect here too.
-        getMissions();
-        /*if (mMissions != null) {
-            mMissionsAdapter.setMissions(mMissions);
-            //resumePosition();
-        }*/
+        getUpcomingMissions();
 
         // Update widget
         UpdateIntentService.startActionUpdateMissionWidget(getActivityCast());
-
-        /*OneTimeWorkRequest showMess = new OneTimeWorkRequest.Builder(SpaceXWorker.class).build();
-        WorkManager.getInstance(getActivityCast()).enqueue(showMess);
-
-        WorkManager.getInstance(getActivityCast()).getWorkInfosByTagLiveData(showMess.getId().toString()).observe(this, workInfos -> {
-            for (WorkInfo workInfo : workInfos) {
-                String status = workInfo.getState().name();
-                Log.v("WORK MANAGER", "STATE IS: " + status);
-            }
-        });*/
     }
 
     // If missions were already loaded once, just query the DB and display them,
     // otherwise get them from server
-    private void getMissions() {
+    private void getUpcomingMissions() {
         // If a forced download is requested, getMissionsStatus flag is true and we download all missions from server
         if (SpaceXPreferences.getMissionsStatus(getActivityCast())) {
             // If there is a network connection
@@ -232,8 +195,7 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
                         break;
                     case ResultDisplay.STATE_ERROR:
                         // Update UI
-                        if (mSwipeToRefreshLayout != null)
-                            mSwipeToRefreshLayout.setRefreshing(false);
+                        binding.swipeToRefreshLayout.setRefreshing(false);
 
                         // Show error message
                         if (SpaceXPreferences.getLaunchesFirstLoad(getActivityCast())) {
@@ -243,8 +205,7 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
                         }
                         break;
                     case ResultDisplay.STATE_SUCCESS:
-                        if (mSwipeToRefreshLayout != null)
-                            mSwipeToRefreshLayout.setRefreshing(false);
+                        binding.swipeToRefreshLayout.setRefreshing(false);
 
                         List<Mission> missions = checkResultDisplay.data;
 
@@ -291,41 +252,41 @@ public class UpcomingMissionsFragment extends Fragment implements MissionsAdapte
     }
 
     private void loadingStateUi() {
-        mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.VISIBLE);
-        mErrorLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.GONE);
+        binding.noConnectionMessage.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.VISIBLE);
+        binding.errorLayout.setVisibility(View.GONE);
     }
 
     private void errorStateUi(int errorType) {
-        mRecyclerView.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.GONE);
 
         switch (errorType) {
             case 0:
-                mErrorLayout.setVisibility(View.VISIBLE);
-                mErrorMessage.setText(getString(R.string.no_launches_available));
-                mNoConnectionMessage.setVisibility(View.GONE);
+                binding.errorLayout.setVisibility(View.VISIBLE);
+                binding.errorMessage.setText(getString(R.string.no_launches_available));
+                binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
-                mErrorLayout.setVisibility(View.VISIBLE);
-                mErrorMessage.setText(getString(R.string.unknown_error));
-                mNoConnectionMessage.setVisibility(View.GONE);
+                binding.errorLayout.setVisibility(View.VISIBLE);
+                binding.errorMessage.setText(getString(R.string.unknown_error));
+                binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             default:
-                mErrorLayout.setVisibility(View.GONE);
-                mNoConnectionMessage.setVisibility(View.VISIBLE);
-                mNoConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
-                mNoConnectionMessage.setText(getString(R.string.no_connection));
+                binding.errorLayout.setVisibility(View.GONE);
+                binding.noConnectionMessage.setVisibility(View.VISIBLE);
+                binding.noConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
+                binding.noConnectionMessage.setText(getString(R.string.no_connection));
                 break;
         }
     }
 
     private void successStateUi() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mNoConnectionMessage.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.GONE);
-        mErrorLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.noConnectionMessage.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.GONE);
+        binding.errorLayout.setVisibility(View.GONE);
     }
 
     @Override

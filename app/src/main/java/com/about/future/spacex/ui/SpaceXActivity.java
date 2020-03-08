@@ -8,13 +8,13 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.ActivitySpaceX3Binding;
 import com.about.future.spacex.ui.fragments.CapsulesFragment;
 import com.about.future.spacex.ui.fragments.CoresFragment;
 import com.about.future.spacex.ui.fragments.LandingPadsFragment;
@@ -25,8 +25,6 @@ import com.about.future.spacex.ui.fragments.UpcomingMissionsFragment;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
 import com.about.future.spacex.ui.adapters.SectionsPagerAdapter;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -34,36 +32,20 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static com.about.future.spacex.utils.Constants.NAV_ID_KEY;
 
 public class SpaceXActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
-    @BindView(R.id.nav_view)
-    NavigationView mNavigationView;
-    @BindView(R.id.main_toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.main_app_bar)
-    AppBarLayout mAppBarLayout;
-    @BindView(R.id.main_collapsing_toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolberLayout;
-    @BindView(R.id.main_tabs)
-    TabLayout mTabLayout;
-    @BindView(R.id.main_pager)
-    ViewPager2 mViewPager;
-
+    private ActivitySpaceX3Binding binding;
     private int mNavId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ScreenUtils.makeStatusBarTransparent(getWindow());
-        setContentView(R.layout.activity_space_x3);
-        ButterKnife.bind(this);
-        setSupportActionBar(mToolbar);
+        binding = ActivitySpaceX3Binding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.activityContent.mainToolbar);
 
         setTitle("");
 
@@ -158,7 +140,7 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
                 mNavId = 6;
         }
 
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -175,14 +157,14 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
             fragments.add(new CapsulesFragment());
             pagerAdapter.setFragments(fragments);
 
-            mViewPager.invalidate();
+            binding.activityContent.mainPager.invalidate();
 
             // Set the adapter onto the view pager
-            mViewPager.setAdapter(pagerAdapter);
+            binding.activityContent.mainPager.setAdapter(pagerAdapter);
         }
 
         // Set Listeners for PagerAdapter and TabLayout
-        new TabLayoutMediator(mTabLayout, mViewPager, (tab, position) -> {
+        new TabLayoutMediator(binding.activityContent.mainTabs, binding.activityContent.mainPager, (tab, position) -> {
             switch (position) {
                 case 0:
                     tab.setText(getString(R.string.label_tab_rockets));
@@ -196,13 +178,13 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
         }).attach();
 
         // Starting with the second tab, set each tab icon color as faded
-        for (int i = 1; i < mTabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+        for (int i = 1; i < binding.activityContent.mainTabs.getTabCount(); i++) {
+            TabLayout.Tab tab = binding.activityContent.mainTabs.getTabAt(i);
             if (tab != null && tab.getIcon() != null) tab.getIcon().setAlpha(100);
         }
 
         // Set listener for setting the correct search hint
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.activityContent.mainTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getIcon() != null) tab.getIcon().setAlpha(255);
@@ -231,14 +213,14 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
             fragments.add(new PastMissionsFragment());
             pagerAdapter.setFragments(fragments);
 
-            mViewPager.invalidate();
+            binding.activityContent.mainPager.invalidate();
 
             // Set the adapter onto the view pager
-            mViewPager.setAdapter(pagerAdapter);
+            binding.activityContent.mainPager.setAdapter(pagerAdapter);
         }
 
         // Set Listeners for PagerAdapter and TabLayout
-        new TabLayoutMediator(mTabLayout, mViewPager, (tab, position) -> {
+        new TabLayoutMediator(binding.activityContent.mainTabs, binding.activityContent.mainPager, (tab, position) -> {
             switch (position) {
                 case 0:
                     //tab.setIcon(R.drawable.ic_traffic);
@@ -255,13 +237,13 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
         }).attach();
 
         // Starting with the second tab, set each tab icon color as faded
-        for (int i = 1; i < mTabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+        for (int i = 1; i < binding.activityContent.mainTabs.getTabCount(); i++) {
+            TabLayout.Tab tab = binding.activityContent.mainTabs.getTabAt(i);
             if (tab != null && tab.getIcon() != null) tab.getIcon().setAlpha(100);
         }
 
         // Set listener for setting the correct search hint
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.activityContent.mainTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getIcon() != null) tab.getIcon().setAlpha(255);
@@ -290,14 +272,14 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
             fragments.add(new LandingPadsFragment());
             pagerAdapter.setFragments(fragments);
 
-            mViewPager.invalidate();
+            binding.activityContent.mainPager.invalidate();
 
             // Set the adapter onto the view pager
-            mViewPager.setAdapter(pagerAdapter);
+            binding.activityContent.mainPager.setAdapter(pagerAdapter);
         }
 
         // Set Listeners for PagerAdapter and TabLayout
-        new TabLayoutMediator(mTabLayout, mViewPager, (tab, position) -> {
+        new TabLayoutMediator(binding.activityContent.mainTabs, binding.activityContent.mainPager, (tab, position) -> {
             switch (position) {
                 case 0:
                     //tab.setIcon(R.drawable.ic_traffic);
@@ -314,13 +296,13 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
         }).attach();
 
         // Starting with the second tab, set each tab icon color as faded
-        for (int i = 1; i < mTabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+        for (int i = 1; i < binding.activityContent.mainTabs.getTabCount(); i++) {
+            TabLayout.Tab tab = binding.activityContent.mainTabs.getTabAt(i);
             if (tab != null && tab.getIcon() != null) tab.getIcon().setAlpha(100);
         }
 
         // Set listener for setting the correct search hint
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        binding.activityContent.mainTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getIcon() != null) tab.getIcon().setAlpha(255);
@@ -389,13 +371,17 @@ public class SpaceXActivity extends AppCompatActivity implements NavigationView.
     }
 
     private void setupNavigation() {
-        setSupportActionBar(mToolbar);
-        mToolbar.setOnClickListener(v -> mAppBarLayout.setExpanded(true));
+        setSupportActionBar(binding.activityContent.mainToolbar);
+        binding.activityContent.mainToolbar.setOnClickListener(v -> binding.activityContent.mainAppBar.setExpanded(true));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.addDrawerListener(toggle);
+                this,
+                binding.drawerLayout,
+                binding.activityContent.mainToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        mNavigationView.setNavigationItemSelectedListener(this);
+        binding.navView.setNavigationItemSelectedListener(this);
     }
 }

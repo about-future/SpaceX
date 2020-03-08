@@ -2,97 +2,61 @@ package com.about.future.spacex.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.ActivitySettingsBinding;
 import com.about.future.spacex.utils.Constants;
 import com.about.future.spacex.utils.SpaceXPreferences;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 public class SettingsActivity extends AppCompatActivity {
-    @BindView(R.id.notifications_layout)
-    ConstraintLayout mNotificationsLayout;
-    @BindView(R.id.notifications_label)
-    TextView mNotificationsLabelTextView;
-    @BindView(R.id.notifications_hint)
-    TextView mNotificationsHintTextView;
-    @BindView(R.id.settings_notifications_switch)
-    Switch mNotificationSwitch;
-
-    @BindView(R.id.acronyms_layout)
-    ConstraintLayout mAcronymsLayout;
-    @BindView(R.id.acronyms_label)
-    TextView mAcronymsLabelTextView;
-    @BindView(R.id.acronyms_hint)
-    TextView mAcronymsHintTextView;
-    @BindView(R.id.settings_acronyms_switch)
-    Switch mAcronymsSwitch;
-
-    @BindView(R.id.settings_units_cardview)
-    CardView mUnitsCardView;
-    @BindView(R.id.units_layout)
-    ConstraintLayout mUnitsLayout;
-    @BindView(R.id.units_label)
-    TextView mUnitsLabelTextView;
-    @BindView(R.id.units_hint)
-    TextView mUnitsHintTextView;
-
-    private Unbinder mUnbinder;
-
+    private ActivitySettingsBinding binding;
     private String[] mUnits;
     private int mSelectedUnit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Bind the views
-        mUnbinder = ButterKnife.bind(this);
-
         // Notifications
-        mNotificationSwitch.setChecked(SpaceXPreferences.getTopicSubscriptionStatus(this));
-        mNotificationsLayout.setOnClickListener(v -> {
-            mNotificationSwitch.setChecked(!mNotificationSwitch.isChecked());
+        binding.settingsNotificationsSwitch.setChecked(SpaceXPreferences.getTopicSubscriptionStatus(this));
+        binding.notificationsLayout.setOnClickListener(v -> {
+            binding.settingsNotificationsSwitch.setChecked(!binding.settingsNotificationsSwitch.isChecked());
             // Set the new notifications preference
-            SpaceXPreferences.setTopicSubscriptionStatus(this, mNotificationSwitch.isChecked());
+            SpaceXPreferences.setTopicSubscriptionStatus(this, binding.settingsNotificationsSwitch.isChecked());
         });
 
         // Acronyms
-        mAcronymsSwitch.setChecked(SpaceXPreferences.getAcronymsStatus(this));
+        binding.settingsAcronymsSwitch.setChecked(SpaceXPreferences.getAcronymsStatus(this));
         setAcronymsHint();
-        mAcronymsLayout.setOnClickListener(v -> {
-            mAcronymsSwitch.setChecked(!mAcronymsSwitch.isChecked());
+        binding.acronymsLayout.setOnClickListener(v -> {
+            binding.settingsAcronymsSwitch.setChecked(!binding.settingsAcronymsSwitch.isChecked());
             setAcronymsHint();
 
             // Set the new acronym preference
-            SpaceXPreferences.setAcronymsStatus(this, mAcronymsSwitch.isChecked());
+            SpaceXPreferences.setAcronymsStatus(this, binding.settingsAcronymsSwitch.isChecked());
         });
 
         // Units
         mUnits = getResources().getStringArray(R.array.units);
         // Get unit preference and set it to mUnitsHintTextView
         if (SpaceXPreferences.getUnits(this).equals(Constants.UNIT_IMPERIAL)) {
-            mUnitsHintTextView.setText(mUnits[1]);
+            binding.unitsHint.setText(mUnits[1]);
             mSelectedUnit = 1;
         } else {
-            mUnitsHintTextView.setText(mUnits[0]);
+            binding.unitsHint.setText(mUnits[0]);
             mSelectedUnit = 0;
         }
-        mUnitsCardView.setOnClickListener(v -> showUnitsDialog());
+        binding.settingsUnitsCardview.setOnClickListener(v -> showUnitsDialog());
     }
 
     @Override
@@ -106,12 +70,6 @@ public class SettingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mUnbinder.unbind();
-    }
-
     private void showUnitsDialog() {
         if (SpaceXPreferences.getUnits(this).equals(Constants.UNIT_IMPERIAL)) {
             mSelectedUnit = 1;
@@ -122,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setSingleChoiceItems(R.array.units, mSelectedUnit, (dialog, which) -> {
             Toast.makeText(this, mUnits[which], Toast.LENGTH_SHORT).show();
-            mUnitsHintTextView.setText(mUnits[which]);
+            binding.unitsHint.setText(mUnits[which]);
 
             if (which == 0) {
                 SpaceXPreferences.setUnits(this, Constants.UNIT_METRIC);
@@ -147,10 +105,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setAcronymsHint() {
-        if (mAcronymsSwitch.isChecked()) {
-            mAcronymsHintTextView.setText(Constants.ACRONYMS_ON);
+        if (binding.settingsAcronymsSwitch.isChecked()) {
+            binding.acronymsHint.setText(Constants.ACRONYMS_ON);
         } else {
-            mAcronymsHintTextView.setText(Constants.ACRONYMS_OFF);
+            binding.acronymsHint.setText(Constants.ACRONYMS_OFF);
         }
     }
 

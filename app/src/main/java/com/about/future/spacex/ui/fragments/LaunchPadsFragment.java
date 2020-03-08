@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -18,9 +15,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.databinding.FragmentLaunchPadsBinding;
 import com.about.future.spacex.ui.adapters.LaunchPadsAdapter;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ResultDisplay;
@@ -33,9 +30,6 @@ import com.about.future.spacex.utils.SpaceXPreferences;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import static com.about.future.spacex.utils.Constants.LAUNCH_PADS_RECYCLER_POSITION_KEY;
 import static com.about.future.spacex.utils.Constants.LAUNCH_PAD_ID_KEY;
 
@@ -46,19 +40,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private LaunchPadsAdapter mLaunchPadsAdapter;
     private LaunchPadsViewModel mViewModel;
-
-    @BindView(R.id.swipe_refresh_launch_pads_list_layout)
-    SwipeRefreshLayout mSwipeToRefreshLayout;
-    @BindView(R.id.launch_pads_rv)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.launch_pads_no_connection_message)
-    TextView mNoConnectionMessage;
-    @BindView(R.id.loading_layout)
-    LinearLayout mLoadingLayout;
-    @BindView(R.id.special_error_layout)
-    LinearLayout mErrorLayout;
-    @BindView(R.id.special_error_message)
-    TextView mErrorMessage;
+    private FragmentLaunchPadsBinding binding;
 
     @Nullable
     @Override
@@ -67,41 +49,47 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
             mLaunchPadsPosition = savedInstanceState.getInt(LAUNCH_PADS_RECYCLER_POSITION_KEY);
         }
 
-        View view = inflater.inflate(R.layout.fragment_launch_pads_list, container, false);
-        ButterKnife.bind(this, view);
+        binding = FragmentLaunchPadsBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         // Setup RecyclerView and Adaptor
         setupRecyclerView();
         // Init view model
         mViewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
 
-        mSwipeToRefreshLayout.setOnRefreshListener(() -> {
-            mSwipeToRefreshLayout.setRefreshing(false);
+        binding.swipeToRefreshLayout.setOnRefreshListener(() -> {
+            binding.swipeToRefreshLayout.setRefreshing(false);
             SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
             getLaunchPads();
         });
 
-        return view;
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     private void setupRecyclerView() {
         if (ScreenUtils.isPortraitMode(getActivityCast())) {
             mLinearLayoutManager = new LinearLayoutManager(getContext());
-            mRecyclerView.setLayoutManager(mLinearLayoutManager);
+            binding.recyclerView.setLayoutManager(mLinearLayoutManager);
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                    mRecyclerView.getContext(),
+                    binding.recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
-            mRecyclerView.addItemDecoration(mDividerItemDecoration);
+            binding.recyclerView.addItemDecoration(mDividerItemDecoration);
         } else {
             int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
             mStaggeredGridLayoutManager =
                     new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-            mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+            binding.recyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         }
 
-        mRecyclerView.setHasFixedSize(false);
+        binding.recyclerView.setHasFixedSize(false);
         mLaunchPadsAdapter = new LaunchPadsAdapter(getContext(), this);
-        mRecyclerView.setAdapter(mLaunchPadsAdapter);
+        binding.recyclerView.setAdapter(mLaunchPadsAdapter);
     }
 
     private SpaceXActivity getActivityCast() {
@@ -111,7 +99,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     private void restorePosition() {
         if (mLaunchPadsPosition == RecyclerView.NO_POSITION) mLaunchPadsPosition = 0;
         // Scroll the RecyclerView to mPosition
-        mRecyclerView.scrollToPosition(mLaunchPadsPosition);
+        binding.recyclerView.scrollToPosition(mLaunchPadsPosition);
     }
 
     @Override
@@ -158,8 +146,6 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     }
 
     private void getLaunchPadsFromServer() {
-        Log.v("GET PADS", "FROM SERVER");
-
         mViewModel.getLaunchPadsFromServer().observe(this, checkResultDisplay -> {
             if (checkResultDisplay != null) {
                 switch (checkResultDisplay.state) {
@@ -169,8 +155,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
                         break;
                     case ResultDisplay.STATE_ERROR:
                         // Update UI
-                        if (mSwipeToRefreshLayout != null)
-                            mSwipeToRefreshLayout.setRefreshing(false);
+                        binding.swipeToRefreshLayout.setRefreshing(false);
 
                         // Show error message
                         if (SpaceXPreferences.getLaunchPadsFirstLoad(getActivityCast())) {
@@ -180,8 +165,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
                         }
                         break;
                     case ResultDisplay.STATE_SUCCESS:
-                        if (mSwipeToRefreshLayout != null)
-                            mSwipeToRefreshLayout.setRefreshing(false);
+                        binding.swipeToRefreshLayout.setRefreshing(false);
 
                         List<LaunchPad> launchPads = checkResultDisplay.data;
 
@@ -205,8 +189,6 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     }
 
     private void getLaunchPadsFromDB() {
-        Log.v("GET PADS", "FROM DB");
-
         // Try loading data from DB, if no data was found show empty list
         mViewModel.getLaunchPadsFromDb().observe(this, launchPads -> {
             if (launchPads != null && launchPads.size() > 0) {
@@ -223,41 +205,41 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
     }
 
     private void loadingStateUi() {
-        mRecyclerView.setVisibility(View.GONE);
-        mNoConnectionMessage.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.VISIBLE);
-        mErrorLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.GONE);
+        binding.noConnectionMessage.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.VISIBLE);
+        binding.errorLayout.setVisibility(View.GONE);
     }
 
     private void errorStateUi(int errorType) {
-        mRecyclerView.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.GONE);
 
         switch (errorType) {
             case 0:
-                mErrorLayout.setVisibility(View.VISIBLE);
-                mErrorMessage.setText(getString(R.string.no_launch_pads_available));
-                mNoConnectionMessage.setVisibility(View.GONE);
+                binding.errorLayout.setVisibility(View.VISIBLE);
+                binding.errorMessage.setText(getString(R.string.no_launch_pads_available));
+                binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
-                mErrorLayout.setVisibility(View.VISIBLE);
-                mErrorMessage.setText(getString(R.string.unknown_error));
-                mNoConnectionMessage.setVisibility(View.GONE);
+                binding.errorLayout.setVisibility(View.VISIBLE);
+                binding.errorMessage.setText(getString(R.string.unknown_error));
+                binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             default:
-                mErrorLayout.setVisibility(View.GONE);
-                mNoConnectionMessage.setVisibility(View.VISIBLE);
-                mNoConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
-                mNoConnectionMessage.setText(getString(R.string.no_connection));
+                binding.errorLayout.setVisibility(View.GONE);
+                binding.noConnectionMessage.setVisibility(View.VISIBLE);
+                binding.noConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
+                binding.noConnectionMessage.setText(getString(R.string.no_connection));
                 break;
         }
     }
 
     private void successStateUi() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mNoConnectionMessage.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.GONE);
-        mErrorLayout.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.noConnectionMessage.setVisibility(View.GONE);
+        binding.loadingLayout.setVisibility(View.GONE);
+        binding.errorLayout.setVisibility(View.GONE);
     }
 
     @Override

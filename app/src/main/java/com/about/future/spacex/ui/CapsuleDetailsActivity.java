@@ -15,7 +15,6 @@ import static com.about.future.spacex.utils.Constants.CAPSULE_SERIAL_KEY;
 
 public class CapsuleDetailsActivity extends AppCompatActivity {
     private ActivityCapsuleDetailsBinding binding;
-
     private int mPageNumber = -1;
     private String mCapsuleSerial = "C101";
 

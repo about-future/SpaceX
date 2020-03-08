@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +58,8 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
         // Init view model
         mViewModel = ViewModelProviders.of(this).get(CoresViewModel.class);
 
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            binding.swipeRefreshLayout.setRefreshing(false);
+        binding.swipeToRefreshLayout.setOnRefreshListener(() -> {
+            binding.swipeToRefreshLayout.setRefreshing(false);
             SpaceXPreferences.setCoresStatus(getContext(), true);
             getCores();
         });
@@ -77,21 +76,21 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     private void setupRecyclerView() {
         if (ScreenUtils.isPortraitMode(getActivityCast())) {
             mLinearLayoutManager = new LinearLayoutManager(getContext());
-            binding.coresRecyclerView.setLayoutManager(mLinearLayoutManager);
+            binding.recyclerView.setLayoutManager(mLinearLayoutManager);
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                    binding.coresRecyclerView.getContext(),
+                    binding.recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
-            binding.coresRecyclerView.addItemDecoration(mDividerItemDecoration);
+            binding.recyclerView.addItemDecoration(mDividerItemDecoration);
         } else {
             int columnCount = getResources().getInteger(R.integer.mission_list_column_count);
             mStaggeredGridLayoutManager =
                     new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-            binding.coresRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+            binding.recyclerView.setLayoutManager(mStaggeredGridLayoutManager);
         }
 
-        binding.coresRecyclerView.setHasFixedSize(false);
+        binding.recyclerView.setHasFixedSize(false);
         mAdapter = new CoresAdapter(getContext(), this);
-        binding.coresRecyclerView.setAdapter(mAdapter);
+        binding.recyclerView.setAdapter(mAdapter);
     }
 
     private SpaceXActivity getActivityCast() {
@@ -101,7 +100,7 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     private void restorePosition() {
         if (mCoresPosition == RecyclerView.NO_POSITION) mCoresPosition = 0;
         // Scroll the RecyclerView to mPosition
-        binding.coresRecyclerView.scrollToPosition(mCoresPosition);
+        binding.recyclerView.scrollToPosition(mCoresPosition);
     }
 
     @Override
@@ -148,8 +147,6 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     }
 
     private void getCoresFromServer() {
-        Log.v("GET CORES", "FROM SERVER");
-
         mViewModel.getCoresFromServer().observe(this, checkResultDisplay -> {
             if (checkResultDisplay != null) {
                 switch (checkResultDisplay.state) {
@@ -159,7 +156,7 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
                         break;
                     case ResultDisplay.STATE_ERROR:
                         // Update UI
-                        binding.swipeRefreshLayout.setRefreshing(false);
+                        binding.swipeToRefreshLayout.setRefreshing(false);
 
                         // Show error message
                         if (SpaceXPreferences.getCoresFirstLoad(getActivityCast())) {
@@ -169,7 +166,7 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
                         }
                         break;
                     case ResultDisplay.STATE_SUCCESS:
-                        binding.swipeRefreshLayout.setRefreshing(false);
+                        binding.swipeToRefreshLayout.setRefreshing(false);
 
                         List<Core> cores = checkResultDisplay.data;
 
@@ -193,8 +190,6 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     }
 
     private void getCoresFromDB() {
-        Log.v("GET CORES", "FROM DB");
-
         // Try loading data from DB, if no data was found show empty list
         mViewModel.getCoresFromDb().observe(this, cores -> {
             if (cores != null && cores.size() > 0) {
@@ -211,29 +206,29 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     }
 
     private void loadingStateUi() {
-        binding.coresRecyclerView.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.GONE);
         binding.noConnectionMessage.setVisibility(View.GONE);
         binding.loadingLayout.setVisibility(View.VISIBLE);
-        binding.specialErrorLayout.setVisibility(View.GONE);
+        binding.errorLayout.setVisibility(View.GONE);
     }
 
     private void errorStateUi(int errorType) {
-        binding.coresRecyclerView.setVisibility(View.GONE);
+        binding.recyclerView.setVisibility(View.GONE);
         binding.loadingLayout.setVisibility(View.GONE);
 
         switch (errorType) {
             case 0:
-                binding.specialErrorLayout.setVisibility(View.VISIBLE);
-                binding.specialErrorMessage.setText(getString(R.string.no_cores_available));
+                binding.errorLayout.setVisibility(View.VISIBLE);
+                binding.errorMessage.setText(getString(R.string.no_cores_available));
                 binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             case 1:
-                binding.specialErrorLayout.setVisibility(View.VISIBLE);
-                binding.specialErrorMessage.setText(getString(R.string.unknown_error));
+                binding.errorLayout.setVisibility(View.VISIBLE);
+                binding.errorMessage.setText(getString(R.string.unknown_error));
                 binding.noConnectionMessage.setVisibility(View.GONE);
                 break;
             default:
-                binding.specialErrorLayout.setVisibility(View.GONE);
+                binding.errorLayout.setVisibility(View.GONE);
                 binding.noConnectionMessage.setVisibility(View.VISIBLE);
                 binding.noConnectionMessage.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_cloud_off, 0, 0);
                 binding.noConnectionMessage.setText(getString(R.string.no_connection));
@@ -242,10 +237,10 @@ public class CoresFragment extends Fragment implements CoresAdapter.ListItemClic
     }
 
     private void successStateUi() {
-        binding.coresRecyclerView.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.VISIBLE);
         binding.noConnectionMessage.setVisibility(View.GONE);
         binding.loadingLayout.setVisibility(View.GONE);
-        binding.specialErrorLayout.setVisibility(View.GONE);
+        binding.errorLayout.setVisibility(View.GONE);
     }
 
     @Override
