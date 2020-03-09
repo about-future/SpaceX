@@ -2,9 +2,11 @@ package com.about.future.spacex.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 
 import com.about.future.spacex.R;
 
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,5 +88,18 @@ public class DateUtils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.US);
 
         return simpleDateFormat.format(date);
+    }
+
+    // Change date format
+    public static String changeDateFormat(String dateString) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
+        SimpleDateFormat changeDateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.US);
+        Date date;
+        try {
+            date = sdf.parse(dateString);
+            return changeDateFormat.format(date);
+        } catch (ParseException e) {
+            return dateString;
+        }
     }
 }

@@ -35,7 +35,7 @@ import static com.about.future.spacex.utils.Constants.OCISLY_SMALL;
 
 public class LandingPadsAdapter extends RecyclerView.Adapter<LandingPadsAdapter.ViewHolder> {
     private final Context mContext;
-    private List<LandingPad> mLandingPads = new ArrayList<LandingPad>() {};
+    private List<LandingPad> mLandingPads = new ArrayList<>();
     private final ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
@@ -67,102 +67,7 @@ public class LandingPadsAdapter extends RecyclerView.Adapter<LandingPadsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final LandingPadsAdapter.ViewHolder holder, int position) {
-        String landingPadThumbnailPath = "";
-        final int thisPosition = position;
-
-        if (mLandingPads.get(position).getLocation() != null) {
-            double latitude = mLandingPads.get(position).getLocation().getLatitude();
-            double longitude = mLandingPads.get(position).getLocation().getLongitude();
-
-            if (ScreenUtils.isPortraitMode(mContext)) {
-                switch (mLandingPads.get(position).getId()) {
-                    case "OCISLY":
-                        landingPadThumbnailPath = OCISLY_SMALL;
-                        break;
-                    case "JRTI":
-                        landingPadThumbnailPath = JRTI_SMALL;
-                        break;
-                    default:
-                        landingPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 15, "satellite", mContext);
-                }
-            } else {
-                switch (mLandingPads.get(position).getId()) {
-                    case "OCISLY":
-                        landingPadThumbnailPath = OCISLY_BIG;
-                        break;
-                    case "JRTI":
-                        landingPadThumbnailPath = JRTI_BIG;
-                        break;
-                    default:
-                        landingPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, 17, mContext);
-                }
-            }
-        }
-
-        // If we have a valid image path, try loading it
-        if (!TextUtils.isEmpty(landingPadThumbnailPath)) {
-            final String landingPadThumbnailUrl = landingPadThumbnailPath;
-
-            // If the time difference between NOW and the last time images were loaded is equal or
-            // grater than 30 days, reload images from web and reset savedDate value
-            if (ImageUtils.doWeNeedToFetchImagesOnline(mContext)) {
-                Log.v("FETCHING", "FROM WEB");
-                // Fetch images
-                Picasso.get()
-                        .load(landingPadThumbnailUrl)
-                        .error(R.drawable.empty_map)
-                        .into(holder.padThumbnailImageView);
-                // Reset savedDate, only when last position is reached
-                if (position == mLandingPads.size() - 1)
-                    SpaceXPreferences.setLandingPadsThumbnailsSavingDate(mContext, new Date().getTime());
-            } else {
-                Log.v("TRY FETCHING", "FROM CACHE");
-                // Otherwise, try loading cached images
-                Picasso.get()
-                        .load(landingPadThumbnailPath)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(holder.padThumbnailImageView, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                // Yay!
-                                Log.v("FETCHING", "FROM CACHE");
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                Log.v("FETCHING", "FROM WEB");
-                                // Try again online, if cache loading failed and reset savedDate value
-                                Picasso.get()
-                                        .load(landingPadThumbnailUrl)
-                                        .error(R.drawable.empty_map)
-                                        .into(holder.padThumbnailImageView);
-                                // Reset savedDate, only when last position is reached
-                                if (thisPosition == mLandingPads.size() - 1)
-                                    SpaceXPreferences.setLandingPadsThumbnailsSavingDate(mContext, new Date().getTime());
-                            }
-                        });
-            }
-        } else {
-            // Otherwise, don't bother using Picasso and set default image for launchPadThumbnailImageView
-            holder.padThumbnailImageView.setImageResource(R.drawable.empty_map);
-        }
-
-        if (!TextUtils.isEmpty(mLandingPads.get(position).getFullName())) {
-            holder.padFullNameTextView.setText(mLandingPads.get(position).getFullName());
-        } else {
-            holder.padFullNameTextView.setText(mContext.getString(R.string.label_unknown));
-        }
-
-        if (!TextUtils.isEmpty(mLandingPads.get(position).getLocation().getName()) &&
-                !TextUtils.isEmpty(mLandingPads.get(position).getLocation().getRegion())) {
-            holder.padLocationTextView.setText(
-                    String.format(
-                            mContext.getString(R.string.launch_pad_location),
-                            mLandingPads.get(position).getLocation().getName(),
-                            mLandingPads.get(position).getLocation().getRegion()));
-        } else {
-            holder.padFullNameTextView.setText(mContext.getString(R.string.label_unknown));
-        }
+        holder.bindTo(mLandingPads.get(position));
     }
 
     @Override
@@ -182,6 +87,104 @@ public class LandingPadsAdapter extends RecyclerView.Adapter<LandingPadsAdapter.
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+        }
+
+        private void bindTo(LandingPad landingPad) {
+            String landingPadThumbnailPath = "";
+
+            if (landingPad.getLocation() != null) {
+                double latitude = landingPad.getLocation().getLatitude();
+                double longitude = landingPad.getLocation().getLongitude();
+
+                if (ScreenUtils.isPortraitMode(mContext)) {
+                    switch (landingPad.getId()) {
+                        case "OCISLY":
+                            landingPadThumbnailPath = OCISLY_SMALL;
+                            break;
+                        case "JRTI":
+                            landingPadThumbnailPath = JRTI_SMALL;
+                            break;
+                        default:
+                            landingPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 15, "satellite", mContext);
+                    }
+                } else {
+                    switch (landingPad.getId()) {
+                        case "OCISLY":
+                            landingPadThumbnailPath = OCISLY_BIG;
+                            break;
+                        case "JRTI":
+                            landingPadThumbnailPath = JRTI_BIG;
+                            break;
+                        default:
+                            landingPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, 17, mContext);
+                    }
+                }
+            }
+
+            // If we have a valid image path, try loading it
+            if (!TextUtils.isEmpty(landingPadThumbnailPath)) {
+                final String landingPadThumbnailUrl = landingPadThumbnailPath;
+
+                // If the time difference between NOW and the last time images were loaded is equal or
+                // grater than 30 days, reload images from web and reset savedDate value
+                if (ImageUtils.doWeNeedToFetchImagesOnline(mContext)) {
+                    Log.v("FETCHING", "FROM WEB");
+                    // Fetch images
+                    Picasso.get()
+                            .load(landingPadThumbnailUrl)
+                            .error(R.drawable.empty_map)
+                            .into(padThumbnailImageView);
+                    // Reset savedDate, only when last position is reached
+                    if (getAdapterPosition() == mLandingPads.size() - 1)
+                        SpaceXPreferences.setLandingPadsThumbnailsSavingDate(mContext, new Date().getTime());
+                } else {
+                    Log.v("TRY FETCHING", "FROM CACHE");
+                    // Otherwise, try loading cached images
+                    Picasso.get()
+                            .load(landingPadThumbnailPath)
+                            .networkPolicy(NetworkPolicy.OFFLINE)
+                            .into(padThumbnailImageView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    // Yay!
+                                    Log.v("FETCHING", "FROM CACHE");
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    Log.v("FETCHING", "FROM WEB");
+                                    // Try again online, if cache loading failed and reset savedDate value
+                                    Picasso.get()
+                                            .load(landingPadThumbnailUrl)
+                                            .error(R.drawable.empty_map)
+                                            .into(padThumbnailImageView);
+                                    // Reset savedDate, only when last position is reached
+                                    if (getAdapterPosition() == mLandingPads.size() - 1)
+                                        SpaceXPreferences.setLandingPadsThumbnailsSavingDate(mContext, new Date().getTime());
+                                }
+                            });
+                }
+            } else {
+                // Otherwise, don't bother using Picasso and set default image for launchPadThumbnailImageView
+                padThumbnailImageView.setImageResource(R.drawable.empty_map);
+            }
+
+            if (!TextUtils.isEmpty(landingPad.getFullName())) {
+                padFullNameTextView.setText(landingPad.getFullName());
+            } else {
+                padFullNameTextView.setText(mContext.getString(R.string.label_unknown));
+            }
+
+            if (!TextUtils.isEmpty(landingPad.getLocation().getName()) &&
+                    !TextUtils.isEmpty(landingPad.getLocation().getRegion())) {
+                padLocationTextView.setText(
+                        String.format(
+                                mContext.getString(R.string.launch_pad_location),
+                                landingPad.getLocation().getName(),
+                                landingPad.getLocation().getRegion()));
+            } else {
+                padFullNameTextView.setText(mContext.getString(R.string.label_unknown));
+            }
         }
 
         @Override

@@ -1,5 +1,6 @@
 package com.about.future.spacex.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -18,7 +19,9 @@ import com.about.future.spacex.R;
 import com.about.future.spacex.databinding.FragmentCapsuleDetailsBinding;
 import com.about.future.spacex.model.rocket.Capsule;
 import com.about.future.spacex.ui.CapsuleDetailsActivity;
+import com.about.future.spacex.ui.MissionDetailsActivity;
 import com.about.future.spacex.ui.adapters.MissionsAdapter;
+import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.MissionsViewModel;
@@ -34,6 +37,7 @@ import static com.about.future.spacex.utils.Constants.DRAGON1_SMALL;
 import static com.about.future.spacex.utils.Constants.DRAGON2_MEDIUM;
 import static com.about.future.spacex.utils.Constants.DRAGON2_SMALL;
 import static com.about.future.spacex.utils.Constants.LOST;
+import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
 import static com.about.future.spacex.utils.Constants.RETIRED;
 
 public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.ListItemClickListener {
@@ -169,7 +173,7 @@ public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.
             binding.capsuleStatus.setText(status);
 
             if (capsule.getOriginalLaunch() != null && !capsule.getOriginalLaunch().equals("")) {
-                binding.originalLaunchDate.setText(capsule.getOriginalLaunch()); //TODO: FIX DATE
+                binding.originalLaunchDate.setText(DateUtils.changeDateFormat(capsule.getOriginalLaunch())); //TODO: FIX DATE
             } else {
                 binding.originalLaunchDate.setText(getString(R.string.status_unknown));
             }
@@ -232,6 +236,8 @@ public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.
 
     @Override
     public void onItemClickListener(int selectedMission) {
-        //TODO: Open selected mission
+        Intent missionDetailsIntent = new Intent(getActivity(), MissionDetailsActivity.class);
+        missionDetailsIntent.putExtra(MISSION_NUMBER_KEY, selectedMission);
+        startActivity(missionDetailsIntent);
     }
 }

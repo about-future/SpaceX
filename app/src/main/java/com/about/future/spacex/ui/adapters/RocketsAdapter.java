@@ -22,8 +22,7 @@ import butterknife.ButterKnife;
 
 public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHolder> {
     private final Context mContext;
-    private List<RocketMini> mRockets = new ArrayList<RocketMini>() {
-    };
+    private List<RocketMini> mRockets = new ArrayList<>();
     private final RocketsAdapter.ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
@@ -50,39 +49,7 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final RocketsAdapter.ViewHolder holder, int position) {
-
-        if (!TextUtils.isEmpty(mRockets.get(position).getRocketId())) {
-            switch (mRockets.get(position).getRocketId()) {
-                case "falcon1":
-                    holder.rocketImageView.setImageResource(R.drawable.falcon1_small);
-                    break;
-                case "falcon9":
-                    holder.rocketImageView.setImageResource(R.drawable.falcon9_small);
-                    break;
-                case "falconheavy":
-                    holder.rocketImageView.setImageResource(R.drawable.falcon_heavy_small);
-                    break;
-                case "starship":
-                    holder.rocketImageView.setImageResource(R.drawable.bfr1);
-                    break;
-                default:
-                    holder.rocketImageView.setImageResource(R.drawable.rocket_small);
-            }
-        } else {
-            holder.rocketImageView.setImageResource(R.drawable.rocket_small);
-        }
-
-        if (!TextUtils.isEmpty(mRockets.get(position).getName())) {
-            holder.rocketNameTextView.setText(mRockets.get(position).getName());
-        } else {
-            holder.rocketNameTextView.setText(mContext.getString(R.string.label_unknown));
-        }
-
-        if (!TextUtils.isEmpty(mRockets.get(position).getDescription())) {
-            holder.rocketDescriptionTextView.setText(mRockets.get(position).getDescription());
-        } else {
-            holder.rocketDescriptionTextView.setText(mContext.getString(R.string.label_unknown));
-        }
+        holder.bindTo(mRockets.get(position));
     }
 
     @Override
@@ -104,9 +71,43 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
             itemView.setOnClickListener(this);
         }
 
+        private void bindTo(RocketMini rocket) {
+            if (!TextUtils.isEmpty(rocket.getRocketId())) {
+                switch (rocket.getRocketId()) {
+                    case "falcon1":
+                        rocketImageView.setImageResource(R.drawable.falcon1_small);
+                        break;
+                    case "falcon9":
+                        rocketImageView.setImageResource(R.drawable.falcon9_small);
+                        break;
+                    case "falconheavy":
+                        rocketImageView.setImageResource(R.drawable.falcon_heavy_small);
+                        break;
+                    case "starship":
+                        rocketImageView.setImageResource(R.drawable.bfr1);
+                        break;
+                    default:
+                        rocketImageView.setImageResource(R.drawable.rocket_small);
+                }
+            } else {
+                rocketImageView.setImageResource(R.drawable.rocket_small);
+            }
+
+            if (!TextUtils.isEmpty(rocket.getName())) {
+                rocketNameTextView.setText(rocket.getName());
+            } else {
+                rocketNameTextView.setText(mContext.getString(R.string.label_unknown));
+            }
+
+            if (!TextUtils.isEmpty(rocket.getDescription())) {
+                rocketDescriptionTextView.setText(rocket.getDescription());
+            } else {
+                rocketDescriptionTextView.setText(mContext.getString(R.string.label_unknown));
+            }
+        }
+
         @Override
         public void onClick(View view) {
-            //mOnClickListener.onItemClickListener(getAdapterPosition());
             mOnClickListener.onItemClickListener(mRockets.get(getAdapterPosition()).getRocketId());
         }
     }

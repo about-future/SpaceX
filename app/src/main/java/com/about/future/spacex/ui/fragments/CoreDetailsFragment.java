@@ -1,5 +1,6 @@
 package com.about.future.spacex.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -17,7 +18,9 @@ import com.about.future.spacex.R;
 import com.about.future.spacex.databinding.FragmentCoreDetailsBinding;
 import com.about.future.spacex.model.core.Core;
 import com.about.future.spacex.ui.CoreDetailsActivity;
+import com.about.future.spacex.ui.MissionDetailsActivity;
 import com.about.future.spacex.ui.adapters.MissionsAdapter;
+import com.about.future.spacex.utils.DateUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.MissionsViewModel;
@@ -32,6 +35,7 @@ import static com.about.future.spacex.utils.Constants.BLOCK5_MEDIUM;
 import static com.about.future.spacex.utils.Constants.BLOCK5_SMALL;
 import static com.about.future.spacex.utils.Constants.DESTROYED;
 import static com.about.future.spacex.utils.Constants.LOST;
+import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
 import static com.about.future.spacex.utils.Constants.RETIRED;
 
 public class CoreDetailsFragment extends Fragment implements MissionsAdapter.ListItemClickListener {
@@ -171,7 +175,7 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
             binding.coreStatus.setText(status);
 
             if (core.getOriginalLaunch() != null && !core.getOriginalLaunch().equals("")) {
-                binding.originalLaunchDate.setText(core.getOriginalLaunch()); //TODO: FIX DATE
+                binding.originalLaunchDate.setText(DateUtils.changeDateFormat(core.getOriginalLaunch())); //TODO: Add TimeZone
             } else {
                 binding.originalLaunchDate.setText(getString(R.string.status_unknown));
             }
@@ -251,6 +255,8 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
 
     @Override
     public void onItemClickListener(int selectedMission) {
-        //TODO: Open selected mission
+        Intent missionDetailsIntent = new Intent(getActivity(), MissionDetailsActivity.class);
+        missionDetailsIntent.putExtra(MISSION_NUMBER_KEY, selectedMission);
+        startActivity(missionDetailsIntent);
     }
 }

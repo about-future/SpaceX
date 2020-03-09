@@ -27,8 +27,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.about.future.spacex.utils.Constants.BLOCK1_MEDIUM;
+import static com.about.future.spacex.utils.Constants.BLOCK1_SMALL;
+import static com.about.future.spacex.utils.Constants.BLOCK2_MEDIUM;
+import static com.about.future.spacex.utils.Constants.BLOCK2_SMALL;
 import static com.about.future.spacex.utils.Constants.BLOCK3_MEDIUM;
 import static com.about.future.spacex.utils.Constants.BLOCK3_SMALL;
+import static com.about.future.spacex.utils.Constants.BLOCK4_MEDIUM;
+import static com.about.future.spacex.utils.Constants.BLOCK4_SMALL;
 import static com.about.future.spacex.utils.Constants.BLOCK5_MEDIUM;
 import static com.about.future.spacex.utils.Constants.BLOCK5_SMALL;
 
@@ -108,14 +114,24 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
 
             if (ScreenUtils.isPortraitMode(mContext)) {
                 switch (core.getBlock()) {
+                    case 1:
+                        imagePath = BLOCK1_SMALL;
+                        break;
+                    case 2:
+                        imagePath = BLOCK2_SMALL;
+                        break;
                     case 3:
                         imagePath = BLOCK3_SMALL;
+                        break;
+                    case 4:
+                        imagePath = BLOCK4_SMALL;
                         break;
                     case 5:
                         imagePath = BLOCK5_SMALL;
                         break;
-                    default:
-                        imagePath = ""; //ImageUtils.buildMapThumbnailUrl(latitude, longitude, 15, "satellite", mContext);
+                    default: //New type of core
+                        imagePath = "";
+                        break;
                 }
 
                 setImage(imagePath, coreThumbnail);
@@ -128,8 +144,17 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
                 }
             } else {
                 switch (core.getBlock()) {
+                    case 1:
+                        imagePath = BLOCK1_MEDIUM;
+                        break;
+                    case 2:
+                        imagePath = BLOCK2_MEDIUM;
+                        break;
                     case 3:
                         imagePath = BLOCK3_MEDIUM;
+                        break;
+                    case 4:
+                        imagePath = BLOCK4_MEDIUM;
                         break;
                     case 5:
                         imagePath = BLOCK5_MEDIUM;
