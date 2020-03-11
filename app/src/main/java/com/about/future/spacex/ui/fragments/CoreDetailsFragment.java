@@ -3,6 +3,7 @@ package com.about.future.spacex.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,9 @@ import com.about.future.spacex.viewmodel.MissionsViewModel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import static com.about.future.spacex.utils.Constants.ACTIVE;
 import static com.about.future.spacex.utils.Constants.BLOCK3_MEDIUM;
@@ -175,7 +179,19 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
             binding.coreStatus.setText(status);
 
             if (core.getOriginalLaunch() != null && !core.getOriginalLaunch().equals("")) {
-                binding.originalLaunchDate.setText(DateUtils.changeDateFormat(core.getOriginalLaunch())); //TODO: Add TimeZone
+                String date = DateUtils.changeDateFormat(core.getOriginalLaunch());
+
+                // Init calendar, set original launch date to it
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(DateUtils.stringDateToLong(date));
+
+                // Calculate Offset (this includes DayTimeSavings, if existent) and add it to UTC date
+                int offset = calendar.getTimeZone().getOffset(Long.parseLong(core.getOriginalLaunchUnix()) * 1000);
+                // Alternative calculation
+                int offset2 = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET);
+                calendar.add(Calendar.MILLISECOND, offset);
+
+                binding.originalLaunchDate.setText(DateUtils.formatDate(getActivityCast(), calendar.getTime()));
             } else {
                 binding.originalLaunchDate.setText(getString(R.string.status_unknown));
             }

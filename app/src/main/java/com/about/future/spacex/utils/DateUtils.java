@@ -102,4 +102,20 @@ public class DateUtils {
             return dateString;
         }
     }
+
+    // Convert date to long
+    public static long stringDateToLong(String dateString) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.US);
+        Date date;
+        try {
+            date = sdf.parse(dateString);
+            if (date != null) {
+                return date.getTime();
+            } else {
+                return 0;
+            }
+        } catch (ParseException e) {
+            return 0;
+        }
+    }
 }
