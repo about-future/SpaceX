@@ -186,7 +186,7 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
                 calendar.setTimeInMillis(DateUtils.stringDateToLong(date));
 
                 // Calculate Offset (this includes DayTimeSavings, if existent) and add it to UTC date
-                int offset = calendar.getTimeZone().getOffset(Long.parseLong(core.getOriginalLaunchUnix()) * 1000);
+                int offset = calendar.getTimeZone().getOffset(core.getOriginalLaunchUnix() * 1000);
                 // Alternative calculation
                 int offset2 = calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET);
                 calendar.add(Calendar.MILLISECOND, offset);

@@ -46,8 +46,50 @@ public class Constants {
     public static final String JRTI_SMALL = "https://live.staticflickr.com/8689/17127808431_5ccfd017cd_n.jpg";
 
     //TODO: create url strings for all cores that can be found
-    public static final String CORE_B1021 = "https://live.staticflickr.com/2842/32915199514_8d8715aa23_b.jpg";
-    public static final String CORE_B1035 = "https://live.staticflickr.com/4279/34239858024_5357019066_b.jpg";
+
+    public static final String CORE_B1006_SMALL = "https://live.staticflickr.com/7617/16855338881_ecd89dbf64_q.jpg";
+    public static final String CORE_B1006_BIG = "https://live.staticflickr.com/7617/16855338881_ecd89dbf64_b.jpg";
+    public static final String CORE_B1008_SMALL = "https://live.staticflickr.com/7654/16830368686_85ae51a3c6_q.jpg";
+    public static final String CORE_B1008_BIG = "https://live.staticflickr.com/7654/16830368686_85ae51a3c6_b.jpg";
+    public static final String CORE_B1010_SMALL = "https://live.staticflickr.com/8655/16789074175_b68bc9d468_q.jpg";
+    public static final String CORE_B1010_BIG = "https://live.staticflickr.com/8655/16789074175_b68bc9d468_b.jpg";
+    public static final String CORE_B1011_SMALL = "https://live.staticflickr.com/8742/16233828644_8434352c95_q.jpg";
+    public static final String CORE_B101_BIG = "https://live.staticflickr.com/8742/16233828644_8434352c95_b.jpg";
+    public static final String CORE_B1012_SMALL = "https://live.staticflickr.com/8663/16077174554_82d828f556_q.jpg";
+    public static final String CORE_B1012_BIG = "https://live.staticflickr.com/8663/16077174554_82d828f556_b.jpg";
+    public static final String CORE_B1013_SMALL = "https://live.staticflickr.com/8681/16512864259_07805c639c_q.jpg";
+    public static final String CORE_B1013_BIG = "https://live.staticflickr.com/8681/16512864259_07805c639c_b.jpg";
+    public static final String CORE_B1014_SMALL = "https://live.staticflickr.com/8574/16075319384_c2ff568830_q.jpg";
+    public static final String CORE_B1014_BIG = "https://live.staticflickr.com/8574/16075319384_c2ff568830_b.jpg";
+    public static final String CORE_B1015_SMALL = "https://live.staticflickr.com/8688/17024507155_2168c8d032_q.jpg";
+    public static final String CORE_B1015_BIG = "https://live.staticflickr.com/8688/17024507155_2168c8d032_b.jpg";
+    public static final String CORE_B1016_SMALL = "https://live.staticflickr.com/7735/16704192574_a5bcff0cef_q.jpg";
+    public static final String CORE_B1016_BIG = "https://live.staticflickr.com/7735/16704192574_a5bcff0cef_b.jpg";
+    //v2 public static final String CORE_B1016_BIG = "https://live.staticflickr.com/7677/16706406093_03c64b8e22_b.jpg";
+    //v3 public static final String CORE_B1016_BIG = "https://live.staticflickr.com/8720/17108097439_2d41fd2c9f_b.jpg";
+    public static final String CORE_B1017_SMALL = "https://live.staticflickr.com/1640/23779742713_e080ff9932_q.jpg";
+    public static final String CORE_B1017_BIG = "https://live.staticflickr.com/1640/23779742713_e080ff9932_b.jpg";
+    public static final String CORE_B1019_SMALL = "https://live.staticflickr.com/8607/16601442698_459cd9e559_q.jpg";
+    public static final String CORE_B1019_BIG = "https://live.staticflickr.com/8607/16601442698_459cd9e559_b.jpg";
+    public static final String CORE_B1020_SMALL = "https://live.staticflickr.com/1661/25123108771_5911528cf3_q.jpg";
+    //v2 public static final String CORE_B1020_SMALL = "https://live.staticflickr.com/1458/25395661442_db6acd7ab1_q.jpg"
+    //v2 public static final String CORE_B1020_BIG = "https://live.staticflickr.com/1458/25395661442_db6acd7ab1_b.jpg";
+    public static final String CORE_B1020_BIG = "https://live.staticflickr.com/1661/25123108771_5911528cf3_b.jpg";
+    public static final String CORE_B1021_SMALL = "https://live.staticflickr.com/2842/32915199514_8d8715aa23_q.jpg";
+    public static final String CORE_B1021_BIG = "https://live.staticflickr.com/2842/32915199514_8d8715aa23_b.jpg";
+    public static final String CORE_B1022_SMALL = "https://live.staticflickr.com/7682/26778141401_5812b90f40_q.jpg";
+    public static final String CORE_B1022_BIG = "https://live.staticflickr.com/7682/26778141401_5812b90f40_b.jpg";
+    public static final String CORE_B1023_SMALL = "https://live.staticflickr.com/7252/27294262435_22126b3604_q.jpg";
+    public static final String CORE_B1023_BIG = "https://live.staticflickr.com/7252/27294262435_22126b3604_b.jpg";
+    //v2 public static final String CORE_B1023_BIG = "https://live.staticflickr.com/7045/27259828166_b57abb161e_b.jpg";
+    //v3 public static final String CORE_B1023_BIG = "https://live.staticflickr.com/7698/27294261525_42645e7a1c_b.jpg";
+    public static final String CORE_B1024_SMALL = "https://live.staticflickr.com/7656/27661313956_dd9d5cf88d_q.jpg";
+    public static final String CORE_B1024_BIG = "https://live.staticflickr.com/7656/27661313956_dd9d5cf88d_b.jpg";
+    public static final String CORE_B1029_SMALL = "https://live.staticflickr.com/735/32312416415_c43dfebed8_q.jpg";
+    public static final String CORE_B1029_BIG = "https://live.staticflickr.com/735/32312416415_c43dfebed8_b.jpg";
+    public static final String CORE_B1035_SMALL = "https://live.staticflickr.com/4279/34239858024_5357019066_q.jpg";
+    public static final String CORE_B1035_BIG = "https://live.staticflickr.com/4279/34239858024_5357019066_b.jpg";
+
 
     // TODO: These will be deafult images in case no image is available for a certain core
     public static final String BLOCK1_SMALL = "https://live.staticflickr.com/8607/16601442698_459cd9e559_q.jpg";

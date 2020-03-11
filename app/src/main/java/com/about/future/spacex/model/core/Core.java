@@ -30,7 +30,7 @@ public class Core {
 
     @SerializedName("original_launch_unix")
     @ColumnInfo(name = "original_launch_unix")
-    private final String originalLaunchUnix;
+    private final long originalLaunchUnix;
 
     @TypeConverters(MissionsTypeConverter.class)
     @SerializedName("missions")
@@ -64,7 +64,7 @@ public class Core {
     private final String details;
 
     public Core(@NonNull String coreSerial, int block, String status, String originalLaunch,
-                String originalLaunchUnix, List<Mission> missions, int reuseCount, int rtlsAttempts,
+                long originalLaunchUnix, List<Mission> missions, int reuseCount, int rtlsAttempts,
                 int rtlsLandings, int asdsAttempts, int asdsLandings, boolean waterLanding, String details) {
         this.coreSerial = coreSerial;
         this.block = block;
@@ -81,11 +81,12 @@ public class Core {
         this.details = details;
     }
 
+    @NonNull
     public String getCoreSerial() { return coreSerial; }
     public int getBlock() { return block; }
     public String getStatus() { return status; }
     public String getOriginalLaunch() { return originalLaunch; }
-    public String getOriginalLaunchUnix() { return originalLaunchUnix; }
+    public long getOriginalLaunchUnix() { return originalLaunchUnix; }
     public List<Mission> getMissions() { return missions; }
     public int getReuseCount() { return reuseCount; }
     public int getRtlsAttempts() { return rtlsAttempts; }

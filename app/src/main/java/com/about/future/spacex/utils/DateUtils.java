@@ -2,7 +2,6 @@ package com.about.future.spacex.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 
 import com.about.future.spacex.R;
 
