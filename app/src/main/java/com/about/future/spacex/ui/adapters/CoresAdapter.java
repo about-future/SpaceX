@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.core.Core;
+import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -97,7 +98,7 @@ public class CoresAdapter extends RecyclerView.Adapter<CoresAdapter.ViewHolder> 
         }
 
         private void bindTo(Core core) {
-            String imagePath = getPath(core.getBlock(), core.getCoreSerial());
+            String imagePath = ImageUtils.getThumbnailPath(mContext, core.getBlock(), core.getCoreSerial());
             setImage(imagePath, coreThumbnail);
 
             coreSerialTextView.setText(core.getCoreSerial());

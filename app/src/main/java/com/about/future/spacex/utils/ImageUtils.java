@@ -116,4 +116,247 @@ public class ImageUtils {
                 break;
         }
     }
+
+    public static String getThumbnailPath(Context context, int block, String coreSerial) {
+        switch (block) {
+            case 1:
+                switch (coreSerial) {
+                    case "B1005": return context.getString(R.string.core_b1005);
+                    case "B1006": return context.getString(R.string.core_b1006);
+                    case "B1007": return context.getString(R.string.core_b1007);
+                    case "B1008": return context.getString(R.string.core_b1008);
+                    case "B1010": return context.getString(R.string.core_b1010);
+                    case "B1011": return context.getString(R.string.core_b1011);
+                    case "B1012": return context.getString(R.string.core_b1012);
+                    case "B1013": return context.getString(R.string.core_b1013);
+                    case "B1014": return context.getString(R.string.core_b1014);
+                    case "B1015": return context.getString(R.string.core_b1015);
+                    case "B1016": return context.getString(R.string.core_b1016);
+                    case "B1017": return context.getString(R.string.core_b1017);
+                    case "B1018": return context.getString(R.string.core_b1018);
+                    case "B1019": return context.getString(R.string.core_b1019);
+                    case "B1020": return context.getString(R.string.core_b1020);
+                    default: return context.getString(R.string.core_block1);
+                }
+            case 2:
+                switch (coreSerial) {
+                    case "B1021": return context.getString(R.string.core_b1021);
+                    case "B1022": return context.getString(R.string.core_b1022);
+                    case "B1023": return context.getString(R.string.core_b1023);
+                    case "B1024": return context.getString(R.string.core_b1024);
+                    case "B1025": return context.getString(R.string.core_b1025);
+                    case "B1026": return context.getString(R.string.core_b1026);
+                }
+                break;
+            case 3:
+                switch (coreSerial) {
+                    case "B1028": return context.getString(R.string.core_b1028);
+                    case "B1029": return context.getString(R.string.core_b1029);
+                    case "B1030": return context.getString(R.string.core_b1030);
+                    case "B1031": return context.getString(R.string.core_b1031);
+                    case "B1032": return context.getString(R.string.core_b1032);
+                    case "B1033": return context.getString(R.string.core_b1033);
+                    case "B1034": return context.getString(R.string.core_b1034);
+                    case "B1035": return context.getString(R.string.core_b1035);
+                    case "B1036": return context.getString(R.string.core_b1036);
+                    case "B1037": return context.getString(R.string.core_b1037);
+                    case "B1038": return context.getString(R.string.core_b1038);
+                }
+                break;
+            case 4:
+                switch (coreSerial) {
+                    case "B1039": return context.getString(R.string.core_b1039);
+                    case "B1040": return context.getString(R.string.core_b1040);
+                    case "B1041": return context.getString(R.string.core_b1041);
+                    case "B1042": return context.getString(R.string.core_b1042);
+                    case "B1043": return context.getString(R.string.core_b1043);
+                    case "B1044": return context.getString(R.string.core_b1044);
+                    case "B1045": return context.getString(R.string.core_b1045);
+                }
+                break;
+            case 5:
+                switch (coreSerial) {
+                    case "B1046": return context.getString(R.string.core_b1046);
+                    case "B1047": return context.getString(R.string.core_b1047);
+                    case "B1048": return context.getString(R.string.core_b1048);
+                    case "B1049": return context.getString(R.string.core_b1049);
+                    case "B1050": return context.getString(R.string.core_b1050);
+                    case "B1051": return context.getString(R.string.core_b1051);
+                    case "B1052": return context.getString(R.string.core_b1052);
+                    case "B1053": return context.getString(R.string.core_b1053);
+                    case "B1054": return context.getString(R.string.core_b1054);
+                    case "B1055": return context.getString(R.string.core_b1055);
+                    case "B1056": return context.getString(R.string.core_b1056);
+                    case "B1057": return context.getString(R.string.core_b1057);
+                    case "B1059": return context.getString(R.string.core_b1059);
+                    default: return context.getString(R.string.core_block5);
+                }
+            default: //New type of core
+                return "";
+        }
+
+        return "";
+    }
+
+    public static String getMediumPath(Context context, int block, String coreSerial) {
+        switch (block) {
+            case 1:
+                switch (coreSerial) {
+                    case "B1005": return context.getString(R.string.medium_core_b1005);
+                    case "B1006": return context.getString(R.string.medium_core_b1006);
+                    case "B1007": return context.getString(R.string.medium_core_b1007);
+                    case "B1008": return context.getString(R.string.medium_core_b1008);
+                    case "B1010": return context.getString(R.string.medium_core_b1010);
+                    case "B1011": return context.getString(R.string.medium_core_b1011);
+                    case "B1012": return context.getString(R.string.medium_core_b1012);
+                    case "B1013": return context.getString(R.string.medium_core_b1013);
+                    case "B1014": return context.getString(R.string.medium_core_b1014);
+                    case "B1015": return context.getString(R.string.medium_core_b1015);
+                    case "B1016": return context.getString(R.string.medium_core_b1016);
+                    case "B1017": return context.getString(R.string.medium_core_b1017);
+                    case "B1018": return context.getString(R.string.medium_core_b1018);
+                    case "B1019": return context.getString(R.string.medium_core_b1019);
+                    case "B1020": return context.getString(R.string.medium_core_b1020);
+                    default: return context.getString(R.string.medium_core_block1);
+                }
+            case 2:
+                switch (coreSerial) {
+                    case "B1021": return context.getString(R.string.medium_core_b1021);
+                    case "B1022": return context.getString(R.string.medium_core_b1022);
+                    case "B1023": return context.getString(R.string.medium_core_b1023);
+                    case "B1024": return context.getString(R.string.medium_core_b1024);
+                    case "B1025": return context.getString(R.string.medium_core_b1025);
+                    case "B1026": return context.getString(R.string.medium_core_b1026);
+                }
+                break;
+            case 3:
+                switch (coreSerial) {
+                    case "B1028": return context.getString(R.string.medium_core_b1028);
+                    case "B1029": return context.getString(R.string.medium_core_b1029);
+                    case "B1030": return context.getString(R.string.medium_core_b1030);
+                    case "B1031": return context.getString(R.string.medium_core_b1031);
+                    case "B1032": return context.getString(R.string.medium_core_b1032);
+                    case "B1033": return context.getString(R.string.medium_core_b1033);
+                    case "B1034": return context.getString(R.string.medium_core_b1034);
+                    case "B1035": return context.getString(R.string.medium_core_b1035);
+                    case "B1036": return context.getString(R.string.medium_core_b1036);
+                    case "B1037": return context.getString(R.string.medium_core_b1037);
+                    case "B1038": return context.getString(R.string.medium_core_b1038);
+                }
+                break;
+            case 4:
+                switch (coreSerial) {
+                    case "B1039": return context.getString(R.string.medium_core_b1039);
+                    case "B1040": return context.getString(R.string.medium_core_b1040);
+                    case "B1041": return context.getString(R.string.medium_core_b1041);
+                    case "B1042": return context.getString(R.string.medium_core_b1042);
+                    case "B1043": return context.getString(R.string.medium_core_b1043);
+                    case "B1044": return context.getString(R.string.medium_core_b1044);
+                    case "B1045": return context.getString(R.string.medium_core_b1045);
+                }
+                break;
+            case 5:
+                switch (coreSerial) {
+                    case "B1046": return context.getString(R.string.medium_core_b1046);
+                    case "B1047": return context.getString(R.string.medium_core_b1047);
+                    case "B1048": return context.getString(R.string.medium_core_b1048);
+                    case "B1049": return context.getString(R.string.medium_core_b1049);
+                    case "B1050": return context.getString(R.string.medium_core_b1050);
+                    case "B1051": return context.getString(R.string.medium_core_b1051);
+                    case "B1052": return context.getString(R.string.medium_core_b1052);
+                    case "B1053": return context.getString(R.string.medium_core_b1053);
+                    case "B1054": return context.getString(R.string.medium_core_b1054);
+                    case "B1055": return context.getString(R.string.medium_core_b1055);
+                    case "B1056": return context.getString(R.string.medium_core_b1056);
+                    case "B1057": return context.getString(R.string.medium_core_b1057);
+                    case "B1059": return context.getString(R.string.medium_core_b1059);
+                    default: return context.getString(R.string.medium_core_block5);
+                }
+            default: //New type of core
+                return "";
+        }
+
+        return "";
+    }
+
+    public static String getBackdropPath(Context context, int block, String coreSerial) {
+        switch (block) {
+            case 1:
+                switch (coreSerial) {
+                    case "B1005": return context.getString(R.string.big_core_b1005);
+                    case "B1006": return context.getString(R.string.big_core_b1006);
+                    case "B1007": return context.getString(R.string.big_core_b1007);
+                    case "B1008": return context.getString(R.string.big_core_b1008);
+                    case "B1010": return context.getString(R.string.big_core_b1010);
+                    case "B1011": return context.getString(R.string.big_core_b1011);
+                    case "B1012": return context.getString(R.string.big_core_b1012);
+                    case "B1013": return context.getString(R.string.big_core_b1013);
+                    case "B1014": return context.getString(R.string.big_core_b1014);
+                    case "B1015": return context.getString(R.string.big_core_b1015);
+                    case "B1016": return context.getString(R.string.big_core_b1016);
+                    case "B1017": return context.getString(R.string.big_core_b1017);
+                    case "B1018": return context.getString(R.string.big_core_b1018);
+                    case "B1019": return context.getString(R.string.big_core_b1019);
+                    case "B1020": return context.getString(R.string.big_core_b1020);
+                    default: return context.getString(R.string.big_core_block1);
+                }
+            case 2:
+                switch (coreSerial) {
+                    case "B1021": return context.getString(R.string.big_core_b1021);
+                    case "B1022": return context.getString(R.string.big_core_b1022);
+                    case "B1023": return context.getString(R.string.big_core_b1023);
+                    case "B1024": return context.getString(R.string.big_core_b1024);
+                    case "B1025": return context.getString(R.string.big_core_b1025);
+                    case "B1026": return context.getString(R.string.big_core_b1026);
+                }
+                break;
+            case 3:
+                switch (coreSerial) {
+                    case "B1028": return context.getString(R.string.big_core_b1028);
+                    case "B1029": return context.getString(R.string.big_core_b1029);
+                    case "B1030": return context.getString(R.string.big_core_b1030);
+                    case "B1031": return context.getString(R.string.big_core_b1031);
+                    case "B1032": return context.getString(R.string.big_core_b1032);
+                    case "B1033": return context.getString(R.string.big_core_b1033);
+                    case "B1034": return context.getString(R.string.big_core_b1034);
+                    case "B1035": return context.getString(R.string.big_core_b1035);
+                    case "B1036": return context.getString(R.string.big_core_b1036);
+                    case "B1037": return context.getString(R.string.big_core_b1037);
+                    case "B1038": return context.getString(R.string.big_core_b1038);
+                }
+                break;
+            case 4:
+                switch (coreSerial) {
+                    case "B1039": return context.getString(R.string.big_core_b1039);
+                    case "B1040": return context.getString(R.string.big_core_b1040);
+                    case "B1041": return context.getString(R.string.big_core_b1041);
+                    case "B1042": return context.getString(R.string.big_core_b1042);
+                    case "B1043": return context.getString(R.string.big_core_b1043);
+                    case "B1044": return context.getString(R.string.big_core_b1044);
+                    case "B1045": return context.getString(R.string.big_core_b1045);
+                }
+                break;
+            case 5:
+                switch (coreSerial) {
+                    case "B1046": return context.getString(R.string.big_core_b1046);
+                    case "B1047": return context.getString(R.string.big_core_b1047);
+                    case "B1048": return context.getString(R.string.big_core_b1048);
+                    case "B1049": return context.getString(R.string.big_core_b1049);
+                    case "B1050": return context.getString(R.string.big_core_b1050);
+                    case "B1051": return context.getString(R.string.big_core_b1051);
+                    case "B1052": return context.getString(R.string.big_core_b1052);
+                    case "B1053": return context.getString(R.string.big_core_b1053);
+                    case "B1054": return context.getString(R.string.big_core_b1054);
+                    case "B1055": return context.getString(R.string.big_core_b1055);
+                    case "B1056": return context.getString(R.string.big_core_b1056);
+                    case "B1057": return context.getString(R.string.big_core_b1057);
+                    case "B1059": return context.getString(R.string.big_core_b1059);
+                    default: return context.getString(R.string.big_core_block5);
+                }
+            default: //New type of core
+                return "";
+        }
+
+        return "";
+    }
 }

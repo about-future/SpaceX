@@ -21,6 +21,7 @@ import com.about.future.spacex.ui.CoreDetailsActivity;
 import com.about.future.spacex.ui.MissionDetailsActivity;
 import com.about.future.spacex.ui.adapters.MissionsAdapter;
 import com.about.future.spacex.utils.DateUtils;
+import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.MissionsViewModel;
@@ -31,10 +32,6 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 
 import static com.about.future.spacex.utils.Constants.ACTIVE;
-import static com.about.future.spacex.utils.Constants.BLOCK3_BIG;
-import static com.about.future.spacex.utils.Constants.BLOCK3_SMALL;
-import static com.about.future.spacex.utils.Constants.BLOCK5_BIG;
-import static com.about.future.spacex.utils.Constants.BLOCK5_SMALL;
 import static com.about.future.spacex.utils.Constants.DESTROYED;
 import static com.about.future.spacex.utils.Constants.LOST;
 import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
@@ -93,22 +90,8 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
             binding.collapsingToolbarLayout.setTitle(core.getCoreSerial());
             binding.toolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 
-            String backdropUrl;
-            String thumbnailUrl;
-            switch (core.getBlock()) {
-                case 3:
-                    backdropUrl = BLOCK3_BIG;
-                    thumbnailUrl = BLOCK3_SMALL;
-                    break;
-                case 5:
-                    backdropUrl = BLOCK5_BIG;
-                    thumbnailUrl = BLOCK5_SMALL;
-                    break;
-                default:
-                    backdropUrl = BLOCK5_BIG; //TODO: Create default case
-                    thumbnailUrl = BLOCK5_BIG;
-                    break;
-            }
+            String backdropUrl = ImageUtils.getBackdropPath(getActivityCast(), core.getBlock(), core.getCoreSerial());
+            String thumbnailUrl = ImageUtils.getMediumPath(getActivityCast(), core.getBlock(), core.getCoreSerial());
 
             // Backdrop
             Picasso.get()
