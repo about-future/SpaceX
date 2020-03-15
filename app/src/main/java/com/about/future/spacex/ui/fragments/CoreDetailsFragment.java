@@ -3,7 +3,6 @@ package com.about.future.spacex.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +29,11 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import static com.about.future.spacex.utils.Constants.ACTIVE;
-import static com.about.future.spacex.utils.Constants.BLOCK3_MEDIUM;
+import static com.about.future.spacex.utils.Constants.BLOCK3_BIG;
 import static com.about.future.spacex.utils.Constants.BLOCK3_SMALL;
-import static com.about.future.spacex.utils.Constants.BLOCK5_MEDIUM;
+import static com.about.future.spacex.utils.Constants.BLOCK5_BIG;
 import static com.about.future.spacex.utils.Constants.BLOCK5_SMALL;
 import static com.about.future.spacex.utils.Constants.DESTROYED;
 import static com.about.future.spacex.utils.Constants.LOST;
@@ -99,16 +97,16 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
             String thumbnailUrl;
             switch (core.getBlock()) {
                 case 3:
-                    backdropUrl = BLOCK3_MEDIUM;
+                    backdropUrl = BLOCK3_BIG;
                     thumbnailUrl = BLOCK3_SMALL;
                     break;
                 case 5:
-                    backdropUrl = BLOCK5_MEDIUM;
+                    backdropUrl = BLOCK5_BIG;
                     thumbnailUrl = BLOCK5_SMALL;
                     break;
                 default:
-                    backdropUrl = BLOCK5_MEDIUM; //TODO: Create default case
-                    thumbnailUrl = BLOCK5_MEDIUM;
+                    backdropUrl = BLOCK5_BIG; //TODO: Create default case
+                    thumbnailUrl = BLOCK5_BIG;
                     break;
             }
 

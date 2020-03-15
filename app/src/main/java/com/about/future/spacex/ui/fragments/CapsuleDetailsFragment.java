@@ -32,9 +32,9 @@ import com.squareup.picasso.Picasso;
 
 import static com.about.future.spacex.utils.Constants.ACTIVE;
 import static com.about.future.spacex.utils.Constants.DESTROYED;
-import static com.about.future.spacex.utils.Constants.DRAGON1_MEDIUM;
+import static com.about.future.spacex.utils.Constants.DRAGON1_BIG;
 import static com.about.future.spacex.utils.Constants.DRAGON1_SMALL;
-import static com.about.future.spacex.utils.Constants.DRAGON2_MEDIUM;
+import static com.about.future.spacex.utils.Constants.DRAGON2_BIG;
 import static com.about.future.spacex.utils.Constants.DRAGON2_SMALL;
 import static com.about.future.spacex.utils.Constants.LOST;
 import static com.about.future.spacex.utils.Constants.MISSION_NUMBER_KEY;
@@ -97,16 +97,16 @@ public class CapsuleDetailsFragment extends Fragment implements MissionsAdapter.
             String thumbnailUrl;
             switch (capsule.getCapsuleId()) {
                 case "dragon1":
-                    backdropUrl = DRAGON1_MEDIUM;
+                    backdropUrl = DRAGON1_BIG;
                     thumbnailUrl = DRAGON1_SMALL;
                     break;
                 case "dragon2":
-                    backdropUrl = DRAGON2_MEDIUM;
+                    backdropUrl = DRAGON2_BIG;
                     thumbnailUrl = DRAGON2_SMALL;
                     break;
                 default:
-                    backdropUrl = DRAGON1_MEDIUM; //TODO: Create default case
-                    thumbnailUrl = DRAGON1_MEDIUM;
+                    backdropUrl = DRAGON1_BIG; //TODO: Create default case
+                    thumbnailUrl = DRAGON1_BIG;
                     break;
             }
 

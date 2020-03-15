@@ -45,22 +45,21 @@ public class Constants {
     public static final String JRTI_BIG = "https://live.staticflickr.com/8689/17127808431_5ccfd017cd_b.jpg";
     public static final String JRTI_SMALL = "https://live.staticflickr.com/8689/17127808431_5ccfd017cd_n.jpg";
 
-    //TODO: create url strings for all cores that can be found
 
     public static final String CORE_B1005_SMALL = "https://live.staticflickr.com/8569/16169086873_ab9d35cae7_q.jpg";
     public static final String CORE_B1005_BIG = "https://live.staticflickr.com/7619/16763151866_a2d8c9195b_b.jpg";
     public static final String CORE_B1006_SMALL = "https://live.staticflickr.com/7617/16855338881_ecd89dbf64_q.jpg";
     public static final String CORE_B1006_BIG = "https://live.staticflickr.com/7617/16855338881_ecd89dbf64_b.jpg";
-
-
+    public static final String CORE_B1007_SMALL = "https://live.staticflickr.com/8607/16601442698_459cd9e559_q.jpg";
+    public static final String CORE_B1007_BIG = "https://live.staticflickr.com/7285/16581736047_2ee36446c3_b.jpg";
+    //v2 public static final String CORE_B1007_BIG = "https://live.staticflickr.com/8607/16601442698_459cd9e559_b.jpg";
     public static final String CORE_B1008_SMALL = "https://live.staticflickr.com/7654/16830368686_85ae51a3c6_q.jpg";
     public static final String CORE_B1008_BIG = "https://live.staticflickr.com/7654/16830368686_85ae51a3c6_b.jpg";
-
-
     public static final String CORE_B1010_SMALL = "https://live.staticflickr.com/8655/16789074175_b68bc9d468_q.jpg";
     public static final String CORE_B1010_BIG = "https://live.staticflickr.com/8655/16789074175_b68bc9d468_b.jpg";
     public static final String CORE_B1011_SMALL = "https://live.staticflickr.com/8742/16233828644_8434352c95_q.jpg";
-    public static final String CORE_B1011_BIG = "https://live.staticflickr.com/8742/16233828644_8434352c95_b.jpg";
+    public static final String CORE_B1011_BIG = "https://live.staticflickr.com/7645/16601443698_543a68c2e1_b.jpg";
+    //v2 public static final String CORE_B1011_BIG = "https://live.staticflickr.com/8742/16233828644_8434352c95_b.jpg";
     public static final String CORE_B1012_SMALL = "https://live.staticflickr.com/8663/16077174554_82d828f556_q.jpg";
     public static final String CORE_B1012_BIG = "https://live.staticflickr.com/8663/16077174554_82d828f556_b.jpg";
     public static final String CORE_B1013_SMALL = "https://live.staticflickr.com/8681/16512864259_07805c639c_q.jpg";
@@ -75,10 +74,11 @@ public class Constants {
     //v3 public static final String CORE_B1016_BIG = "https://live.staticflickr.com/8720/17108097439_2d41fd2c9f_b.jpg";
     public static final String CORE_B1017_SMALL = "https://live.staticflickr.com/1640/23779742713_e080ff9932_q.jpg";
     public static final String CORE_B1017_BIG = "https://live.staticflickr.com/1640/23779742713_e080ff9932_b.jpg";
-
-
-    public static final String CORE_B1019_SMALL = "https://live.staticflickr.com/8607/16601442698_459cd9e559_q.jpg";
-    public static final String CORE_B1019_BIG = "https://live.staticflickr.com/8607/16601442698_459cd9e559_b.jpg";
+    public static final String CORE_B1018_SMALL = "https://live.staticflickr.com/344/19045370790_154eee6d4d_q.jpg";
+    public static final String CORE_B1018_BIG = "https://live.staticflickr.com/287/18999110808_7dbbd4a658_b.jpg";
+    public static final String CORE_B1019_SMALL = "https://live.staticflickr.com/623/23660653516_5b6cb301d1_q.jpg";
+    //v2 public static final String CORE_B1019_SMALL = "https://live.staticflickr.com/5773/23802549782_82241bb8f5_q.jpg";
+    public static final String CORE_B1019_BIG = "https://live.staticflickr.com/691/23615167890_84d85559de_b.jpg";
     public static final String CORE_B1020_SMALL = "https://live.staticflickr.com/1661/25123108771_5911528cf3_q.jpg";
     //v2 public static final String CORE_B1020_SMALL = "https://live.staticflickr.com/1458/25395661442_db6acd7ab1_q.jpg"
     //v2 public static final String CORE_B1020_BIG = "https://live.staticflickr.com/1458/25395661442_db6acd7ab1_b.jpg";
@@ -99,10 +99,8 @@ public class Constants {
     public static final String CORE_B1026_SMALL = "https://live.staticflickr.com/8799/28969743225_72a2613d5a_q.jpg";
     public static final String CORE_B1026_BIG = "https://live.staticflickr.com/8078/28351782813_5944e4516a_b.jpg";
     //v2 public static final String CORE_B1026_BIG = "https://live.staticflickr.com/8799/28969743225_72a2613d5a_b.jpg";
-
-
-
-
+    public static final String CORE_B1028_SMALL = "https://live.staticflickr.com/447/31450835954_178ca1272b_q.jpg";
+    public static final String CORE_B1028_BIG = "https://live.staticflickr.com/447/31450835954_178ca1272b_b.jpg";
     public static final String CORE_B1029_SMALL = "https://live.staticflickr.com/735/32312416415_c43dfebed8_q.jpg";
     //v2 public static final String CORE_B1029_BIG = "https://live.staticflickr.com/735/32312416415_c43dfebed8_b.jpg";
     public static final String CORE_B1029_BIG = "https://live.staticflickr.com/293/32312415025_6841e30bf1_b.jpg";
@@ -113,8 +111,9 @@ public class Constants {
     public static final String CORE_B1032_SMALL = "https://live.staticflickr.com/4166/34005999880_78419da1bd_q.jpg";
     //v2 public static final String CORE_B1032_BIG = "https://live.staticflickr.com/4166/34005999880_78419da1bd_b.jpg";
     public static final String CORE_B1032_BIG = "https://live.staticflickr.com/4166/34006001860_2bfb026f9f_b.jpg";
-    public static final String CORE_B1033_SMALL = "";
-    public static final String CORE_B1033_BIG = "";
+    public static final String CORE_B1033_SMALL = "https://live.staticflickr.com/4631/39337245145_75611f0118_q.jpg";
+    public static final String CORE_B1033_BIG = "https://live.staticflickr.com/4650/40126461851_ec2bb0436b_b.jpg";
+    //v2 public static final String CORE_B1033_BIG = "https://live.staticflickr.com/4589/38583831555_25d4c6876b_b.jpg";
     public static final String CORE_B1034_SMALL = "https://live.staticflickr.com/4174/33859521334_bd70f3149f_q.jpg";
     public static final String CORE_B1034_BIG = "https://live.staticflickr.com/4182/33859520404_d6e05150b4_b.jpg";
     public static final String CORE_B1035_SMALL = "https://live.staticflickr.com/4279/34239858024_5357019066_q.jpg";
@@ -192,25 +191,35 @@ public class Constants {
     public static final String CORE_B1059_SMALL = "https://live.staticflickr.com/65535/49178954221_23b7959e15_q.jpg";
     public static final String CORE_B1059_BIG = "https://live.staticflickr.com/65535/49178460143_f8f05e1c9a_b.jpg";
 
-
-
-    // TODO: These will be default images in case no image is available for a certain core
-    public static final String BLOCK1_SMALL = "https://live.staticflickr.com/8607/16601442698_459cd9e559_q.jpg";
-    public static final String BLOCK1_MEDIUM = "https://live.staticflickr.com/8607/16601442698_459cd9e559_b.jpg"; //https://live.staticflickr.com/7631/16236321533_1216582801_z.jpg";
+    // These are default images in case no image is available for a certain core
+    public static final String BLOCK1_SMALL = "https://live.staticflickr.com/8713/16856371855_a3abc60d3c_q.jpg";
+    public static final String BLOCK1_BIG = "https://live.staticflickr.com/8713/16856371855_a3abc60d3c_b.jpg";
     public static final String BLOCK2_SMALL = "https://live.staticflickr.com/7656/27661313956_dd9d5cf88d_q.jpg";
-    public static final String BLOCK2_MEDIUM = "https://live.staticflickr.com/2842/32915199514_8d8715aa23_b.jpg"; //https://live.staticflickr.com/7656/27661313956_dd9d5cf88d_b.jpg"; //https://live.staticflickr.com/7088/27661326426_9dab3abb64_z.jpg";
+    public static final String BLOCK2_BIG = "https://live.staticflickr.com/2842/32915199514_8d8715aa23_b.jpg"; //https://live.staticflickr.com/7656/27661313956_dd9d5cf88d_b.jpg"; //https://live.staticflickr.com/7088/27661326426_9dab3abb64_z.jpg";
     public static final String BLOCK3_SMALL = "https://live.staticflickr.com/735/32312416415_c43dfebed8_q.jpg";
-    public static final String BLOCK3_MEDIUM = "https://live.staticflickr.com/4279/34239858024_5357019066_b.jpg"; //https://live.staticflickr.com/735/32312416415_c43dfebed8_b.jpg"; //https://live.staticflickr.com/4471/37388002420_7129e07ebb_z.jpg //https://live.staticflickr.com/293/32312415025_6841e30bf1_z.jpg";
+    public static final String BLOCK3_BIG = "https://live.staticflickr.com/4279/34239858024_5357019066_b.jpg"; //https://live.staticflickr.com/735/32312416415_c43dfebed8_b.jpg"; //https://live.staticflickr.com/4471/37388002420_7129e07ebb_z.jpg //https://live.staticflickr.com/293/32312415025_6841e30bf1_z.jpg";
     public static final String BLOCK4_SMALL = "https://live.staticflickr.com/902/41512967962_32150c9cb6_q.jpg";
-    public static final String BLOCK4_MEDIUM = "https://live.staticflickr.com/864/40227112595_33b74572ff_z.jpg";
-    public static final String BLOCK5_SMALL = "https://live.staticflickr.com/903/28197547888_2d732f67d2_q.jpg";
-    public static final String BLOCK5_MEDIUM = "https://live.staticflickr.com/4875/32040173278_575f896455_z.jpg";
+    public static final String BLOCK4_BIG = "https://live.staticflickr.com/864/40227112595_33b74572ff_z.jpg";
+    public static final String BLOCK5_SMALL = "https://live.staticflickr.com/7807/39745613733_6e0c98af5e_q.jpg";
+    public static final String BLOCK5_BIG = "https://live.staticflickr.com/4891/39745614053_7f1e3b0d14_b.jpg";
+
+
+
+
+    // CAPSULES
+    public static final String CAPSULE_C105_SMALL = "https://live.staticflickr.com/8618/16649075267_d18cbb4342_q.jpg";
+    public static final String CAPSULE_C105_BIG = "https://live.staticflickr.com/8618/16649075267_d18cbb4342_b.jpg";
+    public static final String CAPSULE_C108_SMALL = "https://live.staticflickr.com/7604/16513826774_d4d5a23946_q.jpg";
+    public static final String CAPSULE_C108_BIG = "https://live.staticflickr.com/7611/17171659711_689e3dd161_b.jpg";
+    public static final String CAPSULE_C109_SMALL = "https://live.staticflickr.com/287/18999110808_7dbbd4a658_q.jpg";
+    public static final String CAPSULE_C109_BIG = "https://live.staticflickr.com/287/18999110808_7dbbd4a658_b.jpg";
+
 
     //TODO: create url strings for all capsules that can be found
     public static final String DRAGON1_SMALL = "https://live.staticflickr.com/1685/26309783565_731c01117f_q.jpg";
-    public static final String DRAGON1_MEDIUM = "https://live.staticflickr.com/1685/26309783565_731c01117f_q.jpg";
+    public static final String DRAGON1_BIG = "https://live.staticflickr.com/1685/26309783565_731c01117f_q.jpg";
     public static final String DRAGON2_SMALL = "https://live.staticflickr.com/7647/16581815487_6d56cb32e1_q.jpg";
-    public static final String DRAGON2_MEDIUM = "https://live.staticflickr.com/7647/16581815487_6d56cb32e1_z.jpg"; //https://live.staticflickr.com/7899/39684491043_df8ffdd658_z.jpg
+    public static final String DRAGON2_BIG = "https://live.staticflickr.com/7647/16581815487_6d56cb32e1_z.jpg"; //https://live.staticflickr.com/7899/39684491043_df8ffdd658_z.jpg
 
     public static final String ACTIVE = "active";
     public static final String RETIRED = "retired";

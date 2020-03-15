@@ -25,9 +25,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.about.future.spacex.utils.Constants.DRAGON1_MEDIUM;
+import static com.about.future.spacex.utils.Constants.DRAGON1_BIG;
 import static com.about.future.spacex.utils.Constants.DRAGON1_SMALL;
-import static com.about.future.spacex.utils.Constants.DRAGON2_MEDIUM;
+import static com.about.future.spacex.utils.Constants.DRAGON2_BIG;
 import static com.about.future.spacex.utils.Constants.DRAGON2_SMALL;
 
 public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHolder> {
@@ -124,10 +124,10 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
             } else {
                 switch (capsule.getCapsuleId()) {
                     case "dragon1":
-                        imagePath = DRAGON1_MEDIUM;
+                        imagePath = DRAGON1_BIG;
                         break;
                     case "dragon2":
-                        imagePath = DRAGON2_MEDIUM;
+                        imagePath = DRAGON2_BIG;
                         break;
                     default:
                         imagePath = "";
