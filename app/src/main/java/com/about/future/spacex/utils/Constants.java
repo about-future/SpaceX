@@ -47,6 +47,8 @@ public class Constants {
 
     //TODO: create url strings for all cores that can be found
 
+    public static final String CORE_B1005_SMALL = "https://live.staticflickr.com/8569/16169086873_ab9d35cae7_q.jpg";
+    public static final String CORE_B1005_BIG = "https://live.staticflickr.com/7619/16763151866_a2d8c9195b_b.jpg";
     public static final String CORE_B1006_SMALL = "https://live.staticflickr.com/7617/16855338881_ecd89dbf64_q.jpg";
     public static final String CORE_B1006_BIG = "https://live.staticflickr.com/7617/16855338881_ecd89dbf64_b.jpg";
 
@@ -111,8 +113,8 @@ public class Constants {
     public static final String CORE_B1032_SMALL = "https://live.staticflickr.com/4166/34005999880_78419da1bd_q.jpg";
     //v2 public static final String CORE_B1032_BIG = "https://live.staticflickr.com/4166/34005999880_78419da1bd_b.jpg";
     public static final String CORE_B1032_BIG = "https://live.staticflickr.com/4166/34006001860_2bfb026f9f_b.jpg";
-
-
+    public static final String CORE_B1033_SMALL = "";
+    public static final String CORE_B1033_BIG = "";
     public static final String CORE_B1034_SMALL = "https://live.staticflickr.com/4174/33859521334_bd70f3149f_q.jpg";
     public static final String CORE_B1034_BIG = "https://live.staticflickr.com/4182/33859520404_d6e05150b4_b.jpg";
     public static final String CORE_B1035_SMALL = "https://live.staticflickr.com/4279/34239858024_5357019066_q.jpg";
