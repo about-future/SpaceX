@@ -13,7 +13,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="@dimen/spacing"
         android:contentDescription="@string/mission_patch"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

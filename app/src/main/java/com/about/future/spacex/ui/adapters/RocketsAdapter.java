@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.about.future.spacex.R;
 import com.about.future.spacex.model.rocket.RocketMini;
+import com.about.future.spacex.utils.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,19 +79,24 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
                         rocketImageView.setImageResource(R.drawable.falcon1_small);
                         break;
                     case "falcon9":
-                        rocketImageView.setImageResource(R.drawable.falcon9_small);
+                        ImageUtils.setImage(mContext.getString(R.string.falcon9_medium), rocketImageView);
+                        //rocketImageView.setImageResource(R.drawable.falcon9_small);
                         break;
                     case "falconheavy":
-                        rocketImageView.setImageResource(R.drawable.falcon_heavy_small);
+                        ImageUtils.setImage(mContext.getString(R.string.falcon_heavy_medium), rocketImageView);
+                        //rocketImageView.setImageResource(R.drawable.falcon_heavy_small);
                         break;
                     case "starship":
-                        rocketImageView.setImageResource(R.drawable.bfr1);
+                        ImageUtils.setImage(mContext.getString(R.string.starship_medium), rocketImageView);
+                        //rocketImageView.setImageResource(R.drawable.bfr1);
                         break;
                     default:
-                        rocketImageView.setImageResource(R.drawable.rocket_small);
+                        //rocketImageView.setImageResource(R.drawable.rocket_small);
+                        ImageUtils.setImage(mContext.getString(R.string.default_medium), rocketImageView);
                 }
             } else {
-                rocketImageView.setImageResource(R.drawable.rocket_small);
+                //rocketImageView.setImageResource(R.drawable.rocket_small);
+                ImageUtils.setImage(mContext.getString(R.string.default_medium), rocketImageView);
             }
 
             if (!TextUtils.isEmpty(rocket.getName())) {

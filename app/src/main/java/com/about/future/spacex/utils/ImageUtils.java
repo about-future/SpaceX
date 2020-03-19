@@ -3,10 +3,14 @@ package com.about.future.spacex.utils;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.about.future.spacex.BuildConfig;
 import com.about.future.spacex.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -358,5 +362,33 @@ public class ImageUtils {
         }
 
         return "";
+    }
+
+    public static void setImage(final String imagePath, ImageView imageView) {
+        if (!TextUtils.isEmpty(imagePath)) {
+            Picasso.get()
+                    .load(imagePath)
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            // Yay!
+                            Log.v("FETCHING", "FROM CACHE");
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.v("FETCHING", "FROM WEB");
+                            // Try again online, if cache loading failed and reset savedDate value
+                            Picasso.get()
+                                    .load(imagePath)
+                                    .error(R.drawable.empty_map)
+                                    .into(imageView);
+                        }
+                    });
+        } else {
+            // Otherwise, don't bother using Picasso and set default image for launchPadThumbnailImageView
+            imageView.setImageResource(R.drawable.empty_map);
+        }
     }
 }

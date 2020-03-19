@@ -27,6 +27,7 @@ import com.about.future.spacex.model.rocket.CompositeFairing;
 import com.about.future.spacex.model.rocket.Rocket;
 import com.about.future.spacex.ui.adapters.GalleryAdapter;
 import com.about.future.spacex.utils.DateUtils;
+import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.SpaceXPreferences;
@@ -259,35 +260,41 @@ public class RocketDetailsFragment extends Fragment implements GalleryAdapter.Li
                     paramsCore.setMarginEnd(48);
                     break;
                 case "falcon9":
-                    mBackdropImageView.setImageResource(R.drawable.falcon9);
+                    ImageUtils.setImage(getString(R.string.falcon9_big), mBackdropImageView);
+                    //mBackdropImageView.setImageResource(R.drawable.falcon9);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
                     //mGalleryImageView.setImageResource(R.drawable.falcon9_gallery);
+
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.core_block5);
                     paramsPayload.setMarginEnd(48);
                     paramsCore.setMarginEnd(48);
                     break;
                 case "falconheavy":
-                    mBackdropImageView.setImageResource(R.drawable.falcon_heavy);
+                    //mBackdropImageView.setImageResource(R.drawable.falcon_heavy);
+                    ImageUtils.setImage(getString(R.string.falcon_heavy_big), mBackdropImageView);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_fh_small);
                     //mGalleryImageView.setImageResource(R.drawable.falcon_heavy_backdrop);
+
                     mPayloadImageView.setImageResource(R.drawable.payload_fh_satellite);
                     mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
                     paramsPayload.setMarginEnd(20);
                     paramsCore.setMarginEnd(20);
                     break;
                 case "starship":
-                    mBackdropImageView.setImageResource(R.drawable.bfr1);
+                    //mBackdropImageView.setImageResource(R.drawable.bfr1);
+                    ImageUtils.setImage(getString(R.string.starship_big), mBackdropImageView);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_bfr_small);
                     //mGalleryImageView.setImageResource(R.drawable.bfr_gallery);
-                    mPayloadImageView.setImageResource(R.drawable.payload_bfr);
-                    mCoreImageView.setImageResource(R.drawable.core_bfr);
+                    mPayloadImageView.setImageResource(R.drawable.payload_starship);
+                    mCoreImageView.setImageResource(R.drawable.core_starship);
                     paramsPayload.setMarginEnd(24);
                     paramsCore.setMarginEnd(24);
                     break;
                 default:
                     // Other new type of rocket
-                    mBackdropImageView.setImageResource(R.drawable.rocket);
+                    //mBackdropImageView.setImageResource(R.drawable.rocket);
+                    ImageUtils.setImage(getString(R.string.default_big), mBackdropImageView);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_dragon_small);
                     //mGalleryImageView.setImageResource(R.drawable.rocket);
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);

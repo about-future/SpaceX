@@ -93,45 +93,48 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
             String backdropUrl = ImageUtils.getBackdropPath(getActivityCast(), core.getBlock(), core.getCoreSerial());
             String thumbnailUrl = ImageUtils.getMediumPath(getActivityCast(), core.getBlock(), core.getCoreSerial());
 
-            // Backdrop
-            Picasso.get()
-                    .load(backdropUrl)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(binding.backdropImage, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            // Yay!
-                        }
+            ImageUtils.setImage(backdropUrl, binding.backdropImage);
+            ImageUtils.setImage(thumbnailUrl, binding.thumbnailImage);
 
-                        @Override
-                        public void onError(Exception e) {
-                            // Try again online, if cache loading failed
-                            Picasso.get()
-                                    .load(backdropUrl)
-                                    .error(R.drawable.staticmap)
-                                    .into(binding.backdropImage);
-                        }
-                    });
-
-            // Thumbnail
-            Picasso.get()
-                    .load(thumbnailUrl)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(binding.thumbnailImage, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            // Yay!
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            // Try again online, if cache loading failed
-                            Picasso.get()
-                                    .load(thumbnailUrl)
-                                    .error(R.drawable.staticmap)
-                                    .into(binding.thumbnailImage);
-                        }
-                    });
+//            // Backdrop
+//            Picasso.get()
+//                    .load(backdropUrl)
+//                    .networkPolicy(NetworkPolicy.OFFLINE)
+//                    .into(binding.backdropImage, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//                            // Yay!
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//                            // Try again online, if cache loading failed
+//                            Picasso.get()
+//                                    .load(backdropUrl)
+//                                    .error(R.drawable.staticmap)
+//                                    .into(binding.backdropImage);
+//                        }
+//                    });
+//
+//            // Thumbnail
+//            Picasso.get()
+//                    .load(thumbnailUrl)
+//                    .networkPolicy(NetworkPolicy.OFFLINE)
+//                    .into(binding.thumbnailImage, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//                            // Yay!
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//                            // Try again online, if cache loading failed
+//                            Picasso.get()
+//                                    .load(thumbnailUrl)
+//                                    .error(R.drawable.staticmap)
+//                                    .into(binding.thumbnailImage);
+//                        }
+//                    });
 
             if (core.getBlock() > 0) {
                 binding.blockType.setText(String.format(getString(R.string.format_block_type), String.valueOf(core.getBlock())));

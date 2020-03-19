@@ -92,7 +92,7 @@
                         android:layout_height="@dimen/details_patch_size"
                         android:layout_gravity="top"
                         android:contentDescription="@string/mission_patch"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         tools:src="@drawable/default_patch_f9_small" />
 
                     <LinearLayout

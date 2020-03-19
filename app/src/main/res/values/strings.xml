@@ -306,6 +306,22 @@
     <string name="time_left_format_short">%s</string>
 
 
+    <string name="the_suit">https://www.spacex.com/sites/spacex/files/suit_not_compressedv2_1_0.jpg</string>
+
+
+    <!-- Rockets -->
+    <string name="falcon9_medium">https://live.staticflickr.com/4828/32040174368_f488176bf4.jpg</string>
+    <string name="falcon_heavy_medium">https://live.staticflickr.com/4711/40126461411_aabc643fd8.jpg</string>
+    <string name="starship_medium">https://live.staticflickr.com/65535/48954138922_9c42173f08.jpg</string>
+    <string name="default_medium">https://live.staticflickr.com/4768/25557986627_77dd09b193.jpg</string>
+
+    <string name="falcon9_big">https://live.staticflickr.com/4828/32040174368_f488176bf4_b.jpg</string>
+    <string name="falcon_heavy_big">https://live.staticflickr.com/4711/40126461411_aabc643fd8_b.jpg</string>
+    <string name="starship_big">https://live.staticflickr.com/65535/48954138922_9c42173f08_b.jpg</string>
+    <string name="default_big">https://live.staticflickr.com/4768/25557986627_77dd09b193_b.jpg</string>
+
+
+
     <!-- Cores -->
     <!-- Block 1 -->
     <string name="core_block1">https://live.staticflickr.com/8713/16856371855_a3abc60d3c_q.jpg</string>
@@ -490,5 +506,8 @@
     <string name="big_core_b1056">https://live.staticflickr.com/65535/48380370691_f992ae6dcc_b.jpg</string>
     <string name="big_core_b1057">https://live.staticflickr.com/65535/48129182631_7ce347ab10_b.jpg</string>
     <string name="big_core_b1059">https://live.staticflickr.com/65535/49178460143_f8f05e1c9a_b.jpg</string>
+
+    <!-- TODO: Need default image for Merlin engine -->
+    <!-- TODO: Must save position onPause too and restore it onResume -->
 
 </resources>
