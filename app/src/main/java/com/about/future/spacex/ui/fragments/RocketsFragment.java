@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.about.future.spacex.R;
@@ -42,7 +42,7 @@ public class RocketsFragment extends Fragment implements RocketsAdapter.ListItem
         // Setup RecyclerView and Adaptor
         setupRecyclerView();
         // Init view model
-        mViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(RocketsViewModel.class);
 
         binding.swipeToRefreshLayout.setOnRefreshListener(() -> {
             binding.swipeToRefreshLayout.setRefreshing(false);

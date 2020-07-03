@@ -99,7 +99,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
                                             // Try again online
                                             Picasso.get()
                                                     .load(imageUrl)
-                                                    .error(R.drawable.falcon1_gallery)
+                                                    .error(R.drawable.falcon9_gallery)
                                                     .into(galleryImageView);
 
                                             //mVatCardView.setVisibility(View.VISIBLE);

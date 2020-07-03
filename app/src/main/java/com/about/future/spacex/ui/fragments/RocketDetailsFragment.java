@@ -253,7 +253,7 @@ public class RocketDetailsFragment extends Fragment implements GalleryAdapter.Li
                 case "falcon1":
                     mBackdropImageView.setImageResource(R.drawable.falcon1);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_f1_small);
-                    //mGalleryImageView.setImageResource(R.drawable.falcon1_gallery);
+
                     mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
                     mCoreImageView.setImageResource(R.drawable.core_falcon1);
                     paramsPayload.setMarginEnd(48);
@@ -261,9 +261,7 @@ public class RocketDetailsFragment extends Fragment implements GalleryAdapter.Li
                     break;
                 case "falcon9":
                     ImageUtils.setImage(getString(R.string.falcon9_big), mBackdropImageView);
-                    //mBackdropImageView.setImageResource(R.drawable.falcon9);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
-                    //mGalleryImageView.setImageResource(R.drawable.falcon9_gallery);
 
                     mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                     mCoreImageView.setImageResource(R.drawable.core_block5);
@@ -282,10 +280,9 @@ public class RocketDetailsFragment extends Fragment implements GalleryAdapter.Li
                     paramsCore.setMarginEnd(20);
                     break;
                 case "starship":
-                    //mBackdropImageView.setImageResource(R.drawable.bfr1);
                     ImageUtils.setImage(getString(R.string.starship_big), mBackdropImageView);
                     mRocketPatchImageView.setImageResource(R.drawable.default_patch_bfr_small);
-                    //mGalleryImageView.setImageResource(R.drawable.bfr_gallery);
+
                     mPayloadImageView.setImageResource(R.drawable.payload_starship);
                     mCoreImageView.setImageResource(R.drawable.core_starship);
                     paramsPayload.setMarginEnd(24);

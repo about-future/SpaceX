@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +61,7 @@ public class PastMissionsFragment extends Fragment implements MissionsAdapter.Li
         setupRecyclerView();
 
         // Init view model
-        mViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MissionsViewModel.class);
 
         binding.swipeToRefreshLayout.setOnRefreshListener(() -> {
             binding.swipeToRefreshLayout.setRefreshing(false);

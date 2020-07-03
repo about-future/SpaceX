@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.about.future.spacex.databinding.ActivityMissionDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
@@ -55,7 +55,7 @@ public class MissionDetailsActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-        MissionsViewModel viewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
+        MissionsViewModel viewModel = new ViewModelProvider(this).get(MissionsViewModel.class);
         viewModel.getMissionsFromDb().observe(this, missions -> {
             if (missions != null && missions.size() > 0) {
                 pagerAdapter.setMissions(missions);

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -25,9 +25,6 @@ import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.viewmodel.MissionsViewModel;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 
@@ -57,7 +54,7 @@ public class CoreDetailsFragment extends Fragment implements MissionsAdapter.Lis
         getActivityCast().setSupportActionBar(binding.toolbar);
         bindViews(mCore);
 
-        mViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MissionsViewModel.class);
         if (mCore != null) getMissions();
 
         binding.swipeRefreshLayout.setOnRefreshListener(() -> {

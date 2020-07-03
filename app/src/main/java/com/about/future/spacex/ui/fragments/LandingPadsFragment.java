@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +55,7 @@ public class LandingPadsFragment extends Fragment implements LandingPadsAdapter.
         // Setup RecyclerView and Adaptor
         setupRecyclerView();
         // Init view model
-        mViewModel = ViewModelProviders.of(this).get(LandingPadsViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(LandingPadsViewModel.class);
 
         binding.swipeRefreshLandingPadsListLayout.setOnRefreshListener(() -> {
             binding.swipeRefreshLandingPadsListLayout.setRefreshing(false);

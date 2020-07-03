@@ -113,14 +113,6 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
                         imagePath = ""; //ImageUtils.buildMapThumbnailUrl(latitude, longitude, 15, "satellite", mContext);
                 }
 
-                setImage(imagePath, capsuleThumbnail);
-
-                capsuleSerialTextView.setText(capsule.getCapsuleSerial());
-                if (capsule.getDetails() != null && !capsule.getDetails().equals("")) {
-                    capsuleDetailsTextView.setText(capsule.getDetails());
-                } else {
-                    capsuleDetailsTextView.setText(mContext.getString(R.string.no_capsule_details));
-                }
             } else {
                 switch (capsule.getCapsuleId()) {
                     case "dragon1":
@@ -133,14 +125,15 @@ public class CapsulesAdapter extends RecyclerView.Adapter<CapsulesAdapter.ViewHo
                         imagePath = "";
                 }
 
-                setImage(imagePath, capsuleThumbnail);
+            }
 
-                capsuleSerialTextView.setText(capsule.getCapsuleSerial());
-                if (capsule.getDetails() != null && !capsule.getDetails().equals("")) {
-                    capsuleDetailsTextView.setText(capsule.getDetails());
-                } else {
-                    capsuleDetailsTextView.setText(mContext.getString(R.string.no_capsule_details));
-                }
+            setImage(imagePath, capsuleThumbnail);
+            capsuleSerialTextView.setText(capsule.getCapsuleSerial());
+
+            if (capsule.getDetails() != null && !capsule.getDetails().equals("")) {
+                capsuleDetailsTextView.setText(capsule.getDetails());
+            } else {
+                capsuleDetailsTextView.setText(mContext.getString(R.string.no_capsule_details));
             }
         }
 

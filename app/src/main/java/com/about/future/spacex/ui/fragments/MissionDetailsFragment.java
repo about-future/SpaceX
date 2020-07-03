@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.about.future.spacex.R;
@@ -168,8 +168,8 @@ public class MissionDetailsFragment extends Fragment {
         getActivityCast().setSupportActionBar(mToolbar);
 
         // Init view models
-        mLaunchPadsViewModel = ViewModelProviders.of(this).get(LaunchPadsViewModel.class);
-        mRocketsViewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
+        mLaunchPadsViewModel = new ViewModelProvider(this).get(LaunchPadsViewModel.class);
+        mRocketsViewModel = new ViewModelProvider(this).get(RocketsViewModel.class);
 
         bindViews(mMission);
 
@@ -265,16 +265,19 @@ public class MissionDetailsFragment extends Fragment {
                 // Otherwise, set backdrop image if the is no webcast preview available
                 switch (mission.getRocket().getRocketName()) {
                     case "Falcon 9":
+                        ImageUtils.setImage(getString(R.string.falcon9_medium), mWebcastPreviewImageView);
                         mWebcastPreviewImageView.setImageResource(R.drawable.falcon9_backdrop);
                         break;
                     case "Falcon Heavy":
                         mWebcastPreviewImageView.setImageResource(R.drawable.falcon_heavy_backdrop);
                         break;
-                    case "Big Falcon Rocket":
-                        mWebcastPreviewImageView.setImageResource(R.drawable.bfr_backdrop);
+                    case "Starship":
+                        ImageUtils.setImage(getString(R.string.starship_lauch_backdrop_big), mWebcastPreviewImageView);
+                        //mWebcastPreviewImageView.setImageResource(R.drawable.bfr_backdrop);
                         break;
                     default:
-                        mWebcastPreviewImageView.setImageResource(R.drawable.rocket);
+                        ImageUtils.setImage(getString(R.string.default_medium), mWebcastPreviewImageView);
+                        //mWebcastPreviewImageView.setImageResource(R.drawable.rocket);
                         break;
                 }
                 mWebcastPlayButton.setVisibility(View.GONE);
@@ -335,7 +338,12 @@ public class MissionDetailsFragment extends Fragment {
             }
 
             // Launch site
-            mLaunchSiteNameTextView.setText(mission.getLaunchSite().getSiteName());
+            if (mission.getLaunchSite() != null && mission.getLaunchSite().getSiteName() != null && !mission.getLaunchSite().getSiteName().equals("")) {
+                mLaunchSiteNameTextView.setText(mission.getLaunchSite().getSiteName());
+            } else {
+                mLaunchSiteNameTextView.setText(getString(R.string.label_unknown));
+            }
+
             // Mission details
             if (mission.getDetails() != null && !TextUtils.isEmpty(mission.getDetails())) {
                 mDetailsTextView.setText(mission.getDetails());
@@ -655,8 +663,8 @@ public class MissionDetailsFragment extends Fragment {
                         paramsCore.setMarginEnd(20);
                         break;
                     case "Starship":
-                        mPayloadImageView.setImageResource(R.drawable.payload_bfr);
-                        mCoreImageView.setImageResource(R.drawable.core_bfr);
+                        mPayloadImageView.setImageResource(R.drawable.payload_starship);
+                        mCoreImageView.setImageResource(R.drawable.core_starship);
                         paramsPayload.setMarginEnd(24);
                         paramsCore.setMarginEnd(24);
                         break;

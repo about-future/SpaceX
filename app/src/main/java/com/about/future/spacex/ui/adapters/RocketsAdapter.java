@@ -83,8 +83,8 @@ public class RocketsAdapter extends RecyclerView.Adapter<RocketsAdapter.ViewHold
                         //rocketImageView.setImageResource(R.drawable.falcon9_small);
                         break;
                     case "falconheavy":
-                        ImageUtils.setImage(mContext.getString(R.string.falcon_heavy_medium), rocketImageView);
-                        //rocketImageView.setImageResource(R.drawable.falcon_heavy_small);
+                        //ImageUtils.setImage(mContext.getString(R.string.falcon_heavy_medium), rocketImageView);
+                        rocketImageView.setImageResource(R.drawable.falcon_heavy);
                         break;
                     case "starship":
                         ImageUtils.setImage(mContext.getString(R.string.starship_medium), rocketImageView);

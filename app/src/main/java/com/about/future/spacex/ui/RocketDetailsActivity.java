@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.about.future.spacex.databinding.ActivityMissionDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
@@ -51,7 +51,7 @@ public class RocketDetailsActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-        RocketsViewModel viewModel = ViewModelProviders.of(this).get(RocketsViewModel.class);
+        RocketsViewModel viewModel = new ViewModelProvider(this).get(RocketsViewModel.class);
         viewModel.getRocketsFromDb().observe(this, rockets -> {
             if (rockets != null && rockets.size() > 0) {
                 pagerAdapter.setRockets(rockets);

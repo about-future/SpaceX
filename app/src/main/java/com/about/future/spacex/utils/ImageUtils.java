@@ -391,4 +391,6 @@ public class ImageUtils {
             imageView.setImageResource(R.drawable.empty_map);
         }
     }
+
+    //TODO: setBackdropImage method & setMediumImage method
 }

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.about.future.spacex.databinding.ActivityLandingPadDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
@@ -50,7 +50,7 @@ public class LandingPadDetailsActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-        LandingPadsViewModel viewModel = ViewModelProviders.of(this).get(LandingPadsViewModel.class);
+        LandingPadsViewModel viewModel = new ViewModelProvider(this).get(LandingPadsViewModel.class);
         viewModel.getLandingPadsFromDb().observe(this, landingPads -> {
             if (landingPads != null && landingPads.size() > 0) {
                 pagerAdapter.setLandingPads(landingPads);

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.about.future.spacex.databinding.ActivityCoreDetailsBinding;
 import com.about.future.spacex.ui.adapters.MyPagerAdapter;
@@ -52,7 +52,7 @@ public class CoreDetailsActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), getLifecycle());
-        CoresViewModel viewModel = ViewModelProviders.of(this).get(CoresViewModel.class);
+        CoresViewModel viewModel = new ViewModelProvider(this).get(CoresViewModel.class);
         viewModel.getCoresFromDb().observe(this, cores -> {
             if (cores != null && cores.size() > 0) {
                 pagerAdapter.setCores(cores);
