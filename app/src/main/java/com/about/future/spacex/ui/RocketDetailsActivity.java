@@ -2,6 +2,7 @@ package com.about.future.spacex.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,7 +17,7 @@ import static com.about.future.spacex.utils.Constants.ROCKET_PAGE_NUMBER_KEY;
 
 public class RocketDetailsActivity extends AppCompatActivity {
     private int mPageNumber = -1;
-    private String mRocketId = "falcon9";
+    private String mRocketId = "";
     private ActivityMissionDetailsBinding binding;
 
     @Override
@@ -61,6 +62,8 @@ public class RocketDetailsActivity extends AppCompatActivity {
                     binding.viewPager.setCurrentItem(mPageNumber, false);
                 } else {
                     for (int i = 0; i < rockets.size(); i++) {
+                        Log.v("ROCKET", "ID: " + mRocketId);
+
                         if (mRocketId.equals(rockets.get(i).getRocketId())) {
                             binding.viewPager.setCurrentItem(i, false);
                             break;

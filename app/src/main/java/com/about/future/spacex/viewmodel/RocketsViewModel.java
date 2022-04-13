@@ -23,11 +23,11 @@ public class RocketsViewModel extends AndroidViewModel {
 
     public LiveData<ResultDisplay<List<Rocket>>> getRocketsFromServer() { return repository.getRocketsFromServer(); }
     public LiveData<List<RocketMini>> getMiniRocketsFromDb() { return repository.getMiniRockets(); }
+    public List<RocketMini> getMiniRocketsRaw() { return repository.getMiniRocketsRaw(); }
     public LiveData<List<Rocket>> getRocketsFromDb() { return repository.getRockets(); }
 
-    public LiveData<Rocket> getRocketDetails(int id) {
+    public LiveData<Rocket> getRocketDetails(String id) {
         return repository.getRocketDetails(id);
     }
-    public String getRocketId(String rocket) { return repository.getRocketId(rocket); }
-
+    public String getRocketType(String rocketId) { return repository.getRocketType(rocketId); }
 }

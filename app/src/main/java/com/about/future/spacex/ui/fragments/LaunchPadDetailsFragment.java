@@ -3,28 +3,34 @@ package com.about.future.spacex.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.about.future.spacex.R;
+import com.about.future.spacex.data.AppExecutors;
 import com.about.future.spacex.databinding.FragmentLaunchPadDetailsBinding;
 import com.about.future.spacex.model.pads.LaunchPad;
+import com.about.future.spacex.model.rocket.RocketMini;
 import com.about.future.spacex.utils.ImageUtils;
 import com.about.future.spacex.utils.NetworkUtils;
 import com.about.future.spacex.utils.TextsUtils;
 import com.about.future.spacex.ui.LaunchPadDetailsActivity;
+import com.about.future.spacex.viewmodel.RocketsViewModel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class LaunchPadDetailsFragment extends Fragment {
     private LaunchPad mLaunchPad;
     private FragmentLaunchPadDetailsBinding binding;
+    private String mRocketNames = "";
 
     public LaunchPadDetailsFragment() { }
 
@@ -70,36 +76,45 @@ public class LaunchPadDetailsFragment extends Fragment {
             binding.collapsingToolbarLayout.setTitle(launchPad.getFullName());
             binding.toolbar.setNavigationOnClickListener(view -> getActivityCast().onBackPressed());
 
-            if (launchPad.getLocation() != null) {
-                double latitude = launchPad.getLocation().getLatitude();
-                double longitude = launchPad.getLocation().getLongitude();
+            if (launchPad.getLatitude() != 0 && launchPad.getLongitude() != 0) {
+                double latitude = launchPad.getLatitude();
+                double longitude = launchPad.getLongitude();
                 final String locationPadSatelliteImageUrl = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, 14, getActivityCast());
-                Log.v("SATELLITE URL", "IS: " + locationPadSatelliteImageUrl);
+                //Log.v("SATELLITE URL", "IS: " + locationPadSatelliteImageUrl);
 
                 // Set backdrop image as a satellite image of the launch pad
-                Picasso.get()
-                        .load(locationPadSatelliteImageUrl)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .into(binding.satelliteViewBackdrop, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                // Yay!
-                            }
+                if (launchPad.getImages() != null
+                        && launchPad.getImages().getLargeImages() != null
+                        && launchPad.getImages().getLargeImages().length > 0) {
+                    for (String image : launchPad.getImages().getLargeImages()) {
+                        if (image != null) {
+                            Picasso.get()
+                                    .load(image) // locationPadSatelliteImageUrl
+                                    .networkPolicy(NetworkPolicy.OFFLINE)
+                                    .into(binding.satelliteViewBackdrop, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            // Yay!
+                                        }
 
-                            @Override
-                            public void onError(Exception e) {
-                                // Try again online, if cache loading failed
-                                Picasso.get()
-                                        .load(locationPadSatelliteImageUrl)
-                                        .error(R.drawable.staticmap)
-                                        .into(binding.satelliteViewBackdrop);
-                            }
-                        });
+                                        @Override
+                                        public void onError(Exception e) {
+                                            // Try again online, if cache loading failed
+                                            Picasso.get()
+                                                    .load(locationPadSatelliteImageUrl)
+                                                    .error(R.drawable.staticmap)
+                                                    .into(binding.satelliteViewBackdrop);
+                                        }
+                                    });
+                            break;
+                        }
+                    }
+                }
 
                 // Set launch pad map
                 final String locationPadMapImageUrl = ImageUtils.buildMapThumbnailUrl(
                         latitude, longitude, 8, "map", getActivityCast());
-                Log.v("MAP URL", "IS: " + locationPadSatelliteImageUrl);
+                //Log.v("MAP URL", "IS: " + locationPadSatelliteImageUrl);
 
                 Picasso.get()
                         .load(locationPadMapImageUrl)
@@ -121,12 +136,11 @@ public class LaunchPadDetailsFragment extends Fragment {
                         });
 
                 // Launch pad location
-                if (!TextUtils.isEmpty(launchPad.getLocation().getName()) &&
-                        !TextUtils.isEmpty(launchPad.getLocation().getRegion())) {
+                if (!TextUtils.isEmpty(launchPad.getName()) && !TextUtils.isEmpty(launchPad.getRegion())) {
                     binding.padLocation.setText(
                             String.format(getString(R.string.launch_pad_location),
-                                    launchPad.getLocation().getName(),
-                                    launchPad.getLocation().getRegion()));
+                                    launchPad.getName(),
+                                    launchPad.getRegion()));
                 } else {
                     binding.padLocation.setText(getString(R.string.label_unknown));
                 }
@@ -145,8 +159,32 @@ public class LaunchPadDetailsFragment extends Fragment {
             }
 
             // Launched vehicles
-            if (launchPad.getVehiclesLaunched().length != 0) {
-                binding.launchedVehicles.setText(TextUtils.join(", ", launchPad.getVehiclesLaunched()));
+            if (launchPad.getRockets() != null && launchPad.getRockets().length > 0) {
+                AppExecutors.getInstance().diskIO().execute(() -> {
+                    RocketsViewModel viewModel = new ViewModelProvider(getActivityCast()).get(RocketsViewModel.class);
+                    List<RocketMini> rockets = viewModel.getMiniRocketsRaw();
+
+                    if (rockets != null && rockets.size() > 0) {
+                        for (String rocketId : launchPad.getRockets()) {
+                            for (RocketMini rocket : rockets) {
+                                if (rocketId.equals(rocket.getRocketId())) {
+                                    mRocketNames = mRocketNames.concat(rocket.getName()).concat(", ");
+                                    break;
+                                }
+                            }
+                        }
+
+                        AppExecutors.getInstance().mainThread().execute(() -> {
+                            if (mRocketNames.length() > 0) {
+                                binding.launchedVehicles.setText(mRocketNames.substring(0, mRocketNames.length() - 2));
+                            } else {
+                                binding.launchedVehicles.setText(getString(R.string.label_unknown));
+                            }
+                        });
+                    } else {
+                        binding.launchedVehicles.setText(getString(R.string.label_unknown));
+                    }
+                });
             } else {
                 binding.launchedVehicles.setText(getString(R.string.label_unknown));
             }

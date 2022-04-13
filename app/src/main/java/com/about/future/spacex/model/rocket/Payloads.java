@@ -9,9 +9,11 @@ public class Payloads {
     @ColumnInfo(name = "option_1")
     @SerializedName("option_1")
     private final String option1;
+
     @ColumnInfo(name = "option_2")
     @SerializedName("option_2")
     private final String option2;
+
     @Embedded(prefix = "composite_fairing_")
     @SerializedName("composite_fairing")
     private final CompositeFairing compositeFairing;

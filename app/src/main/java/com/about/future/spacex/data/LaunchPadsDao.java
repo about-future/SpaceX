@@ -19,8 +19,8 @@ public interface LaunchPadsDao {
     @Query("SELECT * FROM launch_pads WHERE id = :padId")
     LiveData<LaunchPad> loadLaunchPadDetails(int padId);
 
-    @Query("SELECT id FROM launch_pads WHERE site_id = :launchPadId")
-    int getLaunchPadId(String launchPadId);
+    @Query("SELECT name FROM launch_pads WHERE id = :launchPadId")
+    String getLaunchPadName(String launchPadId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertLaunchPads(List<LaunchPad> launchPads);

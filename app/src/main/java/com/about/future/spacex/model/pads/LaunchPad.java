@@ -1,84 +1,171 @@
 package com.about.future.spacex.model.pads;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.about.future.spacex.model.StringArrayTypeConverter;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "launch_pads")
 public class LaunchPad {
     @PrimaryKey
+    @NonNull
     @SerializedName("id")
     @ColumnInfo(name = "id")
-    private int id;
+    private String id;
 
-    @ColumnInfo(name = "site_name")
     @SerializedName("name")
+    @ColumnInfo(name = "name")
     private final String name;
+
+    @ColumnInfo(name = "full_name")
+    @SerializedName("full_name")
+    private final String fullName;
+
+
+
+    @SerializedName("images")
+    @Embedded
+    private final Images images;
+
+
+
+    @SerializedName("latitude")
+    private final double latitude;
+
+    @SerializedName("longitude")
+    private final double longitude;
+
+    @SerializedName("locality")
+    private final String locality;
+
+    @SerializedName("region")
+    private final String region;
+
+    @SerializedName("timezone")
+    private final String timezone;
+
+
+
+    //@ColumnInfo(name = "rockets")
+    @TypeConverters(StringArrayTypeConverter.class)
+    @SerializedName("rockets")
+    private final String[] rockets;
+
+    @TypeConverters(StringArrayTypeConverter.class)
+    @SerializedName("launches")
+    private final String[] launches;
+
+    @SerializedName("launch_attempts")
+    @ColumnInfo(name = "attempted_launches")
+    private int attemptedLaunches;
+
+    @SerializedName("launch_successes")
+    @ColumnInfo(name = "successful_launches")
+    private int successfulLaunches;
+
+
 
     @SerializedName("status")
     private final String status;
 
-    @Embedded
-    @SerializedName("location")
-    private final Location location;
-
-    @ColumnInfo(name = "vehicles_launched")
-    @TypeConverters(VehiclesTypeConverter.class)
-    @SerializedName("vehicles_launched")
-    private final String[] vehiclesLaunched;
-
-    @SerializedName("attempted_launches")
-    @ColumnInfo(name = "attempted_launches")
-    private int attemptedLaunches;
-
-    @SerializedName("successful_launches")
-    @ColumnInfo(name = "successful_launches")
-    private int successfulLaunches;
-
-    @SerializedName("wikipedia")
-    private String wikipedia;
-
     @SerializedName("details")
     private final String details;
 
-    @ColumnInfo(name = "site_id")
-    @SerializedName("site_id")
-    private final String siteId;
 
-    @ColumnInfo(name = "site_name_long")
-    @SerializedName("site_name_long")
-    private final String fullName;
-
-    public LaunchPad(int id, String name, String status, Location location,
-                     String[] vehiclesLaunched, int attemptedLaunches, int successfulLaunches,
-                     String wikipedia, String details, String siteId, String fullName) {
+    public LaunchPad(@NonNull String id, String name, String fullName, Images images,
+                     double latitude, double longitude, String locality, String region, String timezone,
+                     String[] rockets, String[] launches, int attemptedLaunches, int successfulLaunches,
+                     String status, String details) {
         this.id = id;
         this.name = name;
-        this.status = status;
-        this.location = location;
-        this.vehiclesLaunched = vehiclesLaunched;
+        this.fullName = fullName;
+        this.images = images;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.locality = locality;
+        this.region = region;
+        this.timezone = timezone;
+        this.rockets = rockets;
+        this.launches = launches;
         this.attemptedLaunches = attemptedLaunches;
         this.successfulLaunches = successfulLaunches;
-        this.wikipedia = wikipedia;
+        this.status = status;
         this.details = details;
-        this.siteId = siteId;
-        this.fullName = fullName;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public String getName() { return name; }
-    public String getStatus() { return status; }
-    public Location getLocation() { return location; }
-    public String[] getVehiclesLaunched() { return vehiclesLaunched; }
-    public int getAttemptedLaunches() { return attemptedLaunches; }
-    public int getSuccessfulLaunches() { return successfulLaunches; }
-    public String getWikipedia() { return wikipedia; }
-    public String getDetails() { return details; }
-    public String getSiteId() { return siteId; }
-    public String getFullName() { return fullName; }
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public Images getImages() {
+        return images;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public String[] getRockets() { return rockets; }
+
+    public String[] getLaunches() {
+        return launches;
+    }
+
+    public int getAttemptedLaunches() {
+        return attemptedLaunches;
+    }
+
+    public void setAttemptedLaunches(int attemptedLaunches) {
+        this.attemptedLaunches = attemptedLaunches;
+    }
+
+    public int getSuccessfulLaunches() {
+        return successfulLaunches;
+    }
+
+    public void setSuccessfulLaunches(int successfulLaunches) {
+        this.successfulLaunches = successfulLaunches;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDetails() {
+        return details;
+    }
 }

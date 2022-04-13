@@ -21,27 +21,15 @@ import com.about.future.spacex.R;
 import com.about.future.spacex.databinding.ActivityStarfieldBinding;
 import com.about.future.spacex.utils.ScreenUtils;
 import com.about.future.spacex.utils.DetectSwipeGestureListener;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 
-public class StarfieldActivity extends AppCompatActivity implements Player.EventListener {
+public class StarfieldActivity extends AppCompatActivity {
     private static final String SONG_POSITION = "seek_position";
     private static final String SOUND_ON = "sound_on";
 
-    private SimpleExoPlayer mExoPlayer;
+    private ExoPlayer mExoPlayer;
     private long mAudioPosition;
     private int mVolumeState;
 
@@ -121,22 +109,27 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
     private void initializePlayer(Context context) {
         if (mExoPlayer == null) {
             // Create an instance of the ExoPlayer.
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+            //TrackSelector trackSelector = new DefaultTrackSelector();
+            //mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+            mExoPlayer = new ExoPlayer.Builder(context).build();
             binding.playerView.setPlayer(mExoPlayer);
 
             // Set the ExoPlayer.EventListener to this activity.
-            mExoPlayer.addListener(this);
+            //mExoPlayer.addListener(this);
         }
 
         //Uri mediaUri = RawResourceDataSource.buildRawResourceUri(R.raw.flight_proven);
         Uri mediaUri = Uri.parse("asset:///flight_proven_z_master.mp3");
 
         // Prepare the MediaSource.
-        String userAgent = Util.getUserAgent(context, "SpaceX");
-        DataSource.Factory factory = new DefaultDataSourceFactory(context, userAgent);
-        MediaSource mediaSource = new ExtractorMediaSource.Factory(factory).createMediaSource(mediaUri);
-        mExoPlayer.prepare(mediaSource);
+        //String userAgent = Util.getUserAgent(context, "SpaceX");
+        //DataSource.Factory factory = new DefaultDataSourceFactory(context, userAgent);
+        //MediaSource mediaSource = new ExtractorMediaSource.Factory(factory).createMediaSource(mediaUri);
+
+        MediaItem mediaItem = MediaItem.fromUri(mediaUri);
+        mExoPlayer.setMediaItem(mediaItem);
+        mExoPlayer.prepare();
+
 
         // Resume playing position
         if (mAudioPosition != 0) {
@@ -265,57 +258,19 @@ public class StarfieldActivity extends AppCompatActivity implements Player.Event
         }
     }
 
-    @Override
-    public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
 
-    }
 
-    @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
-    }
-
-    @Override
-    public void onLoadingChanged(boolean isLoading) {
-
-    }
-
-    @Override
+    /*@Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         // If the background song has ended, start SpaceX activity
         if (playbackState == Player.STATE_ENDED) {
             mExoPlayer.seekTo(0);
             startActivity(new Intent(StarfieldActivity.this, SpaceXActivity.class));
         }
-    }
+    }*/
 
-    @Override
-    public void onRepeatModeChanged(int repeatMode) {
-
-    }
-
-    @Override
-    public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-
-    }
-
-    @Override
-    public void onPlayerError(ExoPlaybackException error) {
-
-    }
-
-    @Override
-    public void onPositionDiscontinuity(int reason) {
-
-    }
-
-    @Override
-    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-
-    }
-
-    @Override
+    /*@Override
     public void onSeekProcessed() {
         Log.v("POSITION:", "" + mExoPlayer.getCurrentPosition());
-    }
+    }*/
 }

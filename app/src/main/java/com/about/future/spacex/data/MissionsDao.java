@@ -18,22 +18,22 @@ public interface MissionsDao {
     @Query("SELECT * FROM missions ORDER BY flight_number ASC")
     LiveData<List<Mission>> loadMissions();
 
-    @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads FROM missions ORDER BY flight_number DESC")
+    @Query("SELECT flight_number, mission_name, launch_date_unix, small_patch, rocket FROM missions ORDER BY flight_number DESC")
     LiveData<List<MissionMini>> loadMiniMissions();
 
-    @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads " +
+    @Query("SELECT flight_number, mission_name, launch_date_unix, small_patch, rocket " +  //rocket_name, block, payloads
             "FROM missions " +
             "WHERE flight_number IN(:flightNumbers) " +
             "ORDER BY flight_number ASC")
     LiveData<List<MissionMini>> loadMiniMissions(int[] flightNumbers);
 
-    @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads " +
+    @Query("SELECT flight_number, mission_name, launch_date_unix, small_patch, rocket " +
             "FROM missions " +
             "WHERE launch_date_unix > :now " +
             "ORDER BY launch_date_unix ASC")
     LiveData<List<MissionMini>> loadUpcomingMiniMissions(long now);
 
-    @Query("SELECT flight_number, mission_name, launch_date_unix, mission_patch_small, rocket_name, block, payloads " +
+    @Query("SELECT flight_number, mission_name, launch_date_unix, small_patch, rocket " +
             "FROM missions " +
             "WHERE launch_date_unix <= :now " +
             "ORDER BY launch_date_unix DESC")

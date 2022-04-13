@@ -1,5 +1,6 @@
 package com.about.future.spacex.model.rocket;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -13,8 +14,10 @@ import java.util.List;
 @Entity(tableName = "rockets")
 public class Rocket {
     @PrimaryKey
+    @NonNull
     @SerializedName("id")
-    private final int id;
+    @ColumnInfo(name = "rocket_id")
+    private final String rocketId;
 
     @SerializedName("active")
     private final boolean active;
@@ -86,25 +89,21 @@ public class Rocket {
     @SerializedName("description")
     private final String description;
 
-    @SerializedName("rocket_id")
-    @ColumnInfo(name = "rocket_id")
-    private String rocketId;
-
-    @SerializedName("rocket_name")
+    @SerializedName("name")
     @ColumnInfo(name = "rocket_name")
     private final String rocketName;
 
-    @SerializedName("rocket_type")
+    @SerializedName("type")
     @ColumnInfo(name = "rocket_type")
     private final String rocketType;
 
-    public Rocket(int id, boolean active, int stages, int boosters, int costPerLaunch,
+    public Rocket(boolean active, int stages, int boosters, int costPerLaunch,
                   int successRatePct, String firstFlight, String country, String company,
                   Dimension height, Dimension diameter, Mass mass,
                   List<PayloadWeights> payloadWeights, FirstStage firstStage, SecondStage secondStage,
                   Engines engines, LandingLegs landingLegs, String[] flickrImages, String wikipedia,
-                  String description, String rocketId, String rocketName, String rocketType) {
-        this.id = id;
+                  String description, @NonNull String rocketId, String rocketName, String rocketType) {
+        this.rocketId = rocketId;
         this.active = active;
         this.stages = stages;
         this.boosters = boosters;
@@ -124,12 +123,15 @@ public class Rocket {
         this.flickrImages = flickrImages;
         this.wikipedia = wikipedia;
         this.description = description;
-        this.rocketId = rocketId;
         this.rocketName = rocketName;
         this.rocketType = rocketType;
     }
 
-    public int getId() { return id; }
+
+
+    @NonNull
+    public String getRocketId() { return rocketId; }
+
     public boolean isActive() { return active; }
     public int getStages() { return stages; }
     public int getBoosters() { return boosters; }
@@ -149,7 +151,6 @@ public class Rocket {
     public String[] getFlickrImages() { return flickrImages; }
     public String getWikipedia() { return wikipedia; }
     public String getDescription() { return description; }
-    public String getRocketId() { return rocketId; }
     public String getRocketName() { return rocketName; }
     public String getRocketType() { return rocketType; }
 }

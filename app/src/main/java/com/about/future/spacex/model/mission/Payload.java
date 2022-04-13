@@ -8,23 +8,31 @@ public class Payload {
     @ColumnInfo(name = "payload_id")
     @SerializedName("payload_id")
     private final String payloadId;
+
     @SerializedName("reused")
     private final boolean reused;
+
     @SerializedName("customers")
     private final String[] customers;
+
     @SerializedName("nationality")
     private final String nationality;
+
     @ColumnInfo(name = "payload_type")
     @SerializedName("payload_type")
     private final String payloadType;
+
     @ColumnInfo(name = "payload_mass_kg")
     @SerializedName("payload_mass_kg")
     private final double payloadMassKg;
+
     @ColumnInfo(name = "payload_mass_lbs")
     @SerializedName("payload_mass_lbs")
     private final double payloadMassLbs;
+
     @SerializedName("orbit")
     private final String orbit;
+
     @ColumnInfo(name = "orbit_params")
     @SerializedName("orbit_params")
     private final OrbitParams orbitParams;

@@ -172,10 +172,12 @@ public class Repository {
         AppExecutors.getInstance().diskIO().execute(() -> rocketsDao.insertRockets(rockets));
     }
 
-    public LiveData<Rocket> getRocketDetails(int id) { return rocketsDao.loadRocketDetails(id); }
+    public LiveData<Rocket> getRocketDetails(String id) { return rocketsDao.loadRocketDetails(id); }
     public LiveData<List<RocketMini>> getMiniRockets() { return rocketsDao.loadMiniRockets(); }
+    public List<RocketMini> getMiniRocketsRaw() { return rocketsDao.loadMiniRocketsRaw(); }
+
     public LiveData<List<Rocket>> getRockets() { return rocketsDao.loadRockets(); }
-    public String getRocketId(String rocket) { return rocketsDao.getRocketId(rocket); }
+    public String getRocketType(String rocketId) { return rocketsDao.getRocketType(rocketId); }
 
 
 
@@ -235,7 +237,7 @@ public class Repository {
 
     public LiveData<LaunchPad> getLaunchPadDetails(int id) { return launchPadsDao.loadLaunchPadDetails(id); }
     public LiveData<List<LaunchPad>> getLaunchPads() { return launchPadsDao.loadAllLaunchPads(); }
-    public int getLaunchPadId(String pad) { return launchPadsDao.getLaunchPadId(pad); }
+    public String getLaunchPadName(String padId) { return launchPadsDao.getLaunchPadName(padId); }
 
 
 

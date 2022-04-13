@@ -30,14 +30,15 @@ public class MissionAppWidget extends AppWidgetProvider {
         if (upcomingMission != null) {
             // Set mission patch
             try {
-                switch (upcomingMission.getRocket().getRocketName()) {
+                switch (upcomingMission.getRocket()) { //TODO: .getRocketName()) {
                     case "Falcon 9":
-                        if (!TextUtils.isEmpty(upcomingMission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType())
+                        views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_f9_small);
+                        /*TODO: if (!TextUtils.isEmpty(upcomingMission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType())
                                 && TextUtils.equals(upcomingMission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType(), "Satellite")) {
                             views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_f9_small);
                         } else {
                             views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_dragon_small);
-                        }
+                        }*/
                         break;
                     case "Falcon Heavy":
                         views.setImageViewResource(R.id.widget_mission_patch, R.drawable.default_patch_fh_small);

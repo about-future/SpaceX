@@ -419,15 +419,15 @@ public class RocketDetailsFragment extends Fragment implements GalleryAdapter.Li
             switch (rocket.getRocketName()) {
                 case "Falcon 9":
                     mPayloadOptionLabel.setText(R.string.label_payload_option1);
-                    mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
+                    ///mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
                     break;
                 case "Falcon Heavy":
                     mPayloadOptionLabel.setText(R.string.label_payload_option1);
-                    mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
+                    ///mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
                     break;
                 default:
                     mPayloadOptionLabel.setText(R.string.label_payload_option);
-                    mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption1()));
+                    ///mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption1()));
                     break;
             }
 
@@ -436,7 +436,9 @@ public class RocketDetailsFragment extends Fragment implements GalleryAdapter.Li
             mPayloadImageView.setOnClickListener(view -> {
                 if (TextUtils.equals(rocket.getRocketName(), "Falcon 9") || TextUtils.equals(rocket.getRocketName(), "Falcon Heavy")) {
                     if (TextUtils.equals(mPayloadOption.getText().toString(), "Dragon")) {
-                        mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
+                        if (rocket.getSecondStage() != null && rocket.getSecondStage().getPayloads() != null && rocket.getSecondStage().getPayloads().getOption2() != null)
+                            mPayloadOption.setText(TextsUtils.firstLetterUpperCase(rocket.getSecondStage().getPayloads().getOption2()));
+
                         if (TextUtils.equals(rocket.getRocketName(), "Falcon 9")) {
                             mPayloadImageView.setImageResource(R.drawable.payload_satellite);
                         } else {

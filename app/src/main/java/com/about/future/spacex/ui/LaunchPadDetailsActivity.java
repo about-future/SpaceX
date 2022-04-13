@@ -61,7 +61,7 @@ public class LaunchPadDetailsActivity extends AppCompatActivity {
                     binding.viewPager.setCurrentItem(mPageNumber, false);
                 } else {
                     for (int i = 0; i < launchPads.size(); i++) {
-                        if (mLaunchPadId.equals(launchPads.get(i).getSiteId())) {
+                        if (mLaunchPadId.equals(launchPads.get(i).getId())) {
                             binding.viewPager.setCurrentItem(i, false);
                             break;
                         }

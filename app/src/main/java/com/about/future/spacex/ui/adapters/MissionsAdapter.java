@@ -88,8 +88,8 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
         private void bindTo(MissionMini mission) {
             String missionPatchImagePath = "";
 
-            if (!TextUtils.isEmpty(mission.getMissionPatch()))
-                missionPatchImagePath = mission.getMissionPatch();
+            if (!TextUtils.isEmpty(mission.getSmallPatch()))
+                missionPatchImagePath = mission.getSmallPatch();
 
             // If we have a valid image path, try loading it from cache or from web with Picasso
             if (!TextUtils.isEmpty(missionPatchImagePath)) {
@@ -119,8 +119,8 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHo
                     ImageUtils.setDefaultImage(
                             missionPatchImageView,
                             mission.getRocketName(),
-                            mission.getPayloads().get(0).getPayloadType(),
-                            mission.getBlock());
+                            "",
+                            5);
                 } catch (NullPointerException e) {
                     missionPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
                 }

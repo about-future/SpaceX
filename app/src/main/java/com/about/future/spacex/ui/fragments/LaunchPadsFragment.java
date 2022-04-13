@@ -52,9 +52,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
         binding = FragmentLaunchPadsBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
-        // Setup RecyclerView and Adaptor
         setupRecyclerView();
-        // Init view model
         mViewModel = new ViewModelProvider(this).get(LaunchPadsViewModel.class);
 
         binding.swipeToRefreshLayout.setOnRefreshListener(() -> {
@@ -62,6 +60,8 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
             SpaceXPreferences.setLaunchPadsStatus(getContext(), true);
             getLaunchPads();
         });
+
+        getLaunchPadsFromDB();
 
         return rootView;
     }
@@ -129,7 +129,6 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
         if (SpaceXPreferences.getLaunchPadsStatus(getActivityCast())) {
             // If there is a network connection
             if (NetworkUtils.isConnected(getActivityCast())) {
-                //loadingStateUi();
                 getLaunchPadsFromServer();
             } else {
                 // Show connection error
@@ -139,14 +138,11 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
                     Toast.makeText(getActivityCast(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
                 }
             }
-        } else {
-            // Otherwise, get them from DB
-            getLaunchPadsFromDB();
         }
     }
 
     private void getLaunchPadsFromServer() {
-        mViewModel.getLaunchPadsFromServer().observe(this, checkResultDisplay -> {
+        mViewModel.getLaunchPadsFromServer().observe(getViewLifecycleOwner(), checkResultDisplay -> {
             if (checkResultDisplay != null) {
                 switch (checkResultDisplay.state) {
                     case ResultDisplay.STATE_LOADING:
@@ -172,9 +168,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
                         if (launchPads != null && launchPads.size() > 0) {
                             SpaceXPreferences.setLaunchPadsStatus(getContext(), false);
                             SpaceXPreferences.setLaunchPadsFirstLoad(getActivityCast(), false);
-                            getLaunchPadsFromDB();
                         } else {
-                            // Update UI
                             if (SpaceXPreferences.getLaunchPadsFirstLoad(getActivityCast())) {
                                 errorStateUi(0);
                             } else {
@@ -190,7 +184,7 @@ public class LaunchPadsFragment extends Fragment implements LaunchPadsAdapter.Li
 
     private void getLaunchPadsFromDB() {
         // Try loading data from DB, if no data was found show empty list
-        mViewModel.getLaunchPadsFromDb().observe(this, launchPads -> {
+        mViewModel.getLaunchPadsFromDb().observe(getViewLifecycleOwner(), launchPads -> {
             if (launchPads != null && launchPads.size() > 0) {
                 // Update UI
                 successStateUi();

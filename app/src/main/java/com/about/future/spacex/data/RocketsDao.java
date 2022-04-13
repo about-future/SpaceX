@@ -17,14 +17,17 @@ public interface RocketsDao {
     @Query("SELECT * FROM rockets")
     LiveData<List<Rocket>> loadRockets();
 
-    @Query("SELECT rocket_id, id, rocket_name, description FROM rockets")
+    @Query("SELECT rocket_id, rocket_name, description FROM rockets")
     LiveData<List<RocketMini>> loadMiniRockets();
 
-    @Query("SELECT * FROM rockets WHERE id = :rocketId")
-    LiveData<Rocket> loadRocketDetails(int rocketId);
+    @Query("SELECT rocket_id, rocket_name, description FROM rockets")
+    List<RocketMini> loadMiniRocketsRaw();
 
-    @Query("SELECT rocket_id FROM rockets WHERE rocket_name = :rocketName")
-    String getRocketId(String rocketName);
+    @Query("SELECT * FROM rockets WHERE rocket_id = :rocketId")
+    LiveData<Rocket> loadRocketDetails(String rocketId);
+
+    @Query("SELECT rocket_name FROM rockets WHERE rocket_id = :rocketId")
+    String getRocketType(String rocketId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertRockets(List<Rocket> rockets);

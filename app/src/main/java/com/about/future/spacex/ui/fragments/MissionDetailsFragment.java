@@ -55,6 +55,8 @@ public class MissionDetailsFragment extends Fragment {
     private int mMissionNumber;
     private View mRootView;
 
+    private String mRocketType;
+
     private LaunchPadsViewModel mLaunchPadsViewModel;
     private RocketsViewModel mRocketsViewModel;
 
@@ -155,11 +157,8 @@ public class MissionDetailsFragment extends Fragment {
     public void setMission(Mission mission) { mMission = mission; }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mMissionNumber = savedInstanceState.getInt(MISSION_NUMBER_KEY);
-        }
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState != null) mMissionNumber = savedInstanceState.getInt(MISSION_NUMBER_KEY);
 
         mRootView = inflater.inflate(R.layout.fragment_mission_details, container, false);
         ButterKnife.bind(this, mRootView);
@@ -202,9 +201,7 @@ public class MissionDetailsFragment extends Fragment {
     }
 
     private void bindViews(final Mission mission) {
-        if (mRootView == null) {
-            return;
-        }
+        if (mRootView == null) return;
 
         if (mission != null) {
             mRootView.setAlpha(0);
@@ -263,7 +260,7 @@ public class MissionDetailsFragment extends Fragment {
                 mWebcastPlayButton.setOnClickListener(view -> startWebcast(missionVideoUrl));
             } else {
                 // Otherwise, set backdrop image if the is no webcast preview available
-                switch (mission.getRocket().getRocketName()) {
+                switch (mission.getRocket()) {
                     case "Falcon 9":
                         ImageUtils.setImage(getString(R.string.falcon9_medium), mWebcastPreviewImageView);
                         mWebcastPreviewImageView.setImageResource(R.drawable.falcon9_backdrop);
@@ -284,8 +281,11 @@ public class MissionDetailsFragment extends Fragment {
             }
 
             // Patch (if it's available)
-            if (mission.getLinks() != null && mission.getLinks().getMissionPatchSmall() != null) {
-                final String missionPatchImageUrl = mission.getLinks().getMissionPatchSmall();
+            if (mission.getLinks() != null
+                    && mission.getLinks().getMissionPatch() != null
+                    && mission.getLinks().getMissionPatch().getSmall() != null) {
+                final String missionPatchImageUrl = mission.getLinks().getMissionPatch().getSmall();
+
                 // First, try loading from cache
                 Picasso.get()
                         .load(missionPatchImageUrl)
@@ -310,9 +310,9 @@ public class MissionDetailsFragment extends Fragment {
                 try {
                     ImageUtils.setDefaultImage(
                             mMissionPatchImageView,
-                            mission.getRocket().getRocketName(),
-                            mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType(),
-                            mission.getRocket().getFirstStage().getCores().get(0).getBlock());
+                            mission.getRocket(), //TODO: mission.getRocket().getRocketName(),
+                            "", //TODO: mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType(),
+                            5); //TODO: mission.getRocket().getFirstStage().getCores().get(0).getBlock());
                 } catch (NullPointerException e) {
                     mMissionPatchImageView.setImageResource(R.drawable.default_patch_f9_small);
                 }
@@ -322,7 +322,7 @@ public class MissionDetailsFragment extends Fragment {
 
             mLaunchSiteLinearLayout.setOnClickListener(view -> {
                     Intent intent = new Intent(getActivityCast(), LaunchPadDetailsActivity.class);
-                    intent.putExtra(LAUNCH_PAD_ID_KEY, mission.getLaunchSite().getSiteId());
+                    intent.putExtra(LAUNCH_PAD_ID_KEY, 0); // TODO: mission.getLaunchSite().getSiteId());
                     startActivity(intent);
             });
 
@@ -338,8 +338,8 @@ public class MissionDetailsFragment extends Fragment {
             }
 
             // Launch site
-            if (mission.getLaunchSite() != null && mission.getLaunchSite().getSiteName() != null && !mission.getLaunchSite().getSiteName().equals("")) {
-                mLaunchSiteNameTextView.setText(mission.getLaunchSite().getSiteName());
+            if (mission.getLaunchPad() != null && !mission.getLaunchPad().equals("")) { // && mission.getLaunchSite().getSiteName() != null && !mission.getLaunchSite().getSiteName().equals("")) {
+                mLaunchSiteNameTextView.setText(mission.getLaunchPad()); //TODO: mission.getLaunchSite().getSiteName());
             } else {
                 mLaunchSiteNameTextView.setText(getString(R.string.label_unknown));
             }
@@ -358,11 +358,22 @@ public class MissionDetailsFragment extends Fragment {
                 boolean showAcronymsMeaning = SpaceXPreferences.getAcronymsStatus(getActivityCast());
 
                 // Rocket name
-                String rocketName = mission.getRocket().getRocketName();
-                mRocketTypeTextView.setText(rocketName);
+                //String rocketId = mission.getRocket(); //TODO: .getRocketName();
+
+                AppExecutors.getInstance().diskIO().execute(() -> {
+                    String type = mRocketsViewModel.getRocketType(mission.getRocket());
+                    if (type != null) {
+                        AppExecutors.getInstance().mainThread().execute(() -> {
+                            mRocketType = type;
+                            mRocketTypeTextView.setText(type);
+                        });
+                    }
+                });
 
                 // Payload details
-                if (mission.getRocket().getSecondStage().getPayloads() != null) {
+                /*TODO:
+
+                    if (mission.getRocket().getSecondStage().getPayloads() != null) {
                     firstPayload = mission.getRocket().getSecondStage().getPayloads().get(0);
 
                     // Set payload Id
@@ -602,7 +613,7 @@ public class MissionDetailsFragment extends Fragment {
                         mRootView.findViewById(R.id.left_core_layout).setVisibility(View.GONE);
                         mRootView.findViewById(R.id.right_core_layout).setVisibility(View.GONE);
                     }
-                }
+                }*/
 
                 // Set rocket image (payload and core)
                 ConstraintLayout.LayoutParams paramsPayload = (ConstraintLayout.LayoutParams) mPayloadImageView.getLayoutParams();
@@ -612,62 +623,64 @@ public class MissionDetailsFragment extends Fragment {
                 // Depending on the payload type, we can show a different upper image
                 String payloadType = "";
                 if (firstPayload != null) {
-                    payloadType = mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType();
+                    payloadType = ""; //TODO: payloadType = mission.getRocket().getSecondStage().getPayloads().get(0).getPayloadType();
                 }
                 // Depending on the block type, we can show a different lower image
                 int blockNumber = 5;
                 if (centralCore != null && centralCore.getBlock() > 0) {
-                    blockNumber = mission.getRocket().getFirstStage().getCores().get(0).getBlock();
+                    blockNumber = 5; //TODO: blockNumber = mission.getRocket().getFirstStage().getCores().get(0).getBlock();
                 }
 
                 // Set rocket image depending on rocket type and payload
-                switch (rocketName) {
-                    case "Falcon 1":
-                        mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
-                        mCoreImageView.setImageResource(R.drawable.core_falcon1);
-                        paramsPayload.setMarginEnd(48);
-                        paramsCore.setMarginEnd(48);
-                        break;
-                    case "Falcon 9":
-                        setPayloadImage(rocketName, payloadType);
+                if (mRocketType != null) {
+                    switch (mRocketType) {
+                        case "Falcon 1":
+                            mPayloadImageView.setImageResource(R.drawable.payload_falcon1);
+                            mCoreImageView.setImageResource(R.drawable.core_falcon1);
+                            paramsPayload.setMarginEnd(48);
+                            paramsCore.setMarginEnd(48);
+                            break;
+                        case "Falcon 9":
+                            setPayloadImage(mRocketType, payloadType);
 
-                        switch (blockNumber) {
-                            case 6:
-                                break;
-                            case 5:
-                                mCoreImageView.setImageResource(R.drawable.core_block5);
-                                break;
-                            default:
-                                mCoreImageView.setImageResource(R.drawable.core_block4);
-                                break;
-                        }
+                            switch (blockNumber) {
+                                case 6:
+                                    break;
+                                case 5:
+                                    mCoreImageView.setImageResource(R.drawable.core_block5);
+                                    break;
+                                default:
+                                    mCoreImageView.setImageResource(R.drawable.core_block4);
+                                    break;
+                            }
 
-                        paramsPayload.setMarginEnd(48);
-                        paramsCore.setMarginEnd(48);
-                        break;
-                    case "Falcon Heavy":
-                        setPayloadImage(rocketName, payloadType);
+                            paramsPayload.setMarginEnd(48);
+                            paramsCore.setMarginEnd(48);
+                            break;
+                        case "Falcon Heavy":
+                            setPayloadImage(mRocketType, payloadType);
 
-                        switch (blockNumber) {
-                            case 6:
-                                break;
-                            case 5:
-                                mCoreImageView.setImageResource(R.drawable.falcon_heavy_block5);
-                                break;
-                            default:
-                                mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
-                                break;
-                        }
+                            switch (blockNumber) {
+                                case 6:
+                                    break;
+                                case 5:
+                                    mCoreImageView.setImageResource(R.drawable.falcon_heavy_block5);
+                                    break;
+                                default:
+                                    mCoreImageView.setImageResource(R.drawable.falcon_heavy_block4);
+                                    break;
+                            }
 
-                        paramsPayload.setMarginEnd(20);
-                        paramsCore.setMarginEnd(20);
-                        break;
-                    case "Starship":
-                        mPayloadImageView.setImageResource(R.drawable.payload_starship);
-                        mCoreImageView.setImageResource(R.drawable.core_starship);
-                        paramsPayload.setMarginEnd(24);
-                        paramsCore.setMarginEnd(24);
-                        break;
+                            paramsPayload.setMarginEnd(20);
+                            paramsCore.setMarginEnd(20);
+                            break;
+                        case "Starship":
+                            mPayloadImageView.setImageResource(R.drawable.payload_starship);
+                            mCoreImageView.setImageResource(R.drawable.core_starship);
+                            paramsPayload.setMarginEnd(24);
+                            paramsCore.setMarginEnd(24);
+                            break;
+                    }
                 }
 
                 // We will set the payload/core image height to be equal to:
@@ -863,7 +876,7 @@ public class MissionDetailsFragment extends Fragment {
 
     private void createRocketIntent() {
         AppExecutors.getInstance().diskIO().execute(() -> {
-            String rocketId = mRocketsViewModel.getRocketId(mRocketTypeTextView.getText().toString());
+            String rocketId = mMission.getRocket();
 
             Intent intent = new Intent(getActivityCast(), RocketDetailsActivity.class);
             intent.putExtra(ROCKET_ID_KEY, rocketId);

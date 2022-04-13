@@ -25,5 +25,5 @@ public class LaunchPadsViewModel extends AndroidViewModel {
         return repository.getLaunchPads();
     }
     public LiveData<LaunchPad> getLaunchPadDetails(int id) { return repository.getLaunchPadDetails(id); }
-    public int getLaunchPadId(String pad) { return repository.getLaunchPadId(pad); }
+    public String getLaunchPadName(String padId) { return repository.getLaunchPadName(padId); }
 }

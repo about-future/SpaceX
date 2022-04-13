@@ -9,7 +9,6 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -18,10 +17,11 @@
         android:theme="@style/AppTheme.FullScreen"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".ui.StarfieldActivity">
+        <activity
+            android:name=".ui.StarfieldActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -110,7 +110,8 @@
                 android:value="com.about.future.spacex.ui.SpaceXActivity" />
         </activity>
 
-        <receiver android:name=".widget.MissionAppWidget">
+        <receiver android:name=".widget.MissionAppWidget"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

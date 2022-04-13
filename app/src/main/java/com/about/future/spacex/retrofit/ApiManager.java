@@ -35,8 +35,16 @@ public class ApiManager {
     private static ApiInterface sApiInterfaceForced;
 
     private ApiManager() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         Retrofit retrofitForced = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(new OkHttpClient.Builder()
+                        .connectTimeout(10, TimeUnit.SECONDS)
+                        .writeTimeout(60, TimeUnit.SECONDS)
+                        .readTimeout(60, TimeUnit.SECONDS)
+                        .addInterceptor(interceptor).build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         sApiInterfaceForced = retrofitForced.create(ApiInterface.class);

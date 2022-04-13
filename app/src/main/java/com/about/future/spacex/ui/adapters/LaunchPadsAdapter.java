@@ -87,13 +87,25 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
         private void bindTo(LaunchPad launchPad) {
             String launchPadThumbnailPath = "";
 
-            if (launchPad.getLocation() != null) {
-                double latitude = launchPad.getLocation().getLatitude();
-                double longitude = launchPad.getLocation().getLongitude();
+            /*if (launchPad.getLatitude() != 0 && launchPad.getLongitude() != 0) {
+                double latitude = launchPad.getLatitude();
+                double longitude = launchPad.getLongitude();
+
                 if (ScreenUtils.isPortraitMode(mContext)) {
                     launchPadThumbnailPath = ImageUtils.buildMapThumbnailUrl(latitude, longitude, 14, "satellite", mContext);
                 } else {
                     launchPadThumbnailPath = ImageUtils.buildSatelliteBackdropUrl(latitude, longitude, 14, mContext);
+                }
+            }*/
+
+            if (launchPad.getImages() != null
+                    && launchPad.getImages().getLargeImages() != null
+                    && launchPad.getImages().getLargeImages().length > 0) {
+                for(String image : launchPad.getImages().getLargeImages()) {
+                    if (image != null) {
+                        launchPadThumbnailPath = image;
+                        break;
+                    }
                 }
             }
 
@@ -111,7 +123,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
                             .error(R.drawable.empty_map)
                             .into(launchPadThumbnailImageView);
                     // Reset savedDate, only when last position is reached
-                    if (getAdapterPosition() == mLaunchPads.size() - 1)
+                    if (getAbsoluteAdapterPosition() == mLaunchPads.size() - 1)
                         SpaceXPreferences.setLaunchPadsThumbnailsSavingDate(mContext, new Date().getTime());
                 } else {
                     Log.v("TRY FETCHING", "FROM CACHE");
@@ -135,7 +147,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
                                             .error(R.drawable.empty_map)
                                             .into(launchPadThumbnailImageView);
                                     // Reset savedDate, only when last position is reached
-                                    if (getAdapterPosition() == mLaunchPads.size() - 1)
+                                    if (getAbsoluteAdapterPosition() == mLaunchPads.size() - 1)
                                         SpaceXPreferences.setLaunchPadsThumbnailsSavingDate(mContext, new Date().getTime());
                                 }
                             });
@@ -151,13 +163,14 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
                 launchPadFullNameTextView.setText(mContext.getString(R.string.label_unknown));
             }
 
-            if (!TextUtils.isEmpty(launchPad.getLocation().getName()) &&
-                    !TextUtils.isEmpty(launchPad.getLocation().getRegion())) {
+            if (!TextUtils.isEmpty(launchPad.getLocality()) && !TextUtils.isEmpty(launchPad.getRegion())) {
                 launchPadLocationTextView.setText(
                         String.format(
                                 mContext.getString(R.string.launch_pad_location),
-                                launchPad.getLocation().getName(),
-                                launchPad.getLocation().getRegion()));
+                                launchPad.getLocality(),
+                                launchPad.getRegion()
+                        )
+                );
             } else {
                 launchPadFullNameTextView.setText(mContext.getString(R.string.label_unknown));
             }
@@ -165,7 +178,7 @@ public class LaunchPadsAdapter extends RecyclerView.Adapter<LaunchPadsAdapter.Vi
 
         @Override
         public void onClick(View view) {
-            mOnClickListener.onItemClickListener(mLaunchPads.get(getAdapterPosition()).getSiteId());
+            mOnClickListener.onItemClickListener(mLaunchPads.get(getAbsoluteAdapterPosition()).getId());
         }
     }
 }
